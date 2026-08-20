@@ -6,8 +6,15 @@
 - crate_brown.png  纯棕色圆角矩形放在白底上。测边界保持——
                    本任务里 sprite 轮廓是神圣的，纹理不许溢出、轮廓不许糊。
 
-另外写出一个 8 色木质调色板，色相全部落在输入棕色附近，
-这样"调色板"这一约束和"输入是纯棕色"这一设定是自洽的。
+另外写出两个调色板：
+
+- wood8.hex   8 色木质色阶，色相全部落在输入棕色附近。
+- wood9bg.hex 同上再加一个纯白，专门给背景用。
+
+wood8 是最初的设计，但它有缺陷：调色板里没有中性色，
+crate 输入的白色背景会被就近映射成最浅的棕，于是"背景"和"物体"变成同色系，
+纹理漫进背景时看不出来。wood9bg 给背景留了专用色，
+这样纹理一旦越界就是明确可判的。
 """
 
 from pathlib import Path
@@ -47,8 +54,11 @@ def make_crate(path: Path) -> None:
     img.save(path)
 
 
-def make_palette(path: Path) -> None:
-    path.write_text("\n".join(WOOD_RAMP) + "\n")
+BG_WHITE = "ffffff"
+
+
+def make_palette(path: Path, colors: list[str]) -> None:
+    path.write_text("\n".join(colors) + "\n")
 
 
 def main() -> None:
@@ -57,7 +67,8 @@ def main() -> None:
 
     make_flat(out / "flat_brown.png")
     make_crate(out / "crate_brown.png")
-    make_palette(out / "wood8.hex")
+    make_palette(out / "wood8.hex", WOOD_RAMP)
+    make_palette(out / "wood9bg.hex", WOOD_RAMP + [BG_WHITE])
 
     for f in sorted(out.iterdir()):
         print(f"wrote {f}")
