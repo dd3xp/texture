@@ -9,14 +9,18 @@
 #
 # 代价：因为调色板不同（9 色 vs 8 色），本轮的绝对数值不能直接和探针那轮对比。
 #
-# 用法: bash baselines/sdpixl/run_sweep.sh
+# 用法:
+#   bash baselines/sdpixl/run_sweep.sh                      # 默认 config，ControlNet scale 0.15
+#   CONFIG_NAME=probe_wood_cn09 RUN_TAG=cn09 bash baselines/sdpixl/run_sweep.sh   # scale 0.9
 set -euo pipefail
 
 SDPIXL="/mnt/data/kw/RoundSquisheen/pixel/SD-piXL"
 PROJ="/mnt/data/kw/RoundSquisheen/texture"
 ASSETS="$PROJ/baselines/sdpixl/assets"
-CONFIG_SRC="$PROJ/baselines/sdpixl/configs/probe_wood.yaml"
-LOGDIR="$PROJ/experiments/sdpixl_sweep"
+CONFIG_NAME="${CONFIG_NAME:-probe_wood}"
+RUN_TAG="${RUN_TAG:-base}"
+CONFIG_SRC="$PROJ/baselines/sdpixl/configs/${CONFIG_NAME}.yaml"
+LOGDIR="$PROJ/experiments/sdpixl_sweep_${RUN_TAG}"
 PY="/mnt/data/kw/anaconda3/envs/SD-piXL/bin/python"
 
 INPUT="crate_brown.png"
@@ -26,7 +30,7 @@ PALETTE="$ASSETS/wood9bg.hex"
 mkdir -p "$LOGDIR"
 
 # SD-piXL 把结果目录建在 config 文件旁边，所以先把 config 拷进 experiments/
-CONFIG="$LOGDIR/sweep_wood.yaml"
+CONFIG="$LOGDIR/sweep_${RUN_TAG}.yaml"
 cp "$CONFIG_SRC" "$CONFIG"
 
 # 计算节点无外网；模型已在 ~/.cache/huggingface 里，强制离线以跳过 HEAD 校验
@@ -45,7 +49,7 @@ for arm in "${ARMS[@]}"; do
     gpu="${arm##*:}"
     id="s${size}"
 
-    echo "[launch] $id  gpu=$gpu  size=${size}x${size}  input=$INPUT  palette=$(basename "$PALETTE")"
+    echo "[launch] $id  gpu=$gpu  size=${size}x${size}  input=$INPUT  palette=$(basename "$PALETTE")  config=$CONFIG_NAME"
 
     CUDA_VISIBLE_DEVICES="$gpu" nohup "$PY" main.py \
         -c "$CONFIG" \
@@ -61,4 +65,4 @@ done
 
 echo
 echo "四档已启动 (16/32/64/128)，同一输入同一 prompt。"
-echo "  结果: $LOGDIR/sweep_wood/"
+echo "  结果: $LOGDIR/sweep_${RUN_TAG}/"
