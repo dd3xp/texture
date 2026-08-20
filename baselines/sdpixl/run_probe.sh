@@ -13,11 +13,16 @@ set -euo pipefail
 SDPIXL="/mnt/data/kw/RoundSquisheen/pixel/SD-piXL"
 PROJ="/mnt/data/kw/RoundSquisheen/texture"
 ASSETS="$PROJ/baselines/sdpixl/assets"
-CONFIG="$PROJ/baselines/sdpixl/configs/probe_wood.yaml"
+CONFIG_SRC="$PROJ/baselines/sdpixl/configs/probe_wood.yaml"
 LOGDIR="$PROJ/experiments/sdpixl_probe"
 PY="/mnt/data/kw/anaconda3/envs/SD-piXL/bin/python"
 
 mkdir -p "$LOGDIR"
+
+# SD-piXL 把结果目录建在 config 文件旁边，所以先把 config 拷进 experiments/，
+# 否则产出会落在 git 跟踪的 baselines/ 里。
+CONFIG="$LOGDIR/probe_wood.yaml"
+cp "$CONFIG_SRC" "$CONFIG"
 
 # 计算节点无外网；模型已在 ~/.cache/huggingface 里，强制离线以跳过 HEAD 校验
 export HF_HUB_OFFLINE=1

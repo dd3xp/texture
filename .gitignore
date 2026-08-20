@@ -33,3 +33,6 @@ Thumbs.db
 # 编辑器
 .vscode/
 .idea/
+
+# SD-piXL 把结果写在 config 旁边（旧版脚本的遗留产出）
+baselines/sdpixl/configs/probe_wood/
