@@ -33,24 +33,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "premise"))
 from compare import load_rgb, features, auc          # noqa: E402
 from structure import structure_features             # noqa: E402
 
-# 材质名 -> SDXL prompt 里用的自然说法
-MATERIALS = {
-    "default_wood.png": "wood planks",
-    "default_stone.png": "stone",
-    "default_cobble.png": "cobblestone",
-    "default_brick.png": "brick wall",
-    "default_sand.png": "sand",
-    "default_gravel.png": "gravel",
-    "default_dirt.png": "dirt soil",
-    "default_grass.png": "grass",
-    "default_snow.png": "snow",
-    "default_ice.png": "ice",
-    "default_stone_brick.png": "stone brick wall",
-    "default_mossycobble.png": "mossy cobblestone",
-    "default_sandstone.png": "sandstone",
-    "default_obsidian.png": "obsidian rock",
-    "default_tree.png": "tree bark",
-}
+from materials import load as load_materials  # noqa: E402
+
+MATERIALS = load_materials()
 SIZES = [16, 32, 64]
 PROMPT = "seamless {} texture, flat top down view, tileable material"
 NEG = "3d render, perspective, object, shadow, vignette"
