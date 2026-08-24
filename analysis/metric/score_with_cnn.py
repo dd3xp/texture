@@ -28,6 +28,8 @@ def main() -> None:
 
     ck = torch.load(args.ckpt, map_location="cpu")
     cls = ck["classes"]
+    gray = bool(ck.get("gray", False))
+    print(("灰度模型（结构，无颜色）" if gray else "彩色模型") + f"  ckpt={args.ckpt.name}")
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     net = SmallCNN(len(cls)).to(dev).eval()
     net.load_state_dict(ck["state"])
@@ -37,6 +39,11 @@ def main() -> None:
             return None
         a = np.asarray(img.convert("RGB").resize((args.size,) * 2, Image.NEAREST),
                        np.float32) / 255.0
+        if gray:
+            # 必须和训练时完全一致，否则读数无意义
+            g = a @ np.array([0.299, 0.587, 0.114], np.float32)
+            g = (g - g.mean()) / (g.std() + 1e-6)
+            a = np.repeat(g[..., None], 3, -1)
         x = torch.tensor(a).permute(2, 0, 1)[None].to(dev)
         with torch.no_grad():
             p = net(x).softmax(-1)[0].cpu().numpy()

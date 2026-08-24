@@ -140,13 +140,15 @@ def main() -> None:
 
     print(f"\n留出作者上的最佳 top-1: {best:.1%}   （随机 {1/len(cls):.2%}，"
           f"提升 {best*len(cls):.0f}x）")
-    torch.save({"state": net.state_dict(), "classes": cls}, args.out / "material_cnn.pt")
-    (args.out / "learn_material.json").write_text(json.dumps({
+    name = "material_cnn_gray.pt" if GRAY else "material_cnn.pt"
+    torch.save({"state": net.state_dict(), "classes": cls, "gray": GRAY},
+               args.out / name)
+    (args.out / ("learn_material_gray.json" if GRAY else "learn_material.json")).write_text(json.dumps({
         "n_classes": len(cls), "n_train": len(tr), "n_test": len(te),
-        "held_out_packs": HELD_OUT, "best_top1": best,
+        "held_out_packs": HELD_OUT, "best_top1": best, "gray": GRAY,
         "random_baseline": 1 / len(cls),
     }, indent=1))
-    print(f"模型与结果写入 {args.out}")
+    print(f"模型与结果写入 {args.out/name}")
 
 
 if __name__ == "__main__":
