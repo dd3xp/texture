@@ -79,6 +79,8 @@ def main() -> None:
     ap.add_argument("--high", type=int, nargs="+", default=[128, 256],
                     help="高分辨率组，可给多个")
     ap.add_argument("--n-per-group", type=int, default=20)
+    ap.add_argument("--all-res", action="store_true",
+                    help="D1 用：按分辨率标签分组抓取全部许可干净的包，不截断")
     args = ap.parse_args()
 
     args.out.mkdir(parents=True, exist_ok=True)
@@ -86,14 +88,19 @@ def main() -> None:
     print(f"许可可用且带分辨率标签的包: {len(cat)}")
     (args.out / "catalogue.json").write_text(json.dumps(cat, indent=1, ensure_ascii=False))
 
-    groups = {
-        "low": [p for p in cat if args.low in p["res"] and max(p["res"]) <= args.low],
-        "high": [p for p in cat if any(h in p["res"] for h in args.high)],
-    }
+    if args.all_res:
+        groups = {f"res{r}": [p for p in cat if r in p["res"]] for r in (16, 32, 64)}
+    else:
+        groups = {
+            "low": [p for p in cat if args.low in p["res"] and max(p["res"]) <= args.low],
+            "high": [p for p in cat if any(h in p["res"] for h in args.high)],
+        }
 
     manifest = {}
     for g, packs in groups.items():
-        packs = sorted(packs, key=lambda p: -p["downloads"])[: args.n_per_group]
+        packs = sorted(packs, key=lambda p: -p["downloads"])
+        if not args.all_res:
+            packs = packs[: args.n_per_group]
         d = args.out / g
         d.mkdir(exist_ok=True)
         print(f"\n== {g} 组: {len(packs)} 个 ==")
