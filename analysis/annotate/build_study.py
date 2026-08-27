@@ -9,7 +9,12 @@
   被误判为颗粒）。改为把结构分作为**连续变量**记录在每一对上，
   分析时看胜率随它怎么变，绕开分类不准的问题。
 - **主对比是 模型 vs 基线**（论文要回答的问题），
-  另加 模型 vs 真人、基线 vs 真人 各一半，用来定位两者离黄金标准多远。
+  另加 模型 vs 真人、基线 vs 真人，用来定位两者离黄金标准多远。
+- **样本量由功效分析定，不是拍脑袋。** 最初版只有 24 对主对比，
+  模拟检验（`analyze_study.py --simulate`）显示它对"胜率随结构分
+  0.75→0.25"这种强效应的功效只有 **31%**——即使效应真实存在也有
+  69% 概率漏掉，那样标注就白花了。功效随对数：80 对 77%、120 对 92%。
+  因此主对比改为**用满全部可比材质**，次对比只取子集。
 
 问题措辞用"哪一张更像这个材质"——与之前那轮标注一致，可比。
 """
@@ -61,7 +66,10 @@ def main() -> None:
     ap.add_argument("--ckpt", type=Path, default=Path("experiments/model/reg/best.pt"))
     ap.add_argument("--data", type=Path, default=Path("data/tiles/dataset_k16.json"))
     ap.add_argument("--pairs", type=Path, default=Path("data/contentdb/pairs.json"))
-    ap.add_argument("--n-materials", type=int, default=24)
+    ap.add_argument("--n-materials", type=int, default=0,
+                    help="0 表示用满全部可比材质（功效需要）")
+    ap.add_argument("--n-secondary", type=int, default=30,
+                    help="与真人对比的对数（次要问题，不需要同样功效）")
     ap.add_argument("--size", type=int, default=16)
     ap.add_argument("--steps", type=int, default=16)
     ap.add_argument("--seed", type=int, default=0)
@@ -97,11 +105,16 @@ def main() -> None:
         ix = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(args.size, args.size)
         scored.append((struct_score(ix, np.array(s["palette"], np.uint8)), m))
     scored.sort()
-    step = max(1, len(scored) // args.n_materials)
-    picked = [scored[i] for i in range(0, len(scored), step)][: args.n_materials]
+    if args.n_materials and args.n_materials < len(scored):
+        step = max(1, len(scored) // args.n_materials)
+        picked = [scored[i] for i in range(0, len(scored), step)][: args.n_materials]
+    else:
+        picked = scored
     print(f"取样 {len(picked)} 种材质，结构分 "
           f"{picked[0][0]:.3f} … {picked[-1][0]:.3f}")
 
+    sec_on = set(rng.sample([m for _, m in picked],
+                            min(args.n_secondary, len(picked))))
     items = []
     for score, m in picked:
         s = ref[m]
@@ -136,15 +149,16 @@ def main() -> None:
 
         imgs = {"model": model_rgb, "baseline": base_rgb, "artist": art_rgb}
         duels = [("model", "baseline")]                 # 主对比，全部材质都做
-        duels.append(("model", "artist") if rng.random() < 0.5
-                     else ("baseline", "artist"))       # 次对比，各占一半
+        if len(sec_on) and m in sec_on:                 # 次对比只在子集上做
+            duels.append(("model", "artist") if rng.random() < 0.5
+                         else ("baseline", "artist"))
         for x, y in duels:
             l, r = (x, y) if rng.random() < 0.5 else (y, x)
             items.append({"material": m, "label": prompt_for(m), "kind": "real",
                           "struct": round(score, 4), "left": l, "right": r,
                           "limg": b64(imgs[l]), "rimg": b64(imgs[r])})
 
-        if rng.random() < 0.22:                          # 注意力检查
+        if rng.random() < 0.05:                          # 注意力检查
             blur = np.stack([ndimage.gaussian_filter(art_rgb[..., c].astype(float), 3.0)
                              for c in range(3)], -1)
             g = {"good": art_rgb, "blur": blur}
