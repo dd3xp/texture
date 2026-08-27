@@ -65,14 +65,19 @@ def main() -> None:
     ap.add_argument("--depth", type=int, default=6)
     ap.add_argument("--dim", type=int, default=256)
     ap.add_argument("--drop", type=float, default=0.1)
+    ap.add_argument("--pal-jitter", type=float, default=0.0,
+                    help="调色板扰动幅度（HSV），0 表示关闭")
+    ap.add_argument("--tag", type=str, default="base", help="本次运行的标识")
     ap.add_argument("--max-minutes", type=float, default=12.0,
                     help="墙钟上限。无人值守时单次 GPU 任务不得超过 15 分钟")
     ap.add_argument("--out", type=Path, default=Path("experiments/model"))
     args = ap.parse_args()
+    args.out = args.out / args.tag
     args.out.mkdir(parents=True, exist_ok=True)
 
     dev = "cuda" if torch.cuda.is_available() else "cpu"
-    tr = TileSet(args.data, "train", size=args.size, augment=True)
+    tr = TileSet(args.data, "train", size=args.size, augment=True,
+                 palette_jitter=args.pal_jitter)
     va = TileSet(args.data, "val", size=args.size, augment=False)
     print(f"train {len(tr)}  val {len(va)}  材质 {tr.n_materials}  K {tr.k}")
 
