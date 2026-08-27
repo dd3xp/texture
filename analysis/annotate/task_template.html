@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh">
+<meta charset="utf-8">
+<title>像素纹理可读性标注</title>
+<style>
+ body{font-family:system-ui,sans-serif;margin:0;background:#14161a;color:#e8eaed;
+      display:flex;flex-direction:column;align-items:center;min-height:100vh}
+ header{padding:18px 0 6px;text-align:center}
+ h1{font-size:17px;margin:0 0 4px;font-weight:600}
+ .q{font-size:26px;margin:10px 0 2px;text-align:center}
+ .q b{color:#7ee2a8}
+ .hint{color:#9aa0a6;font-size:13px}
+ .row{display:flex;gap:26px;margin:18px 0 8px}
+ .card{background:#1e2127;border:2px solid #2c3038;border-radius:12px;padding:12px;
+       cursor:pointer;transition:border-color .12s,transform .12s}
+ .card:hover{border-color:#7ee2a8;transform:translateY(-2px)}
+ img{width:320px;height:320px;image-rendering:pixelated;display:block;border-radius:6px}
+ .k{text-align:center;color:#9aa0a6;font-size:13px;margin-top:8px}
+ .bar{width:680px;height:5px;background:#2c3038;border-radius:3px;overflow:hidden;margin:10px auto}
+ .bar>div{height:100%;background:#7ee2a8;width:0;transition:width .2s}
+ .actions{display:flex;gap:12px;margin:6px 0 26px;justify-content:center}
+ button{background:#2c3038;color:#e8eaed;border:0;padding:9px 16px;border-radius:8px;
+        cursor:pointer;font-size:14px}
+ button:hover{background:#3a3f49}
+ #done{display:none;text-align:center;padding:40px}
+ code{background:#2c3038;padding:2px 6px;border-radius:4px}
+ #cnt{text-align:center}
+</style>
+<header>
+ <h1>哪一张更像这个材质？</h1>
+ <div class="hint">按 <code>&larr;</code> 选左 &middot; <code>&rarr;</code> 选右 &middot; <code>空格</code> 分不出 &middot; <code>Backspace</code> 撤销</div>
+</header>
+<div id="main">
+ <div class="q">材质：<b id="mat"></b></div>
+ <div class="bar"><div id="prog"></div></div>
+ <div class="row">
+  <div class="card" onclick="pick('left')"><img id="L" alt="左"><div class="k">&larr; 左</div></div>
+  <div class="card" onclick="pick('right')"><img id="R" alt="右"><div class="k">右 &rarr;</div></div>
+ </div>
+ <div class="actions">
+  <button onclick="pick('tie')">分不出（空格）</button>
+  <button onclick="undo()">撤销</button>
+  <button onclick="save()">导出 CSV</button>
+ </div>
+ <div class="hint" id="cnt"></div>
+</div>
+<div id="done">
+ <h1>标注完成</h1>
+ <p class="hint">点下面导出，然后把 CSV 发回给 Claude。</p>
+ <button onclick="save()">导出 CSV</button>
+</div>
+<script>
+const ITEMS = __ITEMS__;
+let i = 0;
+const out = [];
+
+function show(){
+  if(i >= ITEMS.length){
+    document.getElementById('main').style.display = 'none';
+    document.getElementById('done').style.display = 'block';
+    save();
+    return;
+  }
+  const it = ITEMS[i];
+  document.getElementById('mat').textContent = it.label;
+  document.getElementById('L').src = 'data:image/png;base64,' + it.limg;
+  document.getElementById('R').src = 'data:image/png;base64,' + it.rimg;
+  document.getElementById('prog').style.width = (100 * i / ITEMS.length) + '%';
+  document.getElementById('cnt').textContent = (i + 1) + ' / ' + ITEMS.length;
+}
+
+function pick(c){
+  const it = ITEMS[i];
+  out.push({
+    idx: i, material: it.material, kind: it.kind,
+    left: it.left, right: it.right, choice: c,
+    chosen: c === 'tie' ? 'tie' : (c === 'left' ? it.left : it.right)
+  });
+  i++;
+  show();
+}
+
+function undo(){
+  if(i > 0){ i--; out.pop(); show(); }
+}
+
+function save(){
+  const head = 'idx,material,kind,left,right,choice,chosen\n';
+  const body = out.map(function(r){
+    return [r.idx, r.material, r.kind, r.left, r.right, r.choice, r.chosen].join(',');
+  }).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([head + body], {type: 'text/csv'}));
+  a.download = 'annotations.csv';
+  a.click();
+}
+
+addEventListener('keydown', function(e){
+  if(e.key === 'ArrowLeft') pick('left');
+  else if(e.key === 'ArrowRight') pick('right');
+  else if(e.key === ' '){ e.preventDefault(); pick('tie'); }
+  else if(e.key === 'Backspace'){ e.preventDefault(); undo(); }
+});
+
+show();
+</script>
+</html>
