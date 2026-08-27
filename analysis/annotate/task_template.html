@@ -72,7 +72,7 @@ function show(){
 function pick(c){
   const it = ITEMS[i];
   out.push({
-    idx: i, material: it.material, kind: it.kind,
+    idx: i, material: it.material, kind: it.kind, struct: (it.struct !== undefined ? it.struct : ''),
     left: it.left, right: it.right, choice: c,
     chosen: c === 'tie' ? 'tie' : (c === 'left' ? it.left : it.right)
   });
@@ -85,9 +85,9 @@ function undo(){
 }
 
 function save(){
-  const head = 'idx,material,kind,left,right,choice,chosen\n';
+  const head = 'idx,material,kind,struct,left,right,choice,chosen\n';
   const body = out.map(function(r){
-    return [r.idx, r.material, r.kind, r.left, r.right, r.choice, r.chosen].join(',');
+    return [r.idx, r.material, r.kind, r.struct, r.left, r.right, r.choice, r.chosen].join(',');
   }).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([head + body], {type: 'text/csv'}));
