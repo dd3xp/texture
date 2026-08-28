@@ -13,6 +13,15 @@
 
 **没有做**把 32/64 下采样到 16 来补数据——下采样正是本路线要避免的平均运算，
 那样生成的样本会把中间色的模式教给模型，等于往训练集里投毒。
+
+**做了**从 32/64 瓦片**随机裁剪**出 16×16 块（`crop_larger=True`）。
+裁剪不是平均：每个像素都是艺术家画的原始像素，没有任何插值。
+训练集从 3395 张扩到 3395+853=4248 个样本源，
+每次取样裁不同位置，等效数据量约 7 倍（stride 8 计）。
+
+**隐患（需实测）**：32×32 裁出的 16×16 块，材质的像素尺度是原生 16×16 的两倍，
+砖块看起来大一倍。这可能是有用的尺度增广，也可能是干扰。
+`--crop-larger` 开关就是为了做这个对照。
 """
 
 import json
@@ -27,14 +36,17 @@ class TileSet(Dataset):
     """索引图 + 调色板 + 材质 id。"""
 
     def __init__(self, path: Path, split: str, size: int = 16, augment: bool = True,
-                 palette_jitter: float = 0.0):
+                 palette_jitter: float = 0.0, crop_larger: bool = False):
         blob = json.loads(Path(path).read_text())
         self.k = blob["k"]
         self.augment = augment
         self.palette_jitter = palette_jitter
         self.size = size
+        self.crop_larger = crop_larger
         self.samples = [s for s in blob["samples"]
-                        if s["split"] == split and s["size"] == size]
+                        if s["split"] == split
+                        and (s["size"] == size or
+                             (crop_larger and s["size"] > size))]
         mats = sorted({s["material"] for s in blob["samples"]})
         self.mat2id = {m: i for i, m in enumerate(mats)}
         self.n_materials = len(mats)
@@ -46,6 +58,14 @@ class TileSet(Dataset):
         s = self.samples[i]
         n = s["size"]
         idx = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(n, n).copy()
+
+        if n > self.size:
+            # 随机裁剪。每次取样裁不同位置，等效于无限多块。
+            # 注意这不是下采样——像素本身没被平均，只是取了一个窗口。
+            m = self.size
+            y = np.random.randint(0, n - m + 1)
+            x = np.random.randint(0, n - m + 1)
+            idx = idx[y:y + m, x:x + m].copy()
 
         if self.augment:
             r = np.random.randint(4)

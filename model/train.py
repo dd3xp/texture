@@ -5,6 +5,11 @@
 而验证集按包留出，所以验证损失衡量的正是"对没见过的画师的泛化"。
 
 验证时固定掩码率（不随机），否则不同轮次之间不可比。
+
+**history.json 每次评估都增量写盘**，不等训练结束。
+原因：共享机器上长跑会在 10–13 分钟处被杀（2 分钟的跑能正常收尾，
+12 分钟的跑日志在 ep335 干净截断、无报错、内存充足）。
+杀进程的机制没查实，但只要结果是增量落盘的，被杀也不丢数据。
 """
 
 import argparse
@@ -68,6 +73,8 @@ def main() -> None:
     ap.add_argument("--pal-jitter", type=float, default=0.0,
                     help="调色板扰动幅度（HSV），0 表示关闭")
     ap.add_argument("--tag", type=str, default="base", help="本次运行的标识")
+    ap.add_argument("--crop-larger", action="store_true",
+                    help="把 32/64 瓦片随机裁成 size×size 当额外训练数据")
     ap.add_argument("--max-minutes", type=float, default=12.0,
                     help="墙钟上限。无人值守时单次 GPU 任务不得超过 15 分钟")
     ap.add_argument("--out", type=Path, default=Path("experiments/model"))
@@ -77,13 +84,16 @@ def main() -> None:
 
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     tr = TileSet(args.data, "train", size=args.size, augment=True,
-                 palette_jitter=args.pal_jitter)
+                 palette_jitter=args.pal_jitter, crop_larger=args.crop_larger)
     va = TileSet(args.data, "val", size=args.size, augment=False)
     print(f"train {len(tr)}  val {len(va)}  材质 {tr.n_materials}  K {tr.k}")
 
+    # num_workers=0：数据加载本身极快（200 次取样 0.04s），
+    # 多进程没有收益；而且开 crop_larger 后 num_workers=4 会卡死，
+    # 单进程反而稳定。
     dtr = DataLoader(tr, batch_size=args.batch, shuffle=True, drop_last=True,
-                     num_workers=4, persistent_workers=True)
-    dva = DataLoader(va, batch_size=args.batch, num_workers=2)
+                     num_workers=0)
+    dva = DataLoader(va, batch_size=args.batch, num_workers=0)
 
     net = PixelTextureModel(k=tr.k, n_materials=tr.n_materials, size=args.size,
                             d=args.dim, depth=args.depth, drop=args.drop).to(dev)
@@ -103,6 +113,13 @@ def main() -> None:
     hist, best, best_ep, step = [], float("inf"), -1, 0
     t0 = time.time()
     stop = "跑满设定轮数"
+
+    def dump(reason: str) -> None:
+        """增量落盘。被杀时至少保住已有结果。"""
+        (args.out / "history.json").write_text(json.dumps(
+            {"history": hist, "best_val": best, "best_epoch": best_ep,
+             "minutes": (time.time() - t0) / 60, "stop_reason": reason},
+            indent=1, ensure_ascii=False))
     for ep in range(1, args.epochs + 1):
         agg = {"loss": 0.0, "acc": 0.0, "n": 0}
         for batch in dtr:
@@ -133,6 +150,7 @@ def main() -> None:
                 mark = "  *"
             print(f"ep {ep:>4}  训练 {trl:.4f}/{tra:.3f}   "
                   f"验证 {vl:.4f}/{vacc:.3f}   差距 {gap:+.4f}{mark}")
+            dump(f"进行中（第 {ep} 轮）")
 
         if (time.time() - t0) / 60 > args.max_minutes:
             stop = f"到达墙钟上限 {args.max_minutes} 分钟（第 {ep} 轮）"
@@ -145,9 +163,7 @@ def main() -> None:
         h = hist[-1]
         print(f"末轮 训练 {h['train_loss']:.4f} / 验证 {h['val_loss']:.4f} "
               f"→ 差距 {h['gap']:+.4f}")
-    (args.out / "history.json").write_text(json.dumps(
-        {"history": hist, "best_val": best, "best_epoch": best_ep,
-         "minutes": mins, "stop_reason": stop}, indent=1, ensure_ascii=False))
+    dump(stop)
 
 
 if __name__ == "__main__":

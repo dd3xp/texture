@@ -9,17 +9,20 @@
 
 set -euo pipefail
 
-REMOTE_HOST="emnlp"
+# 目标主机可用第一个参数或 TEXTURE_HOST 覆盖。
+# emnlp 和 kw 是两台独立机器（各自的存储），kw 通常更空。
+REMOTE_HOST="${1:-${TEXTURE_HOST:-emnlp}}"
+if [[ "$REMOTE_HOST" == "--dry-run" ]]; then REMOTE_HOST="emnlp"; fi
 REMOTE_DIR="/mnt/data/kw/RoundSquisheen/texture"
 LOCAL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 DRY_RUN=0
-if [[ "${1:-}" == "--dry-run" ]]; then
-    DRY_RUN=1
-fi
+for a in "$@"; do [[ "$a" == "--dry-run" ]] && DRY_RUN=1; done
 
 EXCLUDES=(
-    '.git' '__pycache__' '.venv' 'data' 'experiments'
+    '.git' '__pycache__' '.venv' 'experiments'
+    'data/tiles_raw' 'data/contentdb' 'data/minetest' 'data/faithful'
+    'data/tiles/unpacked'
     '*.ckpt' '*.pt' '*.pth' '*.safetensors' '.ipynb_checkpoints'
 )
 
