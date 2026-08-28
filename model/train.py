@@ -25,7 +25,7 @@ from torch.utils.data import DataLoader
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from data import TileSet                                    # noqa: E402
-from model import PixelTextureModel, training_step          # noqa: E402
+from model import build_model, training_step                # noqa: E402
 
 
 @torch.no_grad()
@@ -73,6 +73,9 @@ def main() -> None:
     ap.add_argument("--pal-jitter", type=float, default=0.0,
                     help="调色板扰动幅度（HSV），0 表示关闭")
     ap.add_argument("--tag", type=str, default="base", help="本次运行的标识")
+    ap.add_argument("--arch", type=str, default="transformer",
+                    choices=["transformer", "conv"],
+                    help="conv 版带 3x3 卷积的空间归纳偏置")
     ap.add_argument("--crop-larger", action="store_true",
                     help="把 32/64 瓦片随机裁成 size×size 当额外训练数据")
     ap.add_argument("--max-minutes", type=float, default=12.0,
@@ -95,9 +98,10 @@ def main() -> None:
                      num_workers=0)
     dva = DataLoader(va, batch_size=args.batch, num_workers=0)
 
-    net = PixelTextureModel(k=tr.k, n_materials=tr.n_materials, size=args.size,
-                            d=args.dim, depth=args.depth, drop=args.drop).to(dev)
-    print(f"参数量 {sum(p.numel() for p in net.parameters())/1e6:.2f}M")
+    net = build_model(args.arch, k=tr.k, n_materials=tr.n_materials,
+                      size=args.size, d=args.dim, depth=args.depth,
+                      drop=args.drop).to(dev)
+    print(f"架构 {args.arch}  参数量 {sum(p.numel() for p in net.parameters())/1e6:.2f}M")
 
     opt = torch.optim.AdamW(net.parameters(), lr=args.lr, weight_decay=args.wd)
     total = args.epochs * len(dtr)
@@ -144,6 +148,7 @@ def main() -> None:
             if vl < best:
                 best, best_ep = vl, ep
                 torch.save({"state": net.state_dict(), "args": vars(args),
+                        "arch": args.arch,
                             "k": tr.k, "n_materials": tr.n_materials,
                             "mat2id": tr.mat2id, "size": args.size},
                            args.out / "best.pt")

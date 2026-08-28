@@ -14,7 +14,7 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from data import TileSet          # noqa: E402
-from model import PixelTextureModel, training_step, generate  # noqa: E402
+from model import build_model, training_step, generate  # noqa: E402
 
 dev = "cuda" if torch.cuda.is_available() else "cpu"
 ds = TileSet(Path("data/tiles/dataset_k16.json"), "train", size=16)
@@ -22,9 +22,11 @@ print(f"训练样本 {len(ds)}   材质数 {ds.n_materials}   K={ds.k}")
 
 dl = torch.utils.data.DataLoader(ds, batch_size=8, shuffle=True)
 batch = next(iter(dl))
-net = PixelTextureModel(k=ds.k, n_materials=ds.n_materials, size=16).to(dev)
+ARCH = sys.argv[1] if len(sys.argv) > 1 else "transformer"
+net = build_model(ARCH, k=ds.k, n_materials=ds.n_materials, size=16,
+                  d=128, depth=6).to(dev)
 n_par = sum(p.numel() for p in net.parameters())
-print(f"参数量 {n_par/1e6:.2f}M")
+print(f"架构 {ARCH}   参数量 {n_par/1e6:.2f}M")
 
 loss, stats = training_step(net, batch, dev)
 loss.backward()

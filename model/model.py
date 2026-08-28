@@ -80,6 +80,97 @@ class PixelTextureModel(nn.Module):
         return self.head(x[:, 1 + self.k:])          # (B, N*N, K)
 
 
+class FiLM(nn.Module):
+    """把条件向量变成逐通道的缩放和偏移。
+
+    卷积架构没有 token 序列可以拼接条件，所以用 FiLM 注入——
+    这是条件卷积网络的标准做法，比把条件铺成额外通道更省参数。
+    """
+
+    def __init__(self, cond_dim: int, ch: int):
+        super().__init__()
+        self.to_gb = nn.Linear(cond_dim, 2 * ch)
+
+    def forward(self, x, c):
+        g, b = self.to_gb(c).chunk(2, -1)
+        return x * (1 + g[..., None, None]) + b[..., None, None]
+
+
+class ConvBlock(nn.Module):
+    """残差卷积块。3x3 卷积提供局部性先验——
+    这正是纯 transformer 缺的东西：它不知道"相邻格子"意味着什么。
+    """
+
+    def __init__(self, ch: int, cond_dim: int, drop: float):
+        super().__init__()
+        self.n1 = nn.GroupNorm(8, ch)
+        self.c1 = nn.Conv2d(ch, ch, 3, padding=1)
+        self.film = FiLM(cond_dim, ch)
+        self.n2 = nn.GroupNorm(8, ch)
+        self.c2 = nn.Conv2d(ch, ch, 3, padding=1)
+        self.drop = nn.Dropout2d(drop)
+
+    def forward(self, x, c):
+        h = self.c1(F.gelu(self.n1(x)))
+        h = self.film(h, c)
+        h = self.c2(self.drop(F.gelu(self.n2(h))))
+        return x + h
+
+
+class ConvTextureModel(nn.Module):
+    """卷积版掩码预测。接口与 PixelTextureModel 完全一致，
+    所以 training_step 和 generate 都不用改。
+
+    与 transformer 版的唯一区别是**空间归纳偏置**：
+    3x3 卷积天然知道邻域，而 transformer 的位置信息全靠可学习嵌入。
+    砖缝、板条这类布局依赖局部规律，这是这次改架构要验证的假设。
+    """
+
+    def __init__(self, k: int = 16, n_materials: int = 521, size: int = 16,
+                 d: int = 128, depth: int = 6, heads: int = 8, drop: float = 0.1):
+        super().__init__()
+        self.k, self.size = k, size
+        self.MASK, self.BG = k, k + 1
+
+        self.tok = nn.Embedding(k + 2, d)
+        self.pos = nn.Parameter(torch.zeros(1, d, size, size))
+        nn.init.normal_(self.pos, std=0.02)
+
+        cond = d
+        self.mat = nn.Embedding(n_materials, cond)
+        self.pal_in = nn.Linear(3, cond)
+        self.pal_null = nn.Parameter(torch.zeros(cond))
+        self.cond_mix = nn.Sequential(nn.Linear(2 * cond, cond), nn.GELU(),
+                                      nn.Linear(cond, cond))
+
+        self.blocks = nn.ModuleList([ConvBlock(d, cond, drop) for _ in range(depth)])
+        self.out_norm = nn.GroupNorm(8, d)
+        self.head = nn.Conv2d(d, k, 1)
+
+    def forward(self, idx, palette, pal_valid, material):
+        B, N, _ = idx.shape
+        x = self.tok(idx).permute(0, 3, 1, 2) + self.pos
+
+        p = self.pal_in(palette)
+        p = torch.where(pal_valid[..., None] > 0, p, self.pal_null.expand_as(p))
+        # 调色板按有效档求均值，得到一个"这套配色长什么样"的向量
+        p = (p * pal_valid[..., None]).sum(1) / pal_valid.sum(1, keepdim=True).clamp(min=1)
+        c = self.cond_mix(torch.cat([self.mat(material), p], -1))
+
+        for b in self.blocks:
+            x = b(x, c)
+        return self.head(F.gelu(self.out_norm(x))).flatten(2).transpose(1, 2)
+
+
+def build_model(arch: str, **kw):
+    """按名字构建。两种架构接口一致，可直接互换做对照。"""
+    if arch == "conv":
+        return ConvTextureModel(**kw)
+    if arch == "transformer":
+        return PixelTextureModel(**kw)
+    raise ValueError(f"未知架构: {arch}")
+
+
 def mask_schedule(t: torch.Tensor) -> torch.Tensor:
     """余弦掩码率：t=0 全掩码，t=1 几乎不掩码。MaskGIT 的标准做法。"""
     return torch.cos(t * math.pi / 2).clamp(1e-3, 1.0)
