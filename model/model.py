@@ -168,6 +168,14 @@ class SpatialAttn(nn.Module):
     A3 发现 depth=4 的卷积感受野约 9x9，小于整块瓦片，
     砖块布局、条纹分行这些**全局**结构学不到。
     注意力一步覆盖全图，正好补上卷积缺的那部分。
+    A3b 证实：加深卷积（depth8，感受野 17x17）无效，加注意力有效——
+    缺的是显式全局交互，不是感受野尺寸。
+
+    **条件 token**：A3b 的画廊显示模型"学会了条纹但方向错了"
+    （sandstone 出竖纹，真人是横向砖行）。原因是这一层是纯空间自注意力，
+    **决定布局时看不到自己在画什么材质**。
+    把条件向量作为一个额外的 key/value token 接进来，
+    每个位置就能在决定布局时查询材质信息。
     """
 
     def __init__(self, ch: int, heads: int, drop: float):
@@ -175,30 +183,34 @@ class SpatialAttn(nn.Module):
         # 通道数不一定被 heads 整除（换宽度时很容易踩），取一个能整除的最大值
         heads = max((h for h in range(1, heads + 1) if ch % h == 0), default=1)
         self.norm = nn.GroupNorm(8, ch)
+        self.cond_proj = nn.Linear(ch, ch)
         self.attn = nn.MultiheadAttention(ch, heads, dropout=drop, batch_first=True)
 
-    def forward(self, x):
+    def forward(self, x, c=None):
         B, C, H, W = x.shape
-        h = self.norm(x).flatten(2).transpose(1, 2)
-        h, _ = self.attn(h, h, h, need_weights=False)
+        q = self.norm(x).flatten(2).transpose(1, 2)
+        kv = q if c is None else torch.cat([self.cond_proj(c)[:, None], q], 1)
+        h, _ = self.attn(q, kv, kv, need_weights=False)
         return x + h.transpose(1, 2).reshape(B, C, H, W)
 
 
 class HybridTextureModel(ConvTextureModel):
     """卷积提供局部性，注意力提供全局性。
 
-    每两个卷积块后插一次全局注意力——卷积负责"相邻像素怎么配"，
-    注意力负责"整块的布局是什么"。
+    卷积负责"相邻像素怎么配"，注意力负责"整块的布局是什么"。
     其余（条件注入、输出头、接口）全部继承 ConvTextureModel 不变。
+
+    `attn_every=1` 表示每个卷积块后都插注意力。A3b 用的是 2，
+    而对照显示全局交互是有效杠杆、堆深度无效，所以往有效方向加密。
     """
 
     def __init__(self, k=16, n_materials=521, size=16, d=96, depth=4,
-                 heads=6, drop=0.1):
+                 heads=6, drop=0.1, attn_every=1):
         super().__init__(k=k, n_materials=n_materials, size=size, d=d,
                          depth=depth, heads=heads, drop=drop)
         self.attns = nn.ModuleList([
-            SpatialAttn(d, heads, drop) if i % 2 == 1 else nn.Identity()
-            for i in range(depth)])
+            SpatialAttn(d, heads, drop) if (i + 1) % attn_every == 0
+            else nn.Identity() for i in range(depth)])
 
     def forward(self, idx, palette, pal_valid, material):
         B, N, _ = idx.shape
@@ -211,7 +223,7 @@ class HybridTextureModel(ConvTextureModel):
 
         for blk, at in zip(self.blocks, self.attns):
             x = blk(x, c)
-            x = at(x)
+            x = at(x, c) if isinstance(at, SpatialAttn) else at(x)
         return self.head(F.gelu(self.out_norm(x))).flatten(2).transpose(1, 2)
 
 

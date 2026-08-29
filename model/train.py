@@ -76,6 +76,10 @@ def main() -> None:
     ap.add_argument("--arch", type=str, default="transformer",
                     choices=["transformer", "conv", "hybrid"],
                     help="conv 版带 3x3 卷积的空间归纳偏置")
+    ap.add_argument("--attn-every", type=int, default=1,
+                    help="hybrid 专用：每几个卷积块插一次全局注意力")
+    ap.add_argument("--resume", action="store_true",
+                    help="从 last.pt 续训。单次训练被 9 分钟上限截断后靠它接力")
     ap.add_argument("--crop-larger", action="store_true",
                     help="把 32/64 瓦片随机裁成 size×size 当额外训练数据")
     ap.add_argument("--max-minutes", type=float, default=12.0,
@@ -98,9 +102,11 @@ def main() -> None:
                      num_workers=0)
     dva = DataLoader(va, batch_size=args.batch, num_workers=0)
 
-    net = build_model(args.arch, k=tr.k, n_materials=tr.n_materials,
-                      size=args.size, d=args.dim, depth=args.depth,
-                      drop=args.drop).to(dev)
+    kw = dict(k=tr.k, n_materials=tr.n_materials, size=args.size,
+              d=args.dim, depth=args.depth, drop=args.drop)
+    if args.arch == "hybrid":
+        kw["attn_every"] = args.attn_every
+    net = build_model(args.arch, **kw).to(dev)
     print(f"架构 {args.arch}  参数量 {sum(p.numel() for p in net.parameters())/1e6:.2f}M")
 
     opt = torch.optim.AdamW(net.parameters(), lr=args.lr, weight_decay=args.wd)
@@ -115,6 +121,20 @@ def main() -> None:
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_at)
 
     hist, best, best_ep, step = [], float("inf"), -1, 0
+    start_ep = 1
+    last_path = args.out / "last.pt"
+    if args.resume and last_path.exists():
+        ck = torch.load(last_path, map_location=dev, weights_only=False)
+        net.load_state_dict(ck["state"])
+        opt.load_state_dict(ck["opt"])
+        sched.load_state_dict(ck["sched"])
+        start_ep = ck["epoch"] + 1
+        best, best_ep, step = ck["best"], ck["best_ep"], ck["step"]
+        hp = args.out / "history.json"
+        if hp.exists():
+            hist = json.loads(hp.read_text())["history"]
+        print(f"从 last.pt 续训：第 {start_ep} 轮起，历史最佳 {best:.4f} @ep{best_ep}")
+
     t0 = time.time()
     stop = "跑满设定轮数"
 
@@ -124,7 +144,7 @@ def main() -> None:
             {"history": hist, "best_val": best, "best_epoch": best_ep,
              "minutes": (time.time() - t0) / 60, "stop_reason": reason},
             indent=1, ensure_ascii=False))
-    for ep in range(1, args.epochs + 1):
+    for ep in range(start_ep, args.epochs + 1):
         agg = {"loss": 0.0, "acc": 0.0, "n": 0}
         for batch in dtr:
             loss, st = training_step(net, batch, dev)
@@ -156,6 +176,12 @@ def main() -> None:
             print(f"ep {ep:>4}  训练 {trl:.4f}/{tra:.3f}   "
                   f"验证 {vl:.4f}/{vacc:.3f}   差距 {gap:+.4f}{mark}")
             dump(f"进行中（第 {ep} 轮）")
+            torch.save({"state": net.state_dict(), "opt": opt.state_dict(),
+                        "sched": sched.state_dict(), "epoch": ep, "best": best,
+                        "best_ep": best_ep, "step": step, "args": vars(args),
+                        "arch": args.arch, "k": tr.k,
+                        "n_materials": tr.n_materials, "mat2id": tr.mat2id,
+                        "size": args.size}, last_path)
 
         if (time.time() - t0) / 60 > args.max_minutes:
             stop = f"到达墙钟上限 {args.max_minutes} 分钟（第 {ep} 轮）"
