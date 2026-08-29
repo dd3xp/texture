@@ -162,10 +162,65 @@ class ConvTextureModel(nn.Module):
         return self.head(F.gelu(self.out_norm(x))).flatten(2).transpose(1, 2)
 
 
+class SpatialAttn(nn.Module):
+    """在 16x16 展平成的 256 个位置上做一次全局自注意力。
+
+    A3 发现 depth=4 的卷积感受野约 9x9，小于整块瓦片，
+    砖块布局、条纹分行这些**全局**结构学不到。
+    注意力一步覆盖全图，正好补上卷积缺的那部分。
+    """
+
+    def __init__(self, ch: int, heads: int, drop: float):
+        super().__init__()
+        # 通道数不一定被 heads 整除（换宽度时很容易踩），取一个能整除的最大值
+        heads = max((h for h in range(1, heads + 1) if ch % h == 0), default=1)
+        self.norm = nn.GroupNorm(8, ch)
+        self.attn = nn.MultiheadAttention(ch, heads, dropout=drop, batch_first=True)
+
+    def forward(self, x):
+        B, C, H, W = x.shape
+        h = self.norm(x).flatten(2).transpose(1, 2)
+        h, _ = self.attn(h, h, h, need_weights=False)
+        return x + h.transpose(1, 2).reshape(B, C, H, W)
+
+
+class HybridTextureModel(ConvTextureModel):
+    """卷积提供局部性，注意力提供全局性。
+
+    每两个卷积块后插一次全局注意力——卷积负责"相邻像素怎么配"，
+    注意力负责"整块的布局是什么"。
+    其余（条件注入、输出头、接口）全部继承 ConvTextureModel 不变。
+    """
+
+    def __init__(self, k=16, n_materials=521, size=16, d=96, depth=4,
+                 heads=6, drop=0.1):
+        super().__init__(k=k, n_materials=n_materials, size=size, d=d,
+                         depth=depth, heads=heads, drop=drop)
+        self.attns = nn.ModuleList([
+            SpatialAttn(d, heads, drop) if i % 2 == 1 else nn.Identity()
+            for i in range(depth)])
+
+    def forward(self, idx, palette, pal_valid, material):
+        B, N, _ = idx.shape
+        x = self.tok(idx).permute(0, 3, 1, 2) + self.pos
+
+        p = self.pal_in(palette)
+        p = torch.where(pal_valid[..., None] > 0, p, self.pal_null.expand_as(p))
+        p = (p * pal_valid[..., None]).sum(1) / pal_valid.sum(1, keepdim=True).clamp(min=1)
+        c = self.cond_mix(torch.cat([self.mat(material), p], -1))
+
+        for blk, at in zip(self.blocks, self.attns):
+            x = blk(x, c)
+            x = at(x)
+        return self.head(F.gelu(self.out_norm(x))).flatten(2).transpose(1, 2)
+
+
 def build_model(arch: str, **kw):
     """按名字构建。两种架构接口一致，可直接互换做对照。"""
     if arch == "conv":
         return ConvTextureModel(**kw)
+    if arch == "hybrid":
+        return HybridTextureModel(**kw)
     if arch == "transformer":
         return PixelTextureModel(**kw)
     raise ValueError(f"未知架构: {arch}")

@@ -74,7 +74,7 @@ def main() -> None:
                     help="调色板扰动幅度（HSV），0 表示关闭")
     ap.add_argument("--tag", type=str, default="base", help="本次运行的标识")
     ap.add_argument("--arch", type=str, default="transformer",
-                    choices=["transformer", "conv"],
+                    choices=["transformer", "conv", "hybrid"],
                     help="conv 版带 3x3 卷积的空间归纳偏置")
     ap.add_argument("--crop-larger", action="store_true",
                     help="把 32/64 瓦片随机裁成 size×size 当额外训练数据")
