@@ -30,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis" / "metric"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis" / "premise"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis" / "structure_grain"))
-from model import PixelTextureModel, generate      # noqa: E402
+from model import build_model, generate            # noqa: E402
 from build_testset import match_stats              # noqa: E402
 from decompose import grain_stats                  # noqa: E402
 
@@ -53,9 +53,11 @@ def main() -> None:
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     ck = torch.load(args.ckpt, map_location="cpu", weights_only=False)
     a = ck["args"]
-    net = PixelTextureModel(k=ck["k"], n_materials=ck["n_materials"],
-                            size=ck["size"], d=a["dim"], depth=a["depth"],
-                            drop=0.0).to(dev).eval()
+    arch = ck.get("arch", "transformer")   # 旧 checkpoint 没有这个字段
+    net = build_model(arch, k=ck["k"], n_materials=ck["n_materials"],
+                      size=ck["size"], d=a["dim"], depth=a["depth"],
+                      drop=0.0).to(dev).eval()
+    print(f"模型架构 {arch}  d={a['dim']} depth={a['depth']}")
     net.load_state_dict(ck["state"])
     mat2id = ck["mat2id"]
     K = ck["k"]
