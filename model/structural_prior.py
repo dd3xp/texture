@@ -63,7 +63,8 @@ def load_bond_select(path="data/tiles/bond_select.json") -> dict:
 
 def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
                 size: int = 16, joint_thresh: float = -0.8,
-                material: str | None = None) -> dict:
+                material: str | None = None,
+                min_seam_gap: float = 0.08) -> dict:
     """从同一材质的多个作者版本估计布局先验。
 
     tiles: 各版本的索引图（调色板按亮度排序，档号越小越暗）
@@ -83,6 +84,31 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
         prof += (a.mean(1) - a.mean()) / (a.std() + 1e-9)
         quant.append(np.percentile(a, 15) / max(nk - 1, 1))
     rows, score = _periodic_axis(prof / n)
+
+    # 缝的档位：**在检出的缝行上实测**，不用全图 15 百分位。
+    # 那个常数把缝画成了近乎黑线：66 个有横缝的材质里，
+    # 常数给 0.133 而真人实测是 0.400，56 个材质被画得比真人更暗；
+    # 真人的缝只比面暗 0.146，常数造成的落差约 0.40，接近三倍
+    # （`analysis/structure_grain/seam_level.py`）。
+    # 仍然逐材质学而不是换一个常数——`default_bookshelf`(0.13)、
+    # `default_desert_stone_brick`(0.07) 是真的深缝。
+    seam_p15 = float(np.median(quant))
+    seam, seam_gap = seam_p15, 0.0
+    if rows:
+        obs, face = [], []
+        m_ = np.zeros(size, bool)
+        m_[[r for r in rows if r < size]] = True
+        for ix, nk in zip(tiles, palette_sizes):
+            a = ix.astype(float) / max(nk - 1, 1)
+            obs.append(np.median(a[m_]))
+            face.append(np.median(a[~m_]))
+        seam = float(np.median(obs))
+        seam_gap = float(np.median(face) - np.median(obs))
+        # 缝若不比面暗，那检出的"行"就不是暗缝——不该画。
+        # `nc_woodwork_plank` 实测缝档位 0.43、面 0.43，
+        # 硬画上去反而把纹理抹平（`experiments/seam_vs.png`）。
+        if seam_gap < min_seam_gap:
+            rows, joints = [], {}
 
     joints: dict[int, tuple[int, int, list[int]]] = {}
     if rows:
@@ -106,8 +132,8 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
         # 选择结果里明确判负的材质，退回平均法
         bond["active"] = bool(load_bond_select().get(material, {}).get("use_bond", False))
 
-    return {"rows": rows, "joints": joints, "seam": float(np.median(quant)),
-            "score": score, "bond": bond}
+    return {"rows": rows, "joints": joints, "seam": seam, "seam_p15": seam_p15,
+            "seam_gap": seam_gap, "score": score, "bond": bond}
 
 
 def _col_period(seg: np.ndarray, min_std: float = 0.15,
