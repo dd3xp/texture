@@ -26,6 +26,44 @@ def load(path: Path) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
+def analyze_strata(real: list[dict]) -> None:
+    """按 stratum 分层统计 模型 vs 基线。
+
+    先验只对 42% 的材质加种子，效应只可能出现在 seeded 层；
+    plain 层是对照，应当与之前无异。合并统计会把信号稀释掉。
+    """
+    mb = [r for r in real
+          if sorted([r["left"], r["right"]]) == ["baseline", "model"]
+          and r["choice"] != "tie" and r.get("stratum")]
+    if not mb:
+        return
+    print(f"\n=== 分层：模型 vs 基线（n={len(mb)}）===")
+    print(f"{'层':<26}{'n':>5}{'模型胜':>8}{'胜率':>9}{'双尾 p':>10}")
+    print("-" * 60)
+    for st, label in (("seeded", "有种子（先验作用层）"), ("plain", "无种子（对照层）")):
+        sub = [r for r in mb if r["stratum"] == st]
+        if not sub:
+            continue
+        w = sum(1 for r in sub if r["chosen"] == "model")
+        n = len(sub)
+        p = stats.binomtest(w, n, 0.5).pvalue
+        print(f"{label:<26}{n:>5}{w:>8}{w/n:>8.0%}{p:>10.3f}")
+    a = [r for r in mb if r["stratum"] == "seeded"]
+    b = [r for r in mb if r["stratum"] == "plain"]
+    if a and b:
+        tab = [[sum(1 for r in a if r["chosen"] == "model"),
+                sum(1 for r in a if r["chosen"] != "model")],
+               [sum(1 for r in b if r["chosen"] == "model"),
+                sum(1 for r in b if r["chosen"] != "model")]]
+        pf = stats.fisher_exact(tab).pvalue
+        print(f"\n两层胜率差异 Fisher p={pf:.3g}"
+              f"  （先验若有效，seeded 应显著高于 plain）")
+    print("\n判读（A4 探路的判据，n=47 时）：")
+    print("  >70% → 方向对，值得扩到 D6 规模")
+    print("  55–65% → 可能有效，需要更大样本确认")
+    print("  ~50% → 先验未转化为人的偏好，不值得继续扩")
+
+
 def simulate(n_mat: int = 24, seed: int = 0) -> list[dict]:
     """模拟一份标注，用来自检脚本。
 
@@ -40,7 +78,9 @@ def simulate(n_mat: int = 24, seed: int = 0) -> list[dict]:
         for _ in range(1):
             win = rng.random() < p_model
             rows.append({"idx": len(rows), "material": f"m{i}", "kind": "real",
-                         "struct": f"{st:.4f}", "left": "model", "right": "baseline",
+                         "struct": f"{st:.4f}",
+                         "stratum": "seeded" if i % 2 == 0 else "plain",
+                         "left": "model", "right": "baseline",
                          "choice": "left" if win else "right",
                          "chosen": "model" if win else "baseline"})
         if i % 3 == 0:
@@ -85,6 +125,9 @@ def main() -> None:
         p = stats.binomtest(w, n, 0.5).pvalue if n else float("nan")
         print(f"{a+' vs '+b:<26}{w:>5}{l:>5}{t:>5}"
               f"{(w/n if n else float('nan')):>8.0%}{p:>10.3f}   ({a} 的胜率)")
+
+    if any(r.get("stratum") for r in real):
+        analyze_strata(real)
 
     # --- 主分析：模型 vs 基线 的胜率随结构分怎么变 ---
     mb = [r for r in real
