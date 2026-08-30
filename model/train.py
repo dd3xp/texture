@@ -78,6 +78,9 @@ def main() -> None:
                     help="conv 版带 3x3 卷积的空间归纳偏置")
     ap.add_argument("--attn-every", type=int, default=1,
                     help="hybrid 专用：每几个卷积块插一次全局注意力")
+    ap.add_argument("--min-tiles", type=int, default=0,
+                    help="只训练训练集样本数 >= 该值的材质。"
+                         "全量每类仅 6.5 张，用来检验材质条件是否受限于每类样本数")
     ap.add_argument("--resume", action="store_true",
                     help="从 last.pt 续训。单次训练被 9 分钟上限截断后靠它接力")
     ap.add_argument("--crop-larger", action="store_true",
@@ -91,8 +94,10 @@ def main() -> None:
 
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     tr = TileSet(args.data, "train", size=args.size, augment=True,
-                 palette_jitter=args.pal_jitter, crop_larger=args.crop_larger)
-    va = TileSet(args.data, "val", size=args.size, augment=False)
+                 palette_jitter=args.pal_jitter, crop_larger=args.crop_larger,
+                 min_tiles=args.min_tiles)
+    va = TileSet(args.data, "val", size=args.size, augment=False,
+                 min_tiles=args.min_tiles)
     print(f"train {len(tr)}  val {len(va)}  材质 {tr.n_materials}  K {tr.k}")
 
     # num_workers=0：数据加载本身极快（200 次取样 0.04s），

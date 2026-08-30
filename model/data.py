@@ -36,7 +36,8 @@ class TileSet(Dataset):
     """索引图 + 调色板 + 材质 id。"""
 
     def __init__(self, path: Path, split: str, size: int = 16, augment: bool = True,
-                 palette_jitter: float = 0.0, crop_larger: bool = False):
+                 palette_jitter: float = 0.0, crop_larger: bool = False,
+                 min_tiles: int = 0):
         blob = json.loads(Path(path).read_text())
         self.k = blob["k"]
         self.augment = augment
@@ -47,6 +48,17 @@ class TileSet(Dataset):
                         if s["split"] == split
                         and (s["size"] == size or
                              (crop_larger and s["size"] > size))]
+        if min_tiles > 0:
+            # 只保留训练集里样本数足够的材质。
+            # 全量是 521 类 / 3395 张 = 每类 6.5 张，从 6 张里学会
+            # "这个材质的布局长什么样"并泛化到没见过的画师，不现实。
+            from collections import Counter
+            cnt = Counter(s["material"] for s in blob["samples"]
+                          if s["split"] == "train")
+            keep = {m for m, c in cnt.items() if c >= min_tiles}
+            blob["samples"] = [s for s in blob["samples"] if s["material"] in keep]
+            self.samples = [s for s in self.samples if s["material"] in keep]
+
         mats = sorted({s["material"] for s in blob["samples"]})
         self.mat2id = {m: i for i, m in enumerate(mats)}
         self.n_materials = len(mats)
