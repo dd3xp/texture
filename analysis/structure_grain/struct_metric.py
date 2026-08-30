@@ -201,6 +201,11 @@ def main():
     print(f"  3 颗粒材质罚硬塞结构  {'通过' if c3 else '不通过'}"
           f"  (硬塞 {np.median(fk):.3f} vs 不塞 {np.median(nn):.3f}，"
           f"相对 {rel:+.1%}，p={pv:.3g}；判据：相对 >5% 且 p<0.05)")
+    # 存**生成的瓦片本身**而不只是分数：
+    # 换描述子或换归一化就能离线复算，不必再赔一小时生成。
+    Path("experiments/struct_metric_tiles.json").write_text(
+        json.dumps(tiles_dump, ensure_ascii=False))
+    print(f"瓦片存档 {len(tiles_dump)} 个材质 -> experiments/struct_metric_tiles.json")
     print(f"\n{split_half(raw_seed)}")
     print("三条全过才是一把能用的尺子；任一条不过就别用它裁决。")
 
