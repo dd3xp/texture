@@ -30,7 +30,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "model"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "metric"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "premise"))
 from model import build_model                                    # noqa: E402
-from structural_prior import learn_prior, make_seed, fill_from_seed  # noqa: E402
+from structural_prior import (learn_prior, learn_border, make_seed,   # noqa: E402
+                              add_border, fill_from_seed)
 from build_testset import match_stats                            # noqa: E402
 from materials import prompt_for                                 # noqa: E402
 
@@ -86,9 +87,11 @@ def main() -> None:
         tiles = [np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(16, 16)
                  for s in tr]
         pr = learn_prior(tiles, [len(s["palette"]) for s in tr])
-        priors[m] = pr
-        (seeded if pr["rows"] else plain).append(m)
-    print(f"可比材质 {len(cands)}：有周期 {len(seeded)}，无周期 {len(plain)}")
+        bd = learn_border(tiles)
+        priors[m] = (pr, bd)
+        # 两类先验任一命中都算 seeded——边框先验是 A3n 补的覆盖缺口
+        (seeded if (pr["rows"] or bd["has_border"]) else plain).append(m)
+    print(f"可比材质 {len(cands)}：有结构先验 {len(seeded)}，无先验 {len(plain)}")
 
     rng = random.Random(args.seed)
     rng.shuffle(seeded)
@@ -104,7 +107,8 @@ def main() -> None:
         art = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(16, 16)
         art_rgb = pal[art]
 
-        sd = make_seed(priors[m], nk)
+        pr, bd = priors[m]
+        sd = add_border(make_seed(pr, nk), bd, nk)
         torch.manual_seed(rng.randrange(10 ** 6))
         gen = fill_from_seed(net, sd, pal, nk, ck["mat2id"][m], device=dev)
         model_rgb = pal[np.clip(gen, 0, nk - 1)]
@@ -130,7 +134,7 @@ def main() -> None:
         for x, y in duels:
             l, r = (x, y) if rng.random() < 0.5 else (y, x)
             items.append({"material": m, "label": prompt_for(m), "kind": "real",
-                          "struct": round(priors[m]["score"], 4),
+                          "struct": round(max(pr["score"], abs(bd["gap"]) / 2), 4),
                           "stratum": stratum, "left": l, "right": r,
                           "limg": b64(imgs[l]), "rimg": b64(imgs[r])})
 
@@ -140,7 +144,7 @@ def main() -> None:
             g = {"good": art_rgb, "blur": blur}
             l, r = ("good", "blur") if rng.random() < 0.5 else ("blur", "good")
             items.append({"material": m, "label": prompt_for(m), "kind": "check",
-                          "struct": round(priors[m]["score"], 4),
+                          "struct": round(max(pr["score"], abs(bd["gap"]) / 2), 4),
                           "stratum": stratum, "left": l, "right": r,
                           "limg": b64(g[l]), "rimg": b64(g[r])})
 
