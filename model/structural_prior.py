@@ -16,7 +16,11 @@
 2. 只能捕捉**在作者之间一致**的结构。横缝位置跨作者高度一致；
    竖缝相位常常不一致（`default_brick` 就是如此），
    跨作者平均后互相抵消，检不出来。
-3. 非周期的全局结构（`tin_block` 的边框+对角线）不在覆盖范围内。
+3. 周期先验不覆盖非周期的全局结构。为此另加**边框先验**
+   （`learn_border`）：191 个材质里 33 个（17%）有显著且方向一致的边框，
+   其中包括周期先验漏掉的 `tin_block`。
+   但它也有盲点——`carts_cart_side` 视觉上有边框，
+   上下边一亮一暗相互抵消，均值差只有 +0.01、方向一致率 50%，检不出来。
 """
 
 from __future__ import annotations
@@ -133,3 +137,53 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
         samp = torch.multinomial(prob, 1).squeeze(-1)
         idx[0].view(-1)[chunk] = samp[chunk]
     return idx[0].cpu().numpy()
+
+
+def learn_border(tiles: list[np.ndarray], min_gap: float = 0.5,
+                 min_consist: float = 0.8) -> dict:
+    """检测最外一圈相对内部是否一致地更暗或更亮。
+
+    周期先验只处理平移对称的结构，边框不是那一类。
+    要求**跨作者方向一致**（而不只是幅度大）——
+    单个作者画了边框不代表该材质有边框。
+
+    盲点：上下边一亮一暗的材质会互相抵消（`carts_cart_side` 就是如此），
+    这里用整圈均值，检不出那种情况。
+    """
+    diffs = []
+    for ix in tiles:
+        a = ix.astype(float)
+        if a.std() < 1e-9:
+            continue
+        m = np.zeros(a.shape, bool)
+        m[0, :] = m[-1, :] = m[:, 0] = m[:, -1] = True
+        diffs.append((a[m].mean() - a[~m].mean()) / a.std())
+    if len(diffs) < 4:
+        return {"has_border": False, "gap": 0.0, "consist": 0.0, "level": 0.0}
+    d = np.array(diffs)
+    consist = float(max((d > 0).mean(), (d < 0).mean()))
+    gap = float(np.median(d))
+    if abs(gap) < min_gap or consist < min_consist:
+        return {"has_border": False, "gap": gap, "consist": consist, "level": 0.0}
+    # 边框档位：取各版本边框像素的中位档，归一化
+    lv = []
+    for ix in tiles:
+        a = ix.astype(float)
+        m = np.zeros(a.shape, bool)
+        m[0, :] = m[-1, :] = m[:, 0] = m[:, -1] = True
+        lv.append(np.median(a[m]) / max(a.max(), 1))
+    return {"has_border": True, "gap": gap, "consist": consist,
+            "level": float(np.median(lv))}
+
+
+def add_border(seed: np.ndarray, border: dict, n_colors: int) -> np.ndarray:
+    """把边框先验叠加到种子上。不覆盖已有的周期种子。"""
+    if not border.get("has_border"):
+        return seed
+    idx = int(round(border["level"] * (n_colors - 1)))
+    idx = max(0, min(n_colors - 1, idx))
+    out = seed.copy()
+    for sl in (np.s_[0, :], np.s_[-1, :], np.s_[:, 0], np.s_[:, -1]):
+        blank = out[sl] < 0
+        out[sl] = np.where(blank, idx, out[sl])
+    return out
