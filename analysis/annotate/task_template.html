@@ -67,8 +67,7 @@ function resume(){
     if(!raw) return;
     const st = JSON.parse(raw);
     if(!st || !st.out || st.out.length === 0) return;
-    if(confirm('检测到上次标到第 ' + (st.i + 1) + ' 题，继续吗？
-（取消则从头开始）')){
+    if(confirm('上次标到第 ' + (st.i + 1) + ' 题，继续吗？取消则从头开始。')){
       i = st.i; out = st.out;
     } else {
       localStorage.removeItem(KEY);
