@@ -17,10 +17,12 @@ import numpy as np
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "model"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from model import build_model                                      # noqa: E402
 from structural_prior import (learn_prior, learn_border, learn_edges,  # noqa: E402
                               make_seed, add_border_union, fill_from_seed,
                               _col_period)
+from stability import split_half                                   # noqa: E402
 
 
 def bands_of(rows, size=16):
@@ -56,7 +58,7 @@ def main():
         if s["size"] == 16 and s["split"] == "train":
             bymat.setdefault(s["material"], []).append(s)
 
-    out = {}
+    out, raw_all = {}, []
     print(f"{'材质':<34}{'真人':>7}{'平均法':>8}{'错缝法':>8}{'选用':>8}{'重复一致':>10}")
     print("-" * 76)
     for m in sorted(bymat):
@@ -76,7 +78,7 @@ def main():
         # 用训练瓦片自己的调色板，不碰测试集
         brd, egs = learn_border(raw), learn_edges(raw)
         # 每个重复换一块训练瓦片的调色板 + 换随机种子基
-        votes, os_, ns_ = [], [], []
+        votes, os_, ns_, raw_new = [], [], [], []
         for rep in range(n_rep):
             pal = np.array(tr[rep % len(tr)]["palette"], np.uint8)
             nk = len(pal)
@@ -95,6 +97,7 @@ def main():
             os_.append(o)
             ns_.append(n)
             votes.append(abs(n - art) < abs(o - art))
+            raw_new.append(new)
         agree = max(sum(votes), n_rep - sum(votes)) / n_rep
         use = sum(votes) > n_rep / 2
         out[m] = {"use_bond": bool(use), "period": int(per),
@@ -102,8 +105,15 @@ def main():
                   "bond": round(float(np.mean(ns_)), 4),
                   "agree": round(agree, 3), "votes": [bool(v) for v in votes],
                   "n_samples": n_samp, "n_rep": n_rep}
+        raw_all.append(raw_new)
         print(f"{m:<34}{art:>7.2f}{np.mean(os_):>8.2f}{np.mean(ns_):>8.2f}"
               f"{('错缝' if use else '平均'):>10}{agree:>9.0%}")
+
+    rep = split_half([sum(v, []) for v in raw_all]) if raw_all else None
+    if rep is not None:
+        print(f"\n{rep}")
+        if not rep.stable:
+            print("  -> 选择结果不可靠，加样本后重跑")
 
     f = Path("data/tiles/bond_select.json")
     f.write_text(json.dumps(out, indent=2, ensure_ascii=False))

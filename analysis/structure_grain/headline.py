@@ -20,12 +20,14 @@ from scipy import stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "model"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "premise"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from model import build_model                                      # noqa: E402
 from structural_prior import (learn_prior, learn_border, learn_edges,  # noqa: E402
                               make_seed, add_border_union, fill_from_seed)
 from decompose import grain_stats                                  # noqa: E402
 from build_testset import match_stats                              # noqa: E402
 from PIL import Image                                              # noqa: E402
+from stability import split_half                                   # noqa: E402
 
 
 def main():
@@ -54,7 +56,7 @@ def main():
         if s["split"] == "test" and s["material"] not in ref:
             ref[s["material"]] = s
 
-    art_all, base_all, mod_all, mod_halves = [], [], [], []
+    art_all, base_all, mod_all, mod_raw = [], [], [], []
     n_mat = 0
     for m in sorted(ref):
         tr = [s for s in bymat[m] if s["split"] == "train"]
@@ -108,8 +110,7 @@ def main():
         art_all.append(ta)
         base_all.append(g(base))
         mod_all.append(float(np.mean(vals)))
-        h = n_samp // 2
-        mod_halves.append((float(np.mean(vals[:h])), float(np.mean(vals[h:]))))
+        mod_raw.append(vals)
 
     art_all = np.array(art_all)
     base_all = np.array(base_all)
