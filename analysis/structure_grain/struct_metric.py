@@ -32,6 +32,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
+from scipy import stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "model"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -177,16 +178,20 @@ def main():
                   ("真人留出", "先验+填充", "无种子模型"))
     c1 = np.median(a_) < np.median(s_)
     c2 = np.median(n_) > np.median(s_)
-    g = np.array(gran["无种子模型"]) - np.array(gran["先验+填充"])
-    c3 = abs(np.median(g)) < 0.15
+    fk = np.array(gran["硬塞假结构"])
+    nn = np.array(gran["无种子模型"])
+    # 只有幅度足够大才算通过——技术上 fk>nn 但差 0.5% 是噪声，不是识别
+    rel = (np.median(fk) - np.median(nn)) / max(np.median(nn), 1e-9)
+    pv = stats.wilcoxon(fk, nn).pvalue if len(fk) > 5 else float("nan")
+    c3 = rel > 0.05 and pv < 0.05
     print(f"\n=== 验收（先定死的三条）===")
     print(f"  1 真人留出最好        {'通过' if c1 else '不通过'}"
           f"  ({np.median(a_):.3f} vs 先验 {np.median(s_):.3f})")
     print(f"  2 无种子最差          {'通过' if c2 else '不通过'}"
           f"  ({np.median(n_):.3f} vs 先验 {np.median(s_):.3f})")
     print(f"  3 颗粒材质罚硬塞结构  {'通过' if c3 else '不通过'}"
-          f"  (硬塞 {np.median(fk) if len(fk) else float('nan'):.3f}"
-          f" vs 不塞 {np.median(nn):.3f})")
+          f"  (硬塞 {np.median(fk):.3f} vs 不塞 {np.median(nn):.3f}，"
+          f"相对 {rel:+.1%}，p={pv:.3g}；判据：相对 >5% 且 p<0.05)")
     print(f"\n{split_half(raw_seed)}")
     print("三条全过才是一把能用的尺子；任一条不过就别用它裁决。")
 
