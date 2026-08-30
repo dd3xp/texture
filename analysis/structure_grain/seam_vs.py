@@ -19,8 +19,9 @@ from structural_prior import (learn_prior, learn_border, learn_edges,  # noqa: E
                               make_seed, add_border_union, fill_from_seed)
 
 MATS = ["default_brick.png", "default_stone_brick.png", "default_wood.png",
-        "default_desert_stone_brick.png", "nc_woodwork_plank.png",
-        "default_diamond_block.png", "beds_bed_top2.png"]
+        "default_acacia_wood.png", "nc_woodwork_plank.png",
+        "default_diamond_block.png", "beds_bed_top2.png",
+        "mcl_core_gold_ore.png"]
 N = 3
 
 
@@ -60,10 +61,9 @@ def main():
         cells = [art]
         # 常数版要绕过缝深度门，用未过门的先验
         pr0 = learn_prior(raw, [len(x["palette"]) for x in tr],
-                          material=m, min_seam_gap=-99)
+                          material=m, max_seam_p=99.0)
         for tag in ("p15", "obs"):
-            p2 = (dict(pr0, seam=pr0["seam_p15"]) if tag == "p15"
-                  else dict(pr, seam=pr["seam"]))
+            p2 = pr0 if tag == "p15" else pr
             for i in range(N):
                 sd = add_border_union(
                     make_seed(p2, nk, rng=np.random.default_rng(700 + i)),
@@ -71,7 +71,8 @@ def main():
                 g = fill_from_seed(net, sd, pal, nk, ck["mat2id"][m],
                                    seed_rng=700 + i)
                 cells.append(pal[np.clip(g, 0, nk - 1)])
-        lab = "拦下" if (pr0["rows"] and not pr["rows"]) else f"{pr['seam']:.2f}"
+        lab = ("拦下" if not pr["rows"]
+               else f"p={pr0['seam_p']:.2f} d={pr0['seam_gap']:+.2f}")
         rows_out.append((m, pr0["seam_p15"], lab, cells))
 
     C, P, LAB, HDR = 88, 4, 210, 30
@@ -79,14 +80,14 @@ def main():
     H = HDR + len(rows_out) * (C + P) + P
     cv = Image.new("RGB", (W, H), "white")
     dr = ImageDraw.Draw(cv)
-    heads = ["真人"] + [f"常数{i+1}" for i in range(N)] + [f"实测{i+1}" for i in range(N)]
+    heads = ["真人"] + [f"不设门{i+1}" for i in range(N)] + [f"设门{i+1}" for i in range(N)]
     for ci, t in enumerate(heads):
         dr.text((LAB + ci * (C + P) + 4, 8), t, fill="black")
     for ri, (m, p15, obs, cells) in enumerate(rows_out):
         y = HDR + ri * (C + P)
         dr.text((6, y + C // 2 - 12),
                 m.replace("default_", "").replace(".png", "")[:22], fill="black")
-        dr.text((6, y + C // 2 + 2), f"{p15:.2f} -> {obs}", fill="#666")
+        dr.text((6, y + C // 2 + 2), str(obs), fill="#666")
         for ci, im in enumerate(cells):
             x = LAB + ci * (C + P)
             cv.paste(Image.fromarray(im.astype(np.uint8)).resize((C, C),

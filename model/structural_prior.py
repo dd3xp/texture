@@ -64,7 +64,7 @@ def load_bond_select(path="data/tiles/bond_select.json") -> dict:
 def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
                 size: int = 16, joint_thresh: float = -0.8,
                 material: str | None = None,
-                min_seam_gap: float = 0.08) -> dict:
+                max_seam_p: float = 0.05, n_perm: int = 200) -> dict:
     """从同一材质的多个作者版本估计布局先验。
 
     tiles: 各版本的索引图（调色板按亮度排序，档号越小越暗）
@@ -93,7 +93,7 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
     # 仍然逐材质学而不是换一个常数——`default_bookshelf`(0.13)、
     # `default_desert_stone_brick`(0.07) 是真的深缝。
     seam_p15 = float(np.median(quant))
-    seam, seam_gap = seam_p15, 0.0
+    seam, seam_gap, seam_p = seam_p15, 0.0, 1.0
     if rows:
         obs, face = [], []
         m_ = np.zeros(size, bool)
@@ -107,7 +107,36 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
         # 缝若不比面暗，那检出的"行"就不是暗缝——不该画。
         # `nc_woodwork_plank` 实测缝档位 0.43、面 0.43，
         # 硬画上去反而把纹理抹平（`experiments/seam_vs.png`）。
-        if seam_gap < min_seam_gap:
+        #
+        # 判据用**置换检验**，不用幅度阈值也不用跨作者一致率：
+        #
+        # - 幅度阈值是编的：66 个材质的幅度分布单峰连续，
+        #   下半段最大间隙仅 0.019，没有自然分界。
+        # - 一致率（`learn_border` 的约定）在这里不适用：
+        #   边的位置没有相位歧义，缝行有。实测一致率会把
+        #   `default_brick`(68%) 和 `default_obsidian_brick`(79%, 幅度 +0.433)
+        #   一起拦下——个别作者的缝错开一两行，那些行就落在砖面上。
+        #
+        # 所以问：检出的这些行，是不是比**随机选同样多的行**显著更暗。
+        rng_ = np.random.default_rng(0)
+        k = int(m_.sum())
+        null = []
+        for _ in range(n_perm):
+            mm = np.zeros(size, bool)
+            mm[rng_.choice(size, k, replace=False)] = True
+            v = []
+            for ix, nk in zip(tiles, palette_sizes):
+                a = ix.astype(float) / max(nk - 1, 1)
+                v.append(np.median(a[~mm]) - np.median(a[mm]))
+            null.append(float(np.median(v)))
+        seam_p = float((np.array(null) >= seam_gap).mean())
+        # 还要够大：**至少暗一个调色板档位**，否则画不出来。
+        # 这不是拍脑袋的阈值——显著与够大是两回事。
+        # `default_diamond_block` 幅度仅 0.033 而 p=0.04（作者多，
+        # 微小但一致的差也显著），0.033 连 13 色调色板的半档都不到；
+        # 图上恰恰是**拦下它**才让边框结构显出来（`experiments/seam_vs.png`）。
+        step = 1.0 / max(int(np.median(palette_sizes)) - 1, 1)
+        if seam_p > max_seam_p or seam_gap < step:
             rows, joints = [], {}
 
     joints: dict[int, tuple[int, int, list[int]]] = {}
@@ -133,7 +162,8 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
         bond["active"] = bool(load_bond_select().get(material, {}).get("use_bond", False))
 
     return {"rows": rows, "joints": joints, "seam": seam, "seam_p15": seam_p15,
-            "seam_gap": seam_gap, "score": score, "bond": bond}
+            "seam_gap": seam_gap, "seam_p": seam_p,
+            "score": score, "bond": bond}
 
 
 def _col_period(seg: np.ndarray, min_std: float = 0.15,
