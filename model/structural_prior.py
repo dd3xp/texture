@@ -47,8 +47,23 @@ def _periodic_axis(prof: np.ndarray, min_std: float = 0.15,
     return sorted(set(range(phase, len(prof), lag))), float(score)
 
 
+_BOND_SELECT: dict | None = None
+
+
+def load_bond_select(path="data/tiles/bond_select.json") -> dict:
+    """读逐材质的错缝选择结果（`bond_select.py` 产出）。缺文件就返回空。"""
+    global _BOND_SELECT
+    if _BOND_SELECT is None:
+        import json
+        import pathlib
+        f = pathlib.Path(path)
+        _BOND_SELECT = json.loads(f.read_text()) if f.exists() else {}
+    return _BOND_SELECT
+
+
 def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
-                size: int = 16, joint_thresh: float = -0.8) -> dict:
+                size: int = 16, joint_thresh: float = -0.8,
+                material: str | None = None) -> dict:
     """从同一材质的多个作者版本估计布局先验。
 
     tiles: 各版本的索引图（调色板按亮度排序，档号越小越暗）
@@ -86,18 +101,121 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
             col /= n
             joints[bi] = (y0, y1, [c for c in range(size) if col[c] < joint_thresh])
 
-    return {"rows": rows, "joints": joints,
-            "seam": float(np.median(quant)), "score": score}
+    bond = learn_bond(tiles, rows, size)
+    if bond.get("active") and material is not None:
+        # 选择结果里明确判负的材质，退回平均法
+        bond["active"] = bool(load_bond_select().get(material, {}).get("use_bond", False))
+
+    return {"rows": rows, "joints": joints, "seam": float(np.median(quant)),
+            "score": score, "bond": bond}
 
 
-def make_seed(prior: dict, n_colors: int, size: int = 16) -> np.ndarray:
-    """把先验变成种子网格。-1 表示留给模型填。"""
+def _col_period(seg: np.ndarray, min_std: float = 0.15,
+                min_score: float = 0.20) -> tuple[int | None, int | None]:
+    """单个砖层内的竖缝周期与相位。"""
+    c = seg.mean(0)
+    c = c - c.mean()
+    if c.std() < min_std:
+        return None, None
+    ac = np.correlate(c, c, "full")[len(c) - 1:]
+    ac = ac / (ac[0] + 1e-9)
+    lag, sc = max(((l, ac[l]) for l in range(3, 9)), key=lambda t: t[1])
+    if sc < min_score:
+        return None, None
+    return lag, int(np.argmin([c[i::lag].mean() for i in range(lag)]))
+
+
+def learn_bond(tiles: list[np.ndarray], rows: list[int], size: int = 16,
+               min_detect: float = 0.5, min_period: float = 0.6,
+               max_phase: float = 0.6, select: dict | None = None) -> dict:
+    """错缝砌法：估竖缝周期，判断相位是否需要生成时采样。
+
+    A3l 把"竖缝检不出"归给"相位跨作者不一致"，但那个诊断
+    把周期和相位混在一起了。分开看（`analysis/structure_grain/joint_phase.py`）：
+
+    `default_brick` 逐作者检出 16–21/28，**周期压倒性是 8**（各层 62–89%），
+    **相位却散在 0,1,2,3,6,7**（众数仅 33–53%）。
+    跨作者平均之所以抹平竖缝，是因为每个作者选的全局相位不同。
+
+    进一步看同一作者相邻层的相位差：44 对里 27 对正好是 4（半个周期），
+    61% 落在 3–5，只有 20% 接近 0——**是错缝，不是每层独立随机**。
+
+    所以：周期从数据估（材质属性），相位在生成时采一个全局值
+    （作者的自由选择），相邻层交替偏移半周期。
+
+    先按证据筛出候选：检出率 ≥50%、周期众数 ≥60%、相位众数 <60%。
+    这一步选出 10 个材质，但错缝法只在其中 4 个上胜过平均法
+    （`bond_eval.py`），所以**候选不等于该启用**。
+
+    试过两个数据侧的门，都不预测胜负，都已撤掉：
+    - 「平均法找到的竖缝根数不足应有的一半」：只砍掉赢家 vessels_shelf
+      （0.06→0.28），六个输家一个没拦住。
+    - 「跨作者平均的列廓线还能否检出周期」：`default_brick` 检出 0.80
+      却该赢，`wool_blue` 检出 0.00 却该输，方向都不对。
+
+    所以改成**逐材质离线选择**（`bond_select.py`）：两种种子各生成若干张，
+    量竖缝可检出率，取更接近训练瓦片真人均值的那个。
+    只用训练数据，不碰测试集，也不需要人工标注。
+    `select` 缺省时退回候选判据（即不选择，全部启用）。
+    """
+    from collections import Counter
+    if not rows or len(tiles) < 4:
+        return {"active": False}
+    bands = []
+    prev = 0
+    for r in rows + ([size] if rows[-1] != size - 1 else []):
+        if r > prev:
+            bands.append((prev, r))
+        prev = r + 1
+    if len(bands) < 2:
+        return {"active": False}
+
+    pers, phs, n_try = [], [], 0
+    for t in tiles:
+        for y0, y1 in bands:
+            n_try += 1
+            p, ph = _col_period(t[y0:y1].astype(float))
+            if p is not None:
+                pers.append(p)
+                phs.append(ph)
+    if not pers or len(pers) / n_try < min_detect:
+        return {"active": False, "detect": len(pers) / max(n_try, 1)}
+    period, cnt = Counter(pers).most_common(1)[0]
+    f_per = cnt / len(pers)
+    f_ph = Counter([p for p, q in zip(phs, pers) if q == period]).most_common(1)[0][1]         / max(cnt, 1)
+    if f_per < min_period or f_ph >= max_phase:
+        return {"active": False, "period": period,
+                "f_period": f_per, "f_phase": f_ph,
+                "detect": len(pers) / n_try}
+    return {"active": True, "period": int(period), "offset": int(period) // 2,
+            "f_period": f_per, "f_phase": f_ph, "detect": len(pers) / n_try}
+
+
+def make_seed(prior: dict, n_colors: int, size: int = 16, rng=None) -> np.ndarray:
+    """把先验变成种子网格。-1 表示留给模型填。
+
+    `rng` 只在错缝先验启用时用到：竖缝相位是作者的自由选择，
+    每次生成采一个全局值，相邻层交替偏移半周期。
+    不传 rng 就退回平均法（可复现，也是 A3n 之前的行为）。
+    """
     seed = np.full((size, size), -1, int)
     if not prior["rows"]:
         return seed                      # 无周期结构 -> 不加种子
     idx = int(round(prior["seam"] * (n_colors - 1)))
     for r in prior["rows"]:
         seed[r, :] = idx
+
+    bond = prior.get("bond", {})
+    if bond.get("active") and rng is not None:
+        per, off = bond["period"], bond["offset"]
+        base = int(rng.integers(per)) if hasattr(rng, "integers") else rng.randrange(per)
+        for bi, (y0, y1, _) in enumerate(
+                (v for _, v in sorted(prior["joints"].items()))):
+            ph = (base + off * bi) % per
+            for c in range(ph, size, per):
+                seed[y0:y1, c] = idx
+        return seed
+
     for _, (y0, y1, cols) in prior["joints"].items():
         for c in cols:
             seed[y0:y1, c] = idx

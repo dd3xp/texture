@@ -86,7 +86,7 @@ def main() -> None:
         tr = [s for s in bymat[m] if s["split"] == "train"]
         tiles = [np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(16, 16)
                  for s in tr]
-        pr = learn_prior(tiles, [len(s["palette"]) for s in tr])
+        pr = learn_prior(tiles, [len(s["palette"]) for s in tr], material=m)
         bd = learn_border(tiles)
         eg = learn_edges(tiles)
         priors[m] = (pr, bd, eg)
@@ -110,7 +110,9 @@ def main() -> None:
         art_rgb = pal[art]
 
         pr, bd, eg = priors[m]
-        sd = add_border_union(make_seed(pr, nk), bd, eg, nk)
+        sd = add_border_union(
+            make_seed(pr, nk, rng=np.random.default_rng(rng.randrange(10 ** 6))),
+            bd, eg, nk)
         torch.manual_seed(rng.randrange(10 ** 6))
         gen = fill_from_seed(net, sd, pal, nk, ck["mat2id"][m], device=dev)
         model_rgb = pal[np.clip(gen, 0, nk - 1)]

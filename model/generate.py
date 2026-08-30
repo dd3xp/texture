@@ -103,19 +103,22 @@ def main() -> None:
         {"rows": [], "joints": {}, "seam": 0.0, "score": 0.0}
     bd = learn_border(tiles) if tiles else {"has_border": False}
     eg = learn_edges(tiles) if tiles else {}
-    seed = add_border_union(make_seed(pr, nk, size=args.size), bd, eg, nk)
-
     mask = region_mask(args.region, args.size)
-    seed = np.where(mask, seed, -2)          # -2 标记区域外，稍后填背景
 
     print(f"材质 {args.material}  调色板 {nk} 色  区域 {int(mask.sum())}/{mask.size} 格")
     act = [k for k, v in eg.items() if v.get("active")]
+    bo = pr.get("bond", {})
     print(f"先验：横缝{pr['rows']} 整圈边框{'有' if bd.get('has_border') else '无'} "
-          f"分边{act}  周期得分{pr['score']:.2f}  种子 {int((seed >= 0).sum())} 格")
+          f"分边{act}  错缝{'周期' + str(bo['period']) if bo.get('active') else '无'}"
+          f"  周期得分{pr['score']:.2f}")
 
     outs = []
     for i in range(args.n):
-        sd = np.where(seed == -2, -1, seed)
+        # 错缝相位每张图重采——它是作者的自由选择，不是材质属性
+        seed = add_border_union(
+            make_seed(pr, nk, size=args.size,
+                      rng=np.random.default_rng(7000 + i)), bd, eg, nk)
+        sd = np.where(mask, seed, -1)
         gen = fill_from_seed(net, sd, pal, nk, ck["mat2id"][args.material],
                              device=dev, seed_rng=7000 + i,
                              temperature=args.temperature)
