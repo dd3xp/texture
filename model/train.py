@@ -78,6 +78,10 @@ def main() -> None:
                     help="conv 版带 3x3 卷积的空间归纳偏置")
     ap.add_argument("--attn-every", type=int, default=1,
                     help="hybrid 专用：每几个卷积块插一次全局注意力")
+    ap.add_argument("--save-every", type=int, default=0,
+                    help="每隔多少轮存一个带轮次的检查点。"
+                         "用来沿训练轨迹看结构何时出现、何时垮——"
+                         "已证实验证损失与结构质量脱钩，不能只留 best.pt")
     ap.add_argument("--min-tiles", type=int, default=0,
                     help="只训练训练集样本数 >= 该值的材质。"
                          "全量每类仅 6.5 张，用来检验材质条件是否受限于每类样本数")
@@ -181,6 +185,12 @@ def main() -> None:
             print(f"ep {ep:>4}  训练 {trl:.4f}/{tra:.3f}   "
                   f"验证 {vl:.4f}/{vacc:.3f}   差距 {gap:+.4f}{mark}")
             dump(f"进行中（第 {ep} 轮）")
+            if args.save_every and ep % args.save_every == 0:
+                torch.save({"state": net.state_dict(), "args": vars(args),
+                            "arch": args.arch, "k": tr.k,
+                            "n_materials": tr.n_materials, "mat2id": tr.mat2id,
+                            "size": args.size},
+                           args.out / f"ep{ep:04d}.pt")
             torch.save({"state": net.state_dict(), "opt": opt.state_dict(),
                         "sched": sched.state_dict(), "epoch": ep, "best": best,
                         "best_ep": best_ep, "step": step, "args": vars(args),
