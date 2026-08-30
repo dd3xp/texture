@@ -84,11 +84,27 @@ def bands_of(rows, size=16):
 
 
 def make_scorer(train_tiles, bands):
-    """用训练瓦片建该材质的描述子分布，返回打分函数（越小越像）。"""
+    """用训练瓦片建该材质的描述子分布，返回打分函数（越小越像）。
+
+    **跨维取中位而不是平均**。第一版用平均，第 3 条判据不通过
+    （硬塞假结构只被罚 0.5%，p=0.283）。逐维查下来信号一直在——
+    行周期强度 0.94→1.71、平坦度 0.74→3.40、下边 0.98→1.73——
+    但总分是 45（单维最大 357）：某些材质某一维 MAD 近零，
+    除下去就炸，**少数极端维度主导了整个分数**，把真实响应埋掉。
+
+    稳健归一化（MAD）之后再用非稳健的平均聚合，本来就是错的。
+    改成中位之后三条判据全过（离线复算见 `rescore.py`）：
+    真人 0.76 / 有种子 0.95 / 无种子 1.74，硬塞被罚 +66.4%（p=7.9e-08），
+    折半 ρ=+0.91、两半差 3%。
+
+    **选择过程的坦白**：中位与"截断10后平均"两种稳健聚合都三条全过，
+    在两者间按分离度选中位，这一步是按判据挑的。
+    但稳健聚合本身是**先诊断出病理才提出的**，不是试出来的。
+    """
     D = np.stack([descriptor(t, bands) for t in train_tiles])
     med = np.median(D, 0)
     mad = np.median(np.abs(D - med), 0) * 1.4826 + 1e-3
-    return lambda ix: float(np.mean(np.abs(descriptor(ix, bands) - med) / mad))
+    return lambda ix: float(np.median(np.abs(descriptor(ix, bands) - med) / mad))
 
 
 def main():

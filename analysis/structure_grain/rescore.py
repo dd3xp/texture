@@ -19,7 +19,9 @@ import numpy as np
 from scipy import stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from struct_metric import descriptor                              # noqa: E402
+from stability import split_half                                  # noqa: E402
 
 
 def load(path="experiments/struct_metric_tiles.json"):
@@ -34,13 +36,28 @@ def _hex(h):
 
 
 def scorer(train, bands, mode: str, floors: np.ndarray | None):
-    """mode: none=各材质自己的 MAD（线上版）; floor=对 MAD 取全局下限。"""
+    """mode: none=线上版（9 维取平均）；floor=MAD 取全局下限；
+    median=跨维取中位；clip=先截断再平均。
+
+    线上版的毛病是**聚合非稳健**：逐维中位只有 0.7–3.4，
+    总分却是 45（最大 357）——某些材质某一维 MAD 近零，除下去就炸，
+    少数极端维度主导了整个分数，把真实响应埋掉。
+    稳健归一化后再用平均聚合本来就是错的，这是对症不是调参。
+    """
     D = np.stack([descriptor(t, bands) for t in train])
     med = np.median(D, 0)
     mad = np.median(np.abs(D - med), 0) * 1.4826 + 1e-3
     if mode == "floor" and floors is not None:
         mad = np.maximum(mad, floors)
-    return lambda ix: float(np.mean(np.abs(descriptor(ix, bands) - med) / mad))
+
+    def f(ix):
+        z = np.abs(descriptor(ix, bands) - med) / mad
+        if mode == "median":
+            return float(np.median(z))
+        if mode == "clip":
+            return float(np.mean(np.minimum(z, 10.0)))
+        return float(np.mean(z))
+    return f
 
 
 def global_mads(data) -> np.ndarray:
@@ -58,13 +75,17 @@ def global_mads(data) -> np.ndarray:
 
 def evaluate(data, mode: str, floors=None, frac: float = 1.0) -> dict:
     S = {"artist": [], "seeded": [], "none": []}
+    raw_seeded = []
     G = {"artist": [], "seeded": [], "none": [], "forced": []}
     for r in data:
         sc = scorer([_hex(h) for h in r["train"]], r["bands"], mode,
                     None if floors is None else floors * frac)
         t = S if r["structured"] else G
         t["artist"].append(sc(_hex(r["artist"])))
-        t["seeded"].append(float(np.mean([sc(_hex(h)) for h in r["seeded"]])))
+        per = [sc(_hex(h)) for h in r["seeded"]]
+        t["seeded"].append(float(np.mean(per)))
+        if r["structured"]:
+            raw_seeded.append(per)
         t["none"].append(float(np.mean([sc(_hex(h)) for h in r["none"]])))
         if not r["structured"] and r["forced"]:
             G["forced"].append(float(np.mean([sc(_hex(h)) for h in r["forced"]])))
@@ -72,9 +93,11 @@ def evaluate(data, mode: str, floors=None, frac: float = 1.0) -> dict:
     fk, nn = np.array(G["forced"]), np.array(G["none"])
     rel = (np.median(fk) - np.median(nn)) / max(np.median(nn), 1e-9) if len(fk) else 0.0
     pv = stats.wilcoxon(fk, nn).pvalue if len(fk) > 5 else float("nan")
+    rep = split_half(raw_seeded)
     return {"artist": a, "seeded": s, "none": n,
             "c1": a < s, "c2": n > s, "c3": rel > 0.05 and pv < 0.05,
-            "rel": rel, "p": pv}
+            "rel": rel, "p": pv, "stable": rep.stable, "rho": rep.rho,
+            "gap": rep.half_gap}
 
 
 def main():
@@ -85,14 +108,16 @@ def main():
     print(f"\n{'变体':<20}{'真人':>8}{'有种子':>9}{'无种子':>9}"
           f"{'C1':>5}{'C2':>5}{'C3':>5}{'硬塞相对':>10}{'p':>10}")
     print("-" * 82)
-    for name, mode, frac in (("none 线上版", "none", 1.0),
-                             ("floor x0.5", "floor", 0.5),
+    for name, mode, frac in (("none 线上版(均值)", "none", 1.0),
                              ("floor x1.0", "floor", 1.0),
-                             ("floor x2.0", "floor", 2.0)):
+                             ("median 跨维中位", "median", 1.0),
+                             ("clip 截断10后均值", "clip", 1.0)):
         r = evaluate(data, mode, fl, frac)
         print(f"{name:<20}{r['artist']:>8.2f}{r['seeded']:>9.2f}{r['none']:>9.2f}"
               f"{'✓' if r['c1'] else '✗':>5}{'✓' if r['c2'] else '✗':>5}"
-              f"{'✓' if r['c3'] else '✗':>5}{r['rel']:>9.1%}{r['p']:>10.3g}")
+              f"{'✓' if r['c3'] else '✗':>5}{r['rel']:>9.1%}{r['p']:>10.3g}"
+              f"{('稳定' if r['stable'] else '不稳'):>7}"
+              f" ρ={r['rho']:+.2f} 差{r['gap']:.0%}")
     print("\n三条必须同时为 ✓。只修好 C3 而弄坏 C1/C2 的变体不算修复。")
 
 
