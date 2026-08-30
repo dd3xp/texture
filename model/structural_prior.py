@@ -106,9 +106,16 @@ def make_seed(prior: dict, n_colors: int, size: int = 16) -> np.ndarray:
 
 def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
                    material_id, steps: int = 64, device: str = "cuda",
-                   seed_rng: int | None = None):
+                   seed_rng: int | None = None, temperature: float = 1.3):
     """按种子填充其余格子。随机顺序解掩码——
     置信度顺序在近均匀分布下会塌成纯色（D5 实测 0.97 vs 真人 0.293）。
+
+    **temperature 默认 1.3 而非 1.0**：种子里大量同色会把模型往
+    "继续同一个色"上拖，导致砖面用色数从 12 掉到 9、面内同色占比
+    0.224 升到 0.346（p=7e-8）。T=1.3 把这两项拉回真人水平
+    （13 色 / 0.232，真人 13 / 0.209），
+    全局平坦度距真人也从 0.131 降到 0.035（基线是 0.207）。
+    T≥1.6 会开始破坏结构。
     """
     import torch
 
@@ -133,7 +140,7 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
         logits = net(idx, pal, valid, mid)
         logits = logits.masked_fill(
             (valid < 0.5)[:, None, :].expand(-1, size * size, -1), float("-inf"))
-        prob = logits[0].softmax(-1)
+        prob = (logits[0] / max(temperature, 1e-6)).softmax(-1)
         samp = torch.multinomial(prob, 1).squeeze(-1)
         idx[0].view(-1)[chunk] = samp[chunk]
     return idx[0].cpu().numpy()
