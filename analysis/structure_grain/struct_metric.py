@@ -114,7 +114,7 @@ def main():
 
     rows = {"真人留出": [], "先验+填充": [], "无种子模型": []}
     gran = {"真人留出": [], "先验+填充": [], "无种子模型": [], "硬塞假结构": []}
-    raw_seed, raw_none = [], []
+    raw_seed, raw_none, tiles_dump = [], [], []
     n_struct = n_gran = 0
     for m in sorted(ref):
         tr = [s for s in bymat[m] if s["split"] == "train"]
@@ -140,25 +140,34 @@ def main():
             fake = {"rows": [3, 7, 11, 15], "joints": {}, "seam": 0.25,
                     "score": 0.0, "bond": {}}
         seeded, none, forced = [], [], []
+        keep = {"material": m, "structured": structured, "bands": bands,
+                "palette_size": nk, "artist": art.tobytes().hex(),
+                "train": [t.tobytes().hex() for t in raw],
+                "seeded": [], "none": [], "forced": []}
         for i in range(n_samp):
             sd = add_border_union(
                 make_seed(pr, nk, rng=np.random.default_rng(8000 + i)), brd, egs, nk)
-            seeded.append(score(np.clip(
-                fill_from_seed(net, sd, pal, nk, ck["mat2id"][m], seed_rng=8000 + i),
-                0, nk - 1)))
-            none.append(score(np.clip(
-                fill_from_seed(net, np.full((16, 16), -1, int), pal, nk,
-                               ck["mat2id"][m], seed_rng=8000 + i), 0, nk - 1)))
+            g_s = np.clip(fill_from_seed(net, sd, pal, nk, ck["mat2id"][m],
+                                         seed_rng=8000 + i), 0, nk - 1)
+            g_n = np.clip(fill_from_seed(net, np.full((16, 16), -1, int), pal, nk,
+                                         ck["mat2id"][m], seed_rng=8000 + i), 0, nk - 1)
+            seeded.append(score(g_s))
+            none.append(score(g_n))
+            keep["seeded"].append(g_s.astype(np.uint8).tobytes().hex())
+            keep["none"].append(g_n.astype(np.uint8).tobytes().hex())
             if fake is not None:
-                forced.append(score(np.clip(
-                    fill_from_seed(net, make_seed(fake, nk), pal, nk,
-                                   ck["mat2id"][m], seed_rng=8000 + i), 0, nk - 1)))
+                g_f = np.clip(fill_from_seed(net, make_seed(fake, nk), pal, nk,
+                                             ck["mat2id"][m], seed_rng=8000 + i),
+                              0, nk - 1)
+                forced.append(score(g_f))
+                keep["forced"].append(g_f.astype(np.uint8).tobytes().hex())
         tgt = rows if structured else gran
         tgt["真人留出"].append(score(art))
         tgt["先验+填充"].append(float(np.mean(seeded)))
         tgt["无种子模型"].append(float(np.mean(none)))
         if forced:
             gran["硬塞假结构"].append(float(np.mean(forced)))
+        tiles_dump.append(keep)
         if structured:
             n_struct += 1
             raw_seed.append(seeded)
