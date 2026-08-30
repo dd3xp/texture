@@ -154,8 +154,9 @@ def learn_border(tiles: list[np.ndarray], min_gap: float = 0.5,
     要求**跨作者方向一致**（而不只是幅度大）——
     单个作者画了边框不代表该材质有边框。
 
-    盲点：上下边一亮一暗的材质会互相抵消（`carts_cart_side` 就是如此），
-    这里用整圈均值，检不出那种情况。
+    **整圈版本已弃用**，保留是为了复现 A3n 的数字。
+    盲点：上下边一亮一暗的材质会互相抵消（`carts_cart_side` 差值仅 +0.01）。
+    生产用 `learn_edges`，它四条边分开判。
     """
     diffs = []
     for ix in tiles:
@@ -194,3 +195,85 @@ def add_border(seed: np.ndarray, border: dict, n_colors: int) -> np.ndarray:
         blank = out[sl] < 0
         out[sl] = np.where(blank, idx, out[sl])
     return out
+
+
+EDGES = ("top", "bottom", "left", "right")
+
+
+def _edge_mask(shape, which: str) -> np.ndarray:
+    m = np.zeros(shape, bool)
+    if which == "top":
+        m[0, :] = True
+    elif which == "bottom":
+        m[-1, :] = True
+    elif which == "left":
+        m[:, 0] = True
+    else:
+        m[:, -1] = True
+    return m
+
+
+def learn_edges(tiles: list[np.ndarray], min_gap: float = 0.5,
+                min_consist: float = 0.8) -> dict:
+    """四条边分开检测，取代整圈均值。
+
+    整圈均值的盲点是上下边方向相反时互相抵消——
+    `carts_cart_side` 视觉上有明显边框，整圈差值却只有 +0.01、一致率 50%。
+    分边之后每条边各自判断方向与一致性，互不干扰。
+    """
+    out: dict[str, dict] = {}
+    for e in EDGES:
+        vals = []
+        for ix in tiles:
+            a = ix.astype(float)
+            if a.std() < 1e-9:
+                continue
+            m = _edge_mask(a.shape, e)
+            vals.append((a[m].mean() - a[~m].mean()) / a.std())
+        if len(vals) < 4:
+            out[e] = {"active": False, "gap": 0.0, "consist": 0.0, "level": 0.0}
+            continue
+        d = np.array(vals)
+        consist = float(max((d > 0).mean(), (d < 0).mean()))
+        gap = float(np.median(d))
+        active = abs(gap) >= min_gap and consist >= min_consist
+        lvl = 0.0
+        if active:
+            lv = []
+            for ix in tiles:
+                a = ix.astype(float)
+                m = _edge_mask(a.shape, e)
+                lv.append(np.median(a[m]) / max(a.max(), 1))
+            lvl = float(np.median(lv))
+        out[e] = {"active": active, "gap": gap, "consist": consist, "level": lvl}
+    return out
+
+
+def add_edges(seed: np.ndarray, edges: dict, n_colors: int) -> np.ndarray:
+    """把分边先验叠加到种子上。不覆盖已有的周期种子。"""
+    out = seed.copy()
+    for e in EDGES:
+        info = edges.get(e, {})
+        if not info.get("active"):
+            continue
+        idx = max(0, min(n_colors - 1, int(round(info["level"] * (n_colors - 1)))))
+        m = _edge_mask(out.shape, e)
+        out[m & (out < 0)] = idx
+    return out
+
+
+def add_border_union(seed: np.ndarray, border: dict, edges: dict,
+                     n_colors: int) -> np.ndarray:
+    """整圈与分边两种检测取并集。
+
+    实测两者互补而非替代（`experiments/edge_vs_ring.png`）：
+    - `carts_cart_side` 上下边方向相反，整圈抵消（+0.01/50%）检不出，
+      分边能抓到（top +1.31/88%、bottom −1.37/94%）。
+    - `tin_block` 整圈过关（−1.23/84%）能给出完整边框，
+      但拆开后只有 bottom 单独达标（四条边各自的一致率不如整体），
+      只用分边反而丢了三条边。
+
+    所以先叠整圈（若命中），再叠分边补漏，都不覆盖已有的周期种子。
+    """
+    out = add_border(seed, border, n_colors)
+    return add_edges(out, edges, n_colors)
