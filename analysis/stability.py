@@ -34,12 +34,12 @@ class StabilityReport:
     def __str__(self) -> str:
         flag = "稳定" if self.stable else "⚠ 不稳定，不要据此下结论"
         return (f"折半检验：{self.n_items} 项 × {self.n_samples} 样本  "
-                f"ρ={self.rho:+.3f}  两半差={self.half_gap:.4f}  [{flag}]"
+                f"ρ={self.rho:+.3f}  两半相对差={self.half_gap:.1%}  [{flag}]"
                 + (f"\n  {self.note}" if self.note else ""))
 
 
 def split_half(per_item: list[list[float]], min_samples: int = 12,
-               min_rho: float = 0.8, max_gap: float = 0.02,
+               min_rho: float = 0.8, max_rel_gap: float = 0.10,
                rng_seed: int = 0) -> StabilityReport:
     """per_item: 每个材质的若干次采样值。
 
@@ -48,6 +48,11 @@ def split_half(per_item: list[list[float]], min_samples: int = 12,
 
     三条门：样本数够、两半相关高、两半点估计接近。
     任何一条不过就判不稳定——这时候唯一正确的动作是加样本，不是解释。
+
+    第三条用**相对**差（差 / 量级）而不是绝对差。
+    最初写成绝对 0.02，那是照平坦度（量程 0–1）定的；
+    换到量程 17–62 的结构描述子距离上，7% 的相对差被误判成不稳定。
+    一个只在某一个量纲下成立的阈值本身就是错的。
     """
     ns = [len(v) for v in per_item]
     n = min(ns) if ns else 0
@@ -63,15 +68,16 @@ def split_half(per_item: list[list[float]], min_samples: int = 12,
         b.append(float(np.mean([v[i] for i in idx[h:2 * h]])))
     a, b = np.array(a), np.array(b)
     rho = float(stats.spearmanr(a, b).correlation) if len(a) > 2 else float("nan")
-    gap = float(abs(np.median(a) - np.median(b)))
+    scale = float(np.median(np.abs(np.concatenate([a, b])))) + 1e-9
+    gap = float(abs(np.median(a) - np.median(b))) / scale
 
     fails = []
     if n < min_samples:
         fails.append(f"每项仅 {n} 样本 < {min_samples}")
     if not np.isnan(rho) and rho < min_rho:
         fails.append(f"两半相关 {rho:.2f} < {min_rho}")
-    if gap > max_gap:
-        fails.append(f"两半点估计差 {gap:.4f} > {max_gap}")
+    if gap > max_rel_gap:
+        fails.append(f"两半相对差 {gap:.1%} > {max_rel_gap:.0%}")
     return StabilityReport(len(per_item), n, rho, gap, not fails,
                            "；".join(fails))
 

@@ -16,8 +16,14 @@
 **验收判据（先定死再测）**：一把合格的尺子必须满足
 1. 留出的真人瓦片得分**最好**——它本来就是真人画的；
 2. 无种子模型得分**最差**——它确实没有结构；
-3. 颗粒材质上不惩罚无种子——那些材质本来就不该有结构。
+3. 颗粒材质上**硬塞结构会被罚**——那些材质本来就不该有结构。
 现行指标第 1、2 条都不满足。任一条不过就说明这把尺子也不能用。
+
+第 3 条最初写成"颗粒材质上不惩罚无种子"，那是**恒真的**：
+颗粒材质检不出先验、种子为空，两个条件在代码里是同一次计算，
+差必然是 0.000。同义反复不是证据。
+改成主动施加一个假的砖缝先验（周期 4 的横缝），
+尺子若合格就该判它比不加更远。
 """
 
 import json
@@ -106,7 +112,8 @@ def main():
             ref[s["material"]] = s
 
     rows = {"真人留出": [], "先验+填充": [], "无种子模型": []}
-    raw_seed, raw_none, gran = [], [], {"真人留出": [], "先验+填充": [], "无种子模型": []}
+    gran = {"真人留出": [], "先验+填充": [], "无种子模型": [], "硬塞假结构": []}
+    raw_seed, raw_none = [], []
     n_struct = n_gran = 0
     for m in sorted(ref):
         tr = [s for s in bymat[m] if s["split"] == "train"]
@@ -126,7 +133,12 @@ def main():
         nk = len(pal)
         art = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(16, 16)
 
-        seeded, none = [], []
+        # 颗粒材质：额外做一组"硬塞假结构"，检验尺子会不会罚
+        fake = None
+        if not structured:
+            fake = {"rows": [3, 7, 11, 15], "joints": {}, "seam": 0.25,
+                    "score": 0.0, "bond": {}}
+        seeded, none, forced = [], [], []
         for i in range(n_samp):
             sd = add_border_union(
                 make_seed(pr, nk, rng=np.random.default_rng(8000 + i)), brd, egs, nk)
@@ -136,10 +148,16 @@ def main():
             none.append(score(np.clip(
                 fill_from_seed(net, np.full((16, 16), -1, int), pal, nk,
                                ck["mat2id"][m], seed_rng=8000 + i), 0, nk - 1)))
+            if fake is not None:
+                forced.append(score(np.clip(
+                    fill_from_seed(net, make_seed(fake, nk), pal, nk,
+                                   ck["mat2id"][m], seed_rng=8000 + i), 0, nk - 1)))
         tgt = rows if structured else gran
         tgt["真人留出"].append(score(art))
         tgt["先验+填充"].append(float(np.mean(seeded)))
         tgt["无种子模型"].append(float(np.mean(none)))
+        if forced:
+            gran["硬塞假结构"].append(float(np.mean(forced)))
         if structured:
             n_struct += 1
             raw_seed.append(seeded)
@@ -166,8 +184,9 @@ def main():
           f"  ({np.median(a_):.3f} vs 先验 {np.median(s_):.3f})")
     print(f"  2 无种子最差          {'通过' if c2 else '不通过'}"
           f"  ({np.median(n_):.3f} vs 先验 {np.median(s_):.3f})")
-    print(f"  3 颗粒材质不罚无种子  {'通过' if c3 else '不通过'}"
-          f"  (差 {np.median(g):+.3f})")
+    print(f"  3 颗粒材质罚硬塞结构  {'通过' if c3 else '不通过'}"
+          f"  (硬塞 {np.median(fk) if len(fk) else float('nan'):.3f}"
+          f" vs 不塞 {np.median(nn):.3f})")
     print(f"\n{split_half(raw_seed)}")
     print("三条全过才是一把能用的尺子；任一条不过就别用它裁决。")
 

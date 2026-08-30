@@ -106,7 +106,17 @@ def main() -> None:
     ok = sum(1 for r in chk if r["chosen"] == "good")
     print(f"标注 {len(rows)} 条：有效 {len(real)}，注意力检查 {ok}/{len(chk)} 正确")
     if chk and ok / len(chk) < 0.8:
-        print("  ⚠ 注意力检查通过率偏低，结果可信度存疑")
+        print("  ! 注意力检查通过率偏低，结果可信度存疑")
+
+    # 每题用时（新版任务页导出）——注意力检查之外的第二道质控
+    ms = [float(r["ms"]) for r in rows if r.get("ms") not in (None, "")]
+    if ms:
+        ms = np.array(ms)
+        fast = int((ms < 800).sum())
+        print(f"每题用时中位 {np.median(ms)/1000:.1f}s"
+              f"（<0.8s 的 {fast}/{len(ms)} 题）")
+        if fast / len(ms) > 0.2:
+            print("  ! 超过两成题目用时不足 0.8 秒，可能是赶工，结论需打折")
 
     # --- 两两对决总胜率 ---
     print(f"\n{'对决':<26}{'胜':>5}{'负':>5}{'平':>5}{'胜率':>9}{'双尾 p':>10}")

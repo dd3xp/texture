@@ -52,7 +52,29 @@
 <script>
 const ITEMS = __ITEMS__;
 let i = 0;
-const out = [];
+let out = [];
+let t0 = Date.now();
+
+// 断点续标：69 对要标 10 分钟以上，中途关页面不该前功尽弃。
+// 用 ITEMS 的长度当版本号，任务重新生成过就不复用旧进度。
+const KEY = 'texture_study_' + ITEMS.length;
+function persist(){
+  try { localStorage.setItem(KEY, JSON.stringify({i: i, out: out})); } catch(e){}
+}
+function resume(){
+  try {
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    const st = JSON.parse(raw);
+    if(!st || !st.out || st.out.length === 0) return;
+    if(confirm('检测到上次标到第 ' + (st.i + 1) + ' 题，继续吗？
+（取消则从头开始）')){
+      i = st.i; out = st.out;
+    } else {
+      localStorage.removeItem(KEY);
+    }
+  } catch(e){}
+}
 
 function show(){
   if(i >= ITEMS.length){
@@ -67,6 +89,7 @@ function show(){
   document.getElementById('R').src = 'data:image/png;base64,' + it.rimg;
   document.getElementById('prog').style.width = (100 * i / ITEMS.length) + '%';
   document.getElementById('cnt').textContent = (i + 1) + ' / ' + ITEMS.length;
+  t0 = Date.now();
 }
 
 function pick(c){
@@ -74,14 +97,16 @@ function pick(c){
   out.push({
     idx: i, material: it.material, kind: it.kind, struct: (it.struct !== undefined ? it.struct : ''), stratum: (it.stratum || ''),
     left: it.left, right: it.right, choice: c,
-    chosen: c === 'tie' ? 'tie' : (c === 'left' ? it.left : it.right)
+    chosen: c === 'tie' ? 'tie' : (c === 'left' ? it.left : it.right),
+    ms: Date.now() - t0
   });
   i++;
+  persist();
   show();
 }
 
 function undo(){
-  if(i > 0){ i--; out.pop(); show(); }
+  if(i > 0){ i--; out.pop(); persist(); show(); }
 }
 
 function save(){
@@ -102,6 +127,7 @@ addEventListener('keydown', function(e){
   else if(e.key === 'Backspace'){ e.preventDefault(); undo(); }
 });
 
+resume();
 show();
 </script>
 </html>
