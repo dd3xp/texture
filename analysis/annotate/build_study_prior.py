@@ -102,6 +102,7 @@ def main() -> None:
              [(m, "plain") for m in plain[: args.n_plain]])
 
     items = []
+    sides: dict[tuple, list] = {}
     for m, stratum in picks:
         s = ref[m]
         pal = np.array(s["palette"], np.uint8)
@@ -136,7 +137,13 @@ def main() -> None:
         if len(items) < args.n_artist * 3 and rng.random() < 0.2:
             duels.append(("model", "artist"))
         for x, y in duels:
-            l, r = (x, y) if rng.random() < 0.5 else (y, x)
+            # 左右**确定性对半**，不用每题抛硬币。
+            # 抛硬币在 60 对上实测偏到 38:25（约 2σ），
+            # 标注者若有左侧偏好，这一偏差直接送给模型一份便宜。
+            k = sides.setdefault((x, y), [0, 0])
+            put_first = k[0] <= k[1]
+            k[0 if put_first else 1] += 1
+            l, r = (x, y) if put_first else (y, x)
             items.append({"material": m, "label": prompt_for(m), "kind": "real",
                           "struct": round(max(pr["score"], abs(bd["gap"]) / 2,
                                              max((abs(v["gap"]) / 2 for v in eg.values()
@@ -148,7 +155,10 @@ def main() -> None:
             blur = np.stack([ndimage.gaussian_filter(art_rgb[..., c].astype(float), 3.0)
                              for c in range(3)], -1)
             g = {"good": art_rgb, "blur": blur}
-            l, r = ("good", "blur") if rng.random() < 0.5 else ("blur", "good")
+            k = sides.setdefault(("good", "blur"), [0, 0])
+            first = k[0] <= k[1]
+            k[0 if first else 1] += 1
+            l, r = ("good", "blur") if first else ("blur", "good")
             items.append({"material": m, "label": prompt_for(m), "kind": "check",
                           "struct": round(max(pr["score"], abs(bd["gap"]) / 2,
                                              max((abs(v["gap"]) / 2 for v in eg.values()
@@ -161,6 +171,8 @@ def main() -> None:
     n_plain = sum(1 for i in items if i["stratum"] == "plain" and i["kind"] == "real")
     n_chk = sum(1 for i in items if i["kind"] == "check")
     print(f"生成 {len(items)} 对：有种子 {n_seed}，无种子对照 {n_plain}，注意力检查 {n_chk}")
+    for (x, y), k in sorted(sides.items()):
+        print(f"  左右平衡 {x} vs {y}: {x} 在左 {k[0]} 次，{y} 在左 {k[1]} 次")
 
     tpl = (Path(__file__).parent / "task_template.html").read_text(encoding="utf-8")
     args.out.write_text(tpl.replace("__ITEMS__", json.dumps(items, ensure_ascii=False)),
