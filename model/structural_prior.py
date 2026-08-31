@@ -93,7 +93,7 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
     # 仍然逐材质学而不是换一个常数——`default_bookshelf`(0.13)、
     # `default_desert_stone_brick`(0.07) 是真的深缝。
     seam_p15 = float(np.median(quant))
-    seam, seam_gap, seam_p = seam_p15, 0.0, 1.0
+    seam, seam_obs, seam_gap, seam_p = seam_p15, seam_p15, 0.0, 1.0
     if rows:
         obs, face = [], []
         m_ = np.zeros(size, bool)
@@ -102,8 +102,15 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
             a = ix.astype(float) / max(nk - 1, 1)
             obs.append(np.median(a[m_]))
             face.append(np.median(a[~m_]))
-        seam = float(np.median(obs))
+        seam_obs = float(np.median(obs))
         seam_gap = float(np.median(face) - np.median(obs))
+        # **档位仍用 p15，不用实测**——实测被相位污染。
+        # 缝行是跨作者平均位置，个别作者的缝错开一两行，
+        # 那些行上混着砖面像素，取中位被砖面拉亮
+        # （`default_brick` 实测 0.268 vs p15 0.129）。
+        # 经过验收的结构尺子上，改用实测让 brick 距真人 0.23→0.55、
+        # stone_brick 0.37→0.76（A3y）。相位污染这条与 A3l/A3t 同源。
+        # 实测值仍然保留，因为**门**要用它判断缝到底存不存在。
         # 缝若不比面暗，那检出的"行"就不是暗缝——不该画。
         # `nc_woodwork_plank` 实测缝档位 0.43、面 0.43，
         # 硬画上去反而把纹理抹平（`experiments/seam_vs.png`）。
@@ -162,7 +169,7 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
         bond["active"] = bool(load_bond_select().get(material, {}).get("use_bond", False))
 
     return {"rows": rows, "joints": joints, "seam": seam, "seam_p15": seam_p15,
-            "seam_gap": seam_gap, "seam_p": seam_p,
+            "seam_obs": seam_obs, "seam_gap": seam_gap, "seam_p": seam_p,
             "score": score, "bond": bond}
 
 
