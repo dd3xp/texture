@@ -109,6 +109,16 @@ def make_scorer(train_tiles, bands):
 
 def main():
     n_samp = int(sys.argv[1]) if len(sys.argv) > 1 else 12
+    # 先验消融：A3w 指出若干结论的支撑用的是被否掉的指标，需要用新尺子重验。
+    #   no-edges  关掉分边边框（A3p）
+    #   no-border 连整圈边框一起关
+    #   no-bond   关掉错缝相位采样（A3q）
+    #   temp=X    改填充温度（A3o 的 1.3 也是用旧指标选的）
+    flags = set(a for a in sys.argv[2:] if not a.startswith("temp="))
+    temp = next((float(a.split("=")[1]) for a in sys.argv[2:]
+                 if a.startswith("temp=")), 1.3)
+    tag = "_".join(sorted(flags) + ([f"T{temp}"] if temp != 1.3 else [])) or "full"
+    print(f"配置 {tag}（温度 {temp}）", flush=True)
     ck = torch.load("experiments/model/hybrid2/best.pt", map_location="cpu",
                     weights_only=False)
     a = ck["args"]
@@ -140,6 +150,12 @@ def main():
                for s in tr]
         pr = learn_prior(raw, [len(s["palette"]) for s in tr], material=m)
         brd, egs = learn_border(raw), learn_edges(raw)
+        if "no-edges" in flags or "no-border" in flags:
+            egs = {}
+        if "no-border" in flags:
+            brd = {"has_border": False}
+        if "no-bond" in flags:
+            pr = dict(pr, bond={"active": False})
         structured = bool(pr["rows"] or brd["has_border"]
                           or any(v.get("active") for v in egs.values()))
         bands = bands_of(pr["rows"])
@@ -164,17 +180,19 @@ def main():
             sd = add_border_union(
                 make_seed(pr, nk, rng=np.random.default_rng(8000 + i)), brd, egs, nk)
             g_s = np.clip(fill_from_seed(net, sd, pal, nk, ck["mat2id"][m],
-                                         seed_rng=8000 + i), 0, nk - 1)
+                                         seed_rng=8000 + i, temperature=temp),
+                          0, nk - 1)
             g_n = np.clip(fill_from_seed(net, np.full((16, 16), -1, int), pal, nk,
-                                         ck["mat2id"][m], seed_rng=8000 + i), 0, nk - 1)
+                                         ck["mat2id"][m], seed_rng=8000 + i,
+                                         temperature=temp), 0, nk - 1)
             seeded.append(score(g_s))
             none.append(score(g_n))
             keep["seeded"].append(g_s.astype(np.uint8).tobytes().hex())
             keep["none"].append(g_n.astype(np.uint8).tobytes().hex())
             if fake is not None:
                 g_f = np.clip(fill_from_seed(net, make_seed(fake, nk), pal, nk,
-                                             ck["mat2id"][m], seed_rng=8000 + i),
-                              0, nk - 1)
+                                             ck["mat2id"][m], seed_rng=8000 + i,
+                                             temperature=temp), 0, nk - 1)
                 forced.append(score(g_f))
                 keep["forced"].append(g_f.astype(np.uint8).tobytes().hex())
         tgt = rows if structured else gran
@@ -221,9 +239,10 @@ def main():
           f"相对 {rel:+.1%}，p={pv:.3g}；判据：相对 >5% 且 p<0.05)")
     # 存**生成的瓦片本身**而不只是分数：
     # 换描述子或换归一化就能离线复算，不必再赔一小时生成。
-    Path("experiments/struct_metric_tiles.json").write_text(
+    Path(f"experiments/struct_metric_tiles_{tag}.json").write_text(
         json.dumps(tiles_dump, ensure_ascii=False))
-    print(f"瓦片存档 {len(tiles_dump)} 个材质 -> experiments/struct_metric_tiles.json")
+    print(f"瓦片存档 {len(tiles_dump)} 个材质 -> "
+          f"experiments/struct_metric_tiles_{tag}.json")
     print(f"\n{split_half(raw_seed)}")
     print("三条全过才是一把能用的尺子；任一条不过就别用它裁决。")
 
