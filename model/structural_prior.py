@@ -310,7 +310,8 @@ def make_seed(prior: dict, n_colors: int, size: int = 16, rng=None) -> np.ndarra
 
 def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
                    material_id, steps: int = 64, device: str = "cuda",
-                   seed_rng: int | None = None, temperature: float = 1.3):
+                   seed_rng: int | None = None, temperature: float = 1.3,
+                   far_temperature: float | None = None):
     """按种子填充其余格子。随机顺序解掩码——
     置信度顺序在近均匀分布下会塌成纯色（D5 实测 0.97 vs 真人 0.293）。
 
@@ -320,6 +321,18 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
     （13 色 / 0.232，真人 13 / 0.209），
     全局平坦度距真人也从 0.131 降到 0.035（基线是 0.207）。
     T≥1.6 会开始破坏结构。
+
+    **`far_temperature`：按到种子的距离给温度**（缺省关闭）。
+    A3x 量到面内相邻同色 0.314、真人 0.168——**面被种子拖平了**。
+    但全局升温是在错的地方加噪声：温度重扫下 T=1.9 面内接近真人（0.190）、
+    结构距离在尺子上也更好（0.851 vs 0.920），
+    **画面却明显变噪，方块与板条结构被打散**（`experiments/temp_vs.png`）。
+    尺子的三条判据管的是"能否区分有无结构"，
+    T1.3 与 T1.9 之间的细比较不在它的验收范围内，所以以图为准。
+
+    被拖平的是**离种子远的面内**，而结构在种子附近。
+    所以离种子越远温度越高：near 处保持 `temperature`，
+    最远处到 `far_temperature`，按切比雪夫距离线性插值。
     """
     import torch
 
@@ -336,6 +349,19 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
     valid[0, :n_colors] = 1.0
     mid = torch.as_tensor([material_id], device=device)
 
+    # 逐格温度：缺省全图同温；给了 far_temperature 就按到种子的距离插值
+    if far_temperature is None or not given.any():
+        tmap = torch.full((size * size,), float(temperature), device=device)
+    else:
+        sy, sx = np.nonzero(seed >= 0)
+        yy, xx = np.mgrid[:size, :size]
+        d = np.min(np.maximum(np.abs(yy[..., None] - sy),
+                              np.abs(xx[..., None] - sx)), axis=-1)
+        w = d / max(d.max(), 1)
+        tmap = torch.tensor(
+            (temperature + w * (far_temperature - temperature)).ravel(),
+            dtype=torch.float32, device=device)
+
     cells = torch.nonzero((~given).view(-1)).squeeze(-1)
     if seed_rng is not None:
         torch.manual_seed(seed_rng)
@@ -344,7 +370,7 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
         logits = net(idx, pal, valid, mid)
         logits = logits.masked_fill(
             (valid < 0.5)[:, None, :].expand(-1, size * size, -1), float("-inf"))
-        prob = (logits[0] / max(temperature, 1e-6)).softmax(-1)
+        prob = (logits[0] / tmap.clamp(min=1e-6)[:, None]).softmax(-1)
         samp = torch.multinomial(prob, 1).squeeze(-1)
         idx[0].view(-1)[chunk] = samp[chunk]
     return idx[0].cpu().numpy()

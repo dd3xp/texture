@@ -19,9 +19,9 @@ from structural_prior import (learn_prior, learn_border, learn_edges,  # noqa: E
                               make_seed, add_border_union, fill_from_seed)
 
 MATS = ["default_brick.png", "default_stone_brick.png", "default_wood.png",
-        "default_acacia_wood.png", "nc_woodwork_plank.png",
-        "default_diamond_block.png", "beds_bed_top2.png",
-        "mcl_core_gold_ore.png"]
+        "default_desert_stone_brick.png", "default_bookshelf.png",
+        "default_diamond_block.png", "mcl_nether_nether_brick.png",
+        "default_sandstone_brick.png"]
 N = 3
 
 
@@ -59,28 +59,25 @@ def main():
         nk = len(pal)
         art = pal[np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(16, 16)]
         cells = [art]
-        # 常数版要绕过缝深度门，用未过门的先验
-        pr0 = learn_prior(raw, [len(x["palette"]) for x in tr],
-                          material=m, max_seam_p=99.0)
+        pr0 = pr
         for tag in ("p15", "obs"):
-            p2 = pr0 if tag == "p15" else pr
+            p2 = pr
             for i in range(N):
                 sd = add_border_union(
                     make_seed(p2, nk, rng=np.random.default_rng(700 + i)),
                     brd, egs, nk)
                 g = fill_from_seed(net, sd, pal, nk, ck["mat2id"][m],
-                                   seed_rng=700 + i)
+                                   seed_rng=700 + i,
+                                   temperature=1.3 if tag == "p15" else 1.9)
                 cells.append(pal[np.clip(g, 0, nk - 1)])
-        lab = ("拦下" if not pr["rows"]
-               else f"p={pr0['seam_p']:.2f} d={pr0['seam_gap']:+.2f}")
-        rows_out.append((m, pr0["seam_p15"], lab, cells))
+        rows_out.append((m, pr["seam_p15"], "T1.3 vs T1.9", cells))
 
     C, P, LAB, HDR = 88, 4, 210, 30
     W = LAB + (1 + 2 * N) * (C + P) + P
     H = HDR + len(rows_out) * (C + P) + P
     cv = Image.new("RGB", (W, H), "white")
     dr = ImageDraw.Draw(cv)
-    heads = ["真人"] + [f"不设门{i+1}" for i in range(N)] + [f"设门{i+1}" for i in range(N)]
+    heads = ["真人"] + [f"T1.3 #{i+1}" for i in range(N)] + [f"T1.9 #{i+1}" for i in range(N)]
     for ci, t in enumerate(heads):
         dr.text((LAB + ci * (C + P) + 4, 8), t, fill="black")
     for ri, (m, p15, obs, cells) in enumerate(rows_out):
@@ -93,7 +90,7 @@ def main():
             cv.paste(Image.fromarray(im.astype(np.uint8)).resize((C, C),
                                                                  Image.NEAREST), (x, y))
             dr.rectangle([x, y, x + C, y + C], outline="#bbb")
-    out = Path("experiments/seam_vs.png")
+    out = Path("experiments/temp_vs.png")
     cv.save(out)
     print(f"写入 {out}")
 

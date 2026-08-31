@@ -30,7 +30,8 @@ from structural_prior import (learn_prior, learn_border, learn_edges,  # noqa: E
 from struct_metric import make_scorer, bands_of                    # noqa: E402
 from face_noise import face_stats                                  # noqa: E402
 
-TEMPS = [1.0, 1.3, 1.6, 1.9, 2.2]
+# (近种子温度, 远处温度)；远处为 None 表示全图同温
+TEMPS = [(1.3, None), (1.9, None), (1.3, 1.9), (1.3, 2.2), (1.3, 2.6)]
 
 
 def main():
@@ -83,10 +84,10 @@ def main():
     target = float(np.median(art_face))
     print(f"真人面内相邻同色（目标）{target:.3f}\n", flush=True)
 
-    print(f"{'温度':>6}{'面内相邻同色':>14}{'距目标':>10}{'结构距离':>10}")
+    print(f"{'温度':>10}{'面内相邻同色':>14}{'距目标':>10}{'结构距离':>10}")
     print("-" * 42)
     out = {}
-    for T in TEMPS:
+    for T, TF in TEMPS:
         faces, scores = [], []
         for m, tr, raw, pr, brd, egs, bands in jobs:
             s = ref[m]
@@ -99,7 +100,8 @@ def main():
                     make_seed(pr, nk, rng=np.random.default_rng(400 + i)),
                     brd, egs, nk)
                 g = np.clip(fill_from_seed(net, sd, pal, nk, ck["mat2id"][m],
-                                           seed_rng=400 + i, temperature=T),
+                                           seed_rng=400 + i, temperature=T,
+                                           far_temperature=TF),
                             0, nk - 1)
                 f = face_stats(g.astype(float), bands)
                 if f:
@@ -109,13 +111,14 @@ def main():
                 faces.append(float(np.mean(fs)))
             scores.append(float(np.mean(ss)))
         mf, msc = float(np.median(faces)), float(np.median(scores))
-        out[T] = {"face": mf, "struct": msc}
-        print(f"{T:>6.1f}{mf:>14.3f}{abs(mf-target):>10.3f}{msc:>10.3f}", flush=True)
+        key = f"{T}" if TF is None else f"{T}->{TF}"
+        out[key] = {"face": mf, "struct": msc}
+        print(f"{key:>10}{mf:>14.3f}{abs(mf-target):>10.3f}{msc:>10.3f}", flush=True)
 
     Path("experiments/temp_sweep.json").write_text(
         json.dumps({"target": target, "by_temp": out}, ensure_ascii=False))
-    best = min(out, key=lambda T: abs(out[T]["face"] - target))
-    print(f"\n面内最接近真人的温度：{best}")
+    best = min(out, key=lambda k: abs(out[k]["face"] - target))
+    print(f"\n面内最接近真人的配置：{best}")
     print("判读：选面内接近真人**且**结构距离不劣于 1.3 的那一档；"
           "两者冲突则记录冲突，不硬选")
 
