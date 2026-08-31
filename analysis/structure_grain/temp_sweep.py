@@ -86,8 +86,24 @@ def main():
 
     print(f"{'温度':>10}{'面内相邻同色':>14}{'距目标':>10}{'结构距离':>10}")
     print("-" * 42)
+    # 每档跑完立刻落盘并支持续跑：这些机器会静默杀掉长任务，
+    # 上一版只在全部跑完时打印，被杀后一行结果都没留下。
+    save = Path("experiments/temp_sweep.json")
     out = {}
+    if save.exists():
+        try:
+            out = json.loads(save.read_text()).get("by_temp", {})
+            if out:
+                print(f"续跑：已有 {sorted(out)} 档", flush=True)
+        except Exception:
+            out = {}
     for T, TF in TEMPS:
+        key0 = f"{T}" if TF is None else f"{T}->{TF}"
+        if key0 in out:
+            r = out[key0]
+            print(f"{key0:>10}{r['face']:>14.3f}"
+                  f"{abs(r['face']-target):>10.3f}{r['struct']:>10.3f}  (存档)", flush=True)
+            continue
         faces, scores = [], []
         for m, tr, raw, pr, brd, egs, bands in jobs:
             s = ref[m]
@@ -114,9 +130,8 @@ def main():
         key = f"{T}" if TF is None else f"{T}->{TF}"
         out[key] = {"face": mf, "struct": msc}
         print(f"{key:>10}{mf:>14.3f}{abs(mf-target):>10.3f}{msc:>10.3f}", flush=True)
+        save.write_text(json.dumps({"target": target, "by_temp": out}, ensure_ascii=False))
 
-    Path("experiments/temp_sweep.json").write_text(
-        json.dumps({"target": target, "by_temp": out}, ensure_ascii=False))
     best = min(out, key=lambda k: abs(out[k]["face"] - target))
     print(f"\n面内最接近真人的配置：{best}")
     print("判读：选面内接近真人**且**结构距离不劣于 1.3 的那一档；"
