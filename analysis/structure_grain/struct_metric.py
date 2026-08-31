@@ -74,6 +74,10 @@ def descriptor(ix: np.ndarray, bands) -> np.ndarray:
                      hits / n_b, *edge, flat])
 
 
+def _hx(h):
+    return np.frombuffer(bytes.fromhex(h), np.uint8).reshape(16, 16)
+
+
 def bands_of(rows, size=16):
     out, prev = [], 0
     for r in (rows or []) + ([size] if rows and rows[-1] != size - 1 else []):
@@ -138,6 +142,17 @@ def main():
         if s["split"] == "test" and s["material"] not in ref:
             ref[s["material"]] = s
 
+    # 这些机器约 80–90 分钟会静默杀掉任务（A3v 那次死在 140/168）。
+    # 所以做成可续跑：每 20 个材质落盘，重启时跳过已完成的材质。
+    dump_path = Path(f"experiments/struct_metric_tiles_{tag}.json")
+    done = {}
+    if dump_path.exists():
+        try:
+            done = {r["material"]: r for r in json.loads(dump_path.read_text())}
+            print(f"续跑：已有 {len(done)} 个材质的存档", flush=True)
+        except Exception:
+            done = {}
+
     rows = {"真人留出": [], "先验+填充": [], "无种子模型": []}
     gran = {"真人留出": [], "先验+填充": [], "无种子模型": [], "硬塞假结构": []}
     raw_seed, raw_none, tiles_dump = [], [], []
@@ -172,6 +187,26 @@ def main():
             fake = {"rows": [3, 7, 11, 15], "joints": {}, "seam": 0.25,
                     "score": 0.0, "bond": {}}
         seeded, none, forced = [], [], []
+        if m in done:                     # 续跑：直接用存档，跳过生成
+            keep = done[m]
+            seeded = [score(_hx(h)) for h in keep["seeded"]]
+            none = [score(_hx(h)) for h in keep["none"]]
+            forced = [score(_hx(h)) for h in keep["forced"]]
+            tgt = rows if structured else gran
+            tgt["真人留出"].append(score(art))
+            tgt["先验+填充"].append(float(np.mean(seeded)))
+            tgt["无种子模型"].append(float(np.mean(none)))
+            if forced:
+                gran["硬塞假结构"].append(float(np.mean(forced)))
+            tiles_dump.append(keep)
+            if structured:
+                n_struct += 1
+                raw_seed.append(seeded)
+                raw_none.append(none)
+            else:
+                n_gran += 1
+            continue
+
         keep = {"material": m, "structured": structured, "bands": bands,
                 "palette_size": nk, "artist": art.tobytes().hex(),
                 "train": [t.tobytes().hex() for t in raw],
@@ -203,7 +238,8 @@ def main():
             gran["硬塞假结构"].append(float(np.mean(forced)))
         tiles_dump.append(keep)
         if len(tiles_dump) % 20 == 0:
-            print(f"  ...已处理 {len(tiles_dump)} 个材质", flush=True)
+            dump_path.write_text(json.dumps(tiles_dump, ensure_ascii=False))
+            print(f"  ...已处理 {len(tiles_dump)} 个材质（已落盘）", flush=True)
         if structured:
             n_struct += 1
             raw_seed.append(seeded)
