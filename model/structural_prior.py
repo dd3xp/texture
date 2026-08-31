@@ -48,6 +48,24 @@ def _periodic_axis(prof: np.ndarray, min_std: float = 0.15,
 
 
 _BOND_SELECT: dict | None = None
+_GATE_SELECT: dict | None = None
+
+
+def load_gate_select(path="data/tiles/seam_gate_select.json") -> dict:
+    """读逐材质的横缝设门选择（`seam_gate_select.py` 产出）。缺文件返回空。
+
+    为什么要逐材质：A3y 用验收过的尺子回测发现门一刀切不成立——
+    `mcl_core_gold_ore` 大幅改善而 fence 三兄弟、`default_acacia_wood`
+    明显变差（置换检验把真实的横向结构误杀）。
+    选择只用训练瓦片的描述子分布打分，不碰测试集。
+    """
+    global _GATE_SELECT
+    if _GATE_SELECT is None:
+        import json
+        import pathlib
+        f = pathlib.Path(path)
+        _GATE_SELECT = json.loads(f.read_text()) if f.exists() else {}
+    return _GATE_SELECT
 
 
 def load_bond_select(path="data/tiles/bond_select.json") -> dict:
@@ -143,7 +161,12 @@ def learn_prior(tiles: list[np.ndarray], palette_sizes: list[int],
         # 微小但一致的差也显著），0.033 连 13 色调色板的半档都不到；
         # 图上恰恰是**拦下它**才让边框结构显出来（`experiments/seam_vs.png`）。
         step = 1.0 / max(int(np.median(palette_sizes)) - 1, 1)
-        if seam_p > max_seam_p or seam_gap < step:
+        would_gate = seam_p > max_seam_p or seam_gap < step
+        # 逐材质选择：选择表里明确说不设门的，即使判据判它该拦也放行
+        sel = load_gate_select().get(material) if material else None
+        if sel is not None:
+            would_gate = would_gate and bool(sel.get("gate", True))
+        if would_gate:
             rows, joints = [], {}
 
     joints: dict[int, tuple[int, int, list[int]]] = {}
