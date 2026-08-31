@@ -34,12 +34,26 @@ from structural_prior import (learn_prior, learn_border, learn_edges,  # noqa: E
                               make_seed, add_border_union, fill_from_seed)
 
 
+# 真人调色板反解出的 spread（572 张瓦片，`analysis/structure_grain/pal_target.py`）：
+# 亮度跨度中位 63.0（四分位 34.4–105.4），对应 spread 中位 **0.292**
+# （四分位 0.157–0.586）。现行的 0.55 是拍脑袋定的，落在约 73 百分位——
+# 我们比七成真人瓦片更高对比。A4a 逐材质看更明显：
+# `stone_brick` 真人跨度 62.0 而派生 170.0，`wood` 60.7 vs 121.0。
+#
+# **暂不改默认值**：本项目反复出现"更接近统计量 ≠ 图更好"。
+# 待 kw 恢复后用画廊比 0.55 与 0.292 再定。
+SPREAD_ARTIST_MEDIAN = 0.292
+
+
 def palette_from_color(hex_color: str, k: int, spread: float = 0.55) -> np.ndarray:
     """从单个纯色派生 k 档亮度阶，按亮度排序。
 
     模型学到的"索引 = 亮度档位"这一约定必须保持，
     所以派生的是明度阶而不是随意的 k 个颜色。
     饱和度随明度轻微下降——暗部偏灰是像素画的常见处理。
+
+    `spread` 控制整体对比度。缺省 0.55 从未校准过；
+    对着真人调色板反解的值是 `SPREAD_ARTIST_MEDIAN`（0.292），见上。
     """
     h = hex_color.lstrip("#")
     r, g, b = (int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
@@ -70,6 +84,10 @@ def main() -> None:
     ap.add_argument("--colors", type=int, default=12, help="调色板色数")
     ap.add_argument("--region", type=Path, help="区域图（非白为区域）；缺省为整幅")
     ap.add_argument("--temperature", type=float, default=1.3)
+    ap.add_argument("--far-temperature", type=float, default=2.6,
+                    help="离种子最远处的温度（A3z）；设成与 --temperature 相同即关闭")
+    ap.add_argument("--spread", type=float, default=0.55,
+                    help=f"调色板对比度；真人中位是 {SPREAD_ARTIST_MEDIAN}")
     ap.add_argument("--n", type=int, default=4, help="生成几个样本")
     ap.add_argument("--ckpt", type=Path, default=Path("experiments/model/hybrid2/best.pt"))
     ap.add_argument("--data", type=Path, default=Path("data/tiles/dataset_k16.json"))
@@ -90,7 +108,7 @@ def main() -> None:
     if args.material not in ck["mat2id"]:
         raise SystemExit(f"材质 {args.material} 不在模型的材质表里")
     nk = min(args.colors, ck["k"])
-    pal = palette_from_color(args.color, nk)
+    pal = palette_from_color(args.color, nk, spread=args.spread)
 
     # 结构先验来自训练数据里该材质的多个作者版本
     ds = json.loads(args.data.read_text())
@@ -121,7 +139,8 @@ def main() -> None:
         sd = np.where(mask, seed, -1)
         gen = fill_from_seed(net, sd, pal, nk, ck["mat2id"][args.material],
                              device=dev, seed_rng=7000 + i,
-                             temperature=args.temperature)
+                             temperature=args.temperature,
+                             far_temperature=args.far_temperature)
         rgb = pal[np.clip(gen, 0, nk - 1)]
         rgb[~mask] = 255                      # 区域外留白
         outs.append(rgb)
