@@ -142,7 +142,11 @@ def main():
         if s["split"] == "test" and s["material"] not in ref:
             ref[s["material"]] = s
 
-    # 这些机器约 80–90 分钟会静默杀掉任务（A3v 那次死在 140/168）。
+    # 长跑常在中途消失（A3v 那次死在 140/168）。**原因未查明**：
+    # emnlp 上只有 shenhao_h3 自己的守护脚本，它只杀 h3_serve_* 会话与
+    # 自身路径下的 sglang，匹配不到本项目；也读不到 OOM 记录（无权限）。
+    # 被杀的任务多在 kw 上，那台当时不可达。所以下面是**对现象的应对**，
+    # 不是对已知机制的规避。
     # 所以做成可续跑：每 20 个材质落盘，重启时跳过已完成的材质。
     dump_path = Path(f"experiments/struct_metric_tiles_{tag}.json")
     done = {}
