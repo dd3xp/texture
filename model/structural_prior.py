@@ -311,7 +311,7 @@ def make_seed(prior: dict, n_colors: int, size: int = 16, rng=None) -> np.ndarra
 def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
                    material_id, steps: int = 64, device: str = "cuda",
                    seed_rng: int | None = None, temperature: float = 1.3,
-                   far_temperature: float | None = None):
+                   far_temperature: float | None = 2.6):
     """按种子填充其余格子。随机顺序解掩码——
     置信度顺序在近均匀分布下会塌成纯色（D5 实测 0.97 vs 真人 0.293）。
 
@@ -322,7 +322,7 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
     全局平坦度距真人也从 0.131 降到 0.035（基线是 0.207）。
     T≥1.6 会开始破坏结构。
 
-    **`far_temperature`：按到种子的距离给温度**（缺省关闭）。
+    **`far_temperature`：按到种子的距离给温度**（缺省 2.6，已采用）。
     A3x 量到面内相邻同色 0.314、真人 0.168——**面被种子拖平了**。
     但全局升温是在错的地方加噪声：温度重扫下 T=1.9 面内接近真人（0.190）、
     结构距离在尺子上也更好（0.851 vs 0.920），
@@ -333,6 +333,24 @@ def fill_from_seed(net, seed: np.ndarray, palette: np.ndarray, n_colors: int,
     被拖平的是**离种子远的面内**，而结构在种子附近。
     所以离种子越远温度越高：near 处保持 `temperature`，
     最远处到 `far_temperature`，按切比雪夫距离线性插值。
+
+    重扫结果（41 个材质 × 8 样本，真人面内相邻同色 0.168）：
+
+    | 配置 | 面内 | 结构距离 |
+    | --- | --- | --- |
+    | 1.3 全局 | 0.304 | 0.920 |
+    | 1.9 全局 | 0.190 | 0.851 |
+    | 1.3→2.2 | 0.199 | 0.876 |
+    | **1.3→2.6** | **0.185** | **0.856** |
+
+    定向 1.3→2.6 在面内上**超过**全局 1.9，结构距离几乎追平，
+    而画面上结构没有退化（`experiments/temp_directed2.png`，每档 3 样本）——
+    全局 1.9 会把 `diamond_block` 的边框和方块网格打散，定向不会。
+    `desert_stone_brick`、`sandstone_brick` 的砖面还出现了真人那样的斑驳，
+    1.3 下是平色块。**尺子与画廊一致，故采用。**
+
+    无种子的材质自动走全图 `temperature`（此处判 `given.any()`）——
+    A3x 已量出无种子模型在 1.3 下就与真人一致（0.142 vs 0.154），不需要升温。
     """
     import torch
 
