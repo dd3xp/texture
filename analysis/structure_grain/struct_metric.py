@@ -184,6 +184,8 @@ def main():
         if forced:
             gran["硬塞假结构"].append(float(np.mean(forced)))
         tiles_dump.append(keep)
+        if len(tiles_dump) % 20 == 0:
+            print(f"  ...已处理 {len(tiles_dump)} 个材质", flush=True)
         if structured:
             n_struct += 1
             raw_seed.append(seeded)
