@@ -58,10 +58,14 @@ def analyze_strata(real: list[dict]) -> None:
         pf = stats.fisher_exact(tab).pvalue
         print(f"\n两层胜率差异 Fisher p={pf:.3g}"
               f"  （先验若有效，seeded 应显著高于 plain）")
-    print("\n判读（A4 探路的判据，n=47 时）：")
-    print("  >70% → 方向对，值得扩到 D6 规模")
-    print("  55–65% → 可能有效，需要更大样本确认")
-    print("  ~50% → 先验未转化为人的偏好，不值得继续扩")
+    print("\n判读（A4 探路的判据，标注前按功效分析定死；见 power.py）：")
+    print("  ≥66%（31/47）→ 达到 p<0.05，方向对，扩到 A5")
+    print("  55–65% → 这个规模下大概率测不出（真实 60% 时功效仅 25%）；")
+    print("           不是「无效」，是「本轮回答不了」，需要 A5")
+    print("  ~50% → **只能排除 ~70% 以上的大效应**；")
+    print("           50% 与真实 58% 在 n=47 下无法区分，不能据此判先验无效")
+    print("  **显著低于 50%** → 先验主动有害，这一档在预注册时没有预料到")
+    print("  对照层 n≈20 功效更低（真实 60% 时仅 13%），是合理性检查不是检验")
 
 
 def simulate(n_mat: int = 24, seed: int = 0) -> list[dict]:

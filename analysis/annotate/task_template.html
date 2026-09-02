@@ -109,9 +109,9 @@ function undo(){
 }
 
 function save(){
-  const head = 'idx,material,kind,struct,stratum,left,right,choice,chosen\n';
+  const head = 'idx,material,kind,struct,stratum,left,right,choice,chosen,ms\n';
   const body = out.map(function(r){
-    return [r.idx, r.material, r.kind, r.struct, r.stratum, r.left, r.right, r.choice, r.chosen].join(',');
+    return [r.idx, r.material, r.kind, r.struct, r.stratum, r.left, r.right, r.choice, r.chosen, (r.ms || '')].join(',');
   }).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([head + body], {type: 'text/csv'}));
