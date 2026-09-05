@@ -16,6 +16,7 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from make_texture import extract_palette, quantize, recolor_to, W
+from downsample import auto_crop, dominant_period
 
 TMPL = ("pixel art, {p}, top-down seamless tileable game texture, "
         "flat lighting, no shadows, orthographic, chunky large pixels")
@@ -36,6 +37,8 @@ def main():
     ap.add_argument("--keep-hires", type=Path)
     ap.add_argument("--lora", default="nerijs/pixel-art-xl",
                     help="像素画 LoRA；--lora none 关闭")
+    ap.add_argument("--no-autocrop", dest="autocrop", action="store_false",
+                    help="关闭按结构尺度自动裁剪")
     ap.add_argument("--hires", type=int, default=1024,
                     help="SDXL 渲染分辨率。1024 下一块砖约 200px，"
                          "降到 16px 后砖缝不足 1px 被平均抹平；调低可让结构存活")
@@ -61,7 +64,13 @@ def main():
                   num_inference_steps=args.steps, generator=g,
                   height=args.hires, width=args.hires).images[0]
         hires.append(im)
-        small = np.asarray(im.resize((args.size,) * 2, Image.BOX))
+        a = np.asarray(im).astype(float)
+        if args.autocrop:
+            a, frac = auto_crop(a, args.size)
+            if frac < 1.0:
+                print(f"  样本{i+1} 检出周期结构，裁 1/{1/frac:.1f}", flush=True)
+        small = np.asarray(Image.fromarray(a.astype(np.uint8))
+                           .resize((args.size,) * 2, Image.BOX))
         pal = extract_palette(small, args.colors, seed=i)
         if args.color:
             pal = recolor_to(pal, args.color)
