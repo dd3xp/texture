@@ -19,8 +19,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from PIL import Image
-from scipy import ndimage
+from PIL import Image, ImageFilter
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from downsample import auto_crop                                   # noqa: E402
@@ -89,9 +88,11 @@ def main():
             print(f"  {p} #{k+1}  裁 1/{1/frac:.1f}", flush=True)
 
     for it in rng.sample(items, min(args.n_check, len(items))):
-        good = np.asarray(Image.open(io.BytesIO(base64.b64decode(it["limg"]))))
-        blur = np.stack([ndimage.gaussian_filter(good[..., c].astype(float), 3.0)
-                         for c in range(3)], -1)
+        gi = Image.open(io.BytesIO(base64.b64decode(it["limg"]))).convert("RGB")
+        good = np.asarray(gi)
+        blur = np.asarray(gi.resize((64, 64), Image.NEAREST)
+                          .filter(ImageFilter.GaussianBlur(6))
+                          .resize(gi.size, Image.BILINEAR))
         gg = {"good": good, "blur": blur}
         kk = sides.setdefault(("good", "blur"), [0, 0])
         first = kk[0] <= kk[1]
