@@ -78,6 +78,10 @@ for Low-Resolution Pixel-Art Textures**
 - 3.3 VLM 判官失效：87%→62%（p=0.14），分层 6%/33% → 37%/42%；
   位置偏好 67% 须正反两问；温度 0 下 35 对共同判定 100% 一致 →
   重跑不是复现，有效 n = 图对数而非调用数。
+- 3.3 附（B15）：**换更强判官不解决**——gpt-5.6-sol 逐条一致率 53.8%（≈随机），
+  结论层**倒转**而非压平（人 78% p=0.0012 → 它 42% p=0.41；先验层人 4% → 它 62%）。
+  两厂商前沿模型同协议同图上以不同方式失败（gemini 压平、gpt 倒转），
+  说明是任务级系统性问题，堵掉"换强模型即可"的反驳。claude-opus-5 验证在跑。
 
 ## 4. A Trivial Baseline Is Enough (When the Source Is Right)
 
@@ -147,6 +151,7 @@ for Low-Resolution Pixel-Art Textures**
 | Fig 6 | 修复机制图：1024 渲染→检测主周期→裁剪→降采样 对比不裁 | `experiments/autocrop2.png` / `crop_scale.png` | ✅ 近似可用 |
 | Fig 7 | 单元惯例失配 + 剂量-反应：三渲染档单元数分布（27.7/13.8/9.4）vs 真人 4.5，叠加胜率 88/54/17%（5.4，B10/B13/B14） | `figures/fig7_units.png`（`fig_units.py`，口径=period>0 按 prompt 去重，与 B14 精确吻合） | ✅ 已渲染 |
 | Fig 8 | 梯度证伪：五档胜率 × 两口径，均无下降趋势（5.4） | `crop_res5.json` + `crop_res5b.json` | 🔧 纯数字作图 |
+| Fig 9 | 剂量-反应主图：胜率 vs 源渲染单元数（17/54/88%，Jeffreys 区间，512 跨零效应线） | `figures/fig_dose_response.png`（`fig_dose.py`） | ✅ 已渲染 |
 | Tab 1 | 人工盲比主表：4.1 / 4.2 /（5.2 待标） | paper.md 主张表 | 🔧 待盲比数字 |
 | Tab 2 | 四 run VLM 粗筛汇总（判官×种子×档位） | 四个 JSON，数字已算好（见下） | ✅ 数字就绪 |
 | Tab 3 | 适用条件门的命中/误检（定阈值批 vs 留出批） | 数字见下表；原始计数在远程第 1 轮输出，投稿前须补 n | ⚠ 百分比就绪，缺原始计数 |
