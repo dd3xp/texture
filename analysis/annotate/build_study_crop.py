@@ -25,11 +25,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from downsample import auto_crop                                   # noqa: E402
 from make_texture import extract_palette, quantize                 # noqa: E402
 
+# **偏向有方向性结构的材质**——那正是本方法的适用范围（双条件门要求
+# 检出周期且各向异性 ≥0.20），论文的限制一节会如实写清楚。
+# 收无方向性材质只会得到大量"未触发"而被跳过的空对，白费渲染。
 PROMPTS = ["brick wall", "stone brick wall", "mossy cracked stone bricks",
            "wooden planks floor", "cobblestone path", "clay roof tiles",
            "woven basket surface", "checkered tiled floor",
            "tree log bark side", "sandstone block wall",
-           "metal grate panel", "stacked slate shingles"]
+           "metal grate panel", "stacked slate shingles",
+           "red brick pavement", "wooden fence planks", "corrugated metal roof",
+           "stacked log wall", "subway tile wall", "parquet wood flooring",
+           "adobe mud brick wall", "bamboo mat weave"]
 TMPL = ("pixel art, {p}, top-down seamless tileable game texture, "
         "flat lighting, no shadows, orthographic, chunky large pixels")
 NEG = "perspective, 3d render, vignette, watermark, text, border, blurry"
@@ -43,7 +49,7 @@ def b64(a):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--per-prompt", type=int, default=2)
+    ap.add_argument("--per-prompt", type=int, default=3)
     ap.add_argument("--size", type=int, default=16)
     ap.add_argument("--colors", type=int, default=12)
     ap.add_argument("--steps", type=int, default=28)
