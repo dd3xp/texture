@@ -90,6 +90,8 @@ def main():
     ap.add_argument("--seed", type=int, default=21)
     ap.add_argument("--fewer-units", action="store_true",
                     help="加修饰词让 SDXL 少画结构单元——检验单元惯例说（预注册于 8207f3f）")
+    ap.add_argument("--render-size", type=int, default=1024,
+                    help="SDXL 渲染分辨率。384 时单元数显著变少（render_res_probe：中位 32.5→9.3，MW p=0.0062），是唯一通过操作检验的少单元杠杆")
     ap.add_argument("--out", type=Path, default=Path("experiments/crop_scale_study.json"))
     args = ap.parse_args()
     base, key = os.environ.get("VLM_BASE_URL"), os.environ.get("VLM_API_KEY")
@@ -110,7 +112,7 @@ def main():
             pr += ", very few large blocks, macro close-up, minimal detail"
         im = pipe(pr, negative_prompt=NEG,
                   num_inference_steps=args.steps, generator=g,
-                  height=1024, width=1024).images[0]
+                  height=args.render_size, width=args.render_size).images[0]
         a = np.asarray(im).astype(float)
         for n in args.sizes:
             c, frac = auto_crop(a, n)
