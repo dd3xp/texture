@@ -31,6 +31,13 @@ try {
                    'CLAUDE_CODE_MESSAGING_TOKEN','CLAUDE_CODE_CHILD_SESSION') {
         Remove-Item "env:$v" -ErrorAction SilentlyContinue
     }
+    # **计划任务 403 的真因**：代理只存在于交互会话里，不是持久环境变量，
+    # 调度器的裸环境拿不到它，claude 连不上 API。
+    # 本机代理是 127.0.0.1:7890（无凭据），显式设上。
+    if (-not $env:HTTPS_PROXY) { $env:HTTPS_PROXY = 'http://127.0.0.1:7890' }
+    if (-not $env:HTTP_PROXY)  { $env:HTTP_PROXY  = 'http://127.0.0.1:7890' }
+    if (-not $env:NO_PROXY)    { $env:NO_PROXY    = 'localhost,127.0.0.1' }
+
     $cred = Join-Path $env:USERPROFILE '.claude\.credentials.json'
     Add-Content -Encoding utf8 $log ("[{0}] diag user={1} home={2} cred={3} claude={4}" -f `
         (Get-Date -f 'MM-dd HH:mm'), $env:USERNAME, $env:USERPROFILE,

@@ -140,16 +140,20 @@ def main():
     print(f"\n提示词 {len(PROMPTS)}，尺寸 {args.sizes}，共 {len(recs)} 例")
     print(f"  裁剪触发 {len(fired)}/{len(recs)} = {len(fired)/len(recs):.0%}")
     print(f"  VLM 有效判断 {len(judged)}，正反不一致弃用 {inc}")
+    def binom_p(w, n):  # 双侧精确二项检验（jzs_train 环境无 scipy）
+        import math
+        return min(1.0, 2 * sum(math.comb(n, k) for k in range(min(w, n - w) + 1)) / 2 ** n)
+
     if judged:
         w = sum(1 for r in judged if r["vlm"] == "after")
-        from scipy import stats
         print(f"  **裁剪后胜 {w}/{len(judged)} = {w/len(judged):.0%}**"
-              f"   p={stats.binomtest(w, len(judged), 0.5).pvalue:.3g}")
+              f"   p={binom_p(w, len(judged)):.3g}")
         for n in args.sizes:
             s = [r for r in judged if r["size"] == n]
             if s:
                 ww = sum(1 for r in s if r["vlm"] == "after")
-                print(f"    {n}x{n}: {ww}/{len(s)} = {ww/len(s):.0%}")
+                print(f"    {n}x{n}: {ww}/{len(s)} = {ww/len(s):.0%}"
+                      f"   p={binom_p(ww, len(s)):.3g}")
     print("\n这是**粗筛证据**（B6：VLM 会压缩效应），结论以人工盲比为准。")
 
 
