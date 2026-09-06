@@ -26,7 +26,7 @@ import torch
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
-from downsample import auto_crop                                   # noqa: E402
+from downsample import auto_crop, dominant_period                  # noqa: E402
 from make_texture import extract_palette, quantize                 # noqa: E402
 
 PROMPTS = [
@@ -88,6 +88,8 @@ def main():
     ap.add_argument("--model", default="gemini-3.1-pro-preview")
     ap.add_argument("--steps", type=int, default=28)
     ap.add_argument("--seed", type=int, default=21)
+    ap.add_argument("--fewer-units", action="store_true",
+                    help="加修饰词让 SDXL 少画结构单元——检验单元惯例说（预注册于 8207f3f）")
     ap.add_argument("--out", type=Path, default=Path("experiments/crop_scale_study.json"))
     args = ap.parse_args()
     base, key = os.environ.get("VLM_BASE_URL"), os.environ.get("VLM_API_KEY")
@@ -103,7 +105,10 @@ def main():
     recs = []
     for pi, p in enumerate(PROMPTS):
         g = torch.Generator("cuda").manual_seed(args.seed + pi)
-        im = pipe(TMPL.format(p=p), negative_prompt=NEG,
+        pr = TMPL.format(p=p)
+        if args.fewer_units:
+            pr += ", very few large blocks, macro close-up, minimal detail"
+        im = pipe(pr, negative_prompt=NEG,
                   num_inference_steps=args.steps, generator=g,
                   height=1024, width=1024).images[0]
         a = np.asarray(im).astype(float)
@@ -117,7 +122,8 @@ def main():
                 return quantize(sm, extract_palette(sm, 12))
             before, after = tile(a), tile(c)
             rec = {"prompt": p, "size": n, "fired": bool(fired),
-                   "frac": float(frac)}
+                   "frac": float(frac),
+                   "period": float(dominant_period(a))}
             if fired:
                 q = Q.format(n=n, label=p)
                 B, A = b64(before), b64(after)
