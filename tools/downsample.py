@@ -104,10 +104,29 @@ METHODS = {"box": box, "median": median, "extremum": extremum,
            "contrast": contrast_weighted, "bimodal": bimodal}
 
 
-def dominant_period(img: np.ndarray, lo: int = 8, hi_frac: float = 0.5) -> float:
+def anisotropy(img: np.ndarray) -> float:
+    """横纵梯度幅度之差，按均值归一（不受整体对比度影响）。
+
+    周期检测走的是行/列廓线，因此它只对**有方向性**的结构有效。
+    实测真人瓦片：能检出周期的一组中位 0.774，检不出的一组 0.036，差 20 倍
+    （`analysis/paired/crop_failure.py`）。
+    """
+    g = img @ W if img.ndim == 3 else img
+    h = float(np.abs(np.diff(g, axis=1)).mean())
+    v = float(np.abs(np.diff(g, axis=0)).mean())
+    return abs(h - v) / max((h + v) / 2, 1e-9)
+
+
+def dominant_period(img: np.ndarray, lo: int = 8,
+                    hi_frac: float = 0.625) -> float:
     """估计图中结构的主周期（源图像素）。行/列廓线自相关取首个显著峰。
 
     砖墙、木板这类材质的结构是周期性的，周期就是"一块砖多宽"。
+
+    `hi_frac` 从 0.5 放宽到 **0.625**：0.5 时最大可搜周期正好是边长的一半，
+    把"只有 2 层"的材质排除在外——`default_stone_brick` 因此只检出 6/40。
+    放到 0.625 后变成 36/40，整体检出率 49%→63%
+    （`analysis/paired/crop_failure.py`）。再放宽只涨误检不涨命中。
     """
     g = img @ W if img.ndim == 3 else img
     best = []
@@ -153,7 +172,8 @@ UNITS_PER_TILE = 4.5   # 真人在 16–32 上保持的结构单元数，见下
 
 
 def auto_crop(img: np.ndarray, size: int = 16, target_px: float | None = None,
-              min_frac: float = 0.08) -> tuple[np.ndarray, float]:
+              min_frac: float = 0.08,
+              min_aniso: float = 0.20) -> tuple[np.ndarray, float]:
     """按结构尺度裁剪，使一个结构周期约占 `target_px` 个输出像素。
 
     B4 定位的失败原因：SDXL 在 1024 上画了约 25 层砖，
@@ -184,7 +204,16 @@ def auto_crop(img: np.ndarray, size: int = 16, target_px: float | None = None,
     if target_px is None:
         target_px = size / UNITS_PER_TILE
     H, Wd = img.shape[:2]
+    # **双条件门**：检出周期 **且** 结构有方向性。
+    # 单靠周期在放宽 hi_frac 后误检率升到 44%（沙、砾石、树冠会被误判有周期），
+    # 而颗粒材质裁剪是有害的（B5）。加上各向异性后两个方向同时改善：
+    #   原设置（hi_frac=0.5、无此门）  命中 70%  误检 35%
+    #   现设置（0.625 + aniso≥0.20）   命中 90%  误检  6%
+    # 阈值在 6+8 类语义选定的材质上定，在**完全不重叠**的留出材质上复验：
+    # 命中 93%、误检 16%、差值 77%（定阈值那批 84%）——泛化住了。
     per = dominant_period(img)
+    if per > 0 and anisotropy(img) < min_aniso:
+        per = 0.0
     if per <= 0:
         # **颗粒材质不裁。** 散布矿脉这类没有周期，
         # 按特征尺度折算（4 像素或 2 像素两种都试过）在图上都不如不裁——
