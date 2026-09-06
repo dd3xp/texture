@@ -117,6 +117,40 @@ for Low-Resolution Pixel-Art Textures**
 
 ---
 
+## 图表清单（v0，按节排列；✅=已有可直接用的产物，🔧=需专门制图）
+
+| 编号 | 内容 | 素材/脚本 | 状态 |
+| --- | --- | --- | --- |
+| Fig 1 | teaser：任务定义（纯色+材质词→三档纹理）+ 核心对比一眼可见 | `experiments/solid_color_task.png` + `final_showcase.png` 重排 | 🔧 重排版 |
+| Fig 2 | 作者间一致率 vs 配对零假设（3.1 支点） | `figures/fig1_agreement.png`（`fig_agreement.py`） | ✅ 已渲染 |
+| Fig 3 | A3 案例：acc 上升而画廊不动（3.2） | `experiments/metric/overview_fixed.png` + acc 曲线 | 🔧 需拼 acc 曲线 |
+| Fig 4 | VLM 判官失效画像：效应压缩 + 位置偏好 67%（3.3） | B6 数字表 → 柱状图 | 🔧 纯数字作图 |
+| Fig 5 | 基线 vs 专门方法样例网格（4.2 定性） | `experiments/compare/gallery_fixed.png` 选列 | 🔧 选例 |
+| Fig 6 | 修复机制图：1024 渲染→检测主周期→裁剪→降采样 对比不裁 | `experiments/autocrop2.png` / `crop_scale.png` | ✅ 近似可用 |
+| Fig 7 | 单元数惯例：SDXL ~25 vs 真人 ~4.5（B9 周期分布直方图） | `source_scale.py` 输出数字 → 直方图 | 🔧 纯数字作图 |
+| Fig 8 | 梯度证伪：五档胜率 × 两口径，均无下降趋势（5.4） | `crop_res5.json` + `crop_res5b.json` | 🔧 纯数字作图 |
+| Tab 1 | 人工盲比主表：4.1 / 4.2 /（5.2 待标） | paper.md 主张表 | 🔧 待盲比数字 |
+| Tab 2 | 四 run VLM 粗筛汇总（判官×种子×档位） | 四个 JSON，数字已算好（见下） | ✅ 数字就绪 |
+| Tab 3 | 适用条件门的命中/误检（定阈值批 vs 留出批） | `crop_failure.py` 输出 | 🔧 纯数字成表 |
+
+制图优先级：Fig 2（已有）→ Fig 8 / Tab 2（纯数字、支撑最强主张）→
+Fig 6 / Fig 1（定性版式）→ 其余。全部可离线制作，不依赖 GPU。
+
+Fig 8 已渲染：`figures/fig8_gradient.png`（`analysis/paired/fig_gradient.py`）。
+
+### Tab 2 数字（从 JSON 复核，2026-09-07）
+
+| run（判官/种子/档位） | 触发 | 有效 | 弃(不一致) | API失败 | 总胜率 | p | 分档 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| gemini/s21 三档 run1 | 66 | 40 | 4 | 22 | 31/40=78% | 6.8e-4 | 16:13/14 24:8/10 32:10/16 |
+| gemini/s21 三档 run2 | 66 | 42 | 3 | 21 | 33/42=79% | 2.7e-4 | 16:13/15 24:9/10 32:11/17 |
+| sonnet/s99 三档 | 57 | 42 | 15 | 0 | 37/42=88% | 4.4e-7 | 16:14/16 24:12/13 32:11/13 |
+| gemini/s21 五档 | 110 | 65 | 12 | 33 | 49/65=75% | 5.1e-5 | +48:8/12 64:11/14 |
+| sonnet/s99 五档 | 95 | 62 | 32 | 1 | 56/62=90% | 3e-11 | +48:9/9 64:9/10 |
+
+注：run1/run2 同种子同判官，仅测 API 可靠性，正文只算一个独立口径；
+sonnet 三档触发 57 vs gemini 66 是因为种子不同导致渲染图不同、门触发不同。
+
 ## 回填清单（标注完成后）
 
 | 位置 | 现在写的 | 回填为 |
