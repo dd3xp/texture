@@ -244,11 +244,10 @@ crop's benefit must shrink. Prompt-based levers all failed their
 manipulation checks (four variants, all n.s. — itself evidence the
 convention is deeply set). The render-resolution lever passed an
 independent manipulation check (384 px: 32.5→9.3 units, −71.5%, MW
-p=0.0062; 512 px failed the check and was correctly excluded from the
-hypothesis test). The pre-registered test: at 384 px, crop wins **17% vs
+p=0.0062; 512 px did not clear the pre-fixed bar in the probe, p=0.088 at n=21, and was therefore excluded from the pre-registered hypothesis test). The pre-registered test: at 384 px, crop wins **17% vs
 88%** for the 1024 px control (−71.7pp against a −5pp criterion, p=6.3e-9),
 consistent across tiers and across three discard policies; the confound
-(discard rate 60% vs 25%) is reported. Adding the 512 midpoint yields a
+(discard rate 60% vs 25%) is reported. 512 px was later run as a *descriptive* midpoint, outside the pre-registered test. Its realised unit count, 13.8 against 27.7 at 1024 px, shows the manipulation did take effect there and that the probe was simply underpowered rather than the lever being absent. Adding that midpoint yields a
 monotone **dose-response**: 27.7 → 13.8 → 9.4 units maps to 88% → 54% → 17%
 win rate, with 512 sitting exactly at the crossover (p=0.749) and judge
 discard rates rising monotonically 25% → 38% → 60%. The mechanism is thus
