@@ -39,3 +39,6 @@ baselines/sdpixl/configs/probe_wood/
 
 # 外部 API 密钥只走环境变量，判官原始结果含逐条图片判断，不入库
 experiments/annotate/vlm_*.json
+
+# 无头轮次的运行日志与锁，不入库
+logs_local/
