@@ -1,0 +1,7 @@
+﻿claude.exe : error: unknown option '-3'
+所在位置 C:\Codes\texture\scripts\cron.ps1:34 字符: 5
++     & claude -p $prompt --dangerously-skip-permissions --output-forma ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (error: unknown option '-3':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
