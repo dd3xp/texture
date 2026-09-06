@@ -149,7 +149,10 @@ def correlation_length(img: np.ndarray, thresh: float = 0.5) -> float:
     return float(np.median(ls)) if ls else 0.0
 
 
-def auto_crop(img: np.ndarray, size: int = 16, target_px: float = 4.0,
+UNITS_PER_TILE = 4.5   # 真人在 16–32 上保持的结构单元数，见下
+
+
+def auto_crop(img: np.ndarray, size: int = 16, target_px: float | None = None,
               min_frac: float = 0.08) -> tuple[np.ndarray, float]:
     """按结构尺度裁剪，使一个结构周期约占 `target_px` 个输出像素。
 
@@ -161,8 +164,25 @@ def auto_crop(img: np.ndarray, size: int = 16, target_px: float = 4.0,
     所以裁一块边长 = 周期 × size / target_px 的区域再降采样。
     实测 1024 的渲染图裁到 1/4–1/6 时结构恢复（`experiments/crop_scale.png`）。
 
+    `target_px` 缺省按 `size / UNITS_PER_TILE` 算，即**每张图约 4.5 个结构单元**。
+    这个数是从真人瓦片量出来的，不是猜的
+    （`analysis/paired/resolution_tiers.py`，4951+679+349 张）：
+
+    | 真人瓦片尺寸 | 主周期中位 | 每张图单元数 |
+    | --- | --- | --- |
+    | 16 | 4.0 px | 4.0 |
+    | 32 | 7.0 px | 4.6 |
+    | 64 | 7.0 px | 9.1 |
+
+    **16 与 32 上单元数恒定在 4–4.6**（真人把单元画大而不是加密），
+    到 64 才加密。我们的目标区间 16–32 正好落在恒定段，
+    所以 target_px 随分辨率线性缩放：16→3.6、24→5.3、32→7.1，
+    与实测的 4.0 / 7.0 吻合。
+
     返回 (裁剪后的图, 实际裁剪比例)。周期估不出来时原样返回。
     """
+    if target_px is None:
+        target_px = size / UNITS_PER_TILE
     H, Wd = img.shape[:2]
     per = dominant_period(img)
     if per <= 0:
