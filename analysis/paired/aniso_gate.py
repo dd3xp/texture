@@ -63,6 +63,65 @@ def main():
     print(f"  各向同性 {len(ISOTROPIC)} 类 / {len(i)} 张 中位 {statistics.median(i):.3f}")
     print(f"\n阈值 0.20 落在两组之间（两种口径下都是）。")
 
+    # 门本身的命中/误检。命中 = 在方向性类别上触发；误检 = 在各向同性类别上触发。
+    # loop.md 记的"6+8 类手挑材质"与上面两张清单的类别数一致。
+    # 原记录只留了百分比（70%→90%、35%→6%，留出 93%/16%），各格计数已遗失；
+    # 这里给出完全指定、可复跑的版本。
+    print("")
+    print("门的命中/误检（命中=方向性类别触发，误检=各向同性类别触发）")
+    print(f"{'门':<34}{'命中':>14}{'误检':>14}{'命中-误检':>12}")
+    print("-" * 74)
+    tiles_by_mat = {}
+    for mat, rgb in tiles():
+        tiles_by_mat.setdefault(mat, []).append(rgb)
+
+    def rate(mats, fire):
+        n = k = 0
+        for m in mats:
+            for rgb in tiles_by_mat.get(m, []):
+                n += 1
+                k += bool(fire(rgb))
+        return k, n
+
+    gates = [
+        ("仅周期，hi_frac=0.5（旧）",
+         lambda r: dominant_period(r, lo=2, hi_frac=0.5) > 0),
+        ("仅周期，hi_frac=0.625",
+         lambda r: dominant_period(r, lo=2, hi_frac=0.625) > 0),
+        ("双条件：0.625 且 aniso>=0.20（现）",
+         lambda r: dominant_period(r, lo=2, hi_frac=0.625) > 0 and anisotropy(r) >= 0.20),
+    ]
+    for tag, fn in gates:
+        hk, hn = rate(DIRECTIONAL, fn)
+        fk, fnn = rate(ISOTROPIC, fn)
+        h, f = hk / hn, fk / fnn
+        print(f"{tag:<34}{f'{hk}/{hn}={h:.0%}':>14}{f'{fk}/{fnn}={f:.0%}':>14}{h-f:>11.0%}")
+
+    # 留出检验：类别不是挑出来的，是**按材质名的关键词规则**划的，规则先定再看结果，
+    # 且与上面调阈值那批完全不重叠。两边关键词都沾的（如 sandstone_brick）一律弃用。
+    DIR_KW = ("wood", "plank", "brick", "fence", "ladder", "tile",
+              "bookshelf", "rail", "door")
+    ISO_KW = ("sand", "gravel", "dirt", "leaves", "tree_top", "ore",
+              "cloud", "water", "snow", "ice", "glass")
+    allm = set(tiles_by_mat)
+    hd = {m for m in allm if any(k in m for k in DIR_KW)}
+    hi_ = {m for m in allm if any(k in m for k in ISO_KW)}
+    amb = hd & hi_
+    tuned = set(DIRECTIONAL) | set(ISOTROPIC)
+    hd = sorted(hd - amb - tuned)
+    hi_ = sorted(hi_ - amb - tuned)
+    print("")
+    print(f"留出集（词法规则划分，与调阈值批不重叠，弃用两边都沾的 {len(amb)} 类）")
+    print(f"  方向性 {len(hd)} 类 / {sum(len(tiles_by_mat[m]) for m in hd)} 张；"
+          f"各向同性 {len(hi_)} 类 / {sum(len(tiles_by_mat[m]) for m in hi_)} 张")
+    print(f"{'门':<34}{'命中':>14}{'误检':>14}{'命中-误检':>12}")
+    print("-" * 74)
+    for tag, fn in gates:
+        hk, hn = rate(hd, fn)
+        fk, fnn = rate(hi_, fn)
+        h, f = hk / hn, fk / fnn
+        print(f"{tag:<34}{f'{hk}/{hn}={h:.0%}':>14}{f'{fk}/{fnn}={f:.0%}':>14}{h-f:>11.0%}")
+
 
 if __name__ == "__main__":
     main()

@@ -314,9 +314,9 @@ unseeded control stratum it won $8/19$, $42\%$ ($p{=}0.65$), close to a tie.
 The stratum difference is Fisher $p{=}0.001$, and its \emph{direction is the
 opposite} of what we pre-registered: we had written that if the priors work,
 the seeded stratum should score higher. Win rate falls monotonically with
-structure score, $40\% \rightarrow 11\% \rightarrow 0\%$ ($\rho{=}-0.509$,
-$p{=}3.8\times10^{-5}$). An earlier comparison of the same model without
-priors lost to the baseline at $60\%$; adding the priors moved that to $83\%$.
+structure score --- $42\%$, $11\%$ and $0\%$ across equal-count tertiles
+($\rho{=}-0.509$, $p{=}3.8\times10^{-5}$). An earlier comparison of the same model
+without priors lost to the baseline at $60\%$; adding the priors moved that to $83\%$.
 The priors did not fail to help --- they actively hurt.
 
 \paragraph{The structural ruler ranked them backwards.} We had also built a
@@ -416,9 +416,21 @@ artist tiles, median normalised anisotropy is $0.287$ where a directional
 period is detected and $0.063$ where it is not; contrasting directional
 material classes (planks, brick, stone brick) against isotropic ones (foliage,
 gravel, metal blocks) separates them by more than an order of magnitude,
-$1.090$ against $0.032$. The threshold sits between the two groups either way. Together the conditions move hit rate from 70\% to 90\% and false
-triggers from 35\% to 6\% on the materials used to set them, and generalise to
-a disjoint held-out set at 93\% and 16\%.
+$1.090$ against $0.032$. The threshold sits between the two groups either way.
+
+Both conditions earn their place. Counting a firing on a directional class as
+a hit and on an isotropic class as a false trigger, the period-only rule at
+the earlier search range hits $80\%$ and false-triggers $14\%$; widening the
+range raises both ($98\%$, $20\%$); adding the anisotropy condition keeps the
+hits and removes the false triggers ($96\%$, $4\%$). To check this is not
+threshold-fitting, we repeat it on a held-out split assigned by material name
+rather than by inspection --- 31 directional and 101 isotropic classes,
+$1{,}234$ tiles, disjoint from the classes the threshold was set on, with
+names matching both keyword sets discarded. The ordering survives: the
+period-only rule hits $71\%$ at $39\%$ false triggers, the two-condition gate
+$83\%$ at $18\%$. The held-out false-trigger rate is higher because a
+name-based split puts genuinely directional materials (glass panes, ore veins
+on patterned stone) in the isotropic set, which bounds the rate from above.
 
 The gate fires on roughly half of prompts. The correct statement is therefore
 that the method wins \emph{within its applicability}, which covers about half
@@ -575,6 +587,8 @@ Every claim in this paper is traceable to a numbered experiment record in the
 project log, including the six results we retracted. Pre-registrations are
 git commits timestamped before the corresponding runs.
 
+% 页数探针：main.aux 里 endofmain 的页码 = 正文结束页（ICLR 正文限 9 页，参考文献不计）
+\label{endofmain}
 \bibliographystyle{iclr2027_conference}
 \bibliography{refs}
 
