@@ -17,6 +17,7 @@ period=0（未检出）的记录不进统计，但计数报告。
 
 import argparse
 import json
+import statistics
 import random
 import sys
 from pathlib import Path
@@ -83,8 +84,10 @@ def main():
         args.out.write_text(json.dumps(recs, ensure_ascii=False, indent=1))
 
     def med(v):
-        v = sorted(v)
-        return v[len(v) // 2]
+        # n 为偶数时 sorted(v)[len(v)//2] 取的是**上中位数**，不是中位数。
+        # 这个 off-by-one 让 B12 记成 32.5/17.4/9.3，真值是 30.1/16.8/8.8
+        # （判据结论不变：384 仍 -70.9%、p=0.0066 通过，512 仍 p=0.081 不通过）。
+        return statistics.median(v)
 
     print("\n== 操作检验：单元数 n_units = size/period，对 1024 组比较 ==")
     hi = [1024 / r["1024"] for r in recs if r["1024"] > 0]
