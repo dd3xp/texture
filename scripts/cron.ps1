@@ -21,6 +21,18 @@ if (Test-Path $lock) {
     }
     Add-Content -Encoding utf8 $log ("[{0}] lock stale ({1} min), taking over" -f (Get-Date -f 'MM-dd HH:mm'), [int]$age.TotalMinutes)
 }
+# 与交互会话互斥：人（或主会话）刚提交过就跳过这一轮。
+# 起因：两个会话并发跑了同一个实验并写出互相矛盾的结论（B16），
+# 那次靠无头轮次自己发现才纠正，不能指望每次都如此。
+$since = & git -C $root log -1 --format=%ct 2>$null
+if ($since) {
+    $mins = ([DateTimeOffset]::UtcNow.ToUnixTimeSeconds() - [int]$since) / 60
+    if ($mins -lt 20) {
+        Add-Content -Encoding utf8 $log ("[{0}] main session active ({1:N0} min since last commit), skip" -f (Get-Date -f 'MM-dd HH:mm'), $mins)
+        exit 0
+    }
+}
+
 Set-Content -Encoding utf8 $lock (Get-Date -f 'o')
 
 try {
