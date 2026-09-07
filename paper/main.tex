@@ -150,12 +150,12 @@ known failure~\citep{wang2024fair}. Recent benchmarks quantify it carefully:
 across judges on web-development comparisons, with first-position preference
 between $0.9\%$ and $15.8\%$, and argue the bias reflects a model deficiency
 rather than annotation ambiguity, since explicit instructions do not remove
-it. Our measurements on pixel-art comparisons are consistent with that
-account and add a distinct, more consequential failure
-(\S\ref{sec:judges}): judges that look equally good on per-item agreement
-with humans differ completely in whether they reproduce the human
-\emph{conclusion}. We argue this conclusion-level validation, not per-item
-agreement, is what licenses using a judge.
+it. On pixel-art comparisons we find no positional bias at all, but markedly
+lower self-consistency than that range, and a distinct and more consequential
+failure (\S\ref{sec:judges}): judges that look equally good on both of those
+diagnostics differ completely in whether they reproduce the human
+\emph{conclusion}. We argue this conclusion-level validation, not agreement
+with human labels item by item, is what licenses using a judge.
 
 \paragraph{Evaluation when the reference is not unique.} Independent redraws
 of the same subject --- icon themes, emoji sets, texture packs --- are a
@@ -307,7 +307,7 @@ comparison against the trivial downsampling baseline: 72 pairs with five
 attention checks, all passed, each item verified against the pipeline that
 produced it.
 
-The baseline won $49{:}10$, $83\%$, $p<0.001$. Worse, the loss concentrates
+The baseline won $49{:}10$, $83\%$, $p{=}2.7	imes10^{-7}$. Worse, the loss concentrates
 exactly where the priors act. On the seeded stratum --- items where a
 structural prior actually fired --- the model won $2/40$, $5\%$; on the
 unseeded control stratum it won $8/19$, $42\%$ ($p{=}0.65$), close to a tie.
@@ -334,8 +334,8 @@ times in favour of the eye, are retrospectively vindicated.
 
 The baseline beating our model would be uninteresting if the baseline were
 merely a low bar. It is not. Given a suitable high-resolution source, 27 pairs
-(24 comparisons plus three attention checks, all passed; median 1.4\,s per
-item) put artist-drawn tiles against the downsampled baseline. Artists were
+(24 comparisons, one of them called a tie and dropped, plus three attention
+checks, all passed; median 1.4\,s per item) put artist-drawn tiles against the downsampled baseline. Artists were
 preferred on $10/23 = 43\%$, $p{=}0.68$ --- if anything slightly behind. The
 result holds in both strata (geometric $50\%$, non-geometric $36\%$, Fisher
 $p{=}0.68$) and structure score does not predict the outcome
