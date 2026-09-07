@@ -90,10 +90,11 @@ def main():
                 swap_tot += 1; swap_consistent += (p1 == p2)
             if tot % 10 == 0:
                 print(f"  [{tot}] 选左 {left/tot:.0%}", flush=True)
-    from scipy import stats
+    import sys as _s; _s.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from exact import binom_test  # 无依赖，见 analysis/exact.py
     print(f"\n模型 {args.model}   emoji 对 {tot}")
     print(f"  选左比例 {left/max(tot,1):.1%}   （期望 50%）"
-          f"  二项 p={stats.binomtest(left, tot, 0.5).pvalue:.3g}")
+          f"  二项 p={binom_test(left, tot):.3g}")
     print(f"  正反一致 {swap_consistent}/{swap_tot} = {swap_consistent/max(swap_tot,1):.0%}")
     print(f"\n对照 · 纹理任务（B6）：gemini 选左 67%")
     print("判读：emoji 上也明显偏离 50% -> 位置偏好非纹理特有。")
