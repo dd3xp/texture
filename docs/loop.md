@@ -1018,3 +1018,30 @@ CSV 标签的意义完全取决于 HTML 内嵌 items 的 left/right 字段是否
 
 **状态**：仪器验证关闭——标注一旦到达即可直接信任并入正文。正文与图
 零改动（仪器 QA 不动 tex，pdf 无需重编译）。唯一待强化项仍是人工标注。
+
+### 第 31 轮 — 2026-09-08（无头轮）：bib 元数据与引用归因全审——唯一改动是 WebDevJudge 升级 ICLR 2026
+
+开工对账：工作树干净、本地=HEAD=24bb1d9、无并行迹象（pdf 03:25 晚于 tex
+03:24，均与 30 轮吻合）；标注 CSV 本地与远程均未到；远程 tmux 仅剩 pixel
+项目旧会话（h3_proxy*/sft），30 轮的 dmisc 已消失；`check_refs.py` 全绿。
+
+历轮审过数字/行文/版面/图/门/附录字面量/仪器验钥，但 `refs.bib` 十条的
+**元数据本身**（DOI、arXiv 号、venue、作者表）与正文引用归因从未核查过。
+
+- **归因层（离线）全对**：SD-πXL=调色板受限低清+score distillation ✓；
+  Kopf=自适应采样核、Öztireli=SSIM 目标优化 ✓；WebDevJudge 的
+  83.5–89.6% / 0.9–15.8% 与 related-work.md 07 更正一致，正文两处引用
+  （§2、§3.3）数字同源 ✓；LDM/SDXL/FID/SSIM/MT-Bench/Fair-Evaluators
+  各就其位、无张冠李戴。
+- **事实层（联网）**：三个 ACM DOI 经 Crossref 逐字验证（dl.acm.org 403，
+  api.crossref.org 可用）——sdpixl/kopf/öztireli 题名、作者、卷期全对；
+  WebDevJudge arXiv 2510.18560 题名与八人作者表逐字符对上（Hu, Han 以
+  arXiv 署名为准；iclr.cc 页面写 Winston Hu 系别名）；其余六条经典文献
+  venue/卷期均属实。
+- **唯一改动**：WebDevJudge 已中 **ICLR 2026 Oral**（iclr.cc virtual +
+  openreview 双源确认），bib 从 `@article` arXiv preprint 升级为
+  `@inproceedings` ICLR 2026（key 不动，正文渲染 Li et al. (2026)）。
+
+emnlp 重编译（pdflatex×3+bibtex）：13 页、bibtex 零警告、零未定义引用、
+`endoflimit` 第 9 页限内，PDF 已取回；bbl 确认新条目生效；refs.bib 已
+scp 同步远程。文献层自此闭合。唯一待强化项仍是人工标注两份 HTML。
