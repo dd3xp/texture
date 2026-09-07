@@ -3,46 +3,75 @@
 你是被 Windows 计划任务每 30 分钟拉起的**一个全新会话**，没有上一轮的记忆。
 工作目录 `C:\Codes\texture`。干**一轮**有实质推进的活，然后提交推送、退出。
 
-## 目标
+## 现在的状态（2026-09-07 更新，先读这段）
 
-ICLR 2027（摘要 2026-09-18，正文 2026-09-25）。
-任务：**纯色图 + 材质 → 低分辨率像素画纹理**，分辨率 16 / 24 / 32。
+**论文已经写完了。** `paper/main.tex` 正文 9 页（ICLR 上限内）+ 参考文献 + 附录 A/B，
+5 张图，bibtex 干净，`analysis/check_refs.py` 全绿。所有数字都逐项复核过。
+交付链路也通了（`tools/paint_region.py`，纯色图 + 材质名 → 上纹理的图）。
+
+**唯一的阻塞是用户标注两份 HTML**，不是缺实验：
+- `experiments/annotate/study_crop.html`（39 对）→ 把 §5.3 从判官下界升级为人锚定
+- `experiments/annotate/study_ab60.html`（60 对）→ 把 §4.1 的功效从 21% 提到 56–84%
+
+所以**这一轮的默认动作不是「做下一个实验」**。照下面的优先级走。
 
 ## 每轮固定开头（不要跳过）
 
-1. 读 `docs/loop.md`（循环协议、已排除路线、轮次记录）
-2. 读 `docs/paper.md`（主张 ↔ 证据对照表，**空格子就是待办**）
-3. `git log --oneline -8` 看最近做了什么
-4. 检查远端任务：
-   `ssh -o ConnectTimeout=25 emnlp "cd /mnt/data/kw/RoundSquisheen/texture && tmux ls; tail -3 experiments/crop_scale_study.txt"`
+1. `git log --oneline -8` 与 `git status` —— **可能有并行会话**，看有没有别人的痕迹；
+   未提交的新脚本 = 对方正在进行的工作，别抢跑
+2. 读 `docs/loop.md` 末尾的轮次记录（协议、已排除路线、最近做了什么）
+3. 检查标注有没有到：`experiments/annotate/*_labels.csv` 有没有新增
 
 ## 优先级
 
-1. **远端任务掉了就重启**（tmux 会话消失但结果文件里没有完成标志）
-2. **结果出来了就拉回本地、写进 `docs/`、提交推送**
-3. **按 `docs/paper.md` 的待补清单做下一个实验**
-4. 没有明确待办时：补 `docs/related-work.md` 的文献调研
+1. **标注到了就立刻用**：跑对应分析 → 回填论文里的 `\pending` → 提交。这是最高价值的事。
+2. **远端任务掉了就重启**（tmux 会话没了但结果文件里没有完成标志）。
+3. **维护**：`analysis/check_refs.py` 有报错就修；论文编译不过就修；
+   文档与代码对不上就改文档。
+4. **补文献**：`docs/related-work.md`。引用要**核实**过再写——本项目已因记错
+   文献口径撤回过一条主张（WebDevJudge 的位置偏好数字）。
+5. **没有以上任何一项时：什么都别做，退出。** 不要为了「有产出」而发明工作。
+   论文已经完整，改动越多风险越大。
 
 ## 硬性约束
 
 - **GPU 只用 emnlp**（`ssh emnlp`），路径 `/mnt/data/kw/RoundSquisheen/texture`。
-  **不要动 kw**（别人在用），不要动 `RoundSquisheen` 下的其他目录。
-- 环境用 `/mnt/data/kw/anaconda3/envs/jzs_train/bin/python`（有可用的 diffusers）；
-  纯分析可用 `SD-piXL` 环境。**不要往任何共享环境里装包。**
+  **不要动 kw**，不要动 `RoundSquisheen` 下的其他目录。查 GPU 占用再挑空闲卡。
+- 环境用 `/mnt/data/kw/anaconda3/envs/jzs_train/bin/python`。**不要往共享环境装包。**
 - 用 **PowerShell 工具**做 `git push`（Bash 工具连不上 Windows 凭据管理器）。
 - 提交信息用英文，结尾加
   `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>`。
-- **不要重训模型**——A4 已证明那条路输给平凡基线 83:17。
-- **不要把目视判断当结论**写进 `docs/paper.md` 的"✅ 已有"，标 ⚠ 并注明待盲比。
 - API 密钥只从环境变量读，**不要写进任何文件**。
 
-## 已排除的路线（不要重走，理由见 loop.md）
+## 做实验的话（只在有明确理由时）
+
+- **判据必须写下来并 commit，然后才跑。** 本项目所有主张都靠这个立住。
+- **操作检验要量下游真正会被评判的那个量**，不能量中间对象——
+  中间对象命中目标 ≠ 操作生效（已因此作废两轮，见论文附录 A）。
+- **任何判读都要跟着数据分支**，不要无条件打印结论——本项目已犯四次。
+- **VLM 判官压缩效应**：可支持「有大效应」（作下界）、可证伪零假设，
+  **不能确认零假设**。负结果只能说「没测到大效应」。
+- 目视判断不是结论，标 ⚠ 并注明待盲比。
+
+## 已排除的路线（不要重走，理由见 loop.md 与论文附录 A）
 
 从零训练掩码预测模型 / 手工结构先验 / 配对监督 / 逐像素指标做判据 /
-VLM 判官做结论（只能粗筛）/ 结构描述子尺子做质量代理。
+VLM 判官做结论（只能粗筛）/ 结构描述子尺子做质量代理 /
+**分辨率梯度**（两个独立口径均证伪）/ **门 v2 逐图单元数**（run 内不预测胜负）/
+**各向同性材质按特征尺度裁剪**（84% 的径向相关长度就是 1 格，没有可对齐的单元）。
+
+## 环境坑（会静默咬人）
+
+- **Bash 工具把 `\\` 折叠成 `\`**：Python 补丁里的字符串匹配会悄悄失配，
+  `replace` 返回原串而脚本正常退出；写进 LaTeX 会把 `\ref` 变成回车 + `ef{...}`，
+  **pdflatex 不报错**。对策：按行号切片替换、`replace` 后必加 `assert count==1`、
+  含反斜杠的文件用 Write 工具、改完 LaTeX 跑 `analysis/check_refs.py`。
+- **离线加载 LoRA 必须给 `weight_name`**，否则静默退回基础模型（已修，见 `load_lora`）。
+- **页数看 `main.aux` 里的 `endoflimit`**，不是 `endofmain`——后者在复现性声明之后，
+  而声明与参考文献不计入 ICLR 的 9 页。
 
 ## 收尾（每轮必做）
 
-- 把这一轮做了什么追加到 `docs/loop.md` 的轮次记录
+- 这一轮做了什么，追加到 `docs/loop.md` 的轮次记录
 - `git add -A && git commit && git push`（用 PowerShell 工具 push）
-- 若发现需要用户决策的事，写进 `docs/loop.md` 的「待用户」小节，不要空等
+- 需要用户决策的事写进 `docs/loop.md` 的「待用户」小节，不要空等
