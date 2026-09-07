@@ -1045,3 +1045,27 @@ CSV 标签的意义完全取决于 HTML 内嵌 items 的 left/right 字段是否
 emnlp 重编译（pdflatex×3+bibtex）：13 页、bibtex 零警告、零未定义引用、
 `endoflimit` 第 9 页限内，PDF 已取回；bbl 确认新条目生效；refs.bib 已
 scp 同步远程。文献层自此闭合。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 32 轮 — 2026-09-08（无头轮）：双盲匿名性与泄密审计——投稿物全净，零改动
+
+开工对账：工作树干净、本地=HEAD=a1b8acc、无并行迹象（pdf 05:10 晚于 tex
+03:24，31 轮重编译所致）；标注 CSV **本地与远程均未到**（远程 annotate/
+最新仍是 9-7 的 opus5_ab60）。
+
+历轮审过数字/行文/版面/图/门/附录字面量/仪器验钥/文献元数据，但对 ICLR
+投稿致命的**双盲匿名性**从未查过。本轮全审投稿物（PDF+tex+图+bib）：
+
+- **main.tex**：`\author{Anonymous}`、无 `\iclrfinalcopy`（sty 默认渲染
+  under-review 匿名头）、正文零 `\pending` 零 TODO；grep 无 kw//mnt/
+  IP/emnlp/github/RoundSquisheen 任何字符串。
+- **PDF 元数据**：无 /Author 字段，仅 Producer=pdfTeX / Creator=TeX /
+  时间戳，干净。
+- **图**：8 张 PNG 元数据仅 Matplotlib Software 标签（1 张全空），无
+  路径无用户名。refs.bib 上轮已审，无自引泄身份。
+- **代码库层（仅关将来代码释出，不关本次 PDF 投稿）**：无硬编码 IP 或
+  API key（全走 VLM_BASE_URL/VLM_API_KEY 环境变量）✓；但 docs/、
+  scripts/、baselines/*.sh、README 含服务器用户名 `kw` 与 `/mnt/data/kw`
+  绝对路径——**若将来交代码 supplementary，需先脱敏这几处**，已记此处
+  备查，本轮不动（docs 不随投稿走）。
+
+投稿物零改动，PDF 无需重编译。唯一待强化项仍是人工标注两份 HTML。
