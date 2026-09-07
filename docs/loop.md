@@ -876,3 +876,24 @@ mtime 均晚于 HEAD（约 23:40–01:00，距开工 28 分钟以上）而内容
 
 **状态**：整册版面目检通过，正文与图零改动。唯一待强化项仍是
 人工标注两份 HTML。
+
+### 第 26 轮 — 2026-09-08（无头轮）：图管线端到端复现——六图字节级一致
+
+开工对账：工作树干净、本地=HEAD=6d0a685、无并行迹象（tex/pdf mtime 均早于
+开工）；标注 CSV 仍未到；`check_refs.py` 全绿。远程 tmux 全为他项目
+（h3_proxy*/sft），`experiments/pack*` 为已入册的 batch_pack 产物，无孤儿工作。
+
+数字（16–21 轮）、行文（22 轮）、版面（25 轮）均已全覆盖，但**图的可复现性
+从未端到端验证过**——所有 PNG 都是历史运行的产物，脚本+数据是否还能原样
+再生它们，一直只是假设。本轮在本机把六个图脚本对提交版数据全部重跑：
+
+- `fig_agreement/fig_judges/fig_dose/fig_gradient/fig_units/fig_qualitative`
+  全部正常跑通（依赖 `dataset_k16.json`、experiments JSON、`a4_labels.csv`、
+  `experiments/figqual/` 均在库内，本机 matplotlib 3.10.8）。
+- 与 HEAD 版逐像素比对：六图 **maxdiff=0、差异像素 0.000%**；
+  且重跑后 `git status` 干净——**连字节都一致**，管线完全确定。
+- 顺带核对脚本 stdout 与正文：+0.0117/33.5%、54%[38,69]/88%[76,95]、
+  opus-5 逐条 72.2%（n=72），逐项相符。
+
+**状态**：图管线可复现性关闭（脚本+库内数据 → 提交版 PNG，字节级）。
+正文与图零改动。唯一待强化项仍是人工标注两份 HTML。
