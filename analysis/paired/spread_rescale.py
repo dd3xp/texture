@@ -8,7 +8,9 @@
 触发组 0.262，真人 0.292（`SPREAD_ARTIST_MEDIAN`）。差得很远。
 
 --- 判据（跑之前写下并 commit）---
-操作检验：重标后亮度跨度必须落进 0.292±20%，否则操作无效，后两条不算数。
+操作检验：重标后**图内实际出现的颜色**的亮度跨度必须落进 0.292±20%，
+        否则操作无效，后两条不算数。（第一版量的是调色板跨度——那个量
+        拉开了图却纹丝不动，检验通过而操作没生效，整轮已作废。）
 主判据：经验证的判官（claude-opus-5，正反两问去偏、不一致弃用）
         偏好重标版 > 50%，且二项 p < 0.05 -> 亮度跨度是缺的那一环。
 证伪：胜率 ≤ 50% 或不显著 -> 不是。
@@ -42,19 +44,37 @@ def spread(pal: np.ndarray) -> float:
     return float(lum[-1] - lum[0]) / 255.0
 
 
-def rescale(tile: np.ndarray, colors: int, target: float) -> tuple[np.ndarray, float, float]:
-    """把调色板的亮度跨度线性拉到 target，色相饱和不动。"""
-    pal = extract_palette(tile, colors, seed=0).astype(float)
-    before = spread(pal)
+def realized_spread(img: np.ndarray) -> float:
+    """图里**实际出现**的颜色的亮度跨度。
+
+    第一版量的是调色板对象的跨度，那是错的：`quantize` 把每格映射到最近的
+    条目，把调色板拉开只会让更多格子塌到同一条目上——21/21 的图内跨度
+    变化 <0.05，grass turf 甚至从 12 色塌成 1 色，而操作检验照样通过。
+    与 B11 同一类错误：检验没检验到操作本身。判据必须看这个量。
+    """
+    u = np.unique(img.reshape(-1, 3), axis=0).astype(float)
+    lum = np.sort(u @ W)
+    return float(lum[-1] - lum[0]) / 255.0
+
+
+def rescale(tile: np.ndarray, colors: int, target: float):
+    """把**图**的亮度围绕均值线性拉伸到 target，再重新提调色板量化。
+
+    拉的是图不是调色板——见 `realized_spread` 的说明。
+    """
+    before = realized_spread(tile)
     if before <= 1e-6:
         return tile, before, before
-    lum = pal @ W
+    a = tile.astype(float)
+    lum = a @ W
     mid = (lum.max() + lum.min()) / 2
-    k = (target * 255.0) / (lum.max() - lum.min())
+    k = (target * 255.0) / max(lum.max() - lum.min(), 1e-6)
     new_lum = np.clip(mid + (lum - mid) * k, 0, 255)
-    scale = np.divide(new_lum, np.maximum(lum, 1e-6))[:, None]
-    newpal = np.clip(pal * scale, 0, 255)
-    return quantize(tile, newpal).astype(np.uint8), before, spread(newpal)
+    scale = (new_lum / np.maximum(lum, 1e-6))[..., None]
+    stretched = np.clip(a * scale, 0, 255)
+    out = quantize(stretched, extract_palette(stretched.astype(np.uint8), colors, seed=0))
+    out = out.astype(np.uint8)
+    return out, before, realized_spread(out)
 
 
 def main():
