@@ -195,12 +195,14 @@ independent artists carries almost no signal.
 
 \paragraph{The finding is not specific to pixel art.} We repeated the identical
 protocol on three independently designed emoji sets (Noto, Twemoji, OpenMoji;
-63 emoji, 189 set pairs). Measured over all cells, emoji redraws appear far
-more consistent, $+0.1367$ over the null against textures' $+0.0117$. But
-39.8\% of emoji cells are transparent background composited to white and agree
-trivially. Restricted to foreground, the gap is $+0.0130$ --- essentially the
-same as textures. Measuring this kind of agreement without excluding regions
-that agree trivially inflates it by an order of magnitude.
+64 emoji, 192 set pairs). Measured over all cells, emoji redraws appear far
+more consistent, $+0.1367$ over the null against textures' $+0.0117$ --- a
+twelve-fold difference. But two thirds of emoji cells are transparent
+background composited to white, and they agree trivially. Restricted to the
+foreground shared by both sets, with the null shuffled inside that mask, the
+gap is $+0.0154$, and again about a third of pairs ($32.3\%$) fall below their
+own null. Measuring this kind of agreement without excluding regions that
+agree trivially inflates it by an order of magnitude.
 
 \subsection{Per-pixel objectives therefore measure marginal fit}
 
