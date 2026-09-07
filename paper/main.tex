@@ -365,9 +365,10 @@ by a single annotator, which we return to in \S\ref{sec:limitations}.
 
 Given a curated high-resolution source, the trivial baseline is already
 adequate (\S\ref{sec:baseline}). The interesting case is a material that does
-not exist yet, where the source must be generated. There, a text-to-image
-render at $1024$px looks structurally sound --- a mossy brick wall with
-well-defined courses and mortar --- and yet every standard downsampling kernel
+not exist yet, where the source must be generated. There, a $1024$px render
+from a latent diffusion model~\citep{rombach2022ldm}, in our case
+SDXL~\citep{podell2024sdxl}, looks structurally sound --- a mossy brick wall
+with well-defined courses and mortar --- and yet every standard downsampling kernel
 turns it to mush at $16\times16$. We tried five (box, median, extremum,
 contrast-weighted, bimodal); all five fail identically on the same renders, so
 the kernel is not the variable.
@@ -410,19 +411,20 @@ sources need no intervention and generated ones do.
 \includegraphics[width=.80\linewidth]{../figures/fig_qualitative.png}
 \caption{The same 1024px render, downsampled directly (second column) and
 after cropping to its detected period (third column); the red box shows the
-window taken. Courses, planks and weave survive the crop and do not survive
-the direct reduction --- and no downsampling kernel recovers them, because the
-structure is finer than the output grid before any kernel is chosen. The last
-row is a decline: clay tiles have a period but too little directionality
-($0.17 < 0.20$), so the gate leaves the image alone.}
+window taken. Brick courses and basket weave survive the crop and do not
+survive the direct reduction --- and no downsampling kernel recovers them,
+because the structure is finer than the output grid before any kernel is
+chosen. The last row is a decline: clay tiles have a period but too little
+directionality ($0.17 < 0.20$), so the gate leaves the image alone and the two
+16px panels are identical.}
 \label{fig:qual}
 \end{figure}
 
 \subsection{Fix and applicability}
 
-We crop the source to a window of side $\text{period}\times(\text{size}/4.5)$
-(Figure~\ref{fig:qual})
-around the detected dominant period, then downsample. Two conditions gate it:
+We crop the source to a window centred on the detected dominant period, of
+side $\text{period}\times(\text{size}/4.5)$, then downsample
+(Figure~\ref{fig:qual}). Two conditions gate it:
 a period must be detected, and normalised anisotropy must reach $0.20$.
 The anisotropy condition is necessary because period detection runs on row and
 column profiles and is meaningless for isotropic content. Across all 4{,}951
@@ -473,8 +475,7 @@ resolution grows, more structure survives uncropped and cropping should matter
 less --- and we pre-registered it over five output sizes with fixed criteria
 before running.
 
-It failed (Figure~
-ef{fig:gradient}). Across two independent protocols the trend is
+It failed (Figure~\ref{fig:gradient}). Across two independent protocols the trend is
 $\rho{=}-0.137$ ($p{=}0.277$) and $\rho{=}+0.044$ ($p{=}0.64$), and at 48px
 the crop wins 100\% against 88\% at 16px, triggering the pre-registered
 falsification condition. At 64px a 47px source period already spans 2.9 output
