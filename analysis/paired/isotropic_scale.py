@@ -105,11 +105,25 @@ def main():
         m = statistics.median(rl)
         print(f"{n:>6}{len(rl):>7}{m:>14.2f}{n / m:>12.2f}")
 
-    print("\n判读（跑前写下）：")
-    print("  若「每图特征数」在 16 与 32 上大致恒定（差 <25%）->")
-    print("     各向同性材质也有单元惯例，同一机制可迁移，值得做方法；")
-    print("  若不恒定 -> 真人在各向同性材质上按比例而非按数量设计，")
-    print("     『裁到固定特征数』没有依据，这条路应当关闭。")
+    print()
+    print("判读（判据在跑之前已 commit：16 与 32 的每图特征数差 <25% 则可迁移）")
+    if 16 in by_size and 32 in by_size:
+        a = 16 / statistics.median([x for x, _ in by_size[16]])
+        b = 32 / statistics.median([x for x, _ in by_size[32]])
+        diff = abs(a - b) / max(a, b)
+        print(f"  16px {a:.1f} 个/图，32px {b:.1f} 个/图，相对差 {diff:.0%}")
+        floor16 = np.mean([x == 1 for x, _ in by_size[16]])
+        print(f"  但 16px 有 {floor16:.0%} 的瓦片径向尺度**恰为 1**（估计量下限）。")
+        if floor16 > 0.5:
+            print("  -> 这不是「特征更小」，是**没有特征**：相邻格之间就已不相关。")
+            print("     放宽阈值到 0.2 中位也只到 2，故非估计量失明。")
+            print("     真人在这些材质上画的是调色板上的逐格噪声，不是可对齐的结构单元，")
+            print("     『裁到固定特征数』没有对齐目标 -> **这条路关闭**。")
+            print("     若要做，该做的是匹配调色板与逐格颜色分布（抖动统计），不是裁剪。")
+        elif diff < 0.25:
+            print("  -> 特征数恒定，机制可迁移，值得做方法。")
+        else:
+            print("  -> 特征数不恒定，真人按比例而非按数量设计 -> 这条路关闭。")
 
 
 if __name__ == "__main__":

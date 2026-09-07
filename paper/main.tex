@@ -594,8 +594,15 @@ batch generated through the delivered pipeline, tiles the gate declined carry
 a median palette luminance spread of $0.071$ against $0.262$ where it fired
 (exact permutation $p{=}0.0018$; the artist median is $0.292$). Materials the
 crop does not apply to are therefore not materials that were already fine ---
-they are close to flat colour, and we offer nothing for them. Half the task
-remains open, and it is the harder half.
+they are close to flat colour. The obvious extension does not rescue them: on
+the artist tiles the gate would decline, the azimuthally averaged
+autocorrelation falls below half within one cell for $84\%$ of tiles, and
+relaxing the threshold to $0.2$ moves the median only to two cells. Artists
+draw these materials as per-cell colour over a palette, not as structural
+units, so there is no feature count for a crop to align to. Matching them
+would mean matching the colour distribution rather than any spatial scale. We
+did not attempt it; half the task remains open, and it is the harder half.
+
 
 \paragraph{One generator, two domains.} The ${\sim}25$ structural units per
 tile is measured on SDXL renders. Whether the convention mismatch takes the
