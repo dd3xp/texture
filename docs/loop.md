@@ -985,3 +985,36 @@ head -1 选中），判官阶段挂死无输出；改成 `sk-[A-Za-z0-9]\{20,\}`
 段补一段生成端否定。emnlp 重编译：13 页、零警告、`endoflimit` 第 9 页限内，
 PDF 已取回。产物：`render_small_iso.json`（+.bak）、`iso_small/` 瓦片、两份 txt 日志。
 唯一待强化项仍是人工标注两份 HTML。
+
+### 第 30 轮 — 2026-09-08（无头轮）：盲比仪器端到端验钥——两份 HTML 的答案钥匙全部逐像素坐实
+
+开工对账：工作树干净、本地=HEAD=0d9d45b、无并行迹象（pdf 03:25 晚于 tex
+03:24，均与 29 轮吻合）；标注 CSV 本地与远程均未到；远程新 tmux `dmisc`
+经查 pane 属 pixel 项目，勿动；posbias JSON 为第 12/20 轮已入册数据。
+
+账面已闭合，唯一待强化项是两份人工标注 HTML——但**仪器本身从未审计过**。
+CSV 标签的意义完全取决于 HTML 内嵌 items 的 left/right 字段是否如实指向
+对应图像：钥匙若错乱，标注到了也是废数据（甚至方向全反）。本轮全审：
+
+- **study_ab60（60 对）精确验钥通过**：artist 侧由 dataset_k16.json 重建后
+  60/60 逐像素匹配、baseline 侧 60/60 颜色全在 artist 调色板内且不等于
+  artist；左右平衡 30/30；check 6/6 blur 侧确实更糊。
+- **study_crop（39 对）精确验钥通过**：SDXL 种子确定（seed=1000+k），在
+  emnlp GPU3 按 build_study_crop 原管线重生成全部 20 提示词 ×3 种子，
+  39/39 逐像素 KEY-OK、0 SWAPPED、0 NO-MATCH（每对均在其标注方向上与
+  重生成的 before/after 完全一致）；左右平衡 19/20；check 3/3。
+- **反面教材**：先试的本地统计验钥（after ↔ before 中心 1/struct 裁剪相关，
+  正钥 vs 反钥）26/39 假报反钥——zoom 压方差抬相关，启发式有偏不可用；
+  被 GPU 精确重生成否掉。教训：验钥这种事要么精确要么别信启发式。
+- **配套链路顺检**：模板导出 CSV 列与 b2_labels.csv 逐字段一致，
+  analyze_study.py 通吃任意对名（after/before、artist/baseline）；六份
+  HTML 的 ITEMS 长度互不相同（171/27/66/42/72/71），localStorage 断点
+  续标键无碰撞；opus5_crop.json（38 条）/opus5_ab60.json（46 条）的
+  idx/material/kind/chosen 与 HTML items 零错位。
+
+入库：`analysis/annotate/audit_instrument.py`（本地无 GPU 部分）、
+`analysis/annotate/spotcheck_crop_key.py`（GPU 重生成验钥，已同步远程）；
+产物 `experiments/spotcheck_crop_key.{txt,json}`（本地+远程，不入库）。
+
+**状态**：仪器验证关闭——标注一旦到达即可直接信任并入正文。正文与图
+零改动（仪器 QA 不动 tex，pdf 无需重编译）。唯一待强化项仍是人工标注。
