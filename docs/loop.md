@@ -1102,3 +1102,34 @@ scp 同步远程。文献层自此闭合。唯一待强化项仍是人工标注�
 **状态**：净克隆复现缺口关闭——克隆+允许清单数据=论文六图字节级+门+预注册
 统计全可复现；一手数据自此有版本控制备份。第 26 轮"数据均在库内"的误记
 就此更正。正文与图零改动。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 34 轮 — 2026-09-08（无头轮）：代码 supplementary 匿名化——32 轮备查项关闭，一键出包并双重验证
+
+开工对账：工作树干净、本地=HEAD=674c7fa=origin、无并行迹象（pdf 05:10 晚于
+tex 03:24，与 31 轮吻合；loop.md mtime=上轮提交时刻）；标注 CSV 本地与远程
+均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；远程 tmux 全属 pixel 项目。
+
+账面全闭，唯一悬置的**行动项**是 32 轮备查："若将来交代码 supplementary，
+需先脱敏"。33 轮入库数据快照后净克隆已可复现论文，代码包只差匿名化——本轮
+做成一键脚本 `scripts/make_supplementary.py`：
+
+- **流程**：git HEAD 导出（自动排除未跟踪杂物）→ 删 docs/、scripts/（身份
+  密集且非复现所需）→ 21 条显式替换脱敏（服务器路径→占位符、emnlp/kw/
+  shenhao_h3/jzs_train→中性表述），**每条 assert 命中次数**（吸取静默 sed
+  教训）→ 8 条禁词全树扫描兜底（含 sk- key 模式）→ zip 到
+  paper/supplementary.zip（164 文件 13.4MB，不入库，.gitignore 已加）。
+- **泄露源分类**：真泄露只在 .sh/.yaml 硬编码路径与中文注释里的主机/环境名；
+  85 处 grep 命中大半是假阳性（`**kw` kwargs、`backward()`、`gridspec_kw`、
+  HTML base64 撞出的 `kw` 子串——data 文件本身零真命中，与 33 轮扫描一致）。
+- **双重验证**：脚本内置扫描零命中 + 解包后独立 grep 八模式零命中；抽查
+  README/run_probe.sh 替换正确；py_compile 7 个被改文件全过；在解包目录里
+  实跑 `crop_res5_eval.py experiments/crop_res5.json` 复现 ρ=−0.137/
+  p=0.1563 与预注册判据输出——**包自含可复现**。
+- **残留（记录不处理）**：注释为中文属语言线索非身份线索，双盲惯例可接受；
+  fig_qualitative.py 引用的 scripts/render_fig.sh 本就从未入库（净克隆同样
+  缺失，属 33 轮已知边界），README 对 docs/、scripts/ 的目录表行保留、顶部
+  已加省略说明。
+
+**状态**：代码释出路径关闭——投稿 PDF（32 轮）与 supplementary 代码包（本轮）
+均已匿名验证，随时可交。正文与图零改动，PDF 无需重编译。唯一待强化项仍是
+人工标注两份 HTML。

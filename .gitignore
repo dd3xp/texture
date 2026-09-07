@@ -69,3 +69,6 @@ data/tiles/*
 !experiments/render_*.json
 !experiments/spread_rescale.json
 !experiments/manifest.json
+
+# supplementary 产物不入库（可由 scripts/make_supplementary.py 随时重建）
+paper/supplementary.zip
