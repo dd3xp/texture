@@ -207,12 +207,11 @@ regions that agree trivially inflates this measurement tenfold.
 \subsection{Per-pixel objectives therefore measure marginal fit}
 
 If the conditional distribution over tiles is this wide, a per-cell loss
-against one artist's specific tile cannot separate a good sample from a bad
-one beyond how well it matches the marginal. We observed the consequence
-directly before we understood it: across three rounds of architecture changes
-to a masked-prediction model, validation accuracy rose steadily while the
-generated galleries did not visibly change. Every decision in that phase
-rested on a quantity that could not see what we cared about.
+against one artist's tile cannot separate a good sample from a bad one beyond
+how well it matches the marginal. We observed the consequence before we
+understood it: across three rounds of architecture changes to a
+masked-prediction model, validation accuracy rose steadily while the generated
+galleries did not visibly change.
 
 \subsection{VLM judges fail, and per-item agreement cannot detect it}
 \label{sec:judges}
@@ -581,13 +580,10 @@ data, so the practical rule remains a setting-level one, and a per-image gate
 is open.
 
 \paragraph{A constant carried over from a superseded measurement.} The crop
-targets $4.5$ units per tile. That figure was measured before we widened the
-period detector's search range, and the same tiles now give $3.20$, which the
-independent source measurement corroborates at $3.33$
-(\S\ref{sec:mechanism}). We did not re-tune the constant, so the pipeline
-aims slightly coarser than the convention it is meant to match; every number
-we report is from the pipeline as it stands, and whether re-tuning to $3.2$
-improves it is untested.
+targets 4.5 units per tile, a figure measured before we widened the period
+detector; the same tiles now give $3.20$. We did not re-tune it, so the
+pipeline aims slightly coarser than the convention it is meant to match
+(Appendix~\ref{app:retractions}).
 
 \paragraph{Where the gate declines, so does the baseline.} On an 18-material
 batch generated through the delivered pipeline, tiles the gate declined carry
@@ -600,8 +596,13 @@ autocorrelation falls below half within one cell for $84\%$ of tiles, and
 relaxing the threshold to $0.2$ moves the median only to two cells. Artists
 draw these materials as per-cell colour over a palette, not as structural
 units, so there is no feature count for a crop to align to. Matching them
-would mean matching the colour distribution rather than any spatial scale. We
-did not attempt it; half the task remains open, and it is the harder half.
+would mean matching the colour distribution rather than any spatial scale. A
+first probe supports that --- rescaling a declined tile's realized luminance
+spread to the artist median is preferred by the validated judge on $9/10$
+pairs it answered consistently ($p{=}0.02$), on $11$ of $21$ it was
+order-inconsistent --- but it treats the symptom: the tiles gain tonal
+structure without becoming more recognisably sand or grass. Half the task
+remains open, and it is the harder half.
 
 
 \paragraph{One generator, two domains.} The ${\sim}25$ structural units per
