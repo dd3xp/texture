@@ -673,6 +673,19 @@ half-pixel shift ($p{=}0.95$) satisfied it and the script printed
 ``prediction confirmed''. We declare that test void rather than reporting it,
 and under the criterion we then fixed the same lever fails ($p{=}0.16$).
 
+\item \textbf{A second manipulation check that did not check the
+manipulation.} Testing whether rescaling a declined tile's luminance spread
+to the artist median helps, we stretched the palette and measured the
+palette's spread; it hit the target on $21/21$. The images barely moved ---
+realized spread changed by under $0.05$ on every one, and one tile went from
+twelve colours in use to one, because quantisation maps each cell to the
+nearest entry and spreading the entries only collapses more cells onto fewer
+of them. The judge discarded $14$ of $21$ pairs as order-inconsistent, which
+was itself the signal. We void that run. Stretching the image instead, and
+measuring the spread actually realised in the output, the manipulation lands
+and the pre-registered primary passes (\S\ref{sec:limitations}). This is the
+same defect as the entry above, committed after writing that entry.
+
 \item \textbf{Cross-domain generality was inflated tenfold} by trivially
 agreeing regions. Measured over all cells, emoji redraws sit $+0.1367$ above
 the null against textures' $+0.0117$; two thirds of emoji cells are
