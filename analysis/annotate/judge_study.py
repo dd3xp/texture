@@ -91,6 +91,10 @@ def main():
             print(f"  [{len(recs)}] 已判", flush=True)
     args.out.write_text(json.dumps(recs, ensure_ascii=False, indent=1))
 
+    import sys as _s
+    _s.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from exact import binom_test   # 无依赖，见 analysis/exact.py
+
     real = [r for r in recs if r["kind"] == "real"]
     chk = [r for r in recs if r["kind"] == "check"]
     ok = sum(1 for r in chk if r["chosen"] == "good")
