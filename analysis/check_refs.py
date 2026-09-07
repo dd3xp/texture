@@ -37,6 +37,15 @@ def main():
         for st in stubs:
             if line.startswith(st):
                 print(f"  第 {i} 行疑似丢反斜杠: {line[:60]}")
+        # 行中版本：`\t`/`\r` 被折叠成控制符后，残词前面是制表符或非字母。
+        # 实例：`2.7\times` 变成 "2.7<TAB>imes"，编译零警告，PDF 印出 "imes"。
+        if "\t" in line:
+            print(f"  第 {i} 行含制表符（\\t 被折叠的指纹）: {line[:60]!r}")
+        for st in stubs:
+            for m in re.finditer(re.escape(st), line):
+                j = m.start()
+                if j > 0 and not (line[j - 1].isalpha() or line[j - 1] == BS):
+                    print(f"  第 {i} 行行中疑似丢反斜杠({st}): {line[max(0, j - 20):j + 20]!r}")
 
 
 if __name__ == "__main__":
