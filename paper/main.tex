@@ -599,13 +599,94 @@ tasks in general.
 
 
 \section*{Reproducibility Statement}
-Every claim in this paper is traceable to a numbered experiment record in the
-project log, including the six results we retracted. Pre-registrations are
-git commits timestamped before the corresponding runs.
+Every claim in this paper is traceable to a numbered experiment record in
+the project log. Appendix~\ref{app:retractions} lists the results we
+withdrew, and why. Pre-registrations are git commits timestamped before
+the corresponding runs.
 
 % 页数探针：main.aux 里 endofmain 的页码 = 正文结束页（ICLR 正文限 9 页，参考文献不计）
 \label{endofmain}
 \bibliographystyle{iclr2027_conference}
 \bibliography{refs}
+
+
+\appendix
+
+\section{What We Retracted}
+\label{app:retractions}
+
+Every result below was written down as a finding, acted on, and later
+withdrawn when it did not survive checking. We list them because the
+alternative --- reporting only what survived --- would misrepresent how the
+conclusions in this paper were reached, and because several of the errors are
+of kinds that a reader could otherwise reproduce.
+
+\begin{itemize}
+
+\item \textbf{``$6\times$ closer to artists than the baseline''} was not a
+distance. The quantity was a difference of two group means, computed over
+four samples, and the same metric ranked the ablated model first. The
+corrected figure is $1.4\times$, and the metric was abandoned as a quality
+proxy: it passed three validation criteria and split-half stability while
+ordering conditions the \emph{opposite} way from human preference
+($0.93$ vs $1.74$ against $5\%$ vs $42\%$).
+
+\item \textbf{``Artists agree below chance''} came from the wrong null.
+Comparing artist $A$ against a shuffle of $A$'s own cells has expectation
+$\sum_i p_A(i)^2$; the real comparison against $B$ has expectation
+$\sum_i p_A(i)p_B(i)$, which is smaller by Cauchy--Schwarz whenever the two
+palettes are used differently. The null therefore sat above the signal and
+manufactured a negative effect. Under the paired null the gap is $+0.0117$ and
+positive (\S\ref{sec:agreement}). The direction of the conclusion is
+unchanged; its strength is not.
+
+\item \textbf{A pre-registered resolution gradient} did not appear:
+$\rho{=}-0.137$ ($p{=}0.277$), non-monotonic, and $\rho{=}+0.044$ in an
+independent protocol. We report the falsification rather than the prediction,
+and it is what selects the surviving mechanism (\S\ref{sec:falsify}).
+
+\item \textbf{A manipulation check we wrote too loosely} passed on noise. The
+criterion required only that a median move, with no significance test, so a
+half-pixel shift ($p{=}0.95$) satisfied it and the script printed
+``prediction confirmed''. We declare that test void rather than reporting it,
+and under the criterion we then fixed the same lever fails ($p{=}0.16$).
+
+\item \textbf{Cross-domain generality was inflated tenfold} by trivially
+agreeing regions. Measured over all cells, emoji redraws sit $+0.1367$ above
+the null against textures' $+0.0117$; two thirds of emoji cells are
+transparent background composited to white. Restricted to shared foreground
+with the null shuffled inside the mask, the gap is $+0.0154$ --- the same
+order as textures, which is the claim we make.
+
+\item \textbf{``Judges pick the left image 67\% of the time''} did not
+survive measurement. The figure came from an early trial on a set where the
+human labels were themselves near chance, no per-item record was kept, and it
+disagreed in sign with the post-debiasing rates. Re-measured with both orders
+recorded, the three judges pick the first-presented image $54.2\%$, $51.6\%$
+and $48.6\%$ of the time ($p{=}0.36$, $0.79$, $0.80$). What the order swap
+does expose is instability, which is a different and more useful finding
+(\S\ref{sec:judges}).
+
+\item \textbf{The artist unit convention was measured with the wrong
+detector.} The script deriving it fixed the period search range at $0.5$ of
+the side while the pipeline uses $0.625$. Under the production setting the
+same tiles give $3.20$ units per tile rather than $4.0$--$4.6$, which the
+independent source measurement corroborates at $3.33$. The crop constant
+$4.5$ was fixed from the superseded numbers and never re-tuned
+(\S\ref{sec:limitations}).
+
+\item \textbf{An off-by-one inflated a manipulation check.} A median helper
+returned \texttt{sorted(v)[len(v)//2]}, the upper median, which at even $n$
+turned $30.1/16.8/8.8$ into $32.5/17.4/9.3$ and $p{=}0.0066$ into
+$p{=}0.0062$. The pre-registered verdicts are unaffected. We swept the
+codebase for the pattern and fixed the remaining instances, none of which had
+reached a reported number.
+
+\end{itemize}
+
+Two of these --- the misspecified null and the loose manipulation check ---
+share a shape worth naming: a comparison whose reference point was chosen
+without asking what it would produce under the null hypothesis. Both passed
+casual inspection and produced the result we expected.
 
 \end{document}
