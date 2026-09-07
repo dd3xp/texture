@@ -82,7 +82,12 @@ def main():
             print(f"  [{len(recs)}] 已判", flush=True)
     args.out.write_text(json.dumps(recs, ensure_ascii=False, indent=1))
 
-    from scipy import stats
+    # jzs_train 环境没有 scipy；用精确二项检验自算，避免末尾崩溃丢统计
+    from math import comb
+
+    def binom_p(k, n_, p=0.5):
+        pm = [comb(n_, i) * p ** i * (1 - p) ** (n_ - i) for i in range(n_ + 1)]
+        return min(1.0, sum(x for x in pm if x <= pm[k] * (1 + 1e-9)))
     real = [r for r in recs if r["kind"] == "real"]
     chk = [r for r in recs if r["kind"] == "check"]
     ok = sum(1 for r in chk if r["chosen"] == "good")
@@ -91,7 +96,7 @@ def main():
     print(f"\n判官 {args.model}   有效 {n} 对（正反不一致弃用 {inc}）")
     print(f"  注意力检查 {ok}/{len(chk)}")
     if n:
-        print(f"  **裁剪后胜 {w}/{n} = {w/n:.0%}**   p={stats.binomtest(w,n,0.5).pvalue:.3g}")
+        print(f"  **裁剪后胜 {w}/{n} = {w/n:.0%}**   p={binom_p(w, n):.3g}")
     print("\n注：该判官在 A4 上把 86% 压成 73%，故此处数字是**下界**；"
           "不得用于精确幅度或细分层结论。")
 
