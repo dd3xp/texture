@@ -5,8 +5,10 @@
   gpt-5.6-sol     方向倒转
   claude-opus-5   方向、显著性、分层顺序都保住（但仍压缩）
 
-第三个面板是方法学要点：gemini 与 opus-5 的**逐条一致率相同**，
-结论复现能力却完全不同——故逐条一致率不能作为判官可用性的判据。
+第三、四个面板是方法学要点，两个便宜的诊断量都对"能不能用"失明：
+  (c) gemini 与 opus-5 的**逐条一致率相同**（66.7%），结论复现能力完全不同；
+  (d) 换序自洽率**排序反过来**——最自洽的 gemini（90.6%，在文献区间内）
+      正是抹平分层的那个，而能用的 opus-5 只有 72.2%。
 """
 
 import csv
@@ -19,9 +21,14 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from scipy import stats
 
-JUDGES = [("gemini-3.1-pro", "vlm_a4_gemini.json", "#e67e22"),
-          ("gpt-5.6-sol", "vlm_a4_gpt-5_6-sol.json", "#8e44ad"),
-          ("claude-opus-5", "vlm_a4_claude-opus-5.json", "#16a085")]
+JUDGES = [("gemini-3.1-pro", "vlm_a4_gemini.json", "#e67e22",
+           "posbias_gemini-3_1-pro-preview.json"),
+          ("gpt-5.6-sol", "vlm_a4_gpt-5_6-sol.json", "#8e44ad",
+           "posbias_gpt-5_6-sol.json"),
+          ("claude-opus-5", "vlm_a4_claude-opus-5.json", "#16a085",
+           "posbias_opus5.json")]
+# WebDevJudge (arXiv 2510.18560) Tab.5：各判官换序一致率区间
+LIT_LO, LIT_HI = 0.835, 0.896
 HUMAN = "#2c6fbb"
 
 
@@ -30,7 +37,7 @@ def main():
     strat = {int(r["idx"]): r["stratum"] for r in csv.DictReader(
         (A / "a4_labels.csv").open(encoding="utf-8"))}
     rows = []
-    for name, f, col in JUDGES:
+    for name, f, col, pbf in JUDGES:
         p = A / f
         if not p.exists():
             print(f"缺 {f}，跳过"); continue
@@ -47,11 +54,18 @@ def main():
         seed = [r for r in sub if strat.get(r["idx"]) == "seeded"]
         hs = np.mean([r["human"] == "model" for r in seed]) if seed else np.nan
         vs = np.mean([r["vlm"] == "model" for r in seed]) if seed else np.nan
-        rows.append((name, col, agree, hb, vb, pv, hs, vs, len(sub)))
+        pb = A / pbf
+        if pb.exists():
+            pr = json.loads(pb.read_text(encoding="utf-8"))
+            cons = np.mean([r["pick1"] == r["pick2"] for r in pr])
+            ncons = len(pr)
+        else:
+            cons, ncons = np.nan, 0
+        rows.append((name, col, agree, hb, vb, pv, hs, vs, len(sub), cons, ncons))
         print(f"{name:<16} 逐条 {agree:.1%}  基线胜 人{hb:.0%}/判官{vb:.0%} "
-              f"(p={pv:.3f})  有种子层 人{hs:.0%}/判官{vs:.0%}  n={len(sub)}")
+              f"(p={pv:.3f})  有种子层 人{hs:.0%}/判官{vs:.0%}  n={len(sub)}  换序自洽 {cons:.1%} (n={ncons})")
 
-    fig, axes = plt.subplots(1, 3, figsize=(11.5, 3.5))
+    fig, axes = plt.subplots(1, 4, figsize=(15.0, 3.5))
     names = [r[0] for r in rows]
     x = np.arange(len(rows))
 
@@ -89,8 +103,20 @@ def main():
     ax.set_ylabel("per-item agreement with human")
     ax.set_title("(c) per-item agreement says nothing", fontsize=9.5)
 
-    fig.suptitle("Three judges, three failure modes — and (c) shows why "
-                 "per-item agreement cannot admit a judge", fontsize=10.5)
+    ax = axes[3]
+    ax.axhspan(LIT_LO, LIT_HI, color="#bbb", alpha=.45, zorder=0)
+    ax.bar(x, [r[9] for r in rows], .5, color=[r[1] for r in rows], zorder=2)
+    for i, r in enumerate(rows):
+        ax.text(i, r[9] + .015, f"{r[9]:.1%}", ha="center", fontsize=8.5)
+    ax.text(len(rows) - .55, (LIT_LO + LIT_HI) / 2, "reported range",
+            fontsize=7, va="center", ha="right", color="#555")
+    ax.set_ylim(0, 1.05); ax.set_xticks(x)
+    ax.set_xticklabels([n.replace("-", "-\n", 1) for n in names], fontsize=7.5)
+    ax.set_ylabel("order-swap self-consistency")
+    ax.set_title("(d) nor does self-consistency", fontsize=9.5)
+
+    fig.suptitle("Three judges, three failure modes — and (c),(d): the two cheap "
+                 "diagnostics are both blind to which judge is usable", fontsize=10.5)
     fig.tight_layout(rect=[0, 0, 1, .93])
     fig.savefig("figures/fig4_judges.png", dpi=200)
     print("\n写入 figures/fig4_judges.png")
