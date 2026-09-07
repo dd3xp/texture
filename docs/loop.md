@@ -921,3 +921,38 @@ paper/fig8 产物，无孤儿工作。
 
 **状态**：账面缺口清零——数字、行文、版面、引文、图管线、门、遗留项
 全部闭合。正文与图零改动。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 28 轮 — 2026-09-08（无头轮）：附录字面量逐字对代码——抓到两处正文错、一处代码 bug
+
+开工对账：工作树干净、本地=HEAD=abc7fa5、无并行迹象（pdf 23:14 晚于 tex
+22:10，均与 24–27 轮吻合）；标注 CSV 本地与远程均未到；`check_refs.py` 全绿。
+远程新 tmux `dseedR` 经查 pane 路径属 pixel 项目，勿动。
+
+历轮核过数字（16–21）、公式与行文（22）、版面（25）、图管线（26），但附录
+Reproducibility 各段的 **verbatim 字面量**（提示词、协议参数、估计器常数、
+数据集统计口径）从未逐字对过代码。本轮全查，结果两对一错若干：
+
+- **对上的**：TMPL/NEG 提示词逐字符一致（crop_scale_study/from_prompt/
+  build_study_crop 三处同源）；判官协议 temperature 0 + max_tokens 8 +
+  双序提问 + 不一致弃样 ✓；seed=base+i、主研究 base 21（脚本默认）、
+  复制 base 99（crop_res5b/render_res_probe，paper.md 有案）✓；28 steps、
+  1024 默认、fp16、无 adapter ✓；估计器 lo=8/hi_frac=0.625（源图）、
+  lo=2（16×16 瓦片，aniso_gate 等八处调用）✓；anisotropy=|h−v|/均值 ✓；
+  裁剪下限 0.08、side=4.5×period 居中窗 ✓；攻检=清晰 vs GaussianBlur ✓；
+  人工 RT 中位 1448ms、2 条 <800ms（b2_labels.csv 的 ms 列）✓。
+- **正文错 1（量化方法张冠李戴）**：附录 Tiles 段写 "k-means++ with the
+  elbow taken per tile"，实际 `analysis/dataset/prepare.py` 用 **PIL
+  ADAPTIVE（中位切分）**，k_used<16 只是丢弃未用调色板项、无 elbow；
+  k-means++ 只在生成管线 `make_texture.py`。已改为 median-cut 表述。
+- **正文错 2（统计口径错配分母）**："median 21 colours; 2,933 of 4,951
+  use the full 16"——实测 16×16 子集是中位 16、2172/4951；21 与 2933 是
+  **全 5979 张（含全部尺寸）**的值。已改分母为 5,979 并注明 across all sizes。
+- **顺手改**：攻检率"约 1/20"只对最大研究成立（8/171≈1/21；a4 5/72≈1/14；
+  b2 3/27=1/9），改为"1/20（最大）到 1/9（最小）"如实区间。
+- **代码 bug（潜伏未爆）**：`crop_scale_study.py` 的 def 在 adc341b 被改名
+  `binom_p`→`binom_test` 但两处调用点未改——该提交声称"不动此文件"却动了，
+  下次 rerun 汇总段必 NameError（JSON 已先落盘故数据无损，历史运行全在
+  改名前）。已改回 `binom_p` 并 scp 同步远程。
+
+emnlp 重编译（pdflatex×3+bibtex）：13 页、零未定义引用、`endoflimit`
+第 9 页限内，PDF 已取回。唯一待强化项仍是人工标注两份 HTML。

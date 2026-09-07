@@ -735,9 +735,9 @@ casual inspection and produced the result we expected.
 \paragraph{Tiles.} Texture packs are collected from the Minetest ContentDB.
 Packs whose licences forbid derivative use in training are excluded and were
 never used for that purpose. Each tile is quantised to at most $k{=}16$
-palette entries by $k$-means++ on RGB, with the elbow taken per tile (the
-median tile natively carries 21 distinct colours; 2{,}933 of 4{,}951 use the
-full 16). Materials are matched across packs by file name, which is stable in
+palette entries by median-cut on RGB, keeping only the entries the tile
+actually uses (the median tile natively carries 21 distinct colours;
+2{,}933 of the 5{,}979 tiles across all sizes use the full 16). Materials are matched across packs by file name, which is stable in
 this ecosystem. The agreement study uses all $16\times16$ tiles: 4{,}951
 tiles, 517 materials, 64 packs, 50{,}753 same-material pairs. Held-out packs
 for the modelling work are listed in the dataset file and were fixed before
@@ -782,8 +782,8 @@ both the judge and the render seed.
 
 \paragraph{Human studies.} Items are shown one pair at a time in a static
 HTML page with left/right assignment randomised per item and the order of
-items shuffled. Attention checks are interleaved at a rate of about one in
-twenty. Both studies were labelled by one author, blind to which condition
+items shuffled. Attention checks are interleaved at a rate between about one in
+twenty in the largest study and one in nine in the smallest. Both studies were labelled by one author, blind to which condition
 produced each image but not to the hypotheses; response times were recorded
 and no item was answered implausibly fast (median 1.4\,s in the
 artist comparison, with two items under $0.8$\,s).

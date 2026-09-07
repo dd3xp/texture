@@ -148,7 +148,7 @@ def main():
     print(f"\n提示词 {len(PROMPTS)}，尺寸 {args.sizes}，共 {len(recs)} 例")
     print(f"  裁剪触发 {len(fired)}/{len(recs)} = {len(fired)/len(recs):.0%}")
     print(f"  VLM 有效判断 {len(judged)}，正反不一致弃用 {inc}")
-    def binom_test(w, n):  # 双侧精确二项检验（jzs_train 环境无 scipy）
+    def binom_p(w, n):  # 双侧精确二项检验（jzs_train 环境无 scipy）
         import math
         return min(1.0, 2 * sum(math.comb(n, k) for k in range(min(w, n - w) + 1)) / 2 ** n)
 
