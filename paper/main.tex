@@ -33,7 +33,7 @@ swapping. Under human blind comparison a trivial downsampling
 baseline beats a purpose-built masked-prediction model 83:17. The bottleneck
 is not model capacity but a \emph{structural-unit convention} mismatch: the
 generator draws ${\sim}25$ units per tile regardless of canvas while artists
-draw ${\sim}4.5$, measured independently from 5{,}979 artist tiles and 125
+draw ${\sim}3.2$, measured independently from 5{,}979 artist tiles and 125
 artist sources. Cropping to the detected dominant period fixes it, and
 manipulating the unit count produces a monotone dose--response in the fix's
 benefit (88\%, 54\%, 17\% at 27.7, 13.8 and 9.4 units). We pre-registered and
@@ -88,7 +88,7 @@ had been looking.
 suitable source exists, the source has to be generated, and there the
 baseline is weak. Not because the generator cannot draw the material: its
 $1024$px render is structurally sound. It draws about $25$ structural units
-per tile while pixel artists place about $4.5$, a mismatch above five-fold
+per tile while pixel artists place about $3.2$, an eight-fold mismatch
 that we measure from two independent sources (\S\ref{sec:mechanism}).
 Cropping the render to its detected dominant period repairs it. We
 pre-registered a pure sampling-limit explanation of why this works and
@@ -379,17 +379,31 @@ which is precisely where work on content-adaptive downscaling operates.
 \subsection{Artists hold a fixed number of units per tile}
 
 Measuring the dominant period of 5{,}979 artist tiles across three sizes gives
-median periods of $4.0$, $7.0$ and $7.0$ pixels at $16$, $32$ and $64$ ---
-that is $4.0$, $4.6$ and $9.1$ structural units per tile. Between $16$ and
-$32$ artists hold the unit count near $4.5$ and enlarge the units rather than
-adding more; only at $64$ do they add units.
+median periods of $5.0$, $10.0$ and $8.5$ pixels at $16$, $32$ and $64$ ---
+that is $3.20$, $3.20$ and $7.53$ structural units per tile. Between $16$ and
+$32$ the unit count is unchanged: artists enlarge the units rather than adding
+more, and only at $64$ do they add units. The period-to-side ratio is
+identical at $16$ and $32$ ($0.312$) and halves at $64$ ($0.133$).
+
+\paragraph{Which detector setting.} Our period detector searches up to
+$0.625$ of the side; an earlier version stopped at $0.5$, which by
+construction excludes materials with only two courses and detected a period in
+$6/40$ stone-brick tiles against $36/40$ after the change. Under that earlier
+setting the same tiles give $4.0$, $4.6$ and $9.1$ units, and the crop
+constant we use, $4.5$ units per tile, was fixed from those numbers. We did
+not re-tune it after changing the detector, so the constant the pipeline
+applies is derived from a caliber it no longer uses; every result we report
+comes from the pipeline as it stands. Both settings support the same
+qualitative claim, and the production setting supports it more cleanly.
 
 A second, independent measurement agrees. Across 125 artist-authored
 high-resolution sources with a detected directional period, a period spans
-$4.80$ output cells once downsampled to $16$ (IQR $3.84$--$7.17$), with only
+$4.80$ output cells once downsampled to $16$ (IQR $3.84$--$7.17$) --- that is
+$3.33$ units per tile, against the $3.20$ the tiles give --- with only
 12\% below the Nyquist limit. The same renders that fail above span $0.73$ to
-$0.95$ --- past the limit by a factor of five. This is why curated sources
-need no intervention and generated ones do.
+$0.95$ output cells per period, or $17$ to $22$ units per tile: past the limit
+by a factor of five. This is why curated sources need no intervention and
+generated ones do.
 
 \subsection{Fix and applicability}
 
@@ -444,12 +458,12 @@ falsification condition. At 64px a 47px source period already spans 2.9 output
 cells, comfortably above Nyquist, and cropping still wins 79--90\%.
 
 What survives is the convention account: the generator draws ${\sim}25$ units
-per tile \emph{regardless of output size}, artists draw ${\sim}4.5$, and the
-implied crop factor $25/4.5\approx5.6$ matches the $1/4.2$ to $1/5.4$ we
-measure. Because that mismatch does not depend on output resolution, this
-account predicts no gradient --- which is what we observe. The failed
-prediction is what separates the two; had the gradient appeared, both would
-have been compatible with it.
+per tile \emph{regardless of output size} while artists draw ${\sim}3.2$, an
+eight-fold mismatch that two independent measurements agree on ($3.20$ from
+tiles, $3.33$ from sources). Because that mismatch does not depend on output
+resolution, this account predicts no gradient --- which is what we observe.
+The failed prediction is what separates the two; had the gradient appeared,
+both would have been compatible with it.
 
 \subsection{Manipulating the unit count changes the benefit}
 
@@ -484,7 +498,7 @@ per-image data do not support.
 \centering
 \includegraphics[width=.72\linewidth]{../figures/fig7_units.png}
 \caption{Left axis: the distribution of structural units per tile the generator
-draws at three render sizes, against the ${\sim}4.5$ artists hold (dashed;
+draws at three render sizes, against the ${\sim}3.2$ artists hold (dashed;
 measured independently from 5{,}979 tiles and 125 sources). Right axis: how
 often cropping is preferred under each condition. As the generator's unit
 count approaches the artist convention, the crop stops helping and then hurts.}
@@ -534,6 +548,15 @@ misfires: at 384px it still triggers on $48\%$ of prompts, where cropping
 hurts. Fitting a unit-count threshold would be unsupported by the per-image
 data, so the practical rule remains a setting-level one, and a per-image gate
 is open.
+
+\paragraph{A constant carried over from a superseded measurement.} The crop
+targets $4.5$ units per tile. That figure was measured before we widened the
+period detector's search range, and the same tiles now give $3.20$, which the
+independent source measurement corroborates at $3.33$
+(\S\ref{sec:mechanism}). We did not re-tune the constant, so the pipeline
+aims slightly coarser than the convention it is meant to match; every number
+we report is from the pipeline as it stands, and whether re-tuning to $3.2$
+improves it is untested.
 
 \paragraph{One generator, two domains.} The ${\sim}25$ structural units per
 tile is measured on SDXL renders. Whether the convention mismatch takes the

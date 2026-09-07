@@ -53,16 +53,16 @@ def main():
         med = statistics.median(d)
         ax.annotate(f"med {med:.1f}", (i - 0.28, med),
                     ha="right", va="center", fontsize=7.5, color=BLUE)
-    ax.axhline(4.5, color="black", lw=1.2, ls="--")
-    ax.annotate("human convention ≈ 4.5 units/tile (two independent sources)",
-                (-0.42, 3.7), fontsize=8, va="top")
+    ax.axhline(3.2, color="black", lw=1.2, ls="--")
+    ax.annotate("human convention ≈ 3.2 units/tile (tiles 3.20, sources 3.33)",
+                (-0.42, 2.8), fontsize=8, va="top")
     ax.set_xticks(xs)
     ax.set_xticklabels([f"{c}px render" for c, *_ in CONDS])
     ax.set_ylabel("structural units per tile (canvas / period)", color=BLUE)
     ax.tick_params(axis="y", labelcolor=BLUE)
     ax.set_yscale("log")
-    ax.set_yticks([2, 4.5, 10, 30, 100])
-    ax.set_yticklabels(["2", "4.5", "10", "30", "100"])
+    ax.set_yticks([2, 3.2, 10, 30, 100])
+    ax.set_yticklabels(["2", "3.2", "10", "30", "100"])
     ax.minorticks_off()
 
     ax2 = ax.twinx()
