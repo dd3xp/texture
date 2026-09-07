@@ -408,7 +408,7 @@ sources need no intervention and generated ones do.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=.80\linewidth]{../figures/fig_qualitative.png}
+\includegraphics[width=.70\linewidth]{../figures/fig_qualitative.png}
 \caption{The same 1024px render, downsampled directly (second column) and
 after cropping to its detected period (third column); the red box shows the
 window taken. Brick courses and basket weave survive the crop and do not
@@ -445,9 +445,14 @@ tuning classes --- preserves the ordering: $71\%$ at $39\%$ for period-only,
 $83\%$ at $18\%$ for the gate. The held-out false-trigger rate is an upper
 bound, since a name-based split files glass panes and ore veins as isotropic.
 
-The gate fires on roughly half of prompts. The correct statement is therefore
-that the method wins \emph{within its applicability}, which covers about half
-of the materials we tested, and changes nothing elsewhere. Judged by
+The gate fires on $45\%$ of prompts at 1024px, and the rest split in two. The
+conditions decline $38\%$ ($7\%$ with no period, $31\%$ below the anisotropy
+threshold). The other $17\%$ pass both but cannot be cropped: 4.5 of their
+periods exceed the source, so the window is clipped to the whole image. That
+is a source-size limit with its own remedy --- render larger, or take fewer
+periods --- not a statement about which materials the method suits. The
+method therefore wins \emph{within its applicability} and changes nothing
+elsewhere. Judged by
 \texttt{claude-opus-5} --- the only judge that passed \S\ref{sec:judges}'s
 validation --- the crop is preferred on $31/35$ pairs, $89\%$,
 $p{=}3.5\times10^{-6}$, Jeffreys interval $[75\%, 96\%]$. Because that judge
@@ -565,12 +570,11 @@ every judge-mediated result: because our validated judge compresses effects,
 its numbers support lower bounds and can refute nulls, but cannot establish
 them (\S\ref{sec:judges}).
 
-\paragraph{Conditional, not general, wins.} The crop applies only where its
-two gate conditions hold, which is roughly half of the prompts we tested. Its
-$89\%$ preference is a within-applicability figure from a compressing judge,
-so it is a lower bound over a restricted domain; the corresponding human study
-is prepared but unlabelled. We report no aggregate win rate over all prompts
-because there is no defensible way to score the cases the method declines.
+\paragraph{Conditional, not general, wins.} The $89\%$ preference is a
+within-applicability figure from a compressing judge, so it is a lower bound
+over a restricted domain, and the corresponding human study is prepared but
+unlabelled. We report no aggregate win rate over all prompts, because there is
+no defensible way to score the cases the method declines.
 
 \paragraph{The gate does not follow from the effect.} The dose--response in
 \S\ref{sec:mechanism} is condition-level, and within a condition per-image

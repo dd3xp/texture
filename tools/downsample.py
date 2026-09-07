@@ -230,6 +230,11 @@ def auto_crop(img: np.ndarray, size: int = 16, target_px: float | None = None,
         # （`experiments/autocrop.png`、`autocrop2.png`）。
         return img, 1.0
     side = per * size / max(target_px, 1e-6)
+    # **上钳位会伪装成「门未触发」**：周期大到 4.5 个周期超过源图边长时，
+    # side 被钳成整图，frac=1.0，与门主动拒绝的返回值一模一样。
+    # 这是**源图尺寸限制**（补救是渲染更大或少放几个周期），不是适用性判断。
+    # 实测 1024 下未触发的 69 例里有 21 例属于此类（论文 §5.3 已分开报）。
+    # 调用方要区分的话，看 period*UNITS_PER_TILE 是否 >= min(H, W)。
     side = int(np.clip(side, min_frac * min(H, Wd), min(H, Wd)))
     y0, x0 = (H - side) // 2, (Wd - side) // 2
     return img[y0:y0 + side, x0:x0 + side], side / min(H, Wd)
