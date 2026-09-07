@@ -397,3 +397,26 @@ Jeffreys 区间，512 跨零效应线），均已写 paper.md/plan.md 但未同�
 
 **代价**：我在线时无头轮次基本不工作。这是对的取舍——
 并发写同一批文档的风险大于少跑几轮的损失。
+
+
+### 交付物复核（2026-09-07）
+
+这几天为论文改了很多东西（裁剪判据换过三次、目标值改成随分辨率缩放、
+参数改名），**工具是用户要用的东西，不能默认它还好**。用当前代码重跑：
+
+`experiments/deliver_all.png`，6 个材质 × 4 样本，指定纯色：
+
+| 材质 | 可用 |
+| --- | --- |
+| sandstone block wall | 4/4 |
+| stone brick wall | 4/4 |
+| wooden planks floor | 4/4 |
+| mossy cobblestone | 3/4 |
+| brick wall | 2/4 |
+| cobblestone path | 2/4 |
+
+**合计约 19/24。** 指定色相的重着色效果准确（红砖/绿苔/黄砂岩）。
+偏平的样本对应裁剪未触发或渲染本身平坦——已知边界，非回归。
+
+**用法**：`python tools/from_prompt.py "材质描述" --n 8 --color <hex>`，
+生成若干张挑用。
