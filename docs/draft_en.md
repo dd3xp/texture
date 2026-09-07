@@ -77,15 +77,17 @@ render to its dominant period repairs this, robustly across four runs, and
 the mechanism survived one pre-registered falsification attempt and passed a
 second pre-registered causal test with a dose-response (§5.4).
 
-**Generality — and its boundary.** The trap is specific to high-entropy
-targets with *no spatial anchoring*. Running the identical protocol on three
-independently drawn emoji sets (Noto, Twemoji, OpenMoji; 64 emoji, 192
-pairs) yields agreement well above the paired null (0.363 vs 0.215,
-Wilcoxon p=5e-33), whereas textures sit almost exactly on it (+0.012):
-when content is spatially anchored, a per-pixel signal exists. This
-validates the diagnostic rather than weakening it — the
-agreement-vs-paired-null test discriminates between the two regimes, giving
-a cheap, exact answer to whether a task admits reference-based evaluation.
+**Generality.** The finding replicates in a second domain: running the
+identical protocol on three independently drawn emoji sets (Noto, Twemoji,
+OpenMoji; 63 emoji, 189 pairs), restricted to foreground cells with a
+within-mask shuffle null, gives a gap of +0.0130 — essentially identical to
+textures' +0.0117. Independently redrawn versions of the same subject agree
+per cell only ~1.2–1.3 points above a matched null; this is a property of
+tasks whose reference is not unique, not of pixel art. A methodological
+caveat worth stating: failing to exclude trivially agreeing regions (blank
+background) or shuffling the whole image for the null inflates the gap by
+an order of magnitude (+0.14); the foreground gap is stable at +0.013–0.016
+across foreground definitions.
 
 Contributions:
 
