@@ -55,3 +55,17 @@ paper/*.blg
 paper/build.log
 paper/page*.png
 paper/p1*.png
+
+# 论文一手数据快照（第 33 轮）：净克隆复现六图（字节级）与门/预注册统计
+# 所需的全部数据；小体积（约 18MB），入库兼作防丢失备份。
+# 大体积中间产物（struct_metric_*、模型权重、testset、iso_small 瓦片）仍不入库。
+!data/tiles/
+data/tiles/*
+!data/tiles/dataset_k16.json
+!experiments/annotate/
+!experiments/annotate/vlm_*.json
+!experiments/figqual/
+!experiments/crop_*.json
+!experiments/render_*.json
+!experiments/spread_rescale.json
+!experiments/manifest.json

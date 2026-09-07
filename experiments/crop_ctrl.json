@@ -1,0 +1,941 @@
+[
+ {
+  "prompt": "brick wall",
+  "size": 16,
+  "fired": true,
+  "frac": 0.1376953125,
+  "period": 31.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "brick wall",
+  "size": 24,
+  "fired": true,
+  "frac": 0.1376953125,
+  "period": 31.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "brick wall",
+  "size": 32,
+  "fired": true,
+  "frac": 0.1376953125,
+  "period": 31.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "stone brick wall",
+  "size": 16,
+  "fired": true,
+  "frac": 0.126953125,
+  "period": 29.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "stone brick wall",
+  "size": 24,
+  "fired": true,
+  "frac": 0.126953125,
+  "period": 29.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "stone brick wall",
+  "size": 32,
+  "fired": true,
+  "frac": 0.126953125,
+  "period": 29.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "size": 16,
+  "fired": true,
+  "frac": 0.35546875,
+  "period": 81.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "size": 24,
+  "fired": true,
+  "frac": 0.35546875,
+  "period": 81.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "size": 32,
+  "fired": true,
+  "frac": 0.35546875,
+  "period": 81.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "sandstone block wall",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "sandstone block wall",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "sandstone block wall",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "clay roof tiles",
+  "size": 16,
+  "fired": true,
+  "frac": 0.3515625,
+  "period": 80.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "clay roof tiles",
+  "size": 24,
+  "fired": true,
+  "frac": 0.3515625,
+  "period": 80.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "clay roof tiles",
+  "size": 32,
+  "fired": true,
+  "frac": 0.3515625,
+  "period": 80.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "slate roof shingles",
+  "size": 16,
+  "fired": true,
+  "frac": 0.7138671875,
+  "period": 162.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "slate roof shingles",
+  "size": 24,
+  "fired": true,
+  "frac": 0.7138671875,
+  "period": 162.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "slate roof shingles",
+  "size": 32,
+  "fired": true,
+  "frac": 0.7138671875,
+  "period": 162.5,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "wooden planks floor",
+  "size": 16,
+  "fired": true,
+  "frac": 0.1162109375,
+  "period": 26.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "wooden planks floor",
+  "size": 24,
+  "fired": true,
+  "frac": 0.1162109375,
+  "period": 26.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "wooden planks floor",
+  "size": 32,
+  "fired": true,
+  "frac": 0.1162109375,
+  "period": 26.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "parquet wood floor",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 590.0
+ },
+ {
+  "prompt": "parquet wood floor",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 590.0
+ },
+ {
+  "prompt": "parquet wood floor",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 590.0
+ },
+ {
+  "prompt": "bamboo mat",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 9.5
+ },
+ {
+  "prompt": "bamboo mat",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 9.5
+ },
+ {
+  "prompt": "bamboo mat",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 9.5
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 21.0
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 21.0
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 21.0
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 82.0
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 82.0
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 82.0
+ },
+ {
+  "prompt": "metal grate panel",
+  "size": 16,
+  "fired": true,
+  "frac": 0.1533203125,
+  "period": 35.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "metal grate panel",
+  "size": 24,
+  "fired": true,
+  "frac": 0.1533203125,
+  "period": 35.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "metal grate panel",
+  "size": 32,
+  "fired": true,
+  "frac": 0.1533203125,
+  "period": 35.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "chain link fence",
+  "size": 16,
+  "fired": true,
+  "frac": 0.1181640625,
+  "period": 27.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "chain link fence",
+  "size": 24,
+  "fired": true,
+  "frac": 0.1181640625,
+  "period": 27.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "chain link fence",
+  "size": 32,
+  "fired": true,
+  "frac": 0.1181640625,
+  "period": 27.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "woven basket surface",
+  "size": 16,
+  "fired": true,
+  "frac": 0.126953125,
+  "period": 29.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "woven basket surface",
+  "size": 24,
+  "fired": true,
+  "frac": 0.126953125,
+  "period": 29.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "woven basket surface",
+  "size": 32,
+  "fired": true,
+  "frac": 0.126953125,
+  "period": 29.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 260.0
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 260.0
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 260.0
+ },
+ {
+  "prompt": "stacked stone wall",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 248.0
+ },
+ {
+  "prompt": "stacked stone wall",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 248.0
+ },
+ {
+  "prompt": "stacked stone wall",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 248.0
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "size": 16,
+  "fired": true,
+  "frac": 0.6826171875,
+  "period": 155.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "size": 24,
+  "fired": true,
+  "frac": 0.6826171875,
+  "period": 155.5,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "size": 32,
+  "fired": true,
+  "frac": 0.6826171875,
+  "period": 155.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 41.0
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 41.0
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 41.0
+ },
+ {
+  "prompt": "coarse gravel path",
+  "size": 16,
+  "fired": true,
+  "frac": 0.2392578125,
+  "period": 54.5,
+  "vlm": "before"
+ },
+ {
+  "prompt": "coarse gravel path",
+  "size": 24,
+  "fired": true,
+  "frac": 0.2392578125,
+  "period": 54.5,
+  "vlm": "before"
+ },
+ {
+  "prompt": "coarse gravel path",
+  "size": 32,
+  "fired": true,
+  "frac": 0.2392578125,
+  "period": 54.5,
+  "vlm": "before"
+ },
+ {
+  "prompt": "desert sand dunes",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "desert sand dunes",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "desert sand dunes",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "grass turf top",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 24.5
+ },
+ {
+  "prompt": "grass turf top",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 24.5
+ },
+ {
+  "prompt": "grass turf top",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 24.5
+ },
+ {
+  "prompt": "snow covered ground",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 140.0
+ },
+ {
+  "prompt": "snow covered ground",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 140.0
+ },
+ {
+  "prompt": "snow covered ground",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 140.0
+ },
+ {
+  "prompt": "cracked dry mud",
+  "size": 16,
+  "fired": true,
+  "frac": 0.35546875,
+  "period": 81.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "cracked dry mud",
+  "size": 24,
+  "fired": true,
+  "frac": 0.35546875,
+  "period": 81.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "cracked dry mud",
+  "size": 32,
+  "fired": true,
+  "frac": 0.35546875,
+  "period": 81.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 29.0
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 29.0
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 29.0
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "size": 16,
+  "fired": true,
+  "frac": 0.1142578125,
+  "period": 26.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "size": 24,
+  "fired": true,
+  "frac": 0.1142578125,
+  "period": 26.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "size": 32,
+  "fired": true,
+  "frac": 0.1142578125,
+  "period": 26.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 547.0
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 547.0
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 547.0
+ },
+ {
+  "prompt": "coal ore vein",
+  "size": 16,
+  "fired": true,
+  "frac": 0.162109375,
+  "period": 37.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "coal ore vein",
+  "size": 24,
+  "fired": true,
+  "frac": 0.162109375,
+  "period": 37.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "coal ore vein",
+  "size": 32,
+  "fired": true,
+  "frac": 0.162109375,
+  "period": 37.0,
+  "vlm": "after"
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 403.5
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 403.5
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 403.5
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 554.0
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 554.0
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 554.0
+ },
+ {
+  "prompt": "cobweb corner",
+  "size": 16,
+  "fired": true,
+  "frac": 0.0966796875,
+  "period": 22.0,
+  "vlm": "before"
+ },
+ {
+  "prompt": "cobweb corner",
+  "size": 24,
+  "fired": true,
+  "frac": 0.0966796875,
+  "period": 22.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "cobweb corner",
+  "size": 32,
+  "fired": true,
+  "frac": 0.0966796875,
+  "period": 22.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "tree bark oak",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "tree bark oak",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "tree bark oak",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 0.0
+ },
+ {
+  "prompt": "birch tree bark",
+  "size": 16,
+  "fired": true,
+  "frac": 0.4609375,
+  "period": 105.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "birch tree bark",
+  "size": 24,
+  "fired": true,
+  "frac": 0.4609375,
+  "period": 105.0,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "birch tree bark",
+  "size": 32,
+  "fired": true,
+  "frac": 0.4609375,
+  "period": 105.0,
+  "vlm": "before"
+ },
+ {
+  "prompt": "cactus skin",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 531.0
+ },
+ {
+  "prompt": "cactus skin",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 531.0
+ },
+ {
+  "prompt": "cactus skin",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 531.0
+ },
+ {
+  "prompt": "reptile scales",
+  "size": 16,
+  "fired": true,
+  "frac": 0.1162109375,
+  "period": 26.5,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "reptile scales",
+  "size": 24,
+  "fired": true,
+  "frac": 0.1162109375,
+  "period": 26.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "reptile scales",
+  "size": 32,
+  "fired": true,
+  "frac": 0.1162109375,
+  "period": 26.5,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "fish scales",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 22.5
+ },
+ {
+  "prompt": "fish scales",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 22.5
+ },
+ {
+  "prompt": "fish scales",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 22.5
+ },
+ {
+  "prompt": "honeycomb wax",
+  "size": 16,
+  "fired": true,
+  "frac": 0.2431640625,
+  "period": 55.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "honeycomb wax",
+  "size": 24,
+  "fired": true,
+  "frac": 0.2431640625,
+  "period": 55.5,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "honeycomb wax",
+  "size": 32,
+  "fired": true,
+  "frac": 0.2431640625,
+  "period": 55.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "rusty iron plate",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 28.0
+ },
+ {
+  "prompt": "rusty iron plate",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 28.0
+ },
+ {
+  "prompt": "rusty iron plate",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 28.0
+ },
+ {
+  "prompt": "polished marble slab",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 28.0
+ },
+ {
+  "prompt": "polished marble slab",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 28.0
+ },
+ {
+  "prompt": "polished marble slab",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 28.0
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 25.0
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 25.0
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 25.0
+ },
+ {
+  "prompt": "woven wool cloth",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 23.5
+ },
+ {
+  "prompt": "woven wool cloth",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 23.5
+ },
+ {
+  "prompt": "woven wool cloth",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 23.5
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "size": 16,
+  "fired": false,
+  "frac": 1.0,
+  "period": 18.5
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "size": 24,
+  "fired": false,
+  "frac": 1.0,
+  "period": 18.5
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "size": 32,
+  "fired": false,
+  "frac": 1.0,
+  "period": 18.5
+ },
+ {
+  "prompt": "quilted padding",
+  "size": 16,
+  "fired": true,
+  "frac": 0.2080078125,
+  "period": 47.5,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "quilted padding",
+  "size": 24,
+  "fired": true,
+  "frac": 0.2080078125,
+  "period": 47.5,
+  "vlm": "after"
+ },
+ {
+  "prompt": "quilted padding",
+  "size": 32,
+  "fired": true,
+  "frac": 0.2080078125,
+  "period": 47.5,
+  "vlm": "inconsistent"
+ }
+]

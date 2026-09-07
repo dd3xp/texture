@@ -1069,3 +1069,36 @@ scp 同步远程。文献层自此闭合。唯一待强化项仍是人工标注�
   备查，本轮不动（docs 不随投稿走）。
 
 投稿物零改动，PDF 无需重编译。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 33 轮 — 2026-09-08（无头轮）：净克隆复现审计——一手数据全不在库内，已入库快照并端到端验证
+
+开工对账：工作树干净、本地=HEAD=b2ed612、无并行迹象（pdf 05:10 晚于 tex
+03:24，与 31 轮吻合；loop.md mtime=上轮提交时刻）；标注 CSV 本地与远程均
+未到；远程新 tmux `dmech2` 查 pane 属 pixel 项目，勿动；`check_refs.py` 全绿。
+
+历轮审过一切，但**净克隆能不能复现论文从未测过**——第 26 轮的图管线复现是
+在工作树里跑的，声称"数据均在库内"。本轮 `git clone` 到临时目录实测：
+**该声称不成立**——克隆里 `experiments/` 与 `data/` 各只有 `.gitkeep`，
+六图脚本、`aniso_gate.py`、`crop_res5_eval.py` 的全部数据依赖
+（dataset_k16.json、annotate 全套、crop/render 系列 JSON、figqual）都只
+存在于本机工作树与远程 scratch 服务器，**不受任何版本控制**——既是复现
+缺口也是单点丢失风险。
+
+修复（改 .gitignore 豁免 + 入库快照，先在净克隆验证充分性再提交）：
+
+- 允许清单：`data/tiles/dataset_k16.json`（8.8MB）、`experiments/annotate/`
+  全套（840KB，含 vlm_*.json——原豁免注释是体积考量，扫描证实无密钥无敏感
+  字符串）、`experiments/figqual/`（8MB）、crop/render 系列+spread_rescale+
+  manifest 共 13 个 JSON（~150KB）。共 47 文件 ~18MB。
+- 大体积中间产物仍不入库：struct_metric_*（10MB 级）、模型权重、testset、
+  iso_small 瓦片、spotcheck 产物。
+- **净克隆验证通过**：仅复制允许清单后，六图脚本全部跑通且与提交版 PNG
+  **字节级一致**（cmp 8/8 OK，git status 干净）；`aniso_gate.py` 复现
+  96%/83%/18% 门数字；`crop_res5_eval.py` 对两协议复现 ρ=−0.137/p=0.156、
+  ρ=+0.044/p=0.642 与预注册判据输出。
+- 敏感性复扫：全部入库数据 grep 无 kw//mnt//IP/sk- 命中，与 32 轮匿名审计
+  一致。
+
+**状态**：净克隆复现缺口关闭——克隆+允许清单数据=论文六图字节级+门+预注册
+统计全可复现；一手数据自此有版本控制备份。第 26 轮"数据均在库内"的误记
+就此更正。正文与图零改动。唯一待强化项仍是人工标注两份 HTML。

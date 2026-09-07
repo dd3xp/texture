@@ -1,0 +1,149 @@
+[
+ {
+  "material": "oak log bark",
+  "size": 16,
+  "spread_before": 0.0672235294117647,
+  "spread_after": 0.29108627450980384,
+  "vlm": "after"
+ },
+ {
+  "material": "oak log bark",
+  "size": 24,
+  "spread_before": 0.14463529411764703,
+  "spread_after": 0.29193725490196076,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "oak log bark",
+  "size": 32,
+  "spread_before": 0.18138039215686272,
+  "spread_after": 0.29076470588235287,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "sandstone block",
+  "size": 16,
+  "spread_before": 0.11541176470588238,
+  "spread_after": 0.29218823529411764,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "sandstone block",
+  "size": 24,
+  "spread_before": 0.14330980392156867,
+  "spread_after": 0.2911843137254902,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "sandstone block",
+  "size": 32,
+  "spread_before": 0.18830196078431372,
+  "spread_after": 0.2915882352941176,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "smooth stone",
+  "size": 16,
+  "spread_before": 0.1475529411764706,
+  "spread_after": 0.2932078431372549,
+  "vlm": "before"
+ },
+ {
+  "material": "smooth stone",
+  "size": 24,
+  "spread_before": 0.18542745098039223,
+  "spread_after": 0.2927607843137255,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "smooth stone",
+  "size": 32,
+  "spread_before": 0.20576078431372546,
+  "spread_after": 0.29001176470588236,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "iron ore in stone",
+  "size": 16,
+  "spread_before": 0.07099215686274507,
+  "spread_after": 0.2921372549019607,
+  "vlm": "after"
+ },
+ {
+  "material": "iron ore in stone",
+  "size": 24,
+  "spread_before": 0.12328235294117647,
+  "spread_after": 0.2913803921568628,
+  "vlm": "after"
+ },
+ {
+  "material": "iron ore in stone",
+  "size": 32,
+  "spread_before": 0.12372941176470584,
+  "spread_after": 0.2918274509803921,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "grass turf top",
+  "size": 16,
+  "spread_before": 0.02592156862745098,
+  "spread_after": 0.29158431372549026,
+  "vlm": "after"
+ },
+ {
+  "material": "grass turf top",
+  "size": 24,
+  "spread_before": 0.024301960784313736,
+  "spread_after": 0.2922666666666666,
+  "vlm": "after"
+ },
+ {
+  "material": "grass turf top",
+  "size": 32,
+  "spread_before": 0.03242352941176477,
+  "spread_after": 0.2906901960784314,
+  "vlm": "after"
+ },
+ {
+  "material": "coarse gravel",
+  "size": 16,
+  "spread_before": 0.16078431372549015,
+  "spread_after": 0.2901960784313725,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "coarse gravel",
+  "size": 24,
+  "spread_before": 0.26549411764705877,
+  "spread_after": 0.2929450980392157,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "coarse gravel",
+  "size": 32,
+  "spread_before": 0.32504313725490197,
+  "spread_after": 0.28974901960784316,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "dry sand",
+  "size": 16,
+  "spread_before": 0.06374901960784325,
+  "spread_after": 0.29234117647058827,
+  "vlm": "after"
+ },
+ {
+  "material": "dry sand",
+  "size": 24,
+  "spread_before": 0.0792666666666667,
+  "spread_after": 0.294921568627451,
+  "vlm": "after"
+ },
+ {
+  "material": "dry sand",
+  "size": 32,
+  "spread_before": 0.1266039215686275,
+  "spread_after": 0.29347058823529415,
+  "vlm": "after"
+ }
+]

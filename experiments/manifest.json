@@ -1,0 +1,488 @@
+[
+ {
+  "variant": "base",
+  "material": "brick wall",
+  "size": 16,
+  "period": 34.0,
+  "aniso": 0.923209390151694,
+  "frac": 0.1494140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "brick wall",
+  "size": 24,
+  "period": 34.0,
+  "aniso": 0.923209390151694,
+  "frac": 0.1494140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "brick wall",
+  "size": 32,
+  "period": 34.0,
+  "aniso": 0.923209390151694,
+  "frac": 0.1494140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "stone brick wall",
+  "size": 16,
+  "period": 40.0,
+  "aniso": 0.7242393225632339,
+  "frac": 0.17578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "stone brick wall",
+  "size": 24,
+  "period": 40.0,
+  "aniso": 0.7242393225632339,
+  "frac": 0.17578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "stone brick wall",
+  "size": 32,
+  "period": 40.0,
+  "aniso": 0.7242393225632339,
+  "frac": 0.17578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "cobblestone",
+  "size": 16,
+  "period": 48.5,
+  "aniso": 0.33418250778529784,
+  "frac": 0.212890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "cobblestone",
+  "size": 24,
+  "period": 48.5,
+  "aniso": 0.33418250778529784,
+  "frac": 0.212890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "cobblestone",
+  "size": 32,
+  "period": 48.5,
+  "aniso": 0.33418250778529784,
+  "frac": 0.212890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "mossy cobblestone",
+  "size": 16,
+  "period": 63.0,
+  "aniso": 0.2941422002443011,
+  "frac": 0.2763671875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "mossy cobblestone",
+  "size": 24,
+  "period": 63.0,
+  "aniso": 0.2941422002443011,
+  "frac": 0.2763671875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "mossy cobblestone",
+  "size": 32,
+  "period": 63.0,
+  "aniso": 0.2941422002443011,
+  "frac": 0.2763671875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "wooden planks floor",
+  "size": 16,
+  "period": 29.0,
+  "aniso": 1.2875955185935748,
+  "frac": 0.126953125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "wooden planks floor",
+  "size": 24,
+  "period": 29.0,
+  "aniso": 1.2875955185935748,
+  "frac": 0.126953125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "wooden planks floor",
+  "size": 32,
+  "period": 29.0,
+  "aniso": 1.2875955185935748,
+  "frac": 0.126953125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "oak log bark",
+  "size": 16,
+  "period": 38.0,
+  "aniso": 0.12582233048770086,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "oak log bark",
+  "size": 24,
+  "period": 38.0,
+  "aniso": 0.12582233048770086,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "oak log bark",
+  "size": 32,
+  "period": 38.0,
+  "aniso": 0.12582233048770086,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "sandstone block",
+  "size": 16,
+  "period": 43.0,
+  "aniso": 0.044104889593189596,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "sandstone block",
+  "size": 24,
+  "period": 43.0,
+  "aniso": 0.044104889593189596,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "sandstone block",
+  "size": 32,
+  "period": 43.0,
+  "aniso": 0.044104889593189596,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "smooth stone",
+  "size": 16,
+  "period": 64.0,
+  "aniso": 0.14470286000805316,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "smooth stone",
+  "size": 24,
+  "period": 64.0,
+  "aniso": 0.14470286000805316,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "smooth stone",
+  "size": 32,
+  "period": 64.0,
+  "aniso": 0.14470286000805316,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "clay roof tiles",
+  "size": 16,
+  "period": 25.5,
+  "aniso": 0.26142643626971174,
+  "frac": 0.111328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "clay roof tiles",
+  "size": 24,
+  "period": 25.5,
+  "aniso": 0.26142643626971174,
+  "frac": 0.111328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "clay roof tiles",
+  "size": 32,
+  "period": 25.5,
+  "aniso": 0.26142643626971174,
+  "frac": 0.111328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "woven basket surface",
+  "size": 16,
+  "period": 39.5,
+  "aniso": 0.5127881751680583,
+  "frac": 0.1728515625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "woven basket surface",
+  "size": 24,
+  "period": 39.5,
+  "aniso": 0.5127881751680583,
+  "frac": 0.1728515625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "woven basket surface",
+  "size": 32,
+  "period": 39.5,
+  "aniso": 0.5127881751680583,
+  "frac": 0.1728515625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "iron metal plate",
+  "size": 16,
+  "period": 54.0,
+  "aniso": 0.5062989863892458,
+  "frac": 0.2373046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "iron metal plate",
+  "size": 24,
+  "period": 54.0,
+  "aniso": 0.5062989863892458,
+  "frac": 0.2373046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "iron metal plate",
+  "size": 32,
+  "period": 54.0,
+  "aniso": 0.5062989863892458,
+  "frac": 0.2373046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "gold block surface",
+  "size": 16,
+  "period": 32.0,
+  "aniso": 0.29305525441792946,
+  "frac": 0.140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "gold block surface",
+  "size": 24,
+  "period": 32.0,
+  "aniso": 0.29305525441792946,
+  "frac": 0.140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "gold block surface",
+  "size": 32,
+  "period": 32.0,
+  "aniso": 0.29305525441792946,
+  "frac": 0.140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "coal ore in stone",
+  "size": 16,
+  "period": 30.5,
+  "aniso": 0.3223320317756041,
+  "frac": 0.1337890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "coal ore in stone",
+  "size": 24,
+  "period": 30.5,
+  "aniso": 0.3223320317756041,
+  "frac": 0.1337890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "coal ore in stone",
+  "size": 32,
+  "period": 30.5,
+  "aniso": 0.3223320317756041,
+  "frac": 0.1337890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "iron ore in stone",
+  "size": 16,
+  "period": 41.0,
+  "aniso": 0.050853251497244845,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "iron ore in stone",
+  "size": 24,
+  "period": 41.0,
+  "aniso": 0.050853251497244845,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "iron ore in stone",
+  "size": 32,
+  "period": 41.0,
+  "aniso": 0.050853251497244845,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "packed dirt",
+  "size": 16,
+  "period": 22.0,
+  "aniso": 0.34536507939130057,
+  "frac": 0.0966796875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "packed dirt",
+  "size": 24,
+  "period": 22.0,
+  "aniso": 0.34536507939130057,
+  "frac": 0.0966796875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "packed dirt",
+  "size": 32,
+  "period": 22.0,
+  "aniso": 0.34536507939130057,
+  "frac": 0.0966796875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "grass turf top",
+  "size": 16,
+  "period": 11.0,
+  "aniso": 0.03897707801867518,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "grass turf top",
+  "size": 24,
+  "period": 11.0,
+  "aniso": 0.03897707801867518,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "grass turf top",
+  "size": 32,
+  "period": 11.0,
+  "aniso": 0.03897707801867518,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "coarse gravel",
+  "size": 16,
+  "period": 0.0,
+  "aniso": 0.06796297980476004,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "coarse gravel",
+  "size": 24,
+  "period": 0.0,
+  "aniso": 0.06796297980476004,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "coarse gravel",
+  "size": 32,
+  "period": 0.0,
+  "aniso": 0.06796297980476004,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "dry sand",
+  "size": 16,
+  "period": 231.0,
+  "aniso": 1.1091461199261268,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "dry sand",
+  "size": 24,
+  "period": 231.0,
+  "aniso": 1.1091461199261268,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "dry sand",
+  "size": 32,
+  "period": 231.0,
+  "aniso": 1.1091461199261268,
+  "frac": 1.0,
+  "gate_fired": false
+ }
+]

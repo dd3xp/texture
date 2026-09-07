@@ -1,0 +1,170 @@
+[
+ {
+  "idx": 1,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_cactus_side.png"
+ },
+ {
+  "idx": 2,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_obsidian_brick.png"
+ },
+ {
+  "idx": 3,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "artist",
+  "material": "default_pine_wood.png"
+ },
+ {
+  "idx": 4,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "farming_soil.png"
+ },
+ {
+  "idx": 5,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "wool_green.png"
+ },
+ {
+  "idx": 6,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_junglewood.png"
+ },
+ {
+  "idx": 7,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_pine_wood.png"
+ },
+ {
+  "idx": 8,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_aspen_wood.png"
+ },
+ {
+  "idx": 9,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "baseline",
+  "material": "default_desert_sand.png"
+ },
+ {
+  "idx": 10,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "artist",
+  "material": "default_silver_sandstone.png"
+ },
+ {
+  "idx": 11,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "baseline",
+  "material": "default_grass.png"
+ },
+ {
+  "idx": 12,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "artist",
+  "material": "beds_bed_top_top.png"
+ },
+ {
+  "idx": 13,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_acacia_wood.png"
+ },
+ {
+  "idx": 14,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_coral_skeleton.png"
+ },
+ {
+  "idx": 15,
+  "kind": "check",
+  "human": "good",
+  "vlm": "good",
+  "material": "default_wood.png"
+ },
+ {
+  "idx": 16,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_acacia_wood.png"
+ },
+ {
+  "idx": 17,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "artist",
+  "material": "beds_bed_top1.png"
+ },
+ {
+  "idx": 18,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "artist",
+  "material": "farming_desert_sand_soil_wet.png"
+ },
+ {
+  "idx": 19,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_desert_sandstone_brick.png"
+ },
+ {
+  "idx": 20,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_wood.png"
+ },
+ {
+  "idx": 21,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_sandstone_block.png"
+ },
+ {
+  "idx": 23,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_dry_grass.png"
+ },
+ {
+  "idx": 24,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "tnt_bottom.png"
+ },
+ {
+  "idx": 26,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "baseline",
+  "material": "wool_grey.png"
+ }
+]

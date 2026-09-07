@@ -1,0 +1,366 @@
+[
+ {
+  "idx": 0,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_water.png"
+ },
+ {
+  "idx": 1,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_mese_block.png"
+ },
+ {
+  "idx": 3,
+  "kind": "check",
+  "human": "good",
+  "vlm": "good",
+  "material": "default_coniferous_litter.png"
+ },
+ {
+  "idx": 5,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_wood.png"
+ },
+ {
+  "idx": 6,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_pink.png"
+ },
+ {
+  "idx": 7,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_acacia_tree_top.png"
+ },
+ {
+  "idx": 9,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_magenta.png"
+ },
+ {
+  "idx": 10,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "farming_desert_sand_soil_wet.png"
+ },
+ {
+  "idx": 11,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_red.png"
+ },
+ {
+  "idx": 12,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "default_desert_sandstone.png"
+ },
+ {
+  "idx": 13,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_aspen_wood.png"
+ },
+ {
+  "idx": 14,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_acacia_wood.png"
+ },
+ {
+  "idx": 15,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_blue.png"
+ },
+ {
+  "idx": 16,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_orange.png"
+ },
+ {
+  "idx": 17,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_bookshelf.png"
+ },
+ {
+  "idx": 18,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "tnt_blast.png"
+ },
+ {
+  "idx": 19,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "default_acacia_wood.png"
+ },
+ {
+  "idx": 20,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_silver_sandstone_brick.png"
+ },
+ {
+  "idx": 24,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_diamond_block.png"
+ },
+ {
+  "idx": 26,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "default_copper_block.png"
+ },
+ {
+  "idx": 27,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_fence_junglewood.png"
+ },
+ {
+  "idx": 28,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "carts_cart_front.png"
+ },
+ {
+  "idx": 29,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_dry_grass_side.png"
+ },
+ {
+  "idx": 30,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_green.png"
+ },
+ {
+  "idx": 31,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "tnt_top_burning.png"
+ },
+ {
+  "idx": 32,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "default_furnace_bottom.png"
+ },
+ {
+  "idx": 33,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_steel_block.png"
+ },
+ {
+  "idx": 34,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "beds_bed_top1.png"
+ },
+ {
+  "idx": 35,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "bones_top.png"
+ },
+ {
+  "idx": 38,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "farming_straw.png"
+ },
+ {
+  "idx": 40,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_jungletree.png"
+ },
+ {
+  "idx": 42,
+  "kind": "real",
+  "human": "artist",
+  "vlm": "artist",
+  "material": "default_gold_block.png"
+ },
+ {
+  "idx": 43,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_desert_sandstone_brick.png"
+ },
+ {
+  "idx": 44,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_snow.png"
+ },
+ {
+  "idx": 45,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_white.png"
+ },
+ {
+  "idx": 46,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "carts_cart_front.png"
+ },
+ {
+  "idx": 47,
+  "kind": "real",
+  "human": "model",
+  "vlm": "model",
+  "material": "default_mineral_coal.png"
+ },
+ {
+  "idx": 51,
+  "kind": "real",
+  "human": "model",
+  "vlm": "baseline",
+  "material": "default_aspen_tree_top.png"
+ },
+ {
+  "idx": 53,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_black.png"
+ },
+ {
+  "idx": 54,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_tree_top.png"
+ },
+ {
+  "idx": 55,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "wool_yellow.png"
+ },
+ {
+  "idx": 57,
+  "kind": "real",
+  "human": "model",
+  "vlm": "model",
+  "material": "default_rainforest_litter.png"
+ },
+ {
+  "idx": 58,
+  "kind": "real",
+  "human": "model",
+  "vlm": "artist",
+  "material": "wool_green.png"
+ },
+ {
+  "idx": 60,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_desert_stone.png"
+ },
+ {
+  "idx": 63,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "model",
+  "material": "default_clay.png"
+ },
+ {
+  "idx": 64,
+  "kind": "real",
+  "human": "model",
+  "vlm": "model",
+  "material": "bones_side.png"
+ },
+ {
+  "idx": 65,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "tnt_top_burning.png"
+ },
+ {
+  "idx": 66,
+  "kind": "real",
+  "human": "model",
+  "vlm": "model",
+  "material": "default_silver_sand.png"
+ },
+ {
+  "idx": 67,
+  "kind": "real",
+  "human": "model",
+  "vlm": "baseline",
+  "material": "default_cactus_top.png"
+ },
+ {
+  "idx": 69,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "beds_bed_top_top.png"
+ },
+ {
+  "idx": 70,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "vessels_shelf.png"
+ },
+ {
+  "idx": 71,
+  "kind": "real",
+  "human": "baseline",
+  "vlm": "baseline",
+  "material": "default_meselamp.png"
+ }
+]

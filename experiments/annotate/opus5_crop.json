@@ -1,0 +1,268 @@
+[
+ {
+  "idx": 0,
+  "kind": "real",
+  "material": "brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 2,
+  "kind": "real",
+  "material": "clay roof tiles",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 3,
+  "kind": "real",
+  "material": "brick wall",
+  "stratum": "cropped",
+  "chosen": "before"
+ },
+ {
+  "idx": 4,
+  "kind": "check",
+  "material": "red brick pavement",
+  "stratum": "cropped",
+  "chosen": "good"
+ },
+ {
+  "idx": 5,
+  "kind": "real",
+  "material": "stacked slate shingles",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 6,
+  "kind": "real",
+  "material": "clay roof tiles",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 7,
+  "kind": "real",
+  "material": "mossy cracked stone bricks",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 8,
+  "kind": "real",
+  "material": "wooden fence planks",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 9,
+  "kind": "check",
+  "material": "brick wall",
+  "stratum": "cropped",
+  "chosen": "good"
+ },
+ {
+  "idx": 10,
+  "kind": "real",
+  "material": "stacked log wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 12,
+  "kind": "real",
+  "material": "woven basket surface",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 13,
+  "kind": "real",
+  "material": "mossy cracked stone bricks",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 14,
+  "kind": "real",
+  "material": "stone brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 15,
+  "kind": "real",
+  "material": "stacked slate shingles",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 16,
+  "kind": "real",
+  "material": "tree log bark side",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 17,
+  "kind": "real",
+  "material": "cobblestone path",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 18,
+  "kind": "real",
+  "material": "brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 19,
+  "kind": "real",
+  "material": "stacked log wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 20,
+  "kind": "real",
+  "material": "cobblestone path",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 21,
+  "kind": "real",
+  "material": "adobe mud brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 22,
+  "kind": "real",
+  "material": "corrugated metal roof",
+  "stratum": "cropped",
+  "chosen": "before"
+ },
+ {
+  "idx": 24,
+  "kind": "real",
+  "material": "tree log bark side",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 25,
+  "kind": "real",
+  "material": "parquet wood flooring",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 26,
+  "kind": "real",
+  "material": "bamboo mat weave",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 27,
+  "kind": "real",
+  "material": "adobe mud brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 28,
+  "kind": "real",
+  "material": "stone brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 29,
+  "kind": "real",
+  "material": "red brick pavement",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 30,
+  "kind": "real",
+  "material": "stone brick wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 32,
+  "kind": "real",
+  "material": "wooden planks floor",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 33,
+  "kind": "check",
+  "material": "wooden fence planks",
+  "stratum": "cropped",
+  "chosen": "good"
+ },
+ {
+  "idx": 34,
+  "kind": "real",
+  "material": "woven basket surface",
+  "stratum": "cropped",
+  "chosen": "before"
+ },
+ {
+  "idx": 35,
+  "kind": "real",
+  "material": "stacked slate shingles",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 36,
+  "kind": "real",
+  "material": "stacked log wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 37,
+  "kind": "real",
+  "material": "sandstone block wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 38,
+  "kind": "real",
+  "material": "red brick pavement",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 39,
+  "kind": "real",
+  "material": "subway tile wall",
+  "stratum": "cropped",
+  "chosen": "before"
+ },
+ {
+  "idx": 40,
+  "kind": "real",
+  "material": "subway tile wall",
+  "stratum": "cropped",
+  "chosen": "after"
+ },
+ {
+  "idx": 41,
+  "kind": "real",
+  "material": "tree log bark side",
+  "stratum": "cropped",
+  "chosen": "after"
+ }
+]
