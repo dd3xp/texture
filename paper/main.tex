@@ -30,7 +30,9 @@ its stratification while the other preserves both; a third inverts the human
 conclusion outright. Self-consistency is no better a guide --- the judge that
 erases the stratification is the most consistent of the three under order
 swapping. Under human blind comparison a trivial downsampling
-baseline beats a purpose-built masked-prediction model 83:17. The bottleneck
+baseline beats a purpose-built masked-prediction model 83:17, and is
+indistinguishable from artist-drawn tiles under both arbiters (43\% by a
+human, 45\% by the validated judge). The bottleneck
 is not model capacity but a \emph{structural-unit convention} mismatch: the
 generator draws ${\sim}25$ units per tile regardless of canvas while artists
 draw ${\sim}3.2$, measured independently from 5{,}979 artist tiles and 125
@@ -327,30 +329,31 @@ the ruler succeeded; using it as a stand-in for quality was the error.
 
 \subsection{Against artists, the baseline is indistinguishable}
 
-The baseline beating our model would be uninteresting if the baseline were
-merely a low bar. It is not. Given a suitable high-resolution source, 27 pairs
-(24 comparisons, one of them called a tie and dropped, plus three attention
-checks, all passed; median 1.4\,s per item) put artist-drawn tiles against the downsampled baseline. Artists were
-preferred on $10/23 = 43\%$, $p{=}0.68$ --- if anything slightly behind. The
-result holds in both strata (geometric $50\%$, non-geometric $36\%$, Fisher
-$p{=}0.68$) and structure score does not predict the outcome
-($\rho{=}-0.007$, $p{=}0.98$).
+The baseline beating our model would be uninteresting if the baseline were a
+low bar. It is not. Given a suitable high-resolution source, 24 comparisons
+(one called a tie and dropped) plus three attention checks put artist-drawn
+tiles against the downsampled baseline. Artists were preferred on
+$10/23 = 43\%$, $p{=}0.68$ --- if anything slightly behind --- in both strata
+($50\%$ and $36\%$, Fisher $p{=}0.68$), with structure score not predicting
+the outcome ($\rho{=}-0.007$).
 
 This was the third pre-registered outcome for that comparison, and the one we
-had least expected: it says the baseline is already at parity, so there is no
-room for a method to work in. It also overturns the premise the project
-started from --- that low-resolution pixel art is an artist's redesign rather
-than a downsampling. An earlier attempt to test that premise with automatic
-features had been declared falsified and then withdrawn on the grounds that
-the ruler was blind to differences the eye could see; that escape is not
-available here, because the arbiter is the eye.
+had least expected: the baseline is already at parity, leaving no room for a
+method to work in. It also overturns the premise the project started from ---
+that low-resolution pixel art is an artist's redesign rather than a
+downsampling. An earlier attempt to test that premise with automatic features
+was declared falsified and then withdrawn because the ruler was blind to
+differences the eye could see; that escape is not available here.
 
-\paragraph{What this comparison can and cannot support.} With $n{=}24$, power
-against a true $65\%$ artist preference is only $21\%$, so the null is not
-confirmed --- the honest reading is that no large effect is present. A 60-pair
-extension (power $56\%$ at $65\%$, $84\%$ at $70\%$) is prepared and awaiting
-labels. Both this study and the pre-registered comparison above were labelled
-by a single annotator, which we return to in \S\ref{sec:limitations}.
+\paragraph{What this comparison can and cannot support.} With $n{=}24$ power
+against a true $65\%$ artist preference is only $21\%$, so we ran the 60-pair
+extension through the validated judge: artists are preferred on $18/40 = 45\%$
+($p{=}0.64$, Jeffreys $[30\%,60\%]$; attention checks $6/6$). Two arbiters
+that fail in different ways agree to within two points. A compressing judge
+cannot confirm a null, but because its compression is measured rather than
+assumed we can say what the result rules out: an artist preference of $65\%$
+would be expected to read as $60\%$, and the observed value is below chance
+(Appendix~\ref{app:detail}).
 
 
 \section{The Real Bottleneck: Structural-Unit Convention}
@@ -451,7 +454,7 @@ elsewhere. Judged by
 \texttt{claude-opus-5} --- the only judge that passed \S\ref{sec:judges}'s
 validation --- the crop is preferred on $31/35$ pairs, $89\%$,
 $p{=}3.5\times10^{-6}$, Jeffreys interval $[75\%, 96\%]$. Because that judge
-compresses, this is a lower bound. \pending{human blind study, 39 pairs}
+compresses, this is a lower bound.
 
 \paragraph{Across the output sizes the task calls for.} The results above are
 at $16\times16$. Two independent screening protocols --- different judge and
@@ -464,6 +467,17 @@ first is significant at $16$ and $24$ ($92\%$, $83\%$) but not at $32$
 pooled effect is large in both, but the single non-significant cell is a
 smaller-sample tier in the noisier protocol, not evidence that the method
 holds uniformly across the range.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.68\linewidth]{../figures/fig8_gradient.png}
+\caption{The pre-registered sampling-limit prediction, falsified. If cropping
+only undid aliasing, its benefit should decay as the output grid grows
+(dashed). Two independent protocols --- different judge and different render
+seed --- show no such decay, and cropping still wins at 64px where the source
+period is comfortably above Nyquist. Bars are Wilson intervals.}
+\label{fig:gradient}
+\end{figure}
 
 \subsection{A pre-registered falsification selects the mechanism}
 \label{sec:falsify}
@@ -488,6 +502,17 @@ tiles, $3.33$ from sources). Because that mismatch does not depend on output
 resolution, this account predicts no gradient --- which is what we observe.
 The failed prediction is what separates the two; had the gradient appeared,
 both would have been compatible with it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.72\linewidth]{../figures/fig7_units.png}
+\caption{Left axis: the distribution of structural units per tile the generator
+draws at three render sizes, against the ${\sim}3.2$ artists hold (dashed;
+measured independently from 5{,}979 tiles and 125 sources). Right axis: how
+often cropping is preferred under each condition. As the generator's unit
+count approaches the artist convention, the crop stops helping and then hurts.}
+\label{fig:dose}
+\end{figure}
 
 \subsection{Manipulating the unit count changes the benefit}
 
@@ -525,42 +550,25 @@ we report that as a limitation rather than fitting a unit-count threshold the
 per-image data do not support.
 
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=.72\linewidth]{../figures/fig7_units.png}
-\caption{Left axis: the distribution of structural units per tile the generator
-draws at three render sizes, against the ${\sim}3.2$ artists hold (dashed;
-measured independently from 5{,}979 tiles and 125 sources). Right axis: how
-often cropping is preferred under each condition. As the generator's unit
-count approaches the artist convention, the crop stops helping and then hurts.}
-\label{fig:dose}
-\end{figure}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=.68\linewidth]{../figures/fig8_gradient.png}
-\caption{The pre-registered sampling-limit prediction, falsified. If cropping
-only undid aliasing, its benefit should decay as the output grid grows
-(dashed). Two independent protocols --- different judge and different render
-seed --- show no such decay, and cropping still wins at 64px where the source
-period is comfortably above Nyquist. Bars are Wilson intervals.}
-\label{fig:gradient}
-\end{figure}
 
 \section{Limitations}
+\label{startlimit}
 \label{sec:limitations}
 
 \paragraph{One annotator.} Every human blind comparison we report --- the
 72-pair pre-registered study and the 24-pair artist comparison --- was
 labelled by a single person, an author. Attention checks passed and items were
-verified against their pipelines, but inter-annotator reliability is unmeasured
+verified against their pipelines, but inter-annotator reliability is unmeasured, and the judge is a second
+arbiter rather than a second annotator
 and the labeller was not blind to the project's hypotheses, only to which
 condition produced each image.
 
-\paragraph{A null we cannot confirm.} The artist comparison is underpowered
-against the alternative that matters: at $n{=}24$, a true $65\%$ artist
-preference would be detected only $21\%$ of the time. ``Indistinguishable''
-here means no large effect, not equivalence. The same asymmetry constrains
+\paragraph{A null we cannot confirm.} Neither arbiter establishes
+equivalence. The human comparison is underpowered ($21\%$ against a true
+$65\%$), and the judge compresses, so its $45\%$ bounds the effect using the
+compression measured on the validation set rather than proving its absence.
+``Indistinguishable'' here means no large effect. The same asymmetry constrains
 every judge-mediated result: because our validated judge compresses effects,
 its numbers support lower bounds and can refute nulls, but cannot establish
 them (\S\ref{sec:judges}).
@@ -586,23 +594,17 @@ pipeline aims slightly coarser than the convention it is meant to match
 (Appendix~\ref{app:retractions}).
 
 \paragraph{Where the gate declines, so does the baseline.} On an 18-material
-batch generated through the delivered pipeline, tiles the gate declined carry
-a median palette luminance spread of $0.071$ against $0.262$ where it fired
-(exact permutation $p{=}0.0018$; the artist median is $0.292$). Materials the
-crop does not apply to are therefore not materials that were already fine ---
-they are close to flat colour. The obvious extension does not rescue them: on
-the artist tiles the gate would decline, the azimuthally averaged
-autocorrelation falls below half within one cell for $84\%$ of tiles, and
-relaxing the threshold to $0.2$ moves the median only to two cells. Artists
-draw these materials as per-cell colour over a palette, not as structural
-units, so there is no feature count for a crop to align to. Matching them
-would mean matching the colour distribution rather than any spatial scale. A
-first probe supports that --- rescaling a declined tile's realized luminance
-spread to the artist median is preferred by the validated judge on $9/10$
-pairs it answered consistently ($p{=}0.02$), on $11$ of $21$ it was
-order-inconsistent --- but it treats the symptom: the tiles gain tonal
-structure without becoming more recognisably sand or grass. Half the task
-remains open, and it is the harder half.
+batch through the delivered pipeline, tiles the gate declined carry a median
+palette luminance spread of $0.071$ against $0.262$ where it fired (exact
+permutation $p{=}0.0018$; the artist median is $0.292$). These are not
+materials that were already fine --- they are close to flat colour. Nor does
+the obvious extension rescue them: artists draw them as per-cell colour rather
+than as structural units, so there is no feature count for a crop to align to
+(Appendix~\ref{app:detail}). Rescaling the realized spread to the artist
+median is preferred by the validated judge on $9/10$ pairs it answered
+consistently, but it treats the symptom --- tonal structure returns without
+the material becoming more recognisable. Half the task remains open, and it is
+the harder half.
 
 
 \paragraph{One generator, two domains.} The ${\sim}25$ structural units per
@@ -633,6 +635,7 @@ Pre-registrations are git commits timestamped before the corresponding runs.
 
 
 \appendix
+\label{startapp}
 
 \section{What We Retracted}
 \label{app:retractions}
@@ -791,5 +794,30 @@ tail; monotonicity uses Spearman's $\rho$ with tie-corrected ranks. The
 implementations carry no SciPy dependency, because the environment the
 experiments ran in did not have it and three earlier runs lost their summary
 statistics to that import after the data had already been written.
+
+\paragraph{Calibrating what a compressing judge rules out.} A judge that
+compresses cannot establish a null, but a measured compression factor turns
+its answer into a bound. On the validation set \texttt{claude-opus-5} under
+this protocol returned $73\%$ where the human measured $86\%$, retaining
+$(0.73-0.5)/(0.86-0.5) = 0.64$ of the distance from chance. Applying that
+factor, a true artist preference of $65\%$ in \S\ref{sec:baseline} would be
+expected to read as $60\%$, $70\%$ as $63\%$ and $75\%$ as $66\%$. The judge
+returned $45\%$, with a Jeffreys interval reaching only $60\%$. This does not
+show the two are equivalent; it shows an advantage of the size that would
+change the paper's conclusion is inconsistent with what the judge returned.
+The factor comes from one validation study and is applied to a different
+comparison, so it is an argument about magnitude, not a calibrated estimator.
+
+\paragraph{Why a crop cannot help the declined materials.} For the tiles the
+gate declines, we asked whether the same unit convention applies in a
+non-directional form. The 1D profile estimator in the pipeline is unsuitable
+here --- isotropic speckle cancels in row and column means --- so we used the
+azimuthal average of the 2D autocorrelation instead. On $84\%$ of those tiles
+it is already below half at a radius of one cell, and relaxing the threshold
+to $0.2$ moves the median only to two. There are no features to count, so a
+crop has nothing to align to. This is also why cropping granular materials by
+a characteristic scale looked worse than leaving them alone, an observation
+recorded in the code long before it had an explanation. The criterion for this
+test was committed before it ran.
 
 \end{document}
