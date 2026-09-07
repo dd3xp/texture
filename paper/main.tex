@@ -23,11 +23,13 @@ agree on 9.8\% of cells against 8.6\% expected under a paired null
 (50{,}753 artist pairs) --- there is no unique right answer. We show this
 single fact breaks both mainstream automatic evaluation routes. Per-pixel
 metrics measure marginal fit rather than quality. And VLM judges fail in ways
-that per-item agreement cannot detect: on the same human-labelled set, two
-judges agree with the human on \emph{identical} fractions of items
-(66.7\%), yet one compresses an 86\% effect to 62\% ($p{=}0.14$) and erases
+that neither standard judge diagnostic detects: on the same human-labelled set,
+two judges agree with the human on \emph{identical} fractions of items
+(66.7\%), yet one compresses an 87\% effect to 62\% ($p{=}0.14$) and erases
 its stratification while the other preserves both; a third inverts the human
-conclusion outright. Under human blind comparison a trivial downsampling
+conclusion outright. Self-consistency is no better a guide --- the judge that
+erases the stratification is the most consistent of the three under order
+swapping. Under human blind comparison a trivial downsampling
 baseline beats a purpose-built masked-prediction model 83:17. The bottleneck
 is not model capacity but a \emph{structural-unit convention} mismatch: the
 generator draws ${\sim}25$ units per tile regardless of canvas while artists
@@ -219,10 +221,18 @@ rested on a quantity that could not see what we cared about.
 
 We replayed a completed human blind study (72 pairs, \S\ref{sec:baseline}) to
 three frontier judges under an identical protocol, asking each pair in both
-orders and discarding disagreements. Order swapping is not optional here:
-before debiasing, judges chose the left image 67\% of the time, an order of
-magnitude beyond the ${\sim}5\%$ reported elsewhere, and the same 67\% appears
-on emoji pairs, so it is not specific to this content.
+orders and discarding disagreements.
+
+Order swapping earns its cost, but not for the reason usually given. None of
+the three judges is positionally biased on this content: asked $144$, $128$
+and $144$ times, they pick the first-presented image $54.2\%$, $51.6\%$ and
+$48.6\%$ of the time ($p{=}0.36$, $0.79$, $0.80$). What the swap exposes
+instead is instability. \citet{webdevjudge2025} report order-swap consistency
+between $83.5\%$ and $89.6\%$; here \texttt{claude-opus-5} is consistent on
+$72.2\%$ of pairs ($[61,82]$) and \texttt{gpt-5.6-sol} on $63.9\%$
+($[52,74]$), both intervals reaching no higher than that range's floor. A
+judge asked the same question twice gives a different answer on a third of
+these pairs.
 
 The results (Figure~\ref{fig:judges}) separate into three failure modes.
 \texttt{gemini-3.1-pro} compresses the human's 87\% baseline win rate to 62\%
@@ -237,8 +247,16 @@ The methodological point is panel (c). \texttt{gemini-3.1-pro} and
 \texttt{claude-opus-5} agree with the human on \emph{exactly} the same
 fraction of items, 66.7\%, and one destroys the conclusion while the other
 keeps it. Per-item agreement --- the quantity this literature reports --- is
-not evidence that a judge can be used. A judge must be validated on whether it
-reproduces a conclusion already established by humans.
+not evidence that a judge can be used.
+
+Nor is stability. Ranked by order-swap consistency the order reverses:
+\texttt{gemini-3.1-pro} is the \emph{most} self-consistent of the three at
+$90.6\%$, comfortably inside the published range, and it is the judge that
+flattens the stratification; the two judges falling below that range include
+the only one we can use. Both diagnostics that are cheap to compute ---
+agreement with human labels item by item, and agreement with oneself under
+reordering --- are silent about the thing that matters. A judge must be
+validated on whether it reproduces a conclusion already established by humans.
 
 \paragraph{A judge's bias direction determines what it can support.} Because
 compression pulls any real difference toward 50\%, a compressing judge
