@@ -195,16 +195,14 @@ chance, significant only because $n$ is large, and a third of artist pairs
 ($33.5\%$) fall \emph{below} their own null. Per-cell agreement between
 independent artists carries almost no signal.
 
-\paragraph{The finding is not specific to pixel art.} We repeated the identical
-protocol on three independently designed emoji sets (Noto, Twemoji, OpenMoji;
-64 emoji, 192 set pairs). Measured over all cells, emoji redraws appear far
-more consistent, $+0.1367$ over the null against textures' $+0.0117$ --- a
-twelve-fold difference. But two thirds of emoji cells are transparent
-background composited to white, and they agree trivially. Restricted to the
-foreground shared by both sets, with the null shuffled inside that mask, the
-gap is $+0.0154$, and again about a third of pairs ($32.3\%$) fall below their
-own null. Measuring this kind of agreement without excluding regions that
-agree trivially inflates it by an order of magnitude.
+\paragraph{The finding is not specific to pixel art.} We repeated the protocol
+on three independently designed emoji sets (Noto, Twemoji, OpenMoji; 64 emoji,
+192 set pairs). Over all cells emoji redraws look twelvefold more consistent,
+$+0.1367$ against textures' $+0.0117$ --- but two thirds of emoji cells are
+transparent background composited to white and agree trivially. Restricted to
+the shared foreground, with the null shuffled inside that mask, the gap is
+$+0.0154$ and a third of pairs again fall below their own null. Not excluding
+regions that agree trivially inflates this measurement tenfold.
 
 \subsection{Per-pixel objectives therefore measure marginal fit}
 
@@ -320,15 +318,13 @@ without priors lost to the baseline at $60\%$; adding the priors moved that to $
 The priors did not fail to help --- they actively hurt.
 
 \paragraph{The structural ruler ranked them backwards.} We had also built a
-structural-descriptor distance to serve as a cheap quality proxy. It passed
-three validation criteria and was split-half stable, and it scored the seeded
+structural-descriptor distance as a cheap quality proxy. It passed three
+validation criteria and was split-half stable, and it scored the seeded
 condition better than the unseeded one ($0.93$ vs $1.74$) --- the reverse of
-the human ordering ($5\%$ vs $42\%$). The criteria established that the
-descriptor can tell structured content from unstructured content, which is a
+the human ordering ($5\%$ vs $42\%$). Its criteria established that the
+descriptor separates structured from unstructured content, which is a
 different question from whether a tile reads as the right material. Building
-the ruler succeeded; treating it as a stand-in for quality was the error. Two
-earlier conflicts between this ruler and visual inspection, resolved both
-times in favour of the eye, are retrospectively vindicated.
+the ruler succeeded; using it as a stand-in for quality was the error.
 
 \subsection{Against artists, the baseline is indistinguishable}
 
@@ -593,6 +589,14 @@ aims slightly coarser than the convention it is meant to match; every number
 we report is from the pipeline as it stands, and whether re-tuning to $3.2$
 improves it is untested.
 
+\paragraph{Where the gate declines, so does the baseline.} On an 18-material
+batch generated through the delivered pipeline, tiles the gate declined carry
+a median palette luminance spread of $0.071$ against $0.262$ where it fired
+(exact permutation $p{=}0.0018$; the artist median is $0.292$). Materials the
+crop does not apply to are therefore not materials that were already fine ---
+they are close to flat colour, and we offer nothing for them. Half the task
+remains open, and it is the harder half.
+
 \paragraph{One generator, two domains.} The ${\sim}25$ structural units per
 tile is measured on SDXL renders. Whether the convention mismatch takes the
 same magnitude --- or the same form --- in other text-to-image models is
@@ -602,6 +606,8 @@ raster redrawing by human authors; we do not claim it for reference-scarce
 tasks in general.
 
 
+% 第二个探针：正文（含 Limitations）到此为止；复现性声明与参考文献不计入 ICLR 页数
+\label{endoflimit}
 \section*{Reproducibility Statement}
 Every claim in this paper is traceable to a numbered experiment record in
 the project log. Appendix~\ref{app:retractions} lists the results we
@@ -609,7 +615,10 @@ withdrew, and why; Appendix~\ref{app:detail} gives dataset construction,
 generation settings, the judging protocol and the statistical procedures.
 Pre-registrations are git commits timestamped before the corresponding runs.
 
-% 页数探针：main.aux 里 endofmain 的页码 = 正文结束页（ICLR 正文限 9 页，参考文献不计）
+% 页数探针。**看 endoflimit，不要看 endofmain**：
+% endoflimit = Limitations 结束页 = ICLR 计入 9 页限制的真实边界；
+% endofmain 在复现性声明之后，而声明与参考文献都不计入。
+% 我曾按 endofmain 判超页并做了几轮不必要的压缩。
 \label{endofmain}
 \bibliographystyle{iclr2027_conference}
 \bibliography{refs}
