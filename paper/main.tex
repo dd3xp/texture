@@ -40,7 +40,79 @@ failure is what selects the surviving mechanism.
 \end{abstract}
 
 \section{Introduction}
-\pending{prose; argument chain in docs/draft\_en.md \S1}
+\label{sec:intro}
+
+The task sounds small. Given a solid-colour region and a material word ---
+``brick'', ``wood'' --- produce a pixel-art texture for it at $16\times16$,
+$24\times24$ or $32\times32$. But shrinking the canvas does something a
+larger canvas hides: it makes the space of acceptable answers large relative
+to the space of possible ones, and, unusually, it makes the degree of
+non-uniqueness \emph{exactly computable}. A tile is a small grid of discrete
+palette indices, so two artists' renditions of the same material either place
+the same index in a cell or they do not, with nothing to interpolate and no
+perceptual metric standing in between.
+
+Measured that way, independent artists agree on $9.8\%$ of cells against
+$8.6\%$ expected under a matched null (\S\ref{sec:agreement}). Whatever a
+per-pixel loss is fitting on this task, it is not something artists agree
+about. This single fact is the paper's hinge, and it disqualifies both of the
+routes normally taken to evaluate a generative model here.
+
+\paragraph{Both automatic evaluation routes fail, for the same reason.}
+Reference-based quantities have almost no signal to work with, so they reduce
+to measuring marginal fit. We watched the consequence before we understood
+it: across three rounds of architecture changes, validation accuracy climbed
+while the sample galleries did not visibly change (\S\ref{sec:noright}). The
+other route, a VLM judge, fails differently and in a way the literature's
+standard diagnostic cannot see. Two frontier judges agreed with human labels
+on \emph{exactly} the same fraction of items, $66.7\%$, and one preserved the
+human conclusion while the other destroyed it (\S\ref{sec:judges}). Per-item
+agreement is not what makes a judge usable; reproducing a conclusion humans
+have already established is.
+
+\paragraph{Under valid evaluation, a trivial baseline wins.} Once the arbiter
+is a human blind comparison, the ordering our automatic quantities had
+reported inverts. Plain downsampling of a suitable high-resolution source
+beats our own purpose-built masked-prediction model $83{:}17$ in a
+pre-registered study, with the loss concentrated exactly where our
+hand-designed structural priors act (\S\ref{sec:baseline}). Against
+artist-drawn tiles the same baseline is indistinguishable ($43\%$,
+$p{=}0.68$). This overturns the premise the project began from --- that
+low-resolution pixel art is an artist's redesign rather than a downsampling
+--- and it means a method has to earn its place somewhere other than where we
+had been looking.
+
+\paragraph{The bottleneck is a scale convention, not capacity.} Where no
+suitable source exists, the source has to be generated, and there the
+baseline is weak. Not because the generator cannot draw the material: its
+$1024$px render is structurally sound. It draws about $25$ structural units
+per tile while pixel artists place about $4.5$, a mismatch above five-fold
+that we measure from two independent sources (\S\ref{sec:mechanism}).
+Cropping the render to its detected dominant period repairs it. We
+pre-registered a pure sampling-limit explanation of why this works and
+\emph{falsified} it; reporting that failure is what selects the surviving
+account, which then passed a second pre-registered test with a monotone
+dose--response in unit count (\S\ref{sec:falsify}).
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item \textbf{Diagnosis.} An exactly computable inter-author agreement test,
+  with the paired null it requires, showing this task has no unique
+  reference; and evidence that per-pixel metrics and VLM judges both fail on
+  it (\S\ref{sec:noright}).
+\item \textbf{Baseline calibration.} Pre-registered human blind studies
+  showing a trivial baseline beats a purpose-built method and matches human
+  artists (\S\ref{sec:baseline}).
+\item \textbf{Mechanism and fix.} Measurement of the structural-unit
+  convention mismatch, a period-based cropping rule with a data-derived
+  applicability gate validated on held-out materials, and pre-registered
+  causal evidence with a dose--response (\S\ref{sec:mechanism}).
+\item \textbf{Evaluation methodology.} A judge-admissibility protocol:
+  validate on conclusion reproduction rather than per-item agreement, and let
+  the judge's measured bias direction determine which claims it can support
+  (\S\ref{sec:judges}).
+\end{itemize}
+
 
 \section{Related Work}
 \label{sec:related}
@@ -325,7 +397,7 @@ resolution grows, more structure survives uncropped and cropping should matter
 less --- and we pre-registered it over five output sizes with fixed criteria
 before running.
 
-It failed. Across two independent protocols the trend is
+It failed (Figure~ef{fig:gradient}). Across two independent protocols the trend is
 $\rho{=}-0.137$ ($p{=}0.277$) and $\rho{=}+0.044$ ($p{=}0.64$), and at 48px
 the crop wins 100\% against 88\% at 16px, triggering the pre-registered
 falsification condition. At 64px a 47px source period already spans 2.9 output
@@ -370,11 +442,24 @@ per-image data do not support.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=.58\linewidth]{../figures/fig_dose_response.png}
-\caption{Manipulating how many structural units the generator draws produces a
-monotone change in whether cropping helps, with the midpoint sitting at no
-effect. Bars are Jeffreys intervals.}
+\includegraphics[width=.72\linewidth]{../figures/fig7_units.png}
+\caption{Left axis: the distribution of structural units per tile the generator
+draws at three render sizes, against the ${\sim}4.5$ artists hold (dashed;
+measured independently from 5{,}979 tiles and 125 sources). Right axis: how
+often cropping is preferred under each condition. As the generator's unit
+count approaches the artist convention, the crop stops helping and then hurts.}
 \label{fig:dose}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.68\linewidth]{../figures/fig8_gradient.png}
+\caption{The pre-registered sampling-limit prediction, falsified. If cropping
+only undid aliasing, its benefit should decay as the output grid grows
+(dashed). Two independent protocols --- different judge and different render
+seed --- show no such decay, and cropping still wins at 64px where the source
+period is comfortably above Nyquist. Bars are Wilson intervals.}
+\label{fig:gradient}
 \end{figure}
 
 \section{Limitations}

@@ -10,6 +10,7 @@
 """
 
 import json
+import statistics
 import math
 from pathlib import Path
 
@@ -47,7 +48,10 @@ def main():
                     capprops=dict(color=BLUE))
     for i, d in enumerate(data):
         ax.plot([i + 0.28] * len(d), d, ".", color=BLUE, ms=3, alpha=0.45)
-        ax.annotate(f"med {sorted(d)[len(d)//2]:.1f}", (i - 0.28, sorted(d)[len(d)//2]),
+        # n 为偶数时 sorted(d)[len(d)//2] 取的是上中位数，会与箱线图自己画的
+        # 中位线对不上（384px 因此标成 9.5，真值 9.37）。用真中位数。
+        med = statistics.median(d)
+        ax.annotate(f"med {med:.1f}", (i - 0.28, med),
                     ha="right", va="center", fontsize=7.5, color=BLUE)
     ax.axhline(4.5, color="black", lw=1.2, ls="--")
     ax.annotate("human convention ≈ 4.5 units/tile (two independent sources)",
@@ -81,7 +85,7 @@ def main():
     out = ROOT / "figures" / "fig7_units.png"
     fig.savefig(out, dpi=200)
     for (c, p, *_), d in zip(CONDS, data):
-        print(f"{c}: n={len(d)} median={sorted(d)[len(d)//2]:.2f}")
+        print(f"{c}: n={len(d)} median={statistics.median(d):.4f}")
     print("wrote", out)
 
 

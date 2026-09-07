@@ -92,12 +92,18 @@ def main():
                 print(f"  [{tot}] 选左 {left/tot:.0%}", flush=True)
     import sys as _s; _s.path.insert(0, str(Path(__file__).resolve().parents[1]))
     from exact import binom_test  # 无依赖，见 analysis/exact.py
+    pv = binom_test(left, tot)
     print(f"\n模型 {args.model}   emoji 对 {tot}")
-    print(f"  选左比例 {left/max(tot,1):.1%}   （期望 50%）"
-          f"  二项 p={binom_test(left, tot):.3g}")
-    print(f"  正反一致 {swap_consistent}/{swap_tot} = {swap_consistent/max(swap_tot,1):.0%}")
-    print(f"\n对照 · 纹理任务（B6）：gemini 选左 67%")
-    print("判读：emoji 上也明显偏离 50% -> 位置偏好非纹理特有。")
+    print(f"  选左比例 {left/max(tot,1):.1%}   （期望 50%）  二项 p={pv:.3g}")
+    print(f"  正反一致 {swap_consistent}/{swap_tot} = {swap_consistent/max(swap_tot,1):.0%}"
+          f"   （WebDevJudge 各判官 83.5–89.6%）")
+    # 判读必须跟着 p 值走。此前这里硬编码「明显偏离 50%」，与 B11 同一类错误：
+    # 把一个没过显著性的方向当成结论。实测 54 对 61.1%、p=0.134，正是被它误报的那次。
+    if pv < 0.05:
+        print("判读：显著偏离 50% -> 该判官在 emoji 上确有位置偏好。")
+    else:
+        print(f"判读：**未达显著**（p={pv:.3g}）-> 不能据此声称有位置偏好；"
+              f"n={tot} 下只能说没测到大效应。")
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ B2（人自己就分不出来的集合），且没留下逐条原始回答。而
 判官只看图，不看人的标签，故本脚本不需要 CSV 的 choice 列。
 """
 import argparse, json, os, sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -22,6 +23,8 @@ def main():
     ap.add_argument("--model", required=True)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", type=Path, required=True)
+    # 单次调用实测 gemini 约 89 秒；串行 144 次要 3.5 小时，必须并发。
+    ap.add_argument("--workers", type=int, default=8)
     a = ap.parse_args()
 
     base, key = os.environ.get("VLM_BASE_URL"), os.environ.get("VLM_API_KEY")
@@ -32,9 +35,8 @@ def main():
     if a.limit:
         items = items[:a.limit]
 
-    recs, first = [], 0
-    asked = consistent = pairs = 0
-    for i, it in enumerate(items):
+    def job(t):
+        i, it = t
         prompt = (Q_CHECK if it["kind"] == "check" else Q.format(label=it["label"]))
         prompt += "\n（第一张是 A，第二张是 B）"
         L, R = upscale_b64(it["limg"]), upscale_b64(it["rimg"])
@@ -48,23 +50,25 @@ def main():
 
         f1, f2 = one(L, R), one(R, L)          # 原序、反序
         if f1 is None or f2 is None:
-            continue
-        # 两次提问各自独立地贡献一个「选第一张与否」的观测
-        asked += 2
-        first += (f1 == "first") + (f2 == "first")
-        # 换成内容标签看是否一致：原序 first=左，反序 first=右
-        pick1 = "left" if f1 == "first" else "right"
-        pick2 = "right" if f2 == "first" else "left"
-        pairs += 1
-        consistent += pick1 == pick2
-        recs.append({"idx": i, "kind": it["kind"], "material": it["material"],
-                     "order1": f1, "order2": f2, "pick1": pick1, "pick2": pick2})
-        print(f"  [{pairs}/{len(items)}] {it['material'][:24]:<24} "
-              f"原序={f1:<6} 反序={f2:<6} {'一致' if pick1 == pick2 else '不一致'}",
-              flush=True)
+            return None
+        return {"idx": i, "kind": it["kind"], "material": it["material"],
+                "order1": f1, "order2": f2,
+                "pick1": "left" if f1 == "first" else "right",
+                "pick2": "right" if f2 == "first" else "left"}
+
+    with ThreadPoolExecutor(max_workers=a.workers) as ex:
+        recs = [r for r in ex.map(job, list(enumerate(items))) if r]
+
+    pairs = len(recs)
+    asked = 2 * pairs
+    first = sum((r["order1"] == "first") + (r["order2"] == "first") for r in recs)
+    o1 = sum(r["order1"] == "first" for r in recs)
+    consistent = sum(r["pick1"] == r["pick2"] for r in recs)
 
     print(f"\n模型 {a.model}   有效对 {pairs}")
     print(f"  位置偏好 P(选第一张) = {first}/{asked} = {first/max(asked,1):.1%}（中性 50%）")
+    print(f"    其中仅看原序 = {o1}/{pairs} = {o1/max(pairs,1):.1%}"
+          f"   ← 与 emoji 脚本同口径；该口径把内容偏好混进来，仅供对照")
     print(f"  换序一致率 = {consistent}/{pairs} = {consistent/max(pairs,1):.1%}"
           f"   （WebDevJudge 各判官 83.5–89.6%）")
     a.out.write_text(json.dumps(recs, ensure_ascii=False, indent=1), encoding="utf-8")
