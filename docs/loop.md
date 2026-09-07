@@ -591,3 +591,23 @@ grass turf 从 12 色塌成 1 色，因为 quantize 把每格映射到最近条�
 
 **教训（可迁移）**：操作检验必须量**下游实际会被评判的那个量**，
 不能量中间对象。中间对象命中目标 ≠ 操作生效。
+
+### 第 13 轮 — 2026-09-07（无头轮）：维护轮——PDF 与 tex 脱节，已重编译
+
+开工对账：工作树干净、无并行痕迹；标注 CSV 仍未到（study_crop/study_ab60
+两份 labels 均不存在）。按常驻指令优先级落到维护。
+
+**做了什么**：
+
+1. `check_refs.py` 全绿（未引用 label 只有页码探针与节锚点，正常）；
+   正文 `\pending` 恰余 1 处（§5.3 人工盲比），与预期一致。
+2. **发现并修复：`main.pdf`（10:48）落后于 `main.tex`（16:35）**——
+   spread 测试那三笔提交只改了 tex 没重编译。上传 tex+bib 到 emnlp，
+   pdflatex×3 + bibtex：零警告零错误、无未定义引用，
+   `endoflimit` 在第 9 页（限内），PDF 已取回（1.2MB，图全）。
+3. 远程巡检：无本项目掉线任务。发现一个 **8 月底遗留的 watcher**
+   （pid 4134815，等 `experiments/model/crop/history.json`，A4 时代模型训练
+   的收尾脚本，路线早已关闭）——纯 sleep 循环无害，未动；如碍事可杀。
+   其余 train_coarse/sample_e 进程属 pixel 项目，勿动。
+
+**状态**：论文完整且 PDF 与源同步。唯一阻塞仍是用户标注两份 HTML。
