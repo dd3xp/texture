@@ -40,8 +40,12 @@ def main():
     ap.add_argument("--no-autocrop", dest="autocrop", action="store_false",
                     help="关闭按结构尺度自动裁剪")
     ap.add_argument("--hires", type=int, default=1024,
-                    help="SDXL 渲染分辨率。1024 下一块砖约 200px，"
-                         "降到 16px 后砖缝不足 1px 被平均抹平；调低可让结构存活")
+                    help="SDXL 渲染分辨率。它决定每张图画进多少个结构单元："
+                         "1024 约 27.7 个、512 约 13.8、384 约 9.4，而真人惯例约 3.2。"
+                         "调低能让单元数靠近真人惯例，此时裁剪的收益随之消失"
+                         "（B13/B14 剂量-反应：88%/54%/17%）。"
+                         "注意：原帮助文字说的是「砖缝不足 1px 被抹平」，"
+                         "那是**已被预注册证伪**的纯采样定理解释，勿再据此推理。")
     args = ap.parse_args()
 
     from diffusers import StableDiffusionXLPipeline
