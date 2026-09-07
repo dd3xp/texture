@@ -385,16 +385,14 @@ $32$ the unit count is unchanged: artists enlarge the units rather than adding
 more, and only at $64$ do they add units. The period-to-side ratio is
 identical at $16$ and $32$ ($0.312$) and halves at $64$ ($0.133$).
 
-\paragraph{Which detector setting.} Our period detector searches up to
-$0.625$ of the side; an earlier version stopped at $0.5$, which by
-construction excludes materials with only two courses and detected a period in
-$6/40$ stone-brick tiles against $36/40$ after the change. Under that earlier
-setting the same tiles give $4.0$, $4.6$ and $9.1$ units, and the crop
-constant we use, $4.5$ units per tile, was fixed from those numbers. We did
-not re-tune it after changing the detector, so the constant the pipeline
-applies is derived from a caliber it no longer uses; every result we report
-comes from the pipeline as it stands. Both settings support the same
-qualitative claim, and the production setting supports it more cleanly.
+\paragraph{Which detector setting.} Our detector searches up to $0.625$ of the
+side; an earlier version stopped at $0.5$, which by construction excludes
+two-course materials and found a period in $6/40$ stone-brick tiles against
+$36/40$ after the change. Under that earlier setting the same tiles give
+$4.0$, $4.6$ and $9.1$ units, and the crop constant we use, $4.5$, was fixed
+from those numbers and never re-tuned (\S\ref{sec:limitations}). Both settings
+support the same qualitative claim; the production setting supports it more
+cleanly.
 
 A second, independent measurement agrees. Across 125 artist-authored
 high-resolution sources with a detected directional period, a period spans
@@ -406,9 +404,24 @@ units per tile: five to six times more densely packed than the artist sources,
 and past the Nyquist limit by more than a factor of two. This is why curated
 sources need no intervention and generated ones do.
 
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.80\linewidth]{../figures/fig_qualitative.png}
+\caption{The same 1024px render, downsampled directly (second column) and
+after cropping to its detected period (third column); the red box shows the
+window taken. Courses, planks and weave survive the crop and do not survive
+the direct reduction --- and no downsampling kernel recovers them, because the
+structure is finer than the output grid before any kernel is chosen. The last
+row is a decline: clay tiles have a period but too little directionality
+($0.17 < 0.20$), so the gate leaves the image alone.}
+\label{fig:qual}
+\end{figure}
+
 \subsection{Fix and applicability}
 
 We crop the source to a window of side $\text{period}\times(\text{size}/4.5)$
+(Figure~\ref{fig:qual})
 around the detected dominant period, then downsample. Two conditions gate it:
 a period must be detected, and normalised anisotropy must reach $0.20$.
 The anisotropy condition is necessary because period detection runs on row and
@@ -423,15 +436,12 @@ Both conditions earn their place. Counting a firing on a directional class as
 a hit and on an isotropic class as a false trigger, the period-only rule at
 the earlier search range hits $80\%$ and false-triggers $14\%$; widening the
 range raises both ($98\%$, $20\%$); adding the anisotropy condition keeps the
-hits and removes the false triggers ($96\%$, $4\%$). To check this is not
-threshold-fitting, we repeat it on a held-out split assigned by material name
-rather than by inspection --- 31 directional and 101 isotropic classes,
-$1{,}234$ tiles, disjoint from the classes the threshold was set on, with
-names matching both keyword sets discarded. The ordering survives: the
-period-only rule hits $71\%$ at $39\%$ false triggers, the two-condition gate
-$83\%$ at $18\%$. The held-out false-trigger rate is higher because a
-name-based split puts genuinely directional materials (glass panes, ore veins
-on patterned stone) in the isotropic set, which bounds the rate from above.
+hits and removes the false triggers ($96\%$, $4\%$). Repeating this on a
+held-out split assigned by material name rather than by inspection --- 31
+directional and 101 isotropic classes, $1{,}234$ tiles, disjoint from the
+tuning classes --- preserves the ordering: $71\%$ at $39\%$ for period-only,
+$83\%$ at $18\%$ for the gate. The held-out false-trigger rate is an upper
+bound, since a name-based split files glass panes and ore veins as isotropic.
 
 The gate fires on roughly half of prompts. The correct statement is therefore
 that the method wins \emph{within its applicability}, which covers about half
