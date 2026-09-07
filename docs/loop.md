@@ -666,3 +666,26 @@ PDF 已取回。
 **状态**：论文无 `\pending`、数字与原始数据一致、PDF 与源同步。
 剩余的人工标注（study_crop 39 对、study_ab60 60 对）从"阻塞"降级为
 "可加强"——判官数字已入文并标明为界，人工数据到了可直接替换。
+
+### 第 17 轮 — 2026-09-07（无头轮）：引文校验轮——降采样两篇对上原文，无需改动
+
+开工对账：工作树干净、mtime 与上笔提交（286f221）吻合、无并行迹象；
+标注 CSV 仍未到。`check_refs.py` 全绿；tex(18:44) 早于 pdf(19:08)，同步无欠账。
+远程巡检：无本项目任务在跑（第 13 轮记录的 8 月遗留 watcher 仍在纯 sleep，无害；
+其余 tmux 均属他项目）。
+
+论文本体无事可修，落到常驻优先级第 4 项：**引文深读校验**
+（WebDevJudge 数字此前已更正过一次，同款风险要逐篇排掉）。
+
+- **Kopf/Shamir/Peers 2013**：摘要原句 "optimize the shape and locations of
+  the downsampling kernels to better align with local image features"；
+  核=空间高斯×颜色高斯的双边组合，约束 EM 迭代优化。
+  正文 §2 与 related-work.md 的描述**逐句准确**。
+- **Öztireli & Gross 2015**：确为「降采样写成优化问题，目标是感知质量指标
+  （SSIM）」，且原文强调**闭式解**、速度同线性滤波量级。正文只说 "cast
+  downscaling as optimisation against an SSIM objective"，准确且未过度声称。
+- 顺带核对：WebDevJudge 更正后的数字（83.5–89.6% / 0.9–15.8%）在
+  main.tex 两处（§2、§4.1/附录）与 related-work.md 三方一致。
+
+**状态**：相关工作节的外部引文全部经原文校验（WebDevJudge 第 12 轮更正、
+降采样两篇本轮）。唯一待强化项仍是人工标注两份 HTML。
