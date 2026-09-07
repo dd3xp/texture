@@ -77,10 +77,15 @@ render to its dominant period repairs this, robustly across four runs, and
 the mechanism survived one pre-registered falsification attempt and passed a
 second pre-registered causal test with a dose-response (§5.4).
 
-**Generality.** Any task whose ground truth is high-entropy — icons, emoji,
-UI themes, terrain tiles — will hit the same trap. We contribute the
-agreement-vs-paired-null test as a cheap, exact diagnostic for whether a
-task admits reference-based evaluation at all.
+**Generality — and its boundary.** The trap is specific to high-entropy
+targets with *no spatial anchoring*. Running the identical protocol on three
+independently drawn emoji sets (Noto, Twemoji, OpenMoji; 64 emoji, 192
+pairs) yields agreement well above the paired null (0.363 vs 0.215,
+Wilcoxon p=5e-33), whereas textures sit almost exactly on it (+0.012):
+when content is spatially anchored, a per-pixel signal exists. This
+validates the diagnostic rather than weakening it — the
+agreement-vs-paired-null test discriminates between the two regimes, giving
+a cheap, exact answer to whether a task admits reference-based evaluation.
 
 Contributions:
 

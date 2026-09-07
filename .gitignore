@@ -42,3 +42,6 @@ experiments/annotate/vlm_*.json
 
 # 无头轮次的运行日志与锁，不入库
 logs_local/
+
+# emoji 素材为第三方许可资产，不入库（脚本可重新抓取）
+data/emoji/
