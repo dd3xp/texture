@@ -123,7 +123,8 @@ dose--response in unit count (\S\ref{sec:falsify}).
 
 \paragraph{Pixel-art generation.} The closest work is
 SD-$\pi$XL~\citep{binninger2024sdpixl}, which produces palette-constrained
-low-resolution imagery from an input image via score distillation. We
+low-resolution imagery from a text prompt, optionally guided by a reference
+image, via score distillation. We
 reproduced it; two properties matter here. It has no region-constraint
 channel, so it cannot be asked to paint only inside a given shape, and
 raising its conditioning strength degrades rather than improves the output.

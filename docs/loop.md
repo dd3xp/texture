@@ -689,3 +689,23 @@ PDF 已取回。
 
 **状态**：相关工作节的外部引文全部经原文校验（WebDevJudge 第 12 轮更正、
 降采样两篇本轮）。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 18 轮 — 2026-09-07（无头轮）：引文校验收尾——剩余三篇对原文，抓到两处错
+
+开工对账：工作树干净、pdf(19:08) 晚于 tex(18:44)、无并行迹象；标注 CSV 仍未到。
+接续第 17 轮，把相关工作节剩余三篇实质引文对原文校验：
+
+- **wang2024fair 漏了一位作者**：ACL Anthology（2024.acl-long.511）作者表在
+  Yunbo Cao 与 Qi Liu 之间有 **Lingpeng Kong**，refs.bib 里没有。已补。
+- **SD-πXL 描述失准**：原文摘要写明输入是**文本提示**，参考图像仅为可选
+  （初始化/空间引导）；正文 §2 与 related-work.md 都写成 "from an input
+  image"。已改为 "from a text prompt, optionally guided by a reference
+  image"。标题/作者/venue/DOI 逐项核对无误。
+- **zheng2023mtbench**：泛引（judge 范式标准化），作者表与 NeurIPS 2023
+  一致，无需改动。
+
+`check_refs.py` 全绿；emnlp 重编译（pdflatex×3+bibtex）：13 页、零未定义引用、
+`endoflimit` 第 9 页限内，PDF 已取回。
+
+**状态**：全部 10 条 bib 引文均经核验（4 篇经典泛引低风险，6 篇实质引文
+逐句对过原文）。唯一待强化项仍是人工标注两份 HTML。
