@@ -712,13 +712,15 @@ luminance levels --- the same pipeline as tiles, with luminance standing in
 for the palette index. The foreground mask is the intersection of the two
 sets' $\alpha > 0.5$ regions, and the null shuffles cells inside that mask.
 
-\paragraph{Generation.} SDXL base 1.0 with the \texttt{nerijs/pixel-art-xl}
-LoRA, 28 denoising steps, $1024\times1024$ unless stated. Prompts are wrapped
-as \emph{``pixel art, \{material\}, top-down seamless tileable game texture,
-flat lighting, no shadows, orthographic, chunky large pixels''} with a
-negative prompt of \emph{``perspective, 3d render, vignette, watermark, text,
-border, blurry''}. Seeds are stated per experiment; the main crop study uses
-21 and its independent replication 99.
+\paragraph{Generation.} Every experiment in this paper uses SDXL base 1.0
+with no adapter, fp16, 28 denoising steps, at $1024\times1024$ unless stated.
+Prompts are wrapped as \emph{``pixel art, \{material\}, top-down seamless
+tileable game texture, flat lighting, no shadows, orthographic, chunky large
+pixels''} with a negative prompt of \emph{``perspective, 3d render, vignette,
+watermark, text, border, blurry''}. The seed for the $i$th prompt is
+$\text{base}+i$; the main crop study uses base 21 and its independent
+replication 99. Our delivery tool optionally loads a pixel-art LoRA, but no
+reported result does.
 
 \paragraph{Period and anisotropy.} The dominant period is the first
 significant peak of the autocorrelation of row and column intensity profiles,
@@ -729,9 +731,10 @@ free and unaffected by overall contrast. The crop takes a centred window of
 side $\text{period}\times(\text{size}/4.5)$, clipped to at least $0.08$ of
 the source side.
 
-\paragraph{Judges.} Each pair is presented as two images with the question
-\emph{``which of these two $16\times16$ pixel-art textures looks more like
-\{material\}? Answer only A or B''}, at temperature 0 and a cap of 8 output
+\paragraph{Judges.} Each pair is presented as two images and the judge is
+asked which looks more like the named material --- for the crop screening,
+which also looks more like a usable game texture --- answering only A or B,
+at temperature 0 with a cap of 8 output
 tokens. Every pair is asked in both orders and pairs answered inconsistently
 are discarded; reported rates are over the survivors. Attention-check items
 pair a clean tile against a blurred one. At temperature 0 the judges are

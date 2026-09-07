@@ -23,6 +23,29 @@ TMPL = ("pixel art, {p}, top-down seamless tileable game texture, "
 NEG = "perspective, 3d render, vignette, watermark, text, border, blurry"
 
 
+def load_lora(pipe, lora: str, weight_name: str = "pixel-art-xl.safetensors"):
+    """载入像素画 LoRA。离线模式下必须显式给 `weight_name`。
+
+    `HF_HUB_OFFLINE=1` 时 diffusers 无法列举仓库文件，只说
+    "you must specify a `weight_name`" 就放弃——实测本项目所有离线跑批
+    都因此静默退回了基础模型（`experiments/figqual.txt`）。
+    先带文件名试，失败再退回自动发现，两条都失败才放弃并**明说**。
+    """
+    if not lora or lora == "none":
+        return False
+    for kw in ({"weight_name": weight_name}, {}):
+        try:
+            pipe.load_lora_weights(lora, **kw)
+            print(f"已载入 LoRA {lora}"
+                  f"{' (' + weight_name + ')' if kw else ''}", flush=True)
+            return True
+        except Exception as e:
+            last = e
+    print(f"LoRA 未载入（{last}）——**用的是基础模型**，"
+          f"与论文里所有已报结果一致", flush=True)
+    return False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("prompt")
@@ -52,12 +75,7 @@ def main():
     pipe = StableDiffusionXLPipeline.from_pretrained(
         "stabilityai/stable-diffusion-xl-base-1.0",
         torch_dtype=torch.float16, variant="fp16", use_safetensors=True)
-    if args.lora and args.lora != "none":
-        try:
-            pipe.load_lora_weights(args.lora)
-            print(f"已载入 LoRA {args.lora}", flush=True)
-        except Exception as e:
-            print(f"LoRA 载入失败（{e}），继续用基础模型", flush=True)
+    load_lora(pipe, args.lora)
     pipe.to("cuda")
     pipe.set_progress_bar_config(disable=True)
 
