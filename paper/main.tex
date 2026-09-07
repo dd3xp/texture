@@ -43,11 +43,136 @@ failure is what selects the surviving mechanism.
 \pending{prose; argument chain in docs/draft\_en.md \S1}
 
 \section{Related Work}
-\pending{prose; four-way positioning in docs/related-work.md}
+\label{sec:related}
+
+\paragraph{Pixel-art generation.} The closest work is
+SD-$\pi$XL~\citep{binninger2024sdpixl}, which produces palette-constrained
+low-resolution imagery from an input image via score distillation. We
+reproduced it; two properties matter here. It has no region-constraint
+channel, so it cannot be asked to paint only inside a given shape, and
+raising its conditioning strength degrades rather than improves the output.
+More recent palette-aware diffusion models report FID~\citep{heusel2017fid},
+palette-consistency and prompt-alignment scores alongside human preference.
+Our \S\ref{sec:noright} questions the first family of numbers on this task
+family: reference-based quantities presuppose a reference, and here the
+per-cell agreement between independent authors of the same material is
+$0.098$ against a paired null of $0.086$. There is no unique reference to
+measure distance from.
+
+\paragraph{Structure-preserving downscaling.}
+\citet{kopf2013downscaling} optimise the shape and position of sampling
+kernels to align with local features, and \citet{oztireli2015downscaling}
+cast downscaling as optimisation against an SSIM~\citep{wang2004ssim}
+objective. This line asks how to lose the least structure at a given scale
+factor. Our diagnosis sits upstream of it: when the source packs ${\sim}25$
+structural units into a 16-cell output, no kernel can represent them, and we
+confirm that five downsamplers fail identically on the same renders
+(\S\ref{sec:mechanism}). The remedy has to act on the scale factor itself.
+
+\paragraph{{VLM}-as-judge and its biases.} Automatic judging with strong
+models is now standard~\citep{zheng2023mtbench}, and positional bias is a
+known failure~\citep{wang2024fair}. Recent benchmarks quantify it carefully:
+\citet{webdevjudge2025} report order-swap consistency of $83.5$--$89.6\%$
+across judges on web-development comparisons, with first-position preference
+between $0.9\%$ and $15.8\%$, and argue the bias reflects a model deficiency
+rather than annotation ambiguity, since explicit instructions do not remove
+it. Our measurements on pixel-art comparisons are consistent with that
+account and add a distinct, more consequential failure
+(\S\ref{sec:judges}): judges that look equally good on per-item agreement
+with humans differ completely in whether they reproduce the human
+\emph{conclusion}. We argue this conclusion-level validation, not per-item
+agreement, is what licenses using a judge.
+
+\paragraph{Evaluation when the reference is not unique.} Independent redraws
+of the same subject --- icon themes, emoji sets, texture packs --- are a
+natural testbed for reference-scarce evaluation, but the degree of
+non-uniqueness is usually not measurable. A discrete palette on a small grid
+makes it exactly computable, and we contribute that test, together with the
+paired null it requires, as a task-level diagnostic to run \emph{before}
+choosing a metric.
+
 
 \section{There Is No Right Answer}
 \label{sec:noright}
-\pending{3.1 agreement measurement, 3.2 per-pixel corollary, 3.3 judge failure}
+
+\subsection{Independent artists barely agree on individual cells}
+\label{sec:agreement}
+
+A $16\times16$ tile drawn from a discrete palette makes agreement exactly
+computable: two renditions of the same material either place the same palette
+index in a cell or they do not. We collected 4{,}951 such tiles covering 517
+materials from 42 independently authored texture packs, and compared every
+pair of tiles depicting the same material --- 50{,}753 pairs.
+
+The comparison needs a null, and the choice of null is where this measurement
+is easiest to get wrong. Comparing artist $A$'s tile against a shuffle of
+\emph{its own} cells has expectation $\sum_i p_A(i)^2$, whereas the real
+comparison $A$ against $B$ has expectation $\sum_i p_A(i)p_B(i)$; when two
+artists use their palettes differently the second is necessarily smaller by
+Cauchy--Schwarz. That null sits systematically high, and against it artists
+appear to agree \emph{below} chance. We therefore use a paired null: shuffle
+$B$'s cells and compare $A$ against the shuffle, preserving $B$'s own marginal
+while destroying its spatial arrangement, so both sides pair the same
+marginals.
+
+Under the paired null, artists agree on $0.0977$ of cells against $0.0859$
+expected (Figure~\ref{fig:agreement}) --- $1.2$ percentage points above
+chance, significant only because $n$ is large. Per-cell agreement between
+independent artists carries almost no signal.
+
+\paragraph{The finding is not specific to pixel art.} We repeated the identical
+protocol on three independently designed emoji sets (Noto, Twemoji, OpenMoji;
+63 emoji, 189 set pairs). Measured over all cells, emoji redraws appear far
+more consistent, $+0.1367$ over the null against textures' $+0.0117$. But
+39.8\% of emoji cells are transparent background composited to white and agree
+trivially. Restricted to foreground, the gap is $+0.0130$ --- essentially the
+same as textures. Measuring this kind of agreement without excluding regions
+that agree trivially inflates it by an order of magnitude.
+
+\subsection{Per-pixel objectives therefore measure marginal fit}
+
+If the conditional distribution over tiles is this wide, a per-cell loss
+against one artist's specific tile cannot separate a good sample from a bad
+one beyond how well it matches the marginal. We observed the consequence
+directly before we understood it: across three rounds of architecture changes
+to a masked-prediction model, validation accuracy rose steadily while the
+generated galleries did not visibly change. Every decision in that phase
+rested on a quantity that could not see what we cared about.
+
+\subsection{VLM judges fail, and per-item agreement cannot detect it}
+\label{sec:judges}
+
+We replayed a completed human blind study (72 pairs, \S\ref{sec:baseline}) to
+three frontier judges under an identical protocol, asking each pair in both
+orders and discarding disagreements. Order swapping is not optional here:
+before debiasing, judges chose the left image 67\% of the time, an order of
+magnitude beyond the ${\sim}5\%$ reported elsewhere, and the same 67\% appears
+on emoji pairs, so it is not specific to this content.
+
+The results (Figure~\ref{fig:judges}) separate into three failure modes.
+\texttt{gemini-3.1-pro} compresses the human's 87\% baseline win rate to 62\%
+($p{=}0.14$) and flattens the stratification that carried the study's main
+finding, reporting 37\% where the human measured 6\%.
+\texttt{gpt-5.6-sol} inverts it: 42\% against the human's 78\%, and 62\% on
+the stratum where the human measured 4\%. \texttt{claude-opus-5} preserves
+direction, significance and stratum ordering (73\%, $p{=}0.008$; 25\% versus
+33\%) while still compressing.
+
+The methodological point is panel (c). \texttt{gemini-3.1-pro} and
+\texttt{claude-opus-5} agree with the human on \emph{exactly} the same
+fraction of items, 66.7\%, and one destroys the conclusion while the other
+keeps it. Per-item agreement --- the quantity this literature reports --- is
+not evidence that a judge can be used. A judge must be validated on whether it
+reproduces a conclusion already established by humans.
+
+\paragraph{A judge's bias direction determines what it can support.} Because
+compression pulls any real difference toward 50\%, a compressing judge
+manufactures null results. It can therefore support the existence of a large
+effect, as a lower bound, and can refute a null by finding significance in
+spite of compressing --- but it cannot confirm a null. We apply that rule
+below rather than treating a validated judge as a general substitute for
+annotation.
+
 
 \begin{figure}[t]
 \centering
@@ -69,10 +194,179 @@ and the one that preserves it.}
 \end{figure}
 
 \section{A Trivial Baseline Is Enough}
-\pending{4.1 baseline vs artist, 4.2 baseline vs specialised model}
+\label{sec:baseline}
+
+If per-pixel objectives measure the wrong thing (\S\ref{sec:agreement}) and
+automatic judges cannot be trusted without validation (\S\ref{sec:judges}),
+then the only admissible arbiter left is a human blind comparison. Run under
+that arbiter, the ordering between a trivial baseline and a specialised model
+inverts relative to what every automatic quantity had reported.
+
+\subsection{The specialised model loses to the baseline}
+
+Our own three rounds of architecture work produced a mask-prediction model
+with hand-designed structural priors --- brick period, border treatment,
+running-bond phase offset, per-material gating. We pre-registered a blind
+comparison against the trivial downsampling baseline: 72 pairs with five
+attention checks, all passed, each item verified against the pipeline that
+produced it.
+
+The baseline won $49{:}10$, $83\%$, $p<0.001$. Worse, the loss concentrates
+exactly where the priors act. On the seeded stratum --- items where a
+structural prior actually fired --- the model won $2/40$, $5\%$; on the
+unseeded control stratum it won $8/19$, $42\%$ ($p{=}0.65$), close to a tie.
+The stratum difference is Fisher $p{=}0.001$, and its \emph{direction is the
+opposite} of what we pre-registered: we had written that if the priors work,
+the seeded stratum should score higher. Win rate falls monotonically with
+structure score, $40\% \rightarrow 11\% \rightarrow 0\%$ ($\rho{=}-0.509$,
+$p{=}3.8\times10^{-5}$). An earlier comparison of the same model without
+priors lost to the baseline at $60\%$; adding the priors moved that to $83\%$.
+The priors did not fail to help --- they actively hurt.
+
+\paragraph{The structural ruler ranked them backwards.} We had also built a
+structural-descriptor distance to serve as a cheap quality proxy. It passed
+three validation criteria and was split-half stable, and it scored the seeded
+condition better than the unseeded one ($0.93$ vs $1.74$) --- the reverse of
+the human ordering ($5\%$ vs $42\%$). The criteria established that the
+descriptor can tell structured content from unstructured content, which is a
+different question from whether a tile reads as the right material. Building
+the ruler succeeded; treating it as a stand-in for quality was the error. Two
+earlier conflicts between this ruler and visual inspection, resolved both
+times in favour of the eye, are retrospectively vindicated.
+
+\subsection{Against artists, the baseline is indistinguishable}
+
+The baseline beating our model would be uninteresting if the baseline were
+merely a low bar. It is not. Given a suitable high-resolution source, 27 pairs
+(24 comparisons plus three attention checks, all passed; median 1.4\,s per
+item) put artist-drawn tiles against the downsampled baseline. Artists were
+preferred on $10/23 = 43\%$, $p{=}0.68$ --- if anything slightly behind. The
+result holds in both strata (geometric $50\%$, non-geometric $36\%$, Fisher
+$p{=}0.68$) and structure score does not predict the outcome
+($\rho{=}-0.007$, $p{=}0.98$).
+
+This was the third pre-registered outcome for that comparison, and the one we
+had least expected: it says the baseline is already at parity, so there is no
+room for a method to work in. It also overturns the premise the project
+started from --- that low-resolution pixel art is an artist's redesign rather
+than a downsampling. An earlier attempt to test that premise with automatic
+features had been declared falsified and then withdrawn on the grounds that
+the ruler was blind to differences the eye could see; that escape is not
+available here, because the arbiter is the eye.
+
+\paragraph{What this comparison can and cannot support.} With $n{=}24$, power
+against a true $65\%$ artist preference is only $21\%$, so the null is not
+confirmed --- the honest reading is that no large effect is present. A 60-pair
+extension (power $56\%$ at $65\%$, $84\%$ at $70\%$) is prepared and awaiting
+labels. Both this study and the pre-registered comparison above were labelled
+by a single annotator, which we return to in \S\ref{sec:limitations}.
+
 
 \section{The Real Bottleneck: Structural-Unit Convention}
-\pending{5.1 diagnosis, 5.2 fix, 5.3 gate, 5.4 pre-registered falsification}
+\label{sec:mechanism}
+
+\subsection{The failure is upstream of the downsampling kernel}
+
+Given a curated high-resolution source, the trivial baseline is already
+adequate (\S\ref{sec:baseline}). The interesting case is a material that does
+not exist yet, where the source must be generated. There, a text-to-image
+render at $1024$px looks structurally sound --- a mossy brick wall with
+well-defined courses and mortar --- and yet every standard downsampling kernel
+turns it to mush at $16\times16$. We tried five (box, median, extremum,
+contrast-weighted, bimodal); all five fail identically on the same renders, so
+the kernel is not the variable.
+
+Counting the structure explains it. The render packs roughly 25 brick courses
+into what must become 16 output cells. Improving the kernel cannot help,
+which is precisely where work on content-adaptive downscaling operates.
+
+\subsection{Artists hold a fixed number of units per tile}
+
+Measuring the dominant period of 5{,}979 artist tiles across three sizes gives
+median periods of $4.0$, $7.0$ and $7.0$ pixels at $16$, $32$ and $64$ ---
+that is $4.0$, $4.6$ and $9.1$ structural units per tile. Between $16$ and
+$32$ artists hold the unit count near $4.5$ and enlarge the units rather than
+adding more; only at $64$ do they add units.
+
+A second, independent measurement agrees. Across 125 artist-authored
+high-resolution sources with a detected directional period, a period spans
+$4.80$ output cells once downsampled to $16$ (IQR $3.84$--$7.17$), with only
+12\% below the Nyquist limit. The same renders that fail above span $0.73$ to
+$0.95$ --- past the limit by a factor of five. This is why curated sources
+need no intervention and generated ones do.
+
+\subsection{Fix and applicability}
+
+We crop the source to a window of side $\text{period}\times(\text{size}/4.5)$
+around the detected dominant period, then downsample. Two conditions gate it:
+a period must be detected, and normalised anisotropy must reach $0.20$.
+The anisotropy condition is necessary because period detection runs on row and
+column profiles and is meaningless for isotropic content; among artist tiles,
+median anisotropy is $0.774$ where a period is found and $0.036$ where it is
+not. Together the conditions move hit rate from 70\% to 90\% and false
+triggers from 35\% to 6\% on the materials used to set them, and generalise to
+a disjoint held-out set at 93\% and 16\%.
+
+The gate fires on roughly half of prompts. The correct statement is therefore
+that the method wins \emph{within its applicability}, which covers about half
+of the materials we tested, and changes nothing elsewhere. Judged by
+\texttt{claude-opus-5} --- the only judge that passed \S\ref{sec:judges}'s
+validation --- the crop is preferred on $31/35$ pairs, $89\%$,
+$p{=}3.5\times10^{-6}$, Jeffreys interval $[75\%, 96\%]$. Because that judge
+compresses, this is a lower bound. \pending{human blind study, 39 pairs}
+
+\subsection{A pre-registered falsification selects the mechanism}
+\label{sec:falsify}
+
+The obvious reading of \S\ref{sec:mechanism} is a sampling-limit account:
+structure finer than the output grid cannot be represented, so cropping
+restores what Nyquist removed. That account makes a prediction --- as output
+resolution grows, more structure survives uncropped and cropping should matter
+less --- and we pre-registered it over five output sizes with fixed criteria
+before running.
+
+It failed. Across two independent protocols the trend is
+$\rho{=}-0.137$ ($p{=}0.277$) and $\rho{=}+0.044$ ($p{=}0.64$), and at 48px
+the crop wins 100\% against 88\% at 16px, triggering the pre-registered
+falsification condition. At 64px a 47px source period already spans 2.9 output
+cells, comfortably above Nyquist, and cropping still wins 79--90\%.
+
+What survives is the convention account: the generator draws ${\sim}25$ units
+per tile \emph{regardless of output size}, artists draw ${\sim}4.5$, and the
+implied crop factor $25/4.5\approx5.6$ matches the $1/4.2$ to $1/5.4$ we
+measure. Because that mismatch does not depend on output resolution, this
+account predicts no gradient --- which is what we observe. The failed
+prediction is what separates the two; had the gradient appeared, both would
+have been compatible with it.
+
+\subsection{Manipulating the unit count changes the benefit}
+
+We then tested the surviving account's own prediction. Prompt-level levers
+turned out to be inert: three variants failed a paired manipulation check on
+rendered period ($p{=}0.38$, $0.19$, $1.00$), and an earlier attempt had
+passed a check we had written too loosely, which we report as a void test
+rather than a result. Render resolution does move it: at 384px the unit count
+falls from $32.5$ to $9.3$ ($-71.5\%$, $p{=}0.0062$), clearing a
+manipulation criterion fixed in advance, while 512px did not clear it and was
+excluded from the pre-registered test.
+
+The prediction held. At 384px the crop is preferred on only $17\%$ of pairs
+against $88\%$ in the control, a drop of $71.7$ points
+($p{=}6.3\times10^{-9}$), and the direction survives all three treatments of
+order-swap disagreements. Adding 512px as a descriptive midpoint yields a
+monotone dose--response (Figure~\ref{fig:dose}): $27.7$, $13.8$ and $9.4$
+units map to $88\%$, $54\%$ and $17\%$, with the midpoint sitting at no effect
+($p{=}0.749$).
+
+\paragraph{The effect is condition-level, not per-image.} Within a condition,
+per-image unit count does not predict the outcome
+($\rho{=}+0.098$, $p{=}0.316$, $n{=}106$), because unit count there is
+confounded with material type. What is actionable is a setting-level rule ---
+crop when rendering large, do not when rendering small --- not a per-image
+gate. Our gate still fires on 48\% of prompts at 384px where cropping hurts;
+we report that as a limitation rather than fitting a unit-count threshold the
+per-image data do not support.
+
 
 \begin{figure}[t]
 \centering
@@ -84,8 +378,46 @@ effect. Bars are Jeffreys intervals.}
 \end{figure}
 
 \section{Limitations}
-\pending{single annotator; 4.1 power; conditional win rates; per-image gate
-does not follow from the condition-level effect}
+\label{sec:limitations}
+
+\paragraph{One annotator.} Every human blind comparison we report --- the
+72-pair pre-registered study and the 24-pair artist comparison --- was
+labelled by a single person, an author. Attention checks passed and items were
+verified against their pipelines, but inter-annotator reliability is unmeasured
+and the labeller was not blind to the project's hypotheses, only to which
+condition produced each image.
+
+\paragraph{A null we cannot confirm.} The artist comparison is underpowered
+against the alternative that matters: at $n{=}24$, a true $65\%$ artist
+preference would be detected only $21\%$ of the time. ``Indistinguishable''
+here means no large effect, not equivalence. The same asymmetry constrains
+every judge-mediated result: because our validated judge compresses effects,
+its numbers support lower bounds and can refute nulls, but cannot establish
+them (\S\ref{sec:judges}).
+
+\paragraph{Conditional, not general, wins.} The crop applies only where its
+two gate conditions hold, which is roughly half of the prompts we tested. Its
+$89\%$ preference is a within-applicability figure from a compressing judge,
+so it is a lower bound over a restricted domain; the corresponding human study
+is prepared but unlabelled. We report no aggregate win rate over all prompts
+because there is no defensible way to score the cases the method declines.
+
+\paragraph{The gate does not follow from the effect.} The dose--response in
+\S\ref{sec:mechanism} is condition-level, and within a condition per-image
+unit count does not predict the outcome ($p{=}0.316$). Our gate consequently
+misfires: at 384px it still triggers on $48\%$ of prompts, where cropping
+hurts. Fitting a unit-count threshold would be unsupported by the per-image
+data, so the practical rule remains a setting-level one, and a per-image gate
+is open.
+
+\paragraph{One generator, two domains.} The ${\sim}25$ structural units per
+tile is measured on SDXL renders. Whether the convention mismatch takes the
+same magnitude --- or the same form --- in other text-to-image models is
+untested, and a model whose convention already matched would need no crop.
+The agreement finding replicates on emoji, but both domains are small-canvas
+raster redrawing by human authors; we do not claim it for reference-scarce
+tasks in general.
+
 
 \section*{Reproducibility Statement}
 Every claim in this paper is traceable to a numbered experiment record in the
