@@ -626,6 +626,19 @@ withdrew, and why; Appendix~\ref{app:detail} gives dataset construction,
 generation settings, the judging protocol and the statistical procedures.
 Pre-registrations are git commits timestamped before the corresponding runs.
 
+% ICLR 2027 强制项（AuthorGuidelines）：AI Use Statement，不计页数，置于参考文献前
+\section*{AI Use Statement}
+LLM-based agents were used substantially throughout this project: for code
+implementation, experiment orchestration, statistical analysis, hypothesis
+refinement, and manuscript drafting. The human authors set the research
+direction, produced all human annotations, and reviewed the AI-generated
+code and text; every quantitative claim in the paper was verified against
+the raw experiment records in the supplementary material by re-running the
+released analysis scripts. Separately, commercial VLMs are \emph{objects of
+study} in this paper: their use as judges is fully specified in the
+methodology, and their outputs are treated as measured data, not as
+verified claims.
+
 % 页数探针。**看 endoflimit，不要看 endofmain**：
 % endoflimit = Limitations 结束页 = ICLR 计入 9 页限制的真实边界；
 % endofmain 在复现性声明之后，而声明与参考文献都不计入。

@@ -1133,3 +1133,27 @@ tex 03:24，与 31 轮吻合；loop.md mtime=上轮提交时刻）；标注 CSV 
 **状态**：代码释出路径关闭——投稿 PDF（32 轮）与 supplementary 代码包（本轮）
 均已匿名验证，随时可交。正文与图零改动，PDF 无需重编译。唯一待强化项仍是
 人工标注两份 HTML。
+
+### 第 35 轮 — 2026-09-08（无头轮）：ICLR 2027 强制 AI Use Statement 缺失——合规缺口关闭
+
+开工对账：工作树干净、本地=HEAD=6853b30=origin、无并行迹象；标注 CSV 本地
+与远程均未到；远程 tmux（dmech2/h3_*/sft）全属其他项目。
+
+账面全闭后查合规：向官方 AuthorGuidelines/AIPolicyForAuthors 核实，
+**ICLR 2027 强制要求 AI Use Statement**（不计页数，置于参考文献前），
+缺失或虚假披露可致 desk reject——而 main.tex 此前只有 Reproducibility
+Statement，历轮审计从未覆盖此项。
+
+- 在 Reproducibility Statement 之后、\bibliographystyle 之前插入
+  `\section*{AI Use Statement}`：如实披露 LLM 代理深度参与（代码实现、
+  实验编排、统计分析、假设修订、行文起草），人类作者定方向、产出全部人工
+  标注、复核代码与文本，全部定量主张经重跑入库分析脚本对过原始记录；
+  另注明商用 VLM 是本文**研究对象**，其输出按测量数据对待。
+- emnlp 重编译（pdflatex×3+bibtex）：**endoflimit=9 不变**、blg 零警告、
+  全文 13 页（+0，声明落在第 10 页不计页数区）；pypdf 抽取第 10 页确认
+  渲染正确（位于 References 之前）。PDF 已取回。
+- `check_refs.py` 全绿。Ethics Statement 官方定位为"推荐非强制"，本文人工
+  标注均由作者本人完成、无外部被试，暂不加，记录于此备查。
+
+**状态**：投稿合规三声明查毕——Reproducibility（已有）、AI Use（本轮补，
+强制）、Ethics（可选，暂缺有据）。唯一待强化项仍是人工标注两份 HTML。
