@@ -108,8 +108,11 @@ def anisotropy(img: np.ndarray) -> float:
     """横纵梯度幅度之差，按均值归一（不受整体对比度影响）。
 
     周期检测走的是行/列廓线，因此它只对**有方向性**的结构有效。
-    实测真人瓦片：能检出周期的一组中位 0.774，检不出的一组 0.036，差 20 倍
-    （`analysis/paired/crop_failure.py`）。
+    实测 4951 张真人瓦片：能检出周期的一组中位 0.287，检不出的一组 0.063；
+    手挑方向性类别 1.090 vs 各向同性类别 0.032（`analysis/paired/aniso_gate.py`）。
+    阈值 0.20 落在两组之间。
+    （原注释写的 0.774/0.036 出处标的是 crop_failure.py，但那里算的是
+    grad_v/grad_h 比值而非本函数的归一化量，现有代码复现不出，已更正。）
     """
     g = img @ W if img.ndim == 3 else img
     h = float(np.abs(np.diff(g, axis=1)).mean())

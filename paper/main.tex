@@ -374,9 +374,12 @@ We crop the source to a window of side $\text{period}\times(\text{size}/4.5)$
 around the detected dominant period, then downsample. Two conditions gate it:
 a period must be detected, and normalised anisotropy must reach $0.20$.
 The anisotropy condition is necessary because period detection runs on row and
-column profiles and is meaningless for isotropic content; among artist tiles,
-median anisotropy is $0.774$ where a period is found and $0.036$ where it is
-not. Together the conditions move hit rate from 70\% to 90\% and false
+column profiles and is meaningless for isotropic content. Across all 4{,}951
+artist tiles, median normalised anisotropy is $0.287$ where a directional
+period is detected and $0.063$ where it is not; contrasting directional
+material classes (planks, brick, stone brick) against isotropic ones (foliage,
+gravel, metal blocks) separates them by more than an order of magnitude,
+$1.090$ against $0.032$. The threshold sits between the two groups either way. Together the conditions move hit rate from 70\% to 90\% and false
 triggers from 35\% to 6\% on the materials used to set them, and generalise to
 a disjoint held-out set at 93\% and 16\%.
 
