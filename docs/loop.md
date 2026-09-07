@@ -832,3 +832,23 @@ emnlp 重编译（pdflatex×3+bibtex）：13 页、零未定义引用、
 **状态**：门命中率一致性问题关闭，代码注释与正文自此同源
 （`analysis/paired/aniso_gate.py`）。正文无改动、PDF 无需重编译。
 唯一待强化项仍是人工标注两份 HTML。
+
+### 第 24 轮 — 2026-09-07（无头轮）：收养上一实例的孤儿工作——Fig 8 标签遮挡修复
+
+开工对账发现**并行痕迹**：未提交修改 `fig_gradient.py`/`fig8_gradient.png`/
+`main.pdf`（mtime 23:12–23:15，距开工 22 分钟）+ 未跟踪 `paper/_pgs/fig4_check.png`。
+比对 git log：loop.md 只记到第 23 轮（=上笔提交 7e009fc），判定为**上一 cron
+实例（约 23:07 启动）的第 24 轮，死在提交前**。已静默 22 分钟，收养而非让路。
+
+逐项核实孤儿工作后确认合法且完整：
+
+- 改动仅一处：`fig_gradient.py:60` 标签坐标 (22,0.27)→(19.5,0.235)。
+  对比新旧 PNG 确认动机——旧版 "pure-Nyquist prediction (falsified)" 标签
+  **右半被图例框压住**（"predictio…" 被裁），新位置完全避开。
+- `main.pdf` 已在 emnlp 重编译并取回（23:14 > tex 22:10）；
+  `_pgs/fig4_check.png` 是上一实例自己从 PDF 裁出的验证图，
+  确认新 Fig 8 已入 PDF。核实后删除该 scratch 目录。
+- 本轮补做常规检查：`check_refs.py` 全绿；标注 CSV 仍未到。
+
+**状态**：纯外观修复，无数字改动。提交孤儿工作+本日志。
+唯一待强化项仍是人工标注两份 HTML。

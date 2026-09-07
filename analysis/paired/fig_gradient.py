@@ -57,7 +57,7 @@ def main():
     # 纯奈奎斯特解释预测的方向示意
     ax.annotate("", xy=(60, 0.32), xytext=(18, 0.44),
                 arrowprops=dict(arrowstyle="->", color="gray", ls="--", lw=1.2))
-    ax.annotate("pure-Nyquist prediction\n(falsified)", (22, 0.27), fontsize=8,
+    ax.annotate("pure-Nyquist prediction\n(falsified)", (19.5, 0.235), fontsize=8,
                 color="gray", ha="center")
     ax.set_xscale("log")
     ax.set_xticks([16, 24, 32, 48, 64])
