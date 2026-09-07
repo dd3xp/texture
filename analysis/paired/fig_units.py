@@ -3,8 +3,9 @@
 左轴：三种渲染尺寸下 SDXL 每瓦片结构单元数（canvas/period）的逐提示词分布
 （本地 JSON：crop_ctrl=1024、crop_render512=512、crop_render384=384；
 口径与 B14 一致：period>0 的全部提示词、按 prompt 去重、不限门触发——
-中位 27.7/13.8/9.4 与 plan.md B14 表精确吻合）。横线 = 真人惯例 ~4.5
-（B5 5979 张瓦片与 B9 125 个高分源两个独立来源一致）。
+中位 27.7/13.8/9.4 与 plan.md B14 表精确吻合）。横线 = 真人惯例 ~3.2
+（B5 5979 张瓦片 3.20 与 B9 125 个高分源 3.33 两个独立来源一致；
+旧值 4.5 出自加宽周期检测器之前的口径，已弃用——见 main.tex 附录）。
 右轴：同三条件的裁剪胜率（B13/B14：88%→54%→17%，VLM 口径）。
 单元数越接近真人惯例，裁剪收益越小以至有害——机制的剂量-反应图。
 """
@@ -22,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[2]
 BLUE, ORANGE = "#4477aa", "#cc6644"
 
 CONDS = [  # (canvas, json, win, n_pairs, p_binom)
-    (1024, "experiments/crop_ctrl.json", 0.88, "37/42", "2.5e-7"),
+    (1024, "experiments/crop_ctrl.json", 0.88, "38/43", "2.5e-7"),
     (512, "experiments/crop_render512.json", 0.54, None, "0.749"),
     (384, "experiments/crop_render384.json", 0.17, None, "0.0015"),
 ]
