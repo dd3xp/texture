@@ -15,6 +15,7 @@
 
 import argparse
 import json
+import statistics
 import sys
 from pathlib import Path
 
@@ -68,13 +69,15 @@ def main():
 
     print("\n== 对 base 的配对比较（period 变大计一胜）==")
     base = [r["base"] for r in recs]
-    med = sorted(base)[len(base) // 2]
+    # 用真中位数：sorted(v)[n//2] 在 n 为偶数时取的是上中位数。
+    # 本脚本 n=21（奇数）时两者相同，故此前的数没错；改掉是防止样本量一变就悄悄偏。
+    med = statistics.median(base)
     print(f"base 中位 {med:.0f}px")
     for tag in variants:
         if tag == "base":
             continue
         up = sum(1 for r in recs if r[tag] > r["base"])
-        medt = sorted(r[tag] for r in recs)[len(recs) // 2]
+        medt = statistics.median(r[tag] for r in recs)
         print(f"{tag:>6}: 中位 {medt:.0f}px，变大 {up}/{len(recs)}，符号检验 p={binom_p(up, len(recs)):.3g}")
 
 

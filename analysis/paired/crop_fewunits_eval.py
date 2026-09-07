@@ -12,6 +12,7 @@ jzs_train 无 scipy：操作检验用逐提示词配对符号检验（math.comb 
 
 import argparse
 import json
+import statistics
 import math
 from pathlib import Path
 
@@ -60,8 +61,10 @@ def main():
     # —— 判据 1：操作检验（配对符号检验，同提示词 period 变大计一胜）——
     common = sorted(set(per_c) & set(per_t))
     up = sum(1 for p in common if per_t[p] > per_c[p])
-    med_c = sorted(per_c[p] for p in common)[len(common) // 2]
-    med_t = sorted(per_t[p] for p in common)[len(common) // 2]
+    # 真中位数：sorted(v)[n//2] 在 n 为偶数时取的是上中位数（B12 因此把
+    # 30.1/16.8/8.8 记成了 32.5/17.4/9.3）。这里只用于打印，判据看的是符号检验。
+    med_c = statistics.median(per_c[p] for p in common)
+    med_t = statistics.median(per_t[p] for p in common)
     p_sign = binom_p(up, len(common))
     ok1 = up > len(common) / 2 and p_sign < 0.05
     print(f"\n== 判据 1（操作有效性）==")

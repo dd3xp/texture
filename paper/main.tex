@@ -481,9 +481,13 @@ both would have been compatible with it.
 
 We then tested the surviving account's own prediction. Prompt-level levers
 turned out to be inert: three variants failed a paired manipulation check on
-rendered period ($p{=}0.38$, $0.19$, $1.00$), and an earlier attempt had
-passed a check we had written too loosely, which we report as a void test
-rather than a result. Render resolution does move it: on a separate 21-prompt
+rendered period ($p{=}0.38$, $0.19$, $1.00$). A fourth, an explicit
+``few large blocks'' modifier, had passed a manipulation check we wrote too
+loosely --- it required only that the median move, with no significance test,
+so half a pixel of noise satisfied it. We report that as a void test rather
+than a result; under the criterion we then fixed, it fails as well, moving the
+period on $16/42$ prompts ($p{=}0.16$).
+Render resolution does move it: on a separate 21-prompt
 probe the median unit count falls from $30.1$ at 1024px to $8.8$ at 384px
 ($-70.9\%$, $p{=}0.0066$), clearing a manipulation criterion fixed in advance
 ($p<0.05$ and a median change of at least 20\%), while 512px did not clear it
