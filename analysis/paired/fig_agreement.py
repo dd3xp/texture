@@ -1,4 +1,9 @@
-"""图 1：逐格一致率的分布——作者之间比随机还低。
+"""图 1：逐格一致率的分布——作者之间几乎不比配对零假设高。
+
+（2026-09-07 更正）原标题与文档串写的是"比随机还低"，那是 B7 撤回的说法：
+旧零假设用 A vs shuffle(A)，期望 Σp_A(i)² 系统性偏高，凭空造出了负效应。
+本图画的一直是修正后的配对零假设（A vs shuffle(B)，0.086），
+真实值 0.098 **高于**它——标题却没跟着改，与图上的数自相矛盾。
 
 这是全文的开篇主张（B1）：低分辨率下不存在唯一正确答案，
 因此任何基于参考的逐像素指标测的都不是质量。
@@ -49,7 +54,7 @@ def main():
     ax.axvline(np.median(same), color="#c0392b", ls="--", lw=1)
     ax.set_xlabel("Per-cell agreement")
     ax.set_ylabel("Density")
-    ax.set_title("Independent artists agree below chance on individual pixels",
+    ax.set_title("Independent artists barely agree on individual cells",
                  fontsize=11)
     ax.legend(fontsize=8, loc="upper right")
     ax.spines[["top", "right"]].set_visible(False)

@@ -173,7 +173,7 @@ choosing a metric.
 A $16\times16$ tile drawn from a discrete palette makes agreement exactly
 computable: two renditions of the same material either place the same palette
 index in a cell or they do not. We collected 4{,}951 such tiles covering 517
-materials from 42 independently authored texture packs, and compared every
+materials from 64 independently authored texture packs, and compared every
 pair of tiles depicting the same material --- 50{,}753 pairs.
 
 The comparison needs a null, and the choice of null is where this measurement
@@ -189,7 +189,8 @@ marginals.
 
 Under the paired null, artists agree on $0.0977$ of cells against $0.0859$
 expected (Figure~\ref{fig:agreement}) --- $1.2$ percentage points above
-chance, significant only because $n$ is large. Per-cell agreement between
+chance, significant only because $n$ is large, and a third of artist pairs
+($33.5\%$) fall \emph{below} their own null. Per-cell agreement between
 independent artists carries almost no signal.
 
 \paragraph{The finding is not specific to pixel art.} We repeated the identical
@@ -397,7 +398,8 @@ resolution grows, more structure survives uncropped and cropping should matter
 less --- and we pre-registered it over five output sizes with fixed criteria
 before running.
 
-It failed (Figure~ef{fig:gradient}). Across two independent protocols the trend is
+It failed (Figure~
+ef{fig:gradient}). Across two independent protocols the trend is
 $\rho{=}-0.137$ ($p{=}0.277$) and $\rho{=}+0.044$ ($p{=}0.64$), and at 48px
 the crop wins 100\% against 88\% at 16px, triggering the pre-registered
 falsification condition. At 64px a 47px source period already spans 2.9 output
