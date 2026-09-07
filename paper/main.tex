@@ -601,8 +601,9 @@ tasks in general.
 \section*{Reproducibility Statement}
 Every claim in this paper is traceable to a numbered experiment record in
 the project log. Appendix~\ref{app:retractions} lists the results we
-withdrew, and why. Pre-registrations are git commits timestamped before
-the corresponding runs.
+withdrew, and why; Appendix~\ref{app:detail} gives dataset construction,
+generation settings, the judging protocol and the statistical procedures.
+Pre-registrations are git commits timestamped before the corresponding runs.
 
 % 页数探针：main.aux 里 endofmain 的页码 = 正文结束页（ICLR 正文限 9 页，参考文献不计）
 \label{endofmain}
@@ -688,5 +689,70 @@ Two of these --- the misspecified null and the loose manipulation check ---
 share a shape worth naming: a comparison whose reference point was chosen
 without asking what it would produce under the null hypothesis. Both passed
 casual inspection and produced the result we expected.
+
+
+\section{Experimental Detail}
+\label{app:detail}
+
+\paragraph{Tiles.} Texture packs are collected from the Minetest ContentDB.
+Packs whose licences forbid derivative use in training are excluded and were
+never used for that purpose. Each tile is quantised to at most $k{=}16$
+palette entries by $k$-means++ on RGB, with the elbow taken per tile (the
+median tile natively carries 21 distinct colours; 2{,}933 of 4{,}951 use the
+full 16). Materials are matched across packs by file name, which is stable in
+this ecosystem. The agreement study uses all $16\times16$ tiles: 4{,}951
+tiles, 517 materials, 64 packs, 50{,}753 same-material pairs. Held-out packs
+for the modelling work are listed in the dataset file and were fixed before
+any model was trained.
+
+\paragraph{Emoji.} Noto (Apache/OFL), Twemoji (CC BY 4.0) and OpenMoji
+(CC BY-SA 4.0), 64 single-codepoint emoji present in all three sets,
+composited onto white, box-reduced to $16\times16$ and quantised to 12
+luminance levels --- the same pipeline as tiles, with luminance standing in
+for the palette index. The foreground mask is the intersection of the two
+sets' $\alpha > 0.5$ regions, and the null shuffles cells inside that mask.
+
+\paragraph{Generation.} SDXL base 1.0 with the \texttt{nerijs/pixel-art-xl}
+LoRA, 28 denoising steps, $1024\times1024$ unless stated. Prompts are wrapped
+as \emph{``pixel art, \{material\}, top-down seamless tileable game texture,
+flat lighting, no shadows, orthographic, chunky large pixels''} with a
+negative prompt of \emph{``perspective, 3d render, vignette, watermark, text,
+border, blurry''}. Seeds are stated per experiment; the main crop study uses
+21 and its independent replication 99.
+
+\paragraph{Period and anisotropy.} The dominant period is the first
+significant peak of the autocorrelation of row and column intensity profiles,
+searched from 8px up to $0.625$ of the side on sources and from 2px on
+$16\times16$ tiles. Anisotropy is $|h-v|$ over the mean of $h$ and $v$, where
+$h$ and $v$ are mean absolute horizontal and vertical gradients; it is scale
+free and unaffected by overall contrast. The crop takes a centred window of
+side $\text{period}\times(\text{size}/4.5)$, clipped to at least $0.08$ of
+the source side.
+
+\paragraph{Judges.} Each pair is presented as two images with the question
+\emph{``which of these two $16\times16$ pixel-art textures looks more like
+\{material\}? Answer only A or B''}, at temperature 0 and a cap of 8 output
+tokens. Every pair is asked in both orders and pairs answered inconsistently
+are discarded; reported rates are over the survivors. Attention-check items
+pair a clean tile against a blurred one. At temperature 0 the judges are
+deterministic --- two runs agreed on 35/35 jointly answered pairs --- so a
+same-seed rerun is not an independent replication, and our replications vary
+both the judge and the render seed.
+
+\paragraph{Human studies.} Items are shown one pair at a time in a static
+HTML page with left/right assignment randomised per item and the order of
+items shuffled. Attention checks are interleaved at a rate of about one in
+twenty. Both studies were labelled by one author, blind to which condition
+produced each image but not to the hypotheses; response times were recorded
+and no item was answered implausibly fast (median 1.4\,s in the
+artist comparison, with two items under $0.8$\,s).
+
+\paragraph{Statistics.} Binomial tests are exact, computed with
+\texttt{math.comb}; interval estimates are Jeffreys; two-condition
+comparisons use Fisher's exact test by summation over the hypergeometric
+tail; monotonicity uses Spearman's $\rho$ with tie-corrected ranks. The
+implementations carry no SciPy dependency, because the environment the
+experiments ran in did not have it and three earlier runs lost their summary
+statistics to that import after the data had already been written.
 
 \end{document}
