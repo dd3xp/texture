@@ -205,7 +205,7 @@ $+0.1367$ against textures' $+0.0117$ --- but two thirds of emoji cells are
 transparent background composited to white and agree trivially. Restricted to
 the shared foreground, with the null shuffled inside that mask, the gap is
 $+0.0154$ and a third of pairs again fall below their own null. Not excluding
-regions that agree trivially inflates this measurement tenfold.
+regions that agree trivially inflates this measurement ninefold.
 
 \subsection{Per-pixel objectives therefore measure marginal fit}
 
@@ -421,9 +421,9 @@ directionality ($0.17 < 0.20$), so the gate leaves the image alone and the two
 
 \subsection{Fix and applicability}
 
-We crop the source to a window centred on the detected dominant period, of
-side $\text{period}\times(\text{size}/4.5)$, then downsample
-(Figure~\ref{fig:qual}). Two conditions gate it:
+We crop the source to a centred window of side $4.5\times$ the detected
+dominant period --- so that one period spans $\text{size}/4.5$ output cells
+--- then downsample (Figure~\ref{fig:qual}). Two conditions gate it:
 a period must be detected, and normalised anisotropy must reach $0.20$.
 The anisotropy condition is necessary because period detection runs on row and
 column profiles and is meaningless for isotropic content. Across all 4{,}951
@@ -560,9 +560,9 @@ per-image data do not support.
 \paragraph{One annotator.} Every human blind comparison we report --- the
 72-pair pre-registered study and the 24-pair artist comparison --- was
 labelled by a single person, an author. Attention checks passed and items were
-verified against their pipelines, but inter-annotator reliability is unmeasured, and the judge is a second
-arbiter rather than a second annotator
-and the labeller was not blind to the project's hypotheses, only to which
+verified against their pipelines, but inter-annotator reliability is
+unmeasured; the judge is a second arbiter rather than a second annotator.
+The labeller was not blind to the project's hypotheses, only to which
 condition produced each image.
 
 \paragraph{A null we cannot confirm.} Neither arbiter establishes
@@ -690,7 +690,7 @@ measuring the spread actually realised in the output, the manipulation lands
 and the pre-registered primary passes (\S\ref{sec:limitations}). This is the
 same defect as the entry above, committed after writing that entry.
 
-\item \textbf{Cross-domain generality was inflated tenfold} by trivially
+\item \textbf{Cross-domain generality was inflated ninefold} by trivially
 agreeing regions. Measured over all cells, emoji redraws sit $+0.1367$ above
 the null against textures' $+0.0117$; two thirds of emoji cells are
 transparent background composited to white. Restricted to shared foreground
@@ -766,8 +766,8 @@ searched from 8px up to $0.625$ of the side on sources and from 2px on
 $16\times16$ tiles. Anisotropy is $|h-v|$ over the mean of $h$ and $v$, where
 $h$ and $v$ are mean absolute horizontal and vertical gradients; it is scale
 free and unaffected by overall contrast. The crop takes a centred window of
-side $\text{period}\times(\text{size}/4.5)$, clipped to at least $0.08$ of
-the source side.
+side $4.5\times\text{period}$, so one period spans $\text{size}/4.5$ output
+pixels, clipped to at least $0.08$ of the source side.
 
 \paragraph{Judges.} Each pair is presented as two images and the judge is
 asked which looks more like the named material --- for the crop screening,
