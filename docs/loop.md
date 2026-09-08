@@ -1335,3 +1335,27 @@ check_refs 全绿。related-work.md 同步补注。提交后重打 supplementary
 
 **状态**：相关工作覆盖审计闭合，bib 10→12 条全部经核验。唯一待强化项
 仍是人工标注两份 HTML。
+
+### 第 43 轮 — 2026-09-08（无头轮）：投稿 PDF 元数据匿名性审计——四层全净
+
+开工对账：工作树干净、HEAD=c574ad8=origin，无并行痕迹；标注 CSV 本地
+与远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF（11:16）
+新于 tex（11:15），无欠编译。
+
+34 轮匿名化了代码包、35 轮查了三声明、41 轮查了字体嵌入，但 PDF **自身
+元数据**是否泄露作者/用户名/本地路径从未查过。本地 pypdf + 原始字节 +
+解压流四层审计 `paper/main.pdf`：
+
+1. **Info 字典**：仅 Producer/Creator/日期/Trapped/PTEX.Fullbanner
+   （TeX Live 2022 Debian 标准横幅，非身份信息）——无 Author/Title 字段。
+2. **XMP**：不存在。
+3. **原始字节**：PTEX.FileName（pdfTeX 嵌图路径泄露的经典通道）、
+   /mnt、RoundSquisheen、kw/、17145、Codes、home/、Users 全部零命中
+   ——图全是 PNG，无 PDF 嵌图路径残留。
+4. **解压全部 49 个流（26MB）**：身份串零命中；`kw` 3 处均假阳性
+   （正文 "bac**kw**ards" 1 处 + 字体二进制 2 处）。另扫 `/URI`：
+   全文档零超链接，无泄露通道。
+
+结论：投稿 PDF 元数据完全匿名，无需任何改动（tex/PDF 零变更）。
+
+**状态**：PDF 元数据匿名性审计闭合。唯一待强化项仍是人工标注两份 HTML。
