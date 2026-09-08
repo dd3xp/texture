@@ -464,17 +464,18 @@ validation --- the crop is preferred on $31/35$ pairs, $89\%$,
 $p{=}3.5\times10^{-6}$, Jeffreys interval $[75\%, 96\%]$. Because that judge
 compresses, this is a lower bound.
 
-\paragraph{Across the output sizes the task calls for.} The results above are
-at $16\times16$. Two independent screening protocols --- different judge and
-different render seed --- cover $16$, $24$ and $32$. Pooled over the three,
-cropping is preferred on $30/39$ ($77\%$, $p{=}0.001$) under the first and
-$38/43$ ($88\%$, $p{=}2.5\times10^{-7}$) under the second. Per tier, the
-second protocol is significant at every size ($88\%$, $93\%$, $83\%$); the
-first is significant at $16$ and $24$ ($92\%$, $83\%$) but not at $32$
-($57\%$, $n{=}14$, $p{=}0.79$). The direction is the same everywhere and the
-pooled effect is large in both, but the single non-significant cell is a
-smaller-sample tier in the noisier protocol, not evidence that the method
-holds uniformly across the range.
+\paragraph{Across sizes, and on materials we did not choose.} The results
+above are at $16\times16$. Three screening protocols cover $16$, $24$ and
+$32$. Two vary the judge and the render seed over one prompt set, giving
+$30/39$ ($77\%$, $p{=}0.001$) and $38/43$ ($88\%$,
+$p{=}2.5\times10^{-7}$) pooled across the three sizes. The third is a
+pre-registered replication on 60 materials disjoint from that set, with a
+third seed and the validated judge: $62/86$ ($72\%$,
+$p{=}5.1\times10^{-5}$, Jeffreys $[62\%,81\%]$), the gate firing on $58\%$
+of the new prompts. Each protocol leaves one tier individually
+non-significant --- $32$px in the first ($57\%$, $n{=}14$) and $24$px in the
+third ($68\%$, $p{=}0.09$) --- and the effect is smaller on materials we did
+not choose than on the set we did. All nine cells point the same way.
 
 \begin{figure}[t]
 \centering
