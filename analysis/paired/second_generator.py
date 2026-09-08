@@ -49,8 +49,8 @@ def units_of(img: np.ndarray) -> float:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="/mnt/data/kw/models/sd15",
-                    help="本地 SD1.5 目录（由本机下载后上传）")
+    ap.add_argument("--model", default="models/sd15",
+                    help="SD1.5 权重目录（本机下载后拷到 GPU 机器；传绝对路径亦可）")
     ap.add_argument("--render", type=int, default=512)
     ap.add_argument("--steps", type=int, default=28)
     ap.add_argument("--seed", type=int, default=21)
