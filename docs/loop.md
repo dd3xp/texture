@@ -1551,3 +1551,29 @@ tex/PDF 零变更，无需重编译；supplementary 不受影响。
 
 **状态**：编译警告与 bib 事实两类别闭合。唯一待强化项仍是人工标注
 两份 HTML。
+
+### 第 51 轮 — 2026-09-08（无头轮）：净归档编译测试——仓库内容从零构建 main.pdf，除时间戳外逐字节复现
+
+开工对账：工作树干净、HEAD=9b22abc=origin，无并行痕迹；标注 CSV 本地
+与远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF（15:24）
+新于 tex（14:39）。
+
+真缺口：**"仅凭 git 内容能否从零编译出 main.pdf"从未验证过**——历轮
+都在远程既有工作目录里编译（目录里可能有未跟踪的辅助文件兜底），
+33 轮净克隆只验了数据/图/统计复现，没验 tex 构建链。若 sty/bst/图
+有任何一件漏跟踪，投稿交付的仓库就是残缺的。
+
+方法：`git archive HEAD` 打包（13.5MB）上 emnlp `/tmp/clean_build`，
+纯净目录内 pdflatex→bibtex→pdflatex×2。
+
+结果（全过）：
+- 13 页、`endoflimit={6}{9}` 仍第 9 页、blg 零警告、log 零
+  Overfull/undefined；
+- 产物与在册 main.pdf **同为 1264446 字节，全文仅 72 字节差异**，
+  逐字节定位后全部落在 CreationDate/ModDate/文档 ID——即除时间戳外
+  **逐字节可复现**。paper/ 跟踪件（tex+sty+bst+bib）与 figures/ 五图
+  齐备，无缺失构建输入。
+
+tex/PDF 零变更；远程与本地临时件已清理。
+
+**状态**：净归档可构建性类别闭合。唯一待强化项仍是人工标注两份 HTML。
