@@ -1491,3 +1491,35 @@ blg 零警告；PDF 取回，pypdf 确认新句在册。check_refs 全绿。
 supplementary 不含 tex，无需重打。
 
 **状态**：多重比较披露闭合。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 49 轮 — 2026-09-08（无头轮）：灰度可读性目检——fig_qualitative 红框在黑白打印下会没进砖缝，已加白底描边
+
+开工对账：工作树干净、HEAD=6f6fa1c=origin，无并行痕迹；标注 CSV 本地与
+远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF 新于 tex。
+顺手闭掉一个小类别：main.tex 源文本层匿名审计（43 轮只查过 PDF 元数据）
+——grep 致谢/资助/机构/邮箱/自引/final 选项全零命中，\author{Anonymous}，
+零问题。另核实 22 轮通读后的增量行文检查已由 40 轮全文交叉一致性覆盖，
+非缺口。
+
+真缺口：25 轮整册版面目检是**彩色**渲染，图的**灰度/色盲可读性**从未查过
+——审稿人常黑白打印。把五张正文图全部转灰度逐一目检：
+
+- fig1（轮廓 vs 填充）、fig4（深浅灰+全数值文字标注）、fig8（圆/方标记
+  区分两线+逐点计数）、fig7（箱线+文字标注）四张**全部无损通过**；
+- **fig_qualitative 第 4 列的红色裁剪窗口框是唯一败者**：纯红 #e02020
+  转灰度约 L≈90，与砖缝深灰几乎同调，300% 放大才勉强可辨，0.70\linewidth
+  印刷尺寸下黑白读者会整个错过——而 caption 明写 "the red box shows the
+  window taken"，指称完全依赖颜色。
+
+修复（fig_qualitative.py 一处）：红框下加白色底描边（white lw3.4 +
+red lw1.6 经典双描边），两个 fired 行的窗口在灰度下变为清晰的白-深双环，
+彩色版观感不变；caption 无需改——白圈使框成为图中唯一描边矩形，指称
+不再有歧义。脚本重跑 stdout（period 34/122/51.5、aniso 0.92/0.36/0.17、
+frac）与入册值逐一相符。
+
+验证：emnlp 重编译（pdflatex×3+bibtex）13 页、endoflimit 仍第 9 页、
+blg 零警告；PDF 取回，pymupdf 栅格化第 7 页目检双描边框渲染正常。
+提交后重打 supplementary（zip 含 fig_qualitative.py）。
+
+**状态**：灰度可读性类别闭合（5 图全过，1 处修复）。唯一待强化项仍是
+人工标注两份 HTML。

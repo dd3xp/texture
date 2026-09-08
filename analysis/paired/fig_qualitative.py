@@ -74,6 +74,9 @@ def main():
             ax = axes[r, c]
             ax.imshow(img, interpolation="nearest")
             if c == 3 and fired:
+                # 白色底描边：纯红在灰度打印下 (L~90) 会没进砖缝，双描边保可见
+                ax.add_patch(Rectangle((x0, y0), side, side, fill=False,
+                                       ec="white", lw=3.4))
                 ax.add_patch(Rectangle((x0, y0), side, side, fill=False,
                                        ec="#e02020", lw=1.6))
             if r == 0:
