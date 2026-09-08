@@ -815,7 +815,11 @@ artist comparison, with two items under $0.8$\,s).
 \paragraph{Statistics.} Binomial tests are exact, computed with
 \texttt{math.comb}; interval estimates are Jeffreys; two-condition
 comparisons use Fisher's exact test by summation over the hypergeometric
-tail; monotonicity uses Spearman's $\rho$ with tie-corrected ranks. The
+tail; monotonicity uses Spearman's $\rho$ with tie-corrected ranks. No
+multiplicity correction is applied anywhere: each confirmatory verdict rests
+on a single pre-registered primary comparison whose decision rule was fixed
+in advance, and every other $p$-value is exploratory and reported
+uncorrected. The
 implementations carry no SciPy dependency, because the environment the
 experiments ran in did not have it and three earlier runs lost their summary
 statistics to that import after the data had already been written.

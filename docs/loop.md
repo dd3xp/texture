@@ -1469,3 +1469,25 @@ tex（13:09）。
 
 **状态**：不利发现披露类别闭合——正文不但数字对，坏消息也说全了。
 唯一待强化项仍是人工标注两份 HTML。
+
+### 第 48 轮 — 2026-09-08（无头轮）：多重比较披露——附录统计段补一句
+
+开工对账：工作树干净、HEAD=30f8bf9=origin，无并行痕迹；标注 CSV 本地
+与远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF（13:11）
+新于 tex（13:09）。顺手核过 emoji/材质包许可披露（770/760 行俱在，
+Noto Apache-OFL / Twemoji CC-BY / OpenMoji CC-BY-SA 均属实）——非缺口。
+
+真缺口：全文报了大量 p 值，但零处交代多重比较口径；审稿人可问"这么多
+检验为何不校正"。防线其实早已在方法里——每个确证性结论都各自对应一个
+预注册的主检验（判据先于数据固定），其余 p 值全是探索性——只是从没
+明说。在附录 Statistics 段（不占 9 页限制）补一句："No multiplicity
+correction is applied anywhere: each confirmatory verdict rests on a
+single pre-registered primary comparison whose decision rule was fixed in
+advance, and every other p-value is exploratory and reported uncorrected."
+措辞刻意克制：不声称探索性检验被校正过，只声明口径。
+
+验证：emnlp 重编译（pdflatex×3+bibtex）13 页、endoflimit 仍第 9 页、
+blg 零警告；PDF 取回，pypdf 确认新句在册。check_refs 全绿。
+supplementary 不含 tex，无需重打。
+
+**状态**：多重比较披露闭合。唯一待强化项仍是人工标注两份 HTML。
