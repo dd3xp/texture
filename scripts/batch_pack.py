@@ -44,6 +44,8 @@ def main():
                     help="默认不用 adapter，与论文流水线一致；见模块文档")
     ap.add_argument("--compare", action="store_true",
                     help="每个材质额外出一张不带 LoRA 的，用于对比")
+    ap.add_argument("--prompts", type=Path,
+                    help="外挂材质表（JSON 数组）。缺省用内置的 18 个。")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", type=Path, default=ROOT / "experiments/pack")
     a = ap.parse_args()
@@ -54,7 +56,9 @@ def main():
     from make_texture import extract_palette, quantize
     from from_prompt import TMPL, NEG, load_lora
 
-    mats = MATERIALS[:a.limit] if a.limit else MATERIALS
+    pool = (json.loads(a.prompts.read_text(encoding='utf-8'))
+            if a.prompts else MATERIALS)
+    mats = pool[:a.limit] if a.limit else pool
     a.out.mkdir(parents=True, exist_ok=True)
 
     pipe = StableDiffusionXLPipeline.from_pretrained(

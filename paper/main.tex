@@ -37,7 +37,7 @@ is not model capacity but a \emph{structural-unit convention} mismatch: the
 generator draws ${\sim}25$ units per tile regardless of canvas while artists
 draw ${\sim}3.2$, measured independently from 5{,}979 artist tiles and 125
 artist sources. Cropping to the detected dominant period repairs this on the
-45\% of prompts where a period is found, and manipulating the unit count
+45--58\% of prompts where a period is found, and manipulating the unit count
 produces a monotone dose--response in the fix's benefit (88\%, 54\%, 17\% at
 27.7, 13.8 and 9.4 units). On the rest, where artists draw per-cell colour
 rather than structural units, we close three candidate routes and find none
@@ -451,7 +451,9 @@ tuning classes --- preserves the ordering: $71\%$ at $39\%$ for period-only,
 $83\%$ at $18\%$ for the gate. The held-out false-trigger rate is an upper
 bound, since a name-based split files glass panes and ore veins as isotropic.
 
-The gate fires on $45\%$ of prompts at 1024px, and the rest split in two. The
+The gate fires on $45\%$ of our prompts at 1024px --- $58\%$ on the
+disjoint set below, so the rate tracks the material mix --- and the rest
+split in two. The
 conditions decline $38\%$ ($7\%$ with no period, $31\%$ below the anisotropy
 threshold). The other $17\%$ pass both but cannot be cropped: 4.5 of their
 periods exceed the source, so the window is clipped to the whole image. That
