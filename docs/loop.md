@@ -1199,3 +1199,26 @@ Statement，历轮审计从未覆盖此项。
 
 **状态**：零改动轮。投稿物（PDF+代码包）均验证如初。唯一待强化项仍是
 人工标注两份 HTML。
+
+### 第 38 轮 — 2026-09-08（无头轮）：净克隆→PDF 编译复现验证——最后一条未测复现路径关闭
+
+开工对账：工作树干净、本地=HEAD=2693919=origin、无并行迹象（loop.md
+mtime=上轮提交时刻）；标注 CSV 本地与远程均未到（远程 annotate/ 最新仍是
+9-7 opus5_ab60）；check_refs 全绿。
+
+33 轮验证了净克隆→数据→六图字节级复现，但**净克隆能否编译出论文 PDF**
+从未测过——历轮编译都在远程工作树里跑，工作树可能藏有未跟踪的依赖。本轮
+实测：`git archive HEAD`（=纯跟踪树，等价净克隆）导出到 emnlp `/tmp`，
+删掉自带 main.pdf 后从零编译（pdflatex×3+bibtex）：
+
+- **依赖完备**：main.tex 引用的 5 张图全在跟踪的 `figures/`，sty/bst/
+  bib/math_commands 全在 `paper/`——无一缺失。
+- **编译干净**：第三遍 pdflatex 零 LaTeX Warning，blg 零 bibtex 警告，
+  `endoflimit` 落第 9 页（页限 OK）、endofmain 第 10 页。
+- **产物一致**：重建 PDF 13 页，pypdf 全文抽取与提交版 main.pdf
+  **逐字符相等**（TEXT_EQUAL True）——字节级不可比（嵌入时间戳），文本级
+  是正确判据。
+- 远程 /tmp 与本地临时文件已清理。
+
+**状态**：复现链路自此全闭——净克隆可复现数据统计、六图（33 轮）与论文
+PDF 本身（本轮）。正文与图零改动。唯一待强化项仍是人工标注两份 HTML。
