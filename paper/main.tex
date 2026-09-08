@@ -869,6 +869,20 @@ the second model would also exceed twice the artist convention; it exceeds it
 five-fold. Nine of 41 prompts fall below that threshold, so the mismatch is a
 tendency rather than a law.
 
+\paragraph{Conditioning the generation instead.} The obvious alternative to
+cropping is to constrain generation directly, so we conditioned SDXL on an
+edge map built to contain 4.5 courses and measured what it drew. It does not
+work reliably. At conditioning scale $0.8$ the median unit count falls from
+$27.0$ to $8.1$, but only 6 of 10 materials move down (sign test $p{=}0.75$);
+at scale $1.0$, 5 of 9 (${p{=}1.0}$). Individual outcomes are extreme in both
+directions --- brick wall follows the condition exactly ($30$ to $2.8$) while
+stone brick wall goes from $26$ to $102$, the fine lines of the edge map
+apparently read as additional texture rather than as the structure to follow.
+The manipulation check was pre-registered along with a stopping rule after two
+strengths, so we report this as a route that did not work in our hands rather
+than tuning further. It concerns one ControlNet and one conditioning design,
+and says nothing about whether the convention itself is overridable.
+
 \paragraph{How much of \S\ref{sec:judges} rests on 72 items.} Every judge
 verdict there is validated against one blind study, so we resampled its items
 with replacement ($B{=}4000$, each judge over the pairs it answered; the three
