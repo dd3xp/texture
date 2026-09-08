@@ -1379,3 +1379,30 @@ check_refs 全绿。related-work.md 同步补注。提交后重打 supplementary
 regex 再次踩 Bash 折叠 `\\` 坑，改 Write 落盘——记忆条目再次验证）。
 
 **状态**：机械文本 lint 类别闭合。唯一待强化项仍是人工标注两份 HTML。
+
+
+### 第 45 轮 — 2026-09-08（无头轮）：全文拼写审计 + 参考文献大小写渲染检查
+
+开工对账：工作树干净、HEAD=9cabd3f=origin，无并行痕迹；标注 CSV 本地与
+远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF 新于 tex。
+
+22 轮人工通读、44 轮机械 lint 都做过，但**逐词拼写**从未系统扫过。新增
+`analysis/spell_vocab.py`：剥离 LaTeX 命令/数学/cite-ref 参数后提取全文
+词表（1471 unique / 6198 tokens），按频次升序逐词人工复核：
+
+1. **唯一真问题：英美拼写混用**——全文为英式（colour/normalised/
+   quantised/randomised/recognisable/centred 等全部一致），但 "realized
+   spread"（610、708 行）与 "realised spread"（713、850 行）同概念两拼。
+   统一为 realised×2 处修改。"licenses"（164，动词）vs "licences"
+   （760，名词）为英式正确用法，不改。其余词表零可疑项。
+2. **参考文献大小写渲染**（31 轮只核元数据真伪，未看渲染）：bst 306 行
+   确做 `"t" change.case$` 压小写；pypdf 提取终版 PDF References 段逐条
+   核对，12 条全部正确——GANs/VLM/SDXL/LLM/MT-Bench/Chatbot Arena/
+   WebDevJudge/(M)LLMs/SD-πXL/Nash 花括号保护齐全，零被压小写。
+
+emnlp 重编译（pdflatex×3+bibtex）：13 页、endoflimit 仍第 9 页、blg 零
+警告；PDF 取回，pypdf 确认 realized×0 / realised×4。check_refs 全绿、
+lint 6 命中全假阳性。重打 supplementary（165 文件 13.4MB，泄漏扫描零）。
+spell_vocab.py 入库供复用。
+
+**状态**：拼写与文献大小写两类别闭合。唯一待强化项仍是人工标注两份 HTML。
