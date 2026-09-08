@@ -17,7 +17,7 @@ PDF = ROOT / "paper/main.pdf"
 LIMIT = 9                      # ICLR 2027 正文页数上限
 
 # 正文最后一段的特征词，改了限制节最后一段就要同步改这里
-LAST_BODY = "One generator"
+LAST_BODY = "Two generators"     # 限制节最后一段的特征词，改那段就要同步改这里
 # 这些之后的内容不计入页数
 AFTER = ("REPRODUCIBILITY", "REFERENCES", "AI USE")
 

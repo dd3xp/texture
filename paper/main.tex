@@ -419,6 +419,11 @@ units per tile: five to six times more densely packed than the artist sources,
 and past the Nyquist limit by more than a factor of two. This is why curated
 sources need no intervention and generated ones do.
 
+The mismatch is not specific to one generator: Stable Diffusion 1.5 draws
+$16.8$ units per tile at its native $512$, $5.2\times$ the artist convention
+and within a factor of $1.2$ of SDXL on the same canvas
+(Appendix~\ref{app:detail}).
+
 
 \begin{figure}[t]
 \centering
@@ -508,19 +513,18 @@ resolution grows, more structure survives uncropped and cropping should matter
 less --- and we pre-registered it over five output sizes with fixed criteria
 before running.
 
-It failed (Figure~\ref{fig:gradient}). Across two independent protocols the trend is
-$\rho{=}-0.137$ ($p{=}0.277$) and $\rho{=}+0.044$ ($p{=}0.64$), and at 48px
-the crop wins 100\% against 88\% at 16px, triggering the pre-registered
-falsification condition. At 64px a 47px source period already spans 2.9 output
-cells, comfortably above Nyquist, and cropping still wins 79--90\%.
+It failed (Figure~\ref{fig:gradient}). Across two independent protocols the
+trend is $\rho{=}-0.137$ ($p{=}0.277$) and $\rho{=}+0.044$ ($p{=}0.64$); at
+48px the crop wins 100\% against 88\% at 16px, triggering the pre-registered
+falsification condition, and at 64px a 47px source period already spans 2.9
+output cells, comfortably above Nyquist, while cropping still wins 79--90\%.
 
 What survives is the convention account: the generator draws ${\sim}25$ units
-per tile \emph{regardless of output size} while artists draw ${\sim}3.2$, an
-eight-fold mismatch that two independent measurements agree on ($3.20$ from
-tiles, $3.33$ from sources). Because that mismatch does not depend on output
-resolution, this account predicts no gradient --- which is what we observe.
-The failed prediction is what separates the two; had the gradient appeared,
-both would have been compatible with it.
+per tile \emph{regardless of output size} while artists draw ${\sim}3.2$.
+Because that mismatch does not depend on output resolution, this account
+predicts no gradient --- which is what we observe. The failed prediction is
+what separates the two; had the gradient appeared, both would have been
+compatible with it.
 
 \begin{figure}[t]
 \centering
@@ -610,22 +614,18 @@ data, so the practical rule remains a setting-level one, and a per-image gate
 is open.
 
 \paragraph{Where the gate declines, the baseline is weaker.} Across 78
-materials, tiles the gate declined carry a median realised luminance spread of
-$0.128$ against $0.240$ where it fired (Mann--Whitney $p{=}1.1\times10^{-4}$;
+materials, declined tiles carry a median realised luminance spread of $0.128$
+against $0.240$ where the gate fired (Mann--Whitney $p{=}1.1\times10^{-4}$;
 artists sit at $0.292$) --- systematically weaker but not uniformly flat, with
-$47\%$ reaching the weakest tile the gate accepted. The obvious extension does
-not rescue them: artists draw these materials as per-cell colour rather than
-structural units, leaving no feature count for a crop to align to
-(Appendix~\ref{app:detail}). Rescaling the realised spread to the artist
-median is preferred by the validated judge on $9/10$ pairs it answered
-consistently, but treats the symptom --- tonal structure returns without the
-material becoming more recognisable. Half the task remains open, and it is the
-harder half.
+$47\%$ reaching the weakest tile the gate accepted. Four routes into that half
+are closed and none makes the material more recognisable
+(Appendix~\ref{app:detail}). Half the task remains open, and it is the harder
+half.
 
 
-\paragraph{One generator, two domains.} The ${\sim}25$ units per tile is
-measured on SDXL renders; whether the mismatch takes the same magnitude, or
-the same form, in other text-to-image models is untested, and a model whose
+\paragraph{Two generators, two domains.} Both models measured are latent
+diffusion with UNet backbones; whether a different family --- a flow-matching
+transformer, say --- shares the convention is untested, and a model whose
 convention already matched would need no crop. The agreement finding
 replicates on emoji, but both domains are small-canvas raster redrawing by
 human authors, so we do not claim it for reference-scarce tasks in general.
@@ -853,6 +853,21 @@ show the two are equivalent; it shows an advantage of the size that would
 change the paper's conclusion is inconsistent with what the judge returned.
 The factor comes from one validation study and is applied to a different
 comparison, so it is an argument about magnitude, not a calibrated estimator.
+
+\paragraph{The convention on a second generator.} Whether the unit mismatch
+is a property of text-to-image generation or of SDXL was the sharpest gap in
+this work, so we measured Stable Diffusion 1.5 --- a different architecture
+trained on different data, released a year earlier --- on the same 42 prompts.
+Render size has to be matched, because it drives the unit count
+(\S\ref{sec:mechanism}); SD 1.5 is native at $512$, so the comparison is
+against SDXL at $512$ rather than at its own native $1024$, which handicaps
+SDXL and is a caveat on the model-to-model figure but not on the comparison
+that matters. SD 1.5 gives a median of $16.8$ units per tile with a period
+detected on $41/42$ prompts (IQR $7.3$--$26.3$), against $13.8$ for SDXL at
+$512$ and $3.2$ for artists. The criterion fixed before the run was whether
+the second model would also exceed twice the artist convention; it exceeds it
+five-fold. Nine of 41 prompts fall below that threshold, so the mismatch is a
+tendency rather than a law.
 
 \paragraph{How much of \S\ref{sec:judges} rests on 72 items.} Every judge
 verdict there is validated against one blind study, so we resampled its items
