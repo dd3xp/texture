@@ -1619,3 +1619,33 @@ fig7_units=283 低于 300 DPI 打印标准**（两脚本 savefig dpi=200 所致�
 页、log 零 Overfull/警告。supplementary.zip 已 commit 后重打包。
 
 **状态**：图片打印分辨率类别闭合。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 54 轮 — 2026-09-08（无头轮）：语言机械审计——拼写/连字/术语/数字格式全查，仅一处格式不一致
+
+开工对账：工作树干净、HEAD=d0777fe=origin，无并行痕迹；标注 CSV 本地
+未到（仅 a4/b2/study 旧三件）；PDF（19:41）新于 tex（14:39），
+supplementary.zip（19:43）新鲜。
+
+真缺口：**正文英文从未做过系统的语言机械审计**——22 轮通读盯的是数字
+（抓到公式反写），拼写/英美一致性/连字/重复词/数字格式没有专查过。
+
+方法与结果：
+- 全文通读一遍（862 行），交叉验证途中数字（49:10=59、16/4.80=3.33、
+  47/16=2.9、45+38+17=100、压缩因子 0.64→60/63/66% 等）全对；
+- 英美拼写：grep 常见美式（color/behavior/optimize/labeled…）零命中，
+  全文一致英式；"licences"（名词）与 "licenses"（动词）并存但**均为
+  正确英式用法**，不是不一致；
+- 重复词（\b(\w+) \1\b）零命中；常见错拼清单零命中；
+- hapax 词表 746 个逐一目检，全部为真词或专名；
+- 连字一致性（pre-registered/per-pixel/order-swap/dose--response/
+  held-out）全文统一；章节标题大小写体例统一（section 题式、
+  subsection 句式）；
+- **唯一缺陷**：附录 853 行 `$384$ instead of $1{,}024$`——全文唯一
+  逗号格式像素尺寸，与他处 "384px/1024px" 不一致。已改为
+  `$384$px instead of $1024$px`。
+
+scp 上 emnlp 重编译：13 页、endoflimit 仍第 9 页、log 零 Overfull/
+警告；PDF 中 "1,024" 已消失。tex 改动不触及 scripts/analysis，
+supplementary 无需重打包。
+
+**状态**：语言机械审计类别闭合。唯一待强化项仍是人工标注两份 HTML。
