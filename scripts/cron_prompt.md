@@ -9,9 +9,9 @@
 5 张图，bibtex 干净，`analysis/check_refs.py` 全绿。所有数字都逐项复核过。
 交付链路也通了（`tools/paint_region.py`，纯色图 + 材质名 → 上纹理的图）。
 
-**唯一的阻塞是用户标注两份 HTML**，不是缺实验：
-- `experiments/annotate/study_crop.html`（39 对）→ 把 §5.3 从判官下界升级为人锚定
-- `experiments/annotate/study_ab60.html`（60 对）→ 把 §4.1 的功效从 21% 提到 56–84%
+正文**零 `\pending`**。两份待标 HTML 已由经验证判官答过（crop 31/35=89%、ab60 18/40=45%），所以**标注不再是阻塞**，只是把「判官给的下界」升级为人锚定：
+- `experiments/annotate/study_crop.html`（39 对）→ §5.3
+- `experiments/annotate/study_ab60.html`（60 对）→ §4.1 功效 21% → 56–84%
 
 所以**这一轮的默认动作不是「做下一个实验」**。照下面的优先级走。
 
@@ -24,7 +24,8 @@
 
 ## 优先级
 
-1. **标注到了就立刻用**：跑对应分析 → 回填论文里的 `\pending` → 提交。这是最高价值的事。
+1. **标注到了就立刻用**：跑对应分析 → 把 §5.3／§4.1 的判官口径换成人工口径 → 提交。
+   （正文已无 `\pending`，不要去找。）这是最高价值的事。
 2. **远端任务掉了就重启**（tmux 会话没了但结果文件里没有完成标志）。
 3. **维护**：`analysis/check_refs.py` 有报错就修；论文编译不过就修；
    文档与代码对不上就改文档。
@@ -40,7 +41,7 @@
 - 环境用 `/mnt/data/kw/anaconda3/envs/jzs_train/bin/python`。**不要往共享环境装包。**
 - 用 **PowerShell 工具**做 `git push`（Bash 工具连不上 Windows 凭据管理器）。
 - 提交信息用英文，结尾加
-  `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>`。
+  `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>`。
 - API 密钥只从环境变量读，**不要写进任何文件**。
 
 ## 做实验的话（只在有明确理由时）
