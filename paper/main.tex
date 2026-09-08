@@ -231,13 +231,12 @@ orders and discarding disagreements.
 Order swapping earns its cost, but not for the reason usually given. None of
 the three judges is positionally biased on this content: asked $144$, $128$
 and $144$ times, they pick the first-presented image $54.2\%$, $51.6\%$ and
-$48.6\%$ of the time ($p{=}0.36$, $0.79$, $0.80$). What the swap exposes
-instead is instability. \citet{webdevjudge2025} report order-swap consistency
-between $83.5\%$ and $89.6\%$; here \texttt{claude-opus-5} is consistent on
-$72.2\%$ of pairs ($[61,82]$) and \texttt{gpt-5.6-sol} on $63.9\%$
-($[52,74]$), both intervals reaching no higher than that range's floor. A
-judge asked the same question twice gives a different answer on a third of
-these pairs.
+$48.6\%$ of the time ($p{=}0.36$, $0.79$, $0.80$). What the swap exposes is
+instability. \citet{webdevjudge2025} report order-swap consistency between
+$83.5\%$ and $89.6\%$; here \texttt{claude-opus-5} is consistent on $72.2\%$
+of pairs ($[61,82]$) and \texttt{gpt-5.6-sol} on $63.9\%$ ($[52,74]$), both
+intervals reaching no higher than that range's floor. Asked the same question
+twice, a judge changes its answer on a third of these pairs.
 
 The results (Figure~\ref{fig:judges}) separate into three failure modes
 (human rates below are recomputed over each judge's surviving pairs).
@@ -246,23 +245,25 @@ The results (Figure~\ref{fig:judges}) separate into three failure modes
 finding, reporting 37\% where the human measured 6\%.
 \texttt{gpt-5.6-sol} inverts it: 42\% against the human's 78\%, and 62\% on
 the stratum where the human measured 4\%. \texttt{claude-opus-5} preserves
-direction, significance and stratum ordering (73\%, $p{=}0.008$; 25\% versus
-33\%) while still compressing.
+direction and significance (73\%, $p{=}0.008$) and attenuates the
+stratification rather than erasing it (25\% versus 33\%).
 
 The methodological point is panel (c). \texttt{gemini-3.1-pro} and
 \texttt{claude-opus-5} agree with the human on \emph{exactly} the same
-fraction of items, 66.7\%, and one destroys the conclusion while the other
-keeps it. Per-item agreement --- the quantity this literature reports --- is
-not evidence that a judge can be used.
+fraction of items, 66.7\%, and retain very different amounts of the effect:
+62\% against 73\%, where the human measured 86\%. Resampling the study's
+items, that ordering holds in 83\% of draws and the significance threshold
+between the two in 54\% (Appendix~\ref{app:detail}), so the argument rests
+on how much of the effect a judge keeps, not on where $p$ falls. Per-item
+agreement --- the quantity this literature reports --- is not evidence that a
+judge can be used.
 
 Nor is stability. Ranked by order-swap consistency the order reverses:
-\texttt{gemini-3.1-pro} is the \emph{most} self-consistent of the three at
-$90.6\%$, clearing even the top of the published range, and it is the judge
-that flattens the stratification; the two judges falling below that range include
-the only one we can use. Both diagnostics that are cheap to compute ---
-agreement with human labels item by item, and agreement with oneself under
-reordering --- are silent about the thing that matters. A judge must be
-validated on whether it reproduces a conclusion already established by humans.
+\texttt{gemini-3.1-pro} is the \emph{most} self-consistent at $90.6\%$,
+clearing the top of the published range, while the two below it include the
+only judge we can use. Both cheap diagnostics --- agreement with human labels,
+and agreement with oneself --- are silent about what matters. A judge must be
+validated on whether it reproduces a conclusion humans have established.
 
 \paragraph{A judge's bias direction determines what it can support.} Because
 compression pulls any real difference toward 50\%, a compressing judge
@@ -372,17 +373,16 @@ would be expected to read as $60\%$, and the observed value is below chance
 
 Given a curated high-resolution source, the trivial baseline is already
 adequate (\S\ref{sec:baseline}). The interesting case is a material that does
-not exist yet, where the source must be generated. There, a $1024$px render
+not exist yet, where the source must be generated. There a $1024$px render
 from a latent diffusion model~\citep{rombach2022ldm}, in our case
 SDXL~\citep{podell2024sdxl}, looks structurally sound --- a mossy brick wall
-with well-defined courses and mortar --- and yet every standard downsampling kernel
-turns it to mush at $16\times16$. We tried five (box, median, extremum,
-contrast-weighted, bimodal); all five fail identically on the same renders, so
-the kernel is not the variable.
-
-Counting the structure explains it. The render packs roughly 25 brick courses
-into what must become 16 output cells. Improving the kernel cannot help,
-which is precisely where work on content-adaptive downscaling operates.
+with well-defined courses and mortar --- yet every standard downsampling
+kernel turns it to mush at $16\times16$. We tried five (box, median, extremum,
+contrast-weighted, bimodal) and all five fail identically on the same renders,
+so the kernel is not the variable. Counting the structure explains why: the
+render packs roughly 25 brick courses into what must become 16 output cells.
+Improving the kernel cannot help, which is precisely where work on
+content-adaptive downscaling operates.
 
 \subsection{Artists hold a fixed number of units per tile}
 
@@ -589,7 +589,10 @@ them (\S\ref{sec:judges}).
 within-applicability figure from a compressing judge, so it is a lower bound
 over a restricted domain, and the corresponding human study is prepared but
 unlabelled. We report no aggregate win rate over all prompts, because there is
-no defensible way to score the cases the method declines.
+no defensible way to score the cases the method declines. The crop constant
+itself is inherited: it targets 4.5 units per tile, a figure measured before
+we widened the period detector, and the same tiles now give $3.20$
+(Appendix~\ref{app:retractions}).
 
 \paragraph{The gate does not follow from the effect.} The dose--response in
 \S\ref{sec:mechanism} is condition-level, and within a condition per-image
@@ -598,12 +601,6 @@ misfires: at 384px it still triggers on $48\%$ of prompts, where cropping
 hurts. Fitting a unit-count threshold would be unsupported by the per-image
 data, so the practical rule remains a setting-level one, and a per-image gate
 is open.
-
-\paragraph{A constant carried over from a superseded measurement.} The crop
-targets 4.5 units per tile, a figure measured before we widened the period
-detector; the same tiles now give $3.20$. We did not re-tune it, so the
-pipeline aims slightly coarser than the convention it is meant to match
-(Appendix~\ref{app:retractions}).
 
 \paragraph{Where the gate declines, the baseline is weaker.} Across 78
 materials, tiles the gate declined carry a median realised luminance spread of
@@ -619,13 +616,12 @@ material becoming more recognisable. Half the task remains open, and it is the
 harder half.
 
 
-\paragraph{One generator, two domains.} The ${\sim}25$ structural units per
-tile is measured on SDXL renders. Whether the convention mismatch takes the
-same magnitude --- or the same form --- in other text-to-image models is
-untested, and a model whose convention already matched would need no crop.
-The agreement finding replicates on emoji, but both domains are small-canvas
-raster redrawing by human authors; we do not claim it for reference-scarce
-tasks in general.
+\paragraph{One generator, two domains.} The ${\sim}25$ units per tile is
+measured on SDXL renders; whether the mismatch takes the same magnitude, or
+the same form, in other text-to-image models is untested, and a model whose
+convention already matched would need no crop. The agreement finding
+replicates on emoji, but both domains are small-canvas raster redrawing by
+human authors, so we do not claim it for reference-scarce tasks in general.
 
 
 % 第二个探针：正文（含 Limitations）到此为止；复现性声明与参考文献不计入 ICLR 页数
@@ -841,6 +837,22 @@ show the two are equivalent; it shows an advantage of the size that would
 change the paper's conclusion is inconsistent with what the judge returned.
 The factor comes from one validation study and is applied to a different
 comparison, so it is an argument about magnitude, not a calibrated estimator.
+
+\paragraph{How much of \S\ref{sec:judges} rests on 72 items.} Every judge
+verdict there is validated against one blind study, so we resampled its items
+with replacement ($B{=}4000$, each judge over the pairs it answered; the three
+answered different subsets, overlapping on only 18). The direction findings
+are firm: \texttt{gpt-5.6-sol} inverts in $86\%$ of draws and preserves in
+$0.1\%$, \texttt{claude-opus-5} inverts in $0.2\%$. The ordering of how much
+effect each retains --- $73\%$, $62\%$, $42\%$ against the human's $86\%$ ---
+holds in $83\%$ of draws. What is \emph{not} firm is the significance
+threshold: \texttt{claude-opus-5} clears $p<0.05$ in $78\%$ of draws and
+\texttt{gemini-3.1-pro} in $31\%$, so the statement that one is significant
+and the other is not holds in $54\%$. Nor is the stratification gap, which
+the human puts at $-27$pp: \texttt{claude-opus-5} gives $-8$pp with a
+resampling interval of $[-45, +27]$. Section~\ref{sec:judges} is written
+against the two robust legs and says so; \texttt{judge\_bootstrap.py}
+reproduces all of these.
 
 \paragraph{Why a crop cannot help the declined materials.} For the tiles the
 gate declines, we asked whether the same unit convention applies in a
