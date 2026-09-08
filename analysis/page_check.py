@@ -26,7 +26,7 @@ def main():
     try:
         from pypdf import PdfReader
     except ImportError:
-        raise SystemExit("需要 pypdf（本地有；emnlp 上没有，故此检查在本地做）")
+        raise SystemExit("需要 pypdf（本地有；远端 GPU 机器上没有，故此检查在本地做）")
     if not PDF.exists():
         raise SystemExit(f"缺 {PDF}")
     r = PdfReader(str(PDF))
