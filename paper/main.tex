@@ -140,7 +140,8 @@ measure distance from.
 \citet{kopf2013downscaling} optimise the shape and position of sampling
 kernels to align with local features, and \citet{oztireli2015downscaling}
 cast downscaling as optimisation against an SSIM~\citep{wang2004ssim}
-objective. This line asks how to lose the least structure at a given scale
+objective; \citet{wu2022pixelization} learn cell-controllable pixelization
+directly. This line asks how to lose the least structure at a given scale
 factor. Our diagnosis sits upstream of it: when the source packs ${\sim}25$
 structural units into a 16-cell output, no kernel can represent them, and we
 confirm that five downsamplers fail identically on the same renders
@@ -153,10 +154,12 @@ known failure~\citep{wang2024fair}. Recent benchmarks quantify it carefully:
 across judges on web-development comparisons, with first-position preference
 between $0.9\%$ and $15.8\%$, and argue the bias reflects a model deficiency
 rather than annotation ambiguity, since explicit instructions do not remove
-it. On pixel-art comparisons we find no positional bias at all, markedly
+it; judges rank more reliably than they
+score~\citep{kumar2026rankscore}. On pixel-art comparisons we find no
+positional bias, markedly
 lower self-consistency than that range for two of three judges, and a
 distinct and more consequential failure (\S\ref{sec:judges}): judges that
-look equally good on both of those diagnostics differ completely in whether they reproduce the human
+look equally good on both diagnostics differ completely in whether they reproduce the human
 \emph{conclusion}. We argue this conclusion-level validation, not agreement
 with human labels item by item, is what licenses using a judge.
 

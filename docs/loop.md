@@ -1302,3 +1302,36 @@ PDF（10:13）新于 tex（10:12），无欠编译。
 
 **状态**：内部主张-证据文档与终版正文重新同步。唯一待强化项仍是人工
 标注两份 HTML。
+
+### 第 42 轮 — 2026-09-08（无头轮）：相关工作覆盖审计——补上两条真实漏引，页限压回第 9 页
+
+开工对账：工作树干净、HEAD=480dd13=origin、无并行痕迹；标注 CSV 本地与
+远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；check_refs 全绿；
+PDF 新于 tex。
+
+31 轮审过 bib 十条的元数据真伪，但**覆盖面**（是否漏引审稿人必提的工作）
+从未审过。本轮 WebSearch 扫三个方向（像素画生成、VLM 判官偏差、降采样/
+像素化），逐条核实真实性后补两条：
+
+- **wu2022pixelization**（Make Your Own Sprites: Aliasing-Aware and
+  Cell-Controllable Pixelization，SIGGRAPH Asia 2022 / TOG 41(6) Art.193，
+  DOI 双源核实）：同题材最近邻——数据驱动像素化、格子尺寸可控。此前降采样
+  段只有 Kopf/Öztireli 两篇自然图像工作，漏掉像素画专属这篇是硬伤。入
+  降采样段一短句，本文"上游采样定理"诊断对它同样成立，定位不变。
+- **kumar2026rankscore**（VLM Judges Can Rank but Cannot Score，arXiv
+  2604.25235，2026，abs 页核实）：related-work.md 早就提到"能排序不能
+  打分"这支但 tex 一直没引。入判官段半句。
+
+**未采纳**：PixDiff-PIG 仅 ResearchGate 一处（无 arXiv/DOI/venue，403 无法
+核实作者）——不可引，tex 中"palette-aware diffusion models report FID…"
+一句维持无名引述现状；arXiv 2508.08754 是着色任务，不匹配。
+
+页限攻防：首版两句使 `endoflimit` 掉到第 10 页（原本压线第 9 页）；压缩
+新句并在同段瘦身三处赘词（"at all"/"markedly"保留其一/"of those"），
+回到**第 9 页**。emnlp 重编译零 LaTeX 警告、13 页；PDF 取回，本地 pypdf
+确认两条引文正文+文献表全部渲染（TOG 41(6)、Kumar/Tayebati 全串命中）。
+check_refs 全绿。related-work.md 同步补注。提交后重打 supplementary
+（bundle 含 paper/，refs.bib 有变）。
+
+**状态**：相关工作覆盖审计闭合，bib 10→12 条全部经核验。唯一待强化项
+仍是人工标注两份 HTML。
