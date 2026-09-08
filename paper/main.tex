@@ -264,9 +264,11 @@ Nor is stability. Ranked by order-swap consistency the order reverses:
 clearing the top of the published range, while the two below it include the
 only judge we can use. Both cheap diagnostics --- agreement with human labels,
 and agreement with oneself --- are silent about what matters. A judge must be
-validated on whether it reproduces a conclusion humans have established --- and
-that validation checked for stability, since at these sample sizes the
-significance threshold is the least reliable part of it.
+validated on whether it reproduces a conclusion humans have established, which
+presupposes a study whose conclusion is not itself null --- our first attempt
+used one where the human rate was $43\%$ ($p{=}0.68$) --- and that validation
+checked for stability, since at these sample sizes the significance threshold
+is the least reliable part of it.
 
 \paragraph{A judge's bias direction determines what it can support.} Because
 compression pulls any real difference toward 50\%, a compressing judge
@@ -719,6 +721,15 @@ was itself the signal. We void that run. Stretching the image instead, and
 measuring the spread actually realised in the output, the manipulation lands
 and the pre-registered primary passes (\S\ref{sec:limitations}). This is the
 same defect as the entry above, committed after writing that entry.
+
+\item \textbf{A validation set with nothing to validate against.} Our first
+attempt to qualify a judge replayed the artist-versus-baseline study, where
+the human preference is $43\%$ ($p{=}0.68$). Two judges duly agreed with those
+labels on $55\%$ and $65\%$ of items, which says nothing: a judge cannot
+reproduce a conclusion that was never established. We repeated the exercise on
+the pre-registered study whose human effect is $86\%$, and only that run
+appears in \S\ref{sec:judges}. The protocol stated there carries the
+requirement this mistake taught us.
 
 \item \textbf{Cross-domain generality was inflated ninefold} by trivially
 agreeing regions. Measured over all cells, emoji redraws sit $+0.1367$ above
