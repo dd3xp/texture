@@ -1250,3 +1250,34 @@ blg 零警告、13 页；pypdf 抽取确认三处新措辞全部渲染。check_r
 提交后重打 supplementary（脚本从 HEAD 导出，须在 commit 后跑）。
 
 **状态**：两份声明与释出物对齐。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 40 轮 — 2026-09-08（无头轮）：72 对研究的配对账目缺口——审稿人算术对不上，已补明细
+
+开工对账：工作树干净、本地=HEAD=cdb0e48=origin；上轮提交距开工 26 分钟但
+mtime 全与提交吻合（supplementary.zip 09:41:42 = 39 轮提交后 30 秒重打，
+其"提交后重打"待办已闭）；标注 CSV 本地与远程均未到；check_refs 全绿。
+
+本轮通读 main.tex 全文（22 轮后又 17 轮增量编辑的交叉一致性检查）。摘要、
+判官、机制、证伪、附录全部数字与内部算术复核通过（比值、Jeffreys 上界、
+压缩因子 0.64、门三段 45+38+17=100、Nyquist 跨度、单位数换算），仅发现
+一处**配对账目缺口**：§4.1 写"72 pairs with five attention checks"，但
+计分对是 49+10=59（40 seeded + 19 plain）——审稿人做减法会撞上无解释的 8。
+
+查 `a4_labels.csv` 原始数据：72 项 = 5 attention check + **60 model vs
+baseline**（1 平局弃→ 49:10=83%、seeded 2/40、plain 8/19 全部精确对上）
++ **7 对 model vs artist**（正文从未提及；判官分析按既有口径排除 artist
+票，无数字受影响）。b2_labels.csv 复核 §4.2：24 real（1 平局弃→10/23=43%）
++3 check，与正文逐字吻合，其平局弃样正文本就写明——§4.1 应比照。
+
+修正（main.tex §4.1 两句）：72 对拆明 60 对 baseline + 7 对 artist tiles
++ 5 检查；"One pair was called a tie and dropped; the baseline won the
+remaining 59 49:10"。§3.3 判官重放的"72 pairs"（144=72×2 次询问）与新
+明细自洽，无需改。
+
+emnlp 重编译（pdflatex×3+bibtex）：endoflimit 仍第 9 页、blg 零警告
+（grep 命中的一行是 bst 轨迹 "warning$ -- 0" 本身）、13 页；PDF 取回，
+本地 pypdf 确认两处新句渲染（emnlp 各 python 均无 pypdf，改为本地验证）。
+check_refs 全绿。提交后已重打 supplementary。
+
+**状态**：全文交叉一致性检查闭合，配对账目补明。唯一待强化项仍是人工
+标注两份 HTML。

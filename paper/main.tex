@@ -304,11 +304,13 @@ inverts relative to what every automatic quantity had reported.
 Our own three rounds of architecture work produced a mask-prediction model
 with hand-designed structural priors --- brick period, border treatment,
 running-bond phase offset, per-material gating. We pre-registered a blind
-comparison against the trivial downsampling baseline: 72 pairs with five
-attention checks, all passed, each item verified against the pipeline that
+comparison against the trivial downsampling baseline: 72 pairs --- 60
+putting the model against the baseline, seven against artist tiles, and five
+attention checks, all passed --- each item verified against the pipeline that
 produced it.
 
-The baseline won $49{:}10$, $83\%$, $p{=}2.7\times10^{-7}$. Worse, the loss concentrates
+One pair was called a tie and dropped; the baseline won the remaining 59
+$49{:}10$, $83\%$, $p{=}2.7\times10^{-7}$. Worse, the loss concentrates
 exactly where the priors act. On the seeded stratum --- items where a
 structural prior actually fired --- the model won $2/40$, $5\%$; on the
 unseeded control stratum it won $8/19$, $42\%$ ($p{=}0.65$), close to a tie.
