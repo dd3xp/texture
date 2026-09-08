@@ -40,7 +40,7 @@ artist sources. Cropping to the detected dominant period repairs this on the
 45--58\% of prompts where a period is found, and manipulating the unit count
 produces a monotone dose--response in the fix's benefit (88\%, 54\%, 17\% at
 27.7, 13.8 and 9.4 units). On the rest, where artists draw per-cell colour
-rather than structural units, we close three candidate routes and find none
+rather than structural units, we close four candidate routes and find none
 that works. We pre-registered and \emph{falsified} a pure sampling-limit
 account along the way; reporting that failure is what selects the surviving
 mechanism.
@@ -868,6 +868,20 @@ crop has nothing to align to. This is also why cropping granular materials by
 a characteristic scale looked worse than leaving them alone, an observation
 recorded in the code long before it had an explanation. The criterion for this
 test was committed before it ran.
+
+\paragraph{Restoring the tonal range is not enough, and how it is restored
+matters.} Two interventions raise the realised spread of a declined tile
+towards the artist median. Stretching the image's luminance and requantising
+keeps the spatial arrangement and is preferred by the validated judge on
+$9/10$ pairs. Point sampling --- taking one real source colour per cell
+instead of a within-cell statistic, which every downsampler we use computes
+--- restores the range far more aggressively, lifting the median from $0.109$
+to $0.480$ on 29 declined materials ($29/29$, $p{=}3.7\times10^{-9}$), and
+overshoots the artist median on $90\%$ of them. The judge prefers it on
+$9/25$ pairs ($36\%$, $p{=}0.23$). The spread deficit is therefore a symptom:
+restoring it helps only when the spatial content survives, and replacing that
+content with per-cell noise does not. Criteria for both were fixed before
+running.
 
 The generation-side form of the lever fails here too. Rendering these
 materials at $384$px instead of $1024$px before quantisation raises the
