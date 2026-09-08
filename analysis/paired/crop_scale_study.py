@@ -91,7 +91,10 @@ def main():
     ap.add_argument("--fewer-units", action="store_true",
                     help="加修饰词让 SDXL 少画结构单元——检验单元惯例说（预注册于 8207f3f）")
     ap.add_argument("--render-size", type=int, default=1024,
-                    help="SDXL 渲染分辨率。384 时单元数显著变少（render_res_probe：中位 32.5→9.3，MW p=0.0062），是唯一通过操作检验的少单元杠杆")
+                    help="SDXL 渲染分辨率。384 时单元数显著变少（render_res_probe 真中位 30.1→8.8，−70.9%，MW p=0.0066；旧记的 32.5→9.3 是 med() 取上中位数所致，已修），是唯一通过操作检验的少单元杠杆")
+    ap.add_argument("--prompts", type=Path,
+                    help="外挂提示词表（JSON 数组）。缺省用内置的 42 个。"
+                         "泛化复现用：见 experiments/prompts_holdout60.json")
     ap.add_argument("--out", type=Path, default=Path("experiments/crop_scale_study.json"))
     args = ap.parse_args()
     base, key = os.environ.get("VLM_BASE_URL"), os.environ.get("VLM_API_KEY")
@@ -105,7 +108,9 @@ def main():
     pipe.set_progress_bar_config(disable=True)
 
     recs = []
-    for pi, p in enumerate(PROMPTS):
+    prompts = (json.loads(args.prompts.read_text(encoding='utf-8'))
+               if args.prompts else PROMPTS)
+    for pi, p in enumerate(prompts):
         g = torch.Generator("cuda").manual_seed(args.seed + pi)
         pr = TMPL.format(p=p)
         if args.fewer_units:
@@ -136,7 +141,7 @@ def main():
                     p2 = "after" if o2.upper().startswith("A") else "before"
                     rec["vlm"] = p1 if p1 == p2 else "inconsistent"
             recs.append(rec)
-        print(f"[{pi+1}/{len(PROMPTS)}] {p:<32} "
+        print(f"[{pi+1}/{len(prompts)}] {p:<32} "
               + " ".join(f"{r['size']}:{'裁' if r['fired'] else '不裁'}"
                          f"{r.get('vlm','-')[:4]}" for r in recs[-len(args.sizes):]),
               flush=True)
@@ -145,7 +150,7 @@ def main():
     fired = [r for r in recs if r["fired"]]
     judged = [r for r in fired if r.get("vlm") in ("before", "after")]
     inc = sum(1 for r in fired if r.get("vlm") == "inconsistent")
-    print(f"\n提示词 {len(PROMPTS)}，尺寸 {args.sizes}，共 {len(recs)} 例")
+    print(f"\n提示词 {len(prompts)}，尺寸 {args.sizes}，共 {len(recs)} 例")
     print(f"  裁剪触发 {len(fired)}/{len(recs)} = {len(fired)/len(recs):.0%}")
     print(f"  VLM 有效判断 {len(judged)}，正反不一致弃用 {inc}")
     def binom_p(w, n):  # 双侧精确二项检验（jzs_train 环境无 scipy）
