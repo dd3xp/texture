@@ -1222,3 +1222,31 @@ mtime=上轮提交时刻）；标注 CSV 本地与远程均未到（远程 annot
 
 **状态**：复现链路自此全闭——净克隆可复现数据统计、六图（33 轮）与论文
 PDF 本身（本轮）。正文与图零改动。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 39 轮 — 2026-09-08（无头轮）：复现性声明与实际释出物失真——审稿人视角修正
+
+开工对账：工作树干净、本地=HEAD=b75a94d=origin、无并行迹象；标注 CSV 本地
+与远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；check_refs 全绿；
+远程 tmux 全属其他项目。
+
+37/38 连做两轮回归验证，本轮换审稿人视角审两份声明，发现**与释出物失真**：
+
+- **Reproducibility Statement 旧文**给审稿人的唯一指针是 "the project
+  log"——但 34 轮脱敏设计恰恰把 docs/ 从 supplementary 里删了，审稿人看
+  不到；"Pre-registrations are git commits" 同样不可验（匿名包无 .git）。
+  真正可验的释出物（analysis/ + 一手 JSON，33 轮已验净克隆复现全部图与
+  统计）反而只字未提。改写为：supplementary 含分析代码与一手实验记录
+  （judge 原始输出 JSON + 脚本内置预注册判据），可直接重跑复现全部图与
+  统计检验；版本历史与完整实验日志**发表后释出**（预注册时间戳届时可验）。
+- **AI Use Statement** 的 "verified against the raw experiment records
+  in the supplementary material" 删去 "in the supplementary material"——
+  附录全库色彩统计等字面量的原始记录在远程数据集（不入库，33 轮边界），
+  留着是过度声明。
+- 措辞精修一处：预注册判据编码在评估脚本里（crop_res5_eval.py 等），
+  非独立 JSON，避免误导。
+
+emnlp 重编译（pdflatex×3+bibtex）：endoflimit 仍第 9 页（声明不计页数）、
+blg 零警告、13 页；pypdf 抽取确认三处新措辞全部渲染。check_refs 全绿。
+提交后重打 supplementary（脚本从 HEAD 导出，须在 commit 后跑）。
+
+**状态**：两份声明与释出物对齐。唯一待强化项仍是人工标注两份 HTML。

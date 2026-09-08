@@ -621,11 +621,17 @@ tasks in general.
 % 第二个探针：正文（含 Limitations）到此为止；复现性声明与参考文献不计入 ICLR 页数
 \label{endoflimit}
 \section*{Reproducibility Statement}
-Every claim in this paper is traceable to a numbered experiment record in
-the project log. Appendix~\ref{app:retractions} lists the results we
-withdrew, and why; Appendix~\ref{app:detail} gives dataset construction,
-generation settings, the judging protocol and the statistical procedures.
-Pre-registrations are git commits timestamped before the corresponding runs.
+The supplementary material contains the analysis code and the primary
+experiment records (raw judge outputs as JSON, with pre-registered decision
+criteria encoded in the evaluation scripts), sufficient to regenerate every
+figure and the statistical tests
+behind the paper's claims by running the released scripts directly on those
+records. Appendix~\ref{app:retractions} lists the results we withdrew, and
+why; Appendix~\ref{app:detail} gives dataset construction, generation
+settings, the judging protocol and the statistical procedures. Hypotheses
+and decision rules were pre-registered as commits timestamped before the
+corresponding runs in the project's version history, which we will release
+together with the full experiment log upon publication.
 
 % ICLR 2027 强制项（AuthorGuidelines）：AI Use Statement，不计页数，置于参考文献前
 \section*{AI Use Statement}
@@ -634,8 +640,7 @@ implementation, experiment orchestration, statistical analysis, hypothesis
 refinement, and manuscript drafting. The human authors set the research
 direction, produced all human annotations, and reviewed the AI-generated
 code and text; every quantitative claim in the paper was verified against
-the raw experiment records in the supplementary material by re-running the
-released analysis scripts. Separately, commercial VLMs are \emph{objects of
+the raw experiment records by re-running the analysis scripts. Separately, commercial VLMs are \emph{objects of
 study} in this paper: their use as judges is fully specified in the
 methodology, and their outputs are treated as measured data, not as
 verified claims.
