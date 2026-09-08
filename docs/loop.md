@@ -1523,3 +1523,31 @@ blg 零警告；PDF 取回，pymupdf 栅格化第 7 页目检双描边框渲染�
 
 **状态**：灰度可读性类别闭合（5 图全过，1 处修复）。唯一待强化项仍是
 人工标注两份 HTML。
+
+### 第 50 轮 — 2026-09-08（无头轮）：编译警告 + bib 书目事实两类审计，零修改
+
+开工对账：工作树干净、HEAD=a5adf76=origin，无并行痕迹；标注 CSV 本地
+与远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF（15:24）
+新于 tex（14:39）。
+
+缺口一（编译警告审计，从未做过——历轮只看 blg 与页数）：远程 main.log
+（49 轮末次编译产物）全查：**Overfull 0、Warning/Error/undefined 0**，
+唯一条目是 741–747 行（附录 What We Retracted 勘误项）一处 badness 4779
+的 underfull hbox，纯排版松行，不影响可读性，不动。
+
+缺口二（bib 书目事实核查——42 轮只核过新增 2 条，45 轮只核大小写，
+其余 10 条的作者/venue/年份/DOI 从未对外部来源验证）：
+- 3 个 ACM DOI 经 Crossref API 精确对上（dl.acm.org 403，改走
+  api.crossref.org）：SD-πXL=SA'24 Binninger&Sorkine-Hornung、
+  Kopf TOG 32(6) 2013、Öztireli&Gross TOG 34(4) 2015；
+- webdevjudge2025：arXiv 2510.18560 作者 8 人逐一匹配 bib，venue 确为
+  ICLR 2026（还是 Oral）；bib key 尾号 2025 与 year=2026 不一致但 key
+  不进 PDF，不动；
+- 其余 6 条经典（SSIM TIP 13(4) 2004、FID NeurIPS'17、LDM CVPR'22、
+  SDXL ICLR'24、MT-Bench NeurIPS'23、Fair Evaluators=62nd ACL 2024）
+  与公开记录一致。**12/12 全对，零虚构、零错字段**。
+
+tex/PDF 零变更，无需重编译；supplementary 不受影响。
+
+**状态**：编译警告与 bib 事实两类别闭合。唯一待强化项仍是人工标注
+两份 HTML。
