@@ -1157,3 +1157,26 @@ Statement，历轮审计从未覆盖此项。
 
 **状态**：投稿合规三声明查毕——Reproducibility（已有）、AI Use（本轮补，
 强制）、Ethics（可选，暂缺有据）。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 36 轮 — 2026-09-08（无头轮）：收养孤儿编辑——判官自洽率与范围关系的事实错误修正
+
+开工对账发现并行痕迹：main.tex 未提交修改（mtime 07:40，晚于上次提交
+07:11），loop.md 无新轮记录、PDF（07:10）落后于 tex——等待 90 秒 mtime 不再
+变化，判定并行会话已死于半途，按 33 轮先例收养孤儿工作（先验证后采纳）。
+
+孤儿编辑三处事实主张全部对上 `fig_judges.py` 实跑输出：
+
+- **旧文错误**：gemini-3.1-pro 自洽率 90.6% 被写成"comfortably inside
+  the published range"，但 WebDevJudge 范围是 83.5–89.6%——90.6% 在范围
+  **之上**。改为 "clearing even the top of the published range"（正文与
+  fig4 图注两处），并把 related work 的"低于该范围"限定为 two of three
+  judges（opus 72.2%、gpt 63.9% 低于，gemini 高于）。
+- **新增说明正确**：三判官的人类参照胜率 87%/78%/86% 不同，因分母是各判官
+  存活对——补一句口径说明消歧。
+
+本轮修补：孤儿版把说明句写成三行独立句，endoflimit 被推到**第 10 页超限**
+（remote 编译实测）；压缩为单行括号注后 endoflimit 回到第 9 页。完整重编译
+（pdflatex×3+bibtex）blg 零警告、13 页、PDF 已取回；check_refs 全绿。
+
+**状态**：孤儿工作验证采纳，页限恢复。唯一待强化项仍是人工标注两份 HTML
+（本地与远程 CSV 均未到）。

@@ -153,10 +153,10 @@ known failure~\citep{wang2024fair}. Recent benchmarks quantify it carefully:
 across judges on web-development comparisons, with first-position preference
 between $0.9\%$ and $15.8\%$, and argue the bias reflects a model deficiency
 rather than annotation ambiguity, since explicit instructions do not remove
-it. On pixel-art comparisons we find no positional bias at all, but markedly
-lower self-consistency than that range, and a distinct and more consequential
-failure (\S\ref{sec:judges}): judges that look equally good on both of those
-diagnostics differ completely in whether they reproduce the human
+it. On pixel-art comparisons we find no positional bias at all, markedly
+lower self-consistency than that range for two of three judges, and a
+distinct and more consequential failure (\S\ref{sec:judges}): judges that
+look equally good on both of those diagnostics differ completely in whether they reproduce the human
 \emph{conclusion}. We argue this conclusion-level validation, not agreement
 with human labels item by item, is what licenses using a judge.
 
@@ -234,7 +234,8 @@ $72.2\%$ of pairs ($[61,82]$) and \texttt{gpt-5.6-sol} on $63.9\%$
 judge asked the same question twice gives a different answer on a third of
 these pairs.
 
-The results (Figure~\ref{fig:judges}) separate into three failure modes.
+The results (Figure~\ref{fig:judges}) separate into three failure modes
+(human rates below are recomputed over each judge's surviving pairs).
 \texttt{gemini-3.1-pro} compresses the human's 87\% baseline win rate to 62\%
 ($p{=}0.14$) and flattens the stratification that carried the study's main
 finding, reporting 37\% where the human measured 6\%.
@@ -251,8 +252,8 @@ not evidence that a judge can be used.
 
 Nor is stability. Ranked by order-swap consistency the order reverses:
 \texttt{gemini-3.1-pro} is the \emph{most} self-consistent of the three at
-$90.6\%$, comfortably inside the published range, and it is the judge that
-flattens the stratification; the two judges falling below that range include
+$90.6\%$, clearing even the top of the published range, and it is the judge
+that flattens the stratification; the two judges falling below that range include
 the only one we can use. Both diagnostics that are cheap to compute ---
 agreement with human labels item by item, and agreement with oneself under
 reordering --- are silent about the thing that matters. A judge must be
@@ -283,7 +284,7 @@ while destroying its arrangement, so both sides pair the same marginals.}
 the methodological point: the judge that destroys the conclusion and the one
 that preserves it have identical per-item agreement, and ranking instead by
 self-consistency under order swapping puts the judge that flattens the
-stratification on top, inside the range reported for web-development
+stratification on top, above even the range reported for web-development
 comparisons (shaded). Both cheap diagnostics are blind to which judge is
 usable.}
 \label{fig:judges}
