@@ -1602,3 +1602,20 @@ tex/PDF 零变更，无需重编译。
 
 **状态**：字体嵌入与引用语法两类别闭合。唯一待强化项仍是人工标注
 两份 HTML。
+
+### 第 53 轮 — 2026-09-08（无头轮）：图片打印分辨率审计——两张欠 300 DPI 的图重生成
+
+开工对账：工作树干净、HEAD=2816227=origin，无并行痕迹；标注 CSV 本地
+与远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF 新于 tex。
+
+真缺口：**五张图的有效打印 DPI 从未算过**——52 轮查了字体与"全 PNG"，
+但没查像素密度。按 ICLR textwidth=5.5in 与各自 \includegraphics 宽度：
+fig1=364、fig4=545、fig_qualitative=447 达标；**fig8_gradient=278、
+fig7_units=283 低于 300 DPI 打印标准**（两脚本 savefig dpi=200 所致）。
+
+修复：`fig_gradient.py`/`fig_units.py` dpi=200→300，本地重生成
+（打印中位数 27.7/13.8/9.4 与在册值一致，图形内容逐项目视无变化），
+有效 DPI 升至 417/424。scp 上 emnlp 重编译：13 页、endoflimit 仍第 9
+页、log 零 Overfull/警告。supplementary.zip 已 commit 后重打包。
+
+**状态**：图片打印分辨率类别闭合。唯一待强化项仍是人工标注两份 HTML。

@@ -84,7 +84,7 @@ def main():
                  fontsize=9)
     fig.tight_layout()
     out = ROOT / "figures" / "fig7_units.png"
-    fig.savefig(out, dpi=200)
+    fig.savefig(out, dpi=300)
     for (c, p, *_), d in zip(CONDS, data):
         print(f"{c}: n={len(d)} median={statistics.median(d):.4f}")
     print("wrote", out)

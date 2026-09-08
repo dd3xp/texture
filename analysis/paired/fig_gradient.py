@@ -70,7 +70,7 @@ def main():
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     out = ROOT / "figures" / "fig8_gradient.png"
-    fig.savefig(out, dpi=200)
+    fig.savefig(out, dpi=300)
     print("wrote", out)
 
 
