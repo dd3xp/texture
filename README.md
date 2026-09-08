@@ -48,10 +48,39 @@ python tools/paint_region.py in.png --tile tile.png -o out.png
 `--size` 取 16 / 24 / 32。`--scale` 缺省自适应（让区域短边约容下 4 张瓦片）。
 `--keep-hue` 保留瓦片本来的颜色不改色。
 
+### 现成的 78 个材质（不用 GPU）
+
+仓库里已经带了两批做好的纹理，直接可用：
+
+```
+experiments/pack/base/{16,24,32}/     18 个材质
+experiments/pack60/base/{16,24,32}/   60 个材质
+```
+
+总览与可用性：`python scripts/pack_grid.py`（红框=接近平涂勿用；左上灰角=门未触发）。
+按调色板亮度跨度 ≥0.134 判定，**54/78 可用**；阈值定于第一批、未照后续调整。
+`experiments/pack*/manifest.json` 记了每个材质的周期、各向异性、裁剪比。
+
+拿其中一张贴到自己的图上：
+
+```bash
+python tools/paint_region.py in.png --tile experiments/pack/base/16/brick_wall.png -o out.png
+```
+
+### 自己出一批（要 GPU）
+
+```bash
+python scripts/batch_pack.py --prompts my_materials.json --seed 21 --out experiments/mypack
+```
+
+`--prompts` 收一个 JSON 字符串数组；不给就用脚本里内置的 18 个。
+`--compare` 会额外出一份带像素画 LoRA 的做对比。
+
 另两个工具是这条链的上游片段，单独可用：
 `tools/from_prompt.py`（材质名 → 瓦片）、`tools/make_texture.py`（高分源 → 瓦片）。
 
-> **注意**：`paint_region` / `from_prompt` 默认加载像素画 LoRA，
+> **注意**：像素画 LoRA **默认关**（三个工具一致）。修好离线加载后做过 4 材质
+> 同种子对比，base 更利落（`experiments/lora_compare.png`，⚠ 目视未盲比），
 > **但论文里所有已报结果用的都是不带 LoRA 的 SDXL base**。
 > 离线模式下必须显式给 `weight_name`，否则 diffusers 只报一句
 > "you must specify a `weight_name`" 就静默退回基础模型——

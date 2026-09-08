@@ -119,7 +119,10 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--steps", type=int, default=28)
     ap.add_argument("--render", type=int, default=1024, help="生成时的渲染分辨率")
-    ap.add_argument("--lora", default="nerijs/pixel-art-xl")
+    ap.add_argument("--lora", default="none",
+                    help="默认不用 adapter：4 材质同种子对比下 base 更利落"
+                         "（`experiments/lora_compare.png`，目视未盲比），"
+                         "且论文所有已报结果都是 base。传仓库名可开启。")
     ap.add_argument("-o", "--out", type=Path, default=Path("painted.png"))
     a = ap.parse_args()
 
