@@ -1406,3 +1406,29 @@ lint 6 命中全假阳性。重打 supplementary（165 文件 13.4MB，泄漏扫
 spell_vocab.py 入库供复用。
 
 **状态**：拼写与文献大小写两类别闭合。唯一待强化项仍是人工标注两份 HTML。
+
+### 第 46 轮 — 2026-09-08（无头轮）：supplementary 的审稿人可读性——中文陈旧 README 换成英文复现指南
+
+开工对账：工作树干净、HEAD=f5f398e=origin，无并行痕迹；标注 CSV 本地与
+远程均未到（远程 annotate/ 最新仍是 9-7 opus5_ab60）；PDF（13:11）新于
+tex（13:09）。顺手闭掉一个小类别：`\citet`/`\citep` 语法用法逐处目检
+（5 处 \citet 全为句子主语、7 处 \citep 全为括号引用），零问题。
+
+真缺口：34 轮验证了 supplementary **能跑**，从未验证审稿人**能读**——
+包内 README 是全中文项目 README，且内容严重陈旧（还在说"等待 A4 人工
+盲比裁决"、B2 之前的假设叙事），与论文正文直接矛盾；此前只在顶部贴了
+一句英文省略说明。审稿人打开 zip 第一眼就是这个。
+
+修复：新增 `paper/supplementary_README.md`（纯英文复现指南：环境=CPU/
+无 scipy、数据快照清单、两预注册协议+门+五图+emoji 的逐条命令、人工
+标注 CSV 与正文计数的对账、GPU 管线与凭据环境变量说明——命令与路径
+逐一对源核实：crop_res5_eval 吃 JSON 参数、aniso_gate 无参、五个图
+脚本从根目录跑）。`make_supplementary.py` 改为：删掉旧 README 两条
+替换与英文注记，打包时用导出副本里的指南**整体替换** README.md 并
+从 paper/ 下移除原件（assert 强制 commit 后打包，与既有流程一致）。
+
+验证（commit 后重打）：zip 根 README 为英文指南、禁词扫描零命中、
+解包实跑 crop_res5_eval 复现预注册输出。check_refs 全绿。
+
+**状态**：supplementary 审稿人可读性缺口闭合。唯一待强化项仍是人工
+标注两份 HTML。

@@ -29,29 +29,6 @@ OUT = ROOT / "paper" / "supplementary.zip"
 # 整目录移除：内部研究日志与服务器运维脚本（含身份信息，不属复现所需）
 DROP = ["docs", "scripts"]
 
-README_NOTE = (
-    "> **Anonymized supplementary code.** Internal research logs (`docs/`) "
-    "and server-ops scripts (`scripts/`) are omitted from this release; "
-    "all model, analysis, and figure code plus the committed data snapshot "
-    "are included.\n\n"
-)
-
-README_WORKFLOW_OLD = """本机（无 GPU）负责开发、调试、小规模验证；需要 GPU 时同步到 `emnlp`（8x A100 80GB）运行。
-
-```bash
-# 同步到 GPU 机器
-bash scripts/sync_to_emnlp.sh
-
-# 远端工作目录
-ssh emnlp
-cd /mnt/data/kw/RoundSquisheen/texture
-```
-
-注意：`emnlp` 的 `/mnt/data` 剩余空间紧张（约 300G），大规模数据集下载前先确认。"""
-
-README_WORKFLOW_NEW = ("本机（无 GPU）负责开发、调试、小规模验证；"
-                       "需要 GPU 时同步到 GPU 服务器（8×A100 80GB）运行。")
-
 STRUCT_OLD = """    # emnlp 上只有 shenhao_h3 自己的守护脚本，它只杀 h3_serve_* 会话与
     # 自身路径下的 sglang，匹配不到本项目；也读不到 OOM 记录（无权限）。
     # 被杀的任务多在 kw 上，那台当时不可达。所以下面是**对现象的应对**，"""
@@ -61,10 +38,6 @@ STRUCT_NEW = """    # 服务器上他人的守护脚本只杀其自身会话与�
 
 # (相对路径, 旧串, 新串, 期望命中次数)
 REPLACEMENTS: list[tuple[str, str, str, int]] = [
-    ("README.md", "# 有 GPU（emnlp）：从材质名一路做到成图",
-     "# 有 GPU：从材质名一路做到成图", 1),
-    ("README.md", README_WORKFLOW_OLD, README_WORKFLOW_NEW, 1),
-
     ("baselines/sdpixl/run_sweep.sh",
      'SDPIXL="/mnt/data/kw/RoundSquisheen/pixel/SD-piXL"',
      'SDPIXL="/path/to/SD-piXL"', 1),
@@ -139,9 +112,14 @@ def sanitize(dst: Path) -> None:
         hits = text.count(old)
         assert hits == n, f"{rel}: 期望 {n} 次命中，实得 {hits}：{old[:60]!r}"
         f.write_text(text.replace(old, new), encoding="utf-8")
-    readme = dst / "README.md"
-    readme.write_text(README_NOTE + readme.read_text(encoding="utf-8"),
-                      encoding="utf-8")
+    # 中文项目 README（含陈旧研究状态）整个换成审稿人可读的英文复现指南。
+    # 指南从导出副本取（即 HEAD 版本）——脚本必须在 commit 之后跑，
+    # 与"提交后重打 supplementary"的既有流程一致。
+    guide = dst / "paper" / "supplementary_README.md"
+    assert guide.is_file(), "paper/supplementary_README.md 不在 HEAD 里（先 commit 再打包）"
+    (dst / "README.md").write_text(guide.read_text(encoding="utf-8"),
+                                   encoding="utf-8")
+    guide.unlink()
 
 
 def verify(dst: Path) -> list[str]:
