@@ -69,6 +69,13 @@ data/tiles/*
 !experiments/render_*.json
 !experiments/spread_rescale.json
 !experiments/manifest.json
+# B21 的输入表：没有它，crop_holdout60.json 无法复现（论文 §5.3 引了它）
+!experiments/prompts_*.json
+# 两批交付瓦片：限制节的 78 材质跨度对比由这些 PNG 算出（decline_spread.py）
+# 注意写法：experiments/* 只匹配一层，被排除的**目录** git 不会进去，
+# 所以必须先把目录本身放行（带斜杠），`!experiments/pack/**` 无效。
+!experiments/pack/
+!experiments/pack60/
 
 # supplementary 产物不入库（可由 scripts/make_supplementary.py 随时重建）
 paper/supplementary.zip

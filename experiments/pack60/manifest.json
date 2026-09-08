@@ -1,0 +1,1622 @@
+[
+ {
+  "variant": "base",
+  "material": "cobblestone street",
+  "size": 16,
+  "period": 39.5,
+  "aniso": 0.1478549423515374,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "cobblestone street",
+  "size": 24,
+  "period": 39.5,
+  "aniso": 0.1478549423515374,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "cobblestone street",
+  "size": 32,
+  "period": 39.5,
+  "aniso": 0.1478549423515374,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "terracotta floor tiles",
+  "size": 16,
+  "period": 21.0,
+  "aniso": 0.052523837121837384,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "terracotta floor tiles",
+  "size": 24,
+  "period": 21.0,
+  "aniso": 0.052523837121837384,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "terracotta floor tiles",
+  "size": 32,
+  "period": 21.0,
+  "aniso": 0.052523837121837384,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "subway tile wall",
+  "size": 16,
+  "period": 115.0,
+  "aniso": 0.7781015001280018,
+  "frac": 0.5048828125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "subway tile wall",
+  "size": 24,
+  "period": 115.0,
+  "aniso": 0.7781015001280018,
+  "frac": 0.5048828125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "subway tile wall",
+  "size": 32,
+  "period": 115.0,
+  "aniso": 0.7781015001280018,
+  "frac": 0.5048828125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "flagstone patio",
+  "size": 16,
+  "period": 28.0,
+  "aniso": 0.20937866665524596,
+  "frac": 0.123046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "flagstone patio",
+  "size": 24,
+  "period": 28.0,
+  "aniso": 0.20937866665524596,
+  "frac": 0.123046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "flagstone patio",
+  "size": 32,
+  "period": 28.0,
+  "aniso": 0.20937866665524596,
+  "frac": 0.123046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "granite block wall",
+  "size": 16,
+  "period": 55.0,
+  "aniso": 0.4928063381280696,
+  "frac": 0.2412109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "granite block wall",
+  "size": 24,
+  "period": 55.0,
+  "aniso": 0.4928063381280696,
+  "frac": 0.2412109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "granite block wall",
+  "size": 32,
+  "period": 55.0,
+  "aniso": 0.4928063381280696,
+  "frac": 0.2412109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "limestone brick wall",
+  "size": 16,
+  "period": 37.0,
+  "aniso": 0.6316888664377867,
+  "frac": 0.162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "limestone brick wall",
+  "size": 24,
+  "period": 37.0,
+  "aniso": 0.6316888664377867,
+  "frac": 0.162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "limestone brick wall",
+  "size": 32,
+  "period": 37.0,
+  "aniso": 0.6316888664377867,
+  "frac": 0.162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "herringbone brick paving",
+  "size": 16,
+  "period": 36.5,
+  "aniso": 0.31696749703452287,
+  "frac": 0.16015625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "herringbone brick paving",
+  "size": 24,
+  "period": 36.5,
+  "aniso": 0.31696749703452287,
+  "frac": 0.16015625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "herringbone brick paving",
+  "size": 32,
+  "period": 36.5,
+  "aniso": 0.31696749703452287,
+  "frac": 0.16015625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "mosaic tile floor",
+  "size": 16,
+  "period": 26.0,
+  "aniso": 0.08564519718396645,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "mosaic tile floor",
+  "size": 24,
+  "period": 26.0,
+  "aniso": 0.08564519718396645,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "mosaic tile floor",
+  "size": 32,
+  "period": 26.0,
+  "aniso": 0.08564519718396645,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "cinder block wall",
+  "size": 16,
+  "period": 71.0,
+  "aniso": 0.32153033657687957,
+  "frac": 0.3115234375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "cinder block wall",
+  "size": 24,
+  "period": 71.0,
+  "aniso": 0.32153033657687957,
+  "frac": 0.3115234375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "cinder block wall",
+  "size": 32,
+  "period": 71.0,
+  "aniso": 0.32153033657687957,
+  "frac": 0.3115234375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "roman tile roof",
+  "size": 16,
+  "period": 33.0,
+  "aniso": 0.6390678127566072,
+  "frac": 0.14453125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "roman tile roof",
+  "size": 24,
+  "period": 33.0,
+  "aniso": 0.6390678127566072,
+  "frac": 0.14453125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "roman tile roof",
+  "size": 32,
+  "period": 33.0,
+  "aniso": 0.6390678127566072,
+  "frac": 0.14453125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "oak plank ceiling",
+  "size": 16,
+  "period": 154.5,
+  "aniso": 1.4188480091160582,
+  "frac": 0.6787109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "oak plank ceiling",
+  "size": 24,
+  "period": 154.5,
+  "aniso": 1.4188480091160582,
+  "frac": 0.6787109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "oak plank ceiling",
+  "size": 32,
+  "period": 154.5,
+  "aniso": 1.4188480091160582,
+  "frac": 0.6787109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "weathered barn wood",
+  "size": 16,
+  "period": 49.0,
+  "aniso": 1.3482114931655964,
+  "frac": 0.21484375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "weathered barn wood",
+  "size": 24,
+  "period": 49.0,
+  "aniso": 1.3482114931655964,
+  "frac": 0.21484375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "weathered barn wood",
+  "size": 32,
+  "period": 49.0,
+  "aniso": 1.3482114931655964,
+  "frac": 0.21484375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "driftwood planks",
+  "size": 16,
+  "period": 236.5,
+  "aniso": 1.6133942678853894,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "driftwood planks",
+  "size": 24,
+  "period": 236.5,
+  "aniso": 1.6133942678853894,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "driftwood planks",
+  "size": 32,
+  "period": 236.5,
+  "aniso": 1.6133942678853894,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "wood shingle siding",
+  "size": 16,
+  "period": 40.0,
+  "aniso": 0.7175613873288802,
+  "frac": 0.17578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "wood shingle siding",
+  "size": 24,
+  "period": 40.0,
+  "aniso": 0.7175613873288802,
+  "frac": 0.17578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "wood shingle siding",
+  "size": 32,
+  "period": 40.0,
+  "aniso": 0.7175613873288802,
+  "frac": 0.17578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "plywood sheet",
+  "size": 16,
+  "period": 31.0,
+  "aniso": 0.00029762181018695624,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "plywood sheet",
+  "size": 24,
+  "period": 31.0,
+  "aniso": 0.00029762181018695624,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "plywood sheet",
+  "size": 32,
+  "period": 31.0,
+  "aniso": 0.00029762181018695624,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "log cabin wall",
+  "size": 16,
+  "period": 32.5,
+  "aniso": 0.39079217248551473,
+  "frac": 0.142578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "log cabin wall",
+  "size": 24,
+  "period": 32.5,
+  "aniso": 0.39079217248551473,
+  "frac": 0.142578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "log cabin wall",
+  "size": 32,
+  "period": 32.5,
+  "aniso": 0.39079217248551473,
+  "frac": 0.142578125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "teak deck boards",
+  "size": 16,
+  "period": 28.0,
+  "aniso": 1.2835021938318343,
+  "frac": 0.123046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "teak deck boards",
+  "size": 24,
+  "period": 28.0,
+  "aniso": 1.2835021938318343,
+  "frac": 0.123046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "teak deck boards",
+  "size": 32,
+  "period": 28.0,
+  "aniso": 1.2835021938318343,
+  "frac": 0.123046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "diamond plate steel",
+  "size": 16,
+  "period": 0.0,
+  "aniso": 0.038703063922075585,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "diamond plate steel",
+  "size": 24,
+  "period": 0.0,
+  "aniso": 0.038703063922075585,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "diamond plate steel",
+  "size": 32,
+  "period": 0.0,
+  "aniso": 0.038703063922075585,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "riveted iron hull",
+  "size": 16,
+  "period": 33.0,
+  "aniso": 0.668053683668721,
+  "frac": 0.14453125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "riveted iron hull",
+  "size": 24,
+  "period": 33.0,
+  "aniso": 0.668053683668721,
+  "frac": 0.14453125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "riveted iron hull",
+  "size": 32,
+  "period": 33.0,
+  "aniso": 0.668053683668721,
+  "frac": 0.14453125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "copper roof patina",
+  "size": 16,
+  "period": 23.0,
+  "aniso": 0.6670796289783312,
+  "frac": 0.1005859375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "copper roof patina",
+  "size": 24,
+  "period": 23.0,
+  "aniso": 0.6670796289783312,
+  "frac": 0.1005859375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "copper roof patina",
+  "size": 32,
+  "period": 23.0,
+  "aniso": 0.6670796289783312,
+  "frac": 0.1005859375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "brass mesh screen",
+  "size": 16,
+  "period": 43.5,
+  "aniso": 0.4670988741301057,
+  "frac": 0.1904296875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "brass mesh screen",
+  "size": 24,
+  "period": 43.5,
+  "aniso": 0.4670988741301057,
+  "frac": 0.1904296875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "brass mesh screen",
+  "size": 32,
+  "period": 43.5,
+  "aniso": 0.4670988741301057,
+  "frac": 0.1904296875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "galvanized corrugated roof",
+  "size": 16,
+  "period": 30.0,
+  "aniso": 0.13800367706221348,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "galvanized corrugated roof",
+  "size": 24,
+  "period": 30.0,
+  "aniso": 0.13800367706221348,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "galvanized corrugated roof",
+  "size": 32,
+  "period": 30.0,
+  "aniso": 0.13800367706221348,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "chain mail armour",
+  "size": 16,
+  "period": 96.0,
+  "aniso": 0.16696730185525008,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "chain mail armour",
+  "size": 24,
+  "period": 96.0,
+  "aniso": 0.16696730185525008,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "chain mail armour",
+  "size": 32,
+  "period": 96.0,
+  "aniso": 0.16696730185525008,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "denim fabric",
+  "size": 16,
+  "period": 20.0,
+  "aniso": 0.15227316599204574,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "denim fabric",
+  "size": 24,
+  "period": 20.0,
+  "aniso": 0.15227316599204574,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "denim fabric",
+  "size": 32,
+  "period": 20.0,
+  "aniso": 0.15227316599204574,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "knitted sweater wool",
+  "size": 16,
+  "period": 62.5,
+  "aniso": 0.37997445441551264,
+  "frac": 0.2744140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "knitted sweater wool",
+  "size": 24,
+  "period": 62.5,
+  "aniso": 0.37997445441551264,
+  "frac": 0.2744140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "knitted sweater wool",
+  "size": 32,
+  "period": 62.5,
+  "aniso": 0.37997445441551264,
+  "frac": 0.2744140625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "leather hide",
+  "size": 16,
+  "period": 72.0,
+  "aniso": 0.3564218598652233,
+  "frac": 0.31640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "leather hide",
+  "size": 24,
+  "period": 72.0,
+  "aniso": 0.3564218598652233,
+  "frac": 0.31640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "leather hide",
+  "size": 32,
+  "period": 72.0,
+  "aniso": 0.3564218598652233,
+  "frac": 0.31640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "straw thatch roof",
+  "size": 16,
+  "period": 41.5,
+  "aniso": 0.7482761442828226,
+  "frac": 0.181640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "straw thatch roof",
+  "size": 24,
+  "period": 41.5,
+  "aniso": 0.7482761442828226,
+  "frac": 0.181640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "straw thatch roof",
+  "size": 32,
+  "period": 41.5,
+  "aniso": 0.7482761442828226,
+  "frac": 0.181640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "reed mat",
+  "size": 16,
+  "period": 22.5,
+  "aniso": 0.795713703485677,
+  "frac": 0.0986328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "reed mat",
+  "size": 24,
+  "period": 22.5,
+  "aniso": 0.795713703485677,
+  "frac": 0.0986328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "reed mat",
+  "size": 32,
+  "period": 22.5,
+  "aniso": 0.795713703485677,
+  "frac": 0.0986328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "canvas tarp",
+  "size": 16,
+  "period": 25.5,
+  "aniso": 0.37559716087974643,
+  "frac": 0.111328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "canvas tarp",
+  "size": 24,
+  "period": 25.5,
+  "aniso": 0.37559716087974643,
+  "frac": 0.111328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "canvas tarp",
+  "size": 32,
+  "period": 25.5,
+  "aniso": 0.37559716087974643,
+  "frac": 0.111328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "felt cloth",
+  "size": 16,
+  "period": 51.0,
+  "aniso": 0.12019017796152977,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "felt cloth",
+  "size": 24,
+  "period": 51.0,
+  "aniso": 0.12019017796152977,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "felt cloth",
+  "size": 32,
+  "period": 51.0,
+  "aniso": 0.12019017796152977,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "wet river pebbles",
+  "size": 16,
+  "period": 216.5,
+  "aniso": 0.12684246841801036,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "wet river pebbles",
+  "size": 24,
+  "period": 216.5,
+  "aniso": 0.12684246841801036,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "wet river pebbles",
+  "size": 32,
+  "period": 216.5,
+  "aniso": 0.12684246841801036,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "crushed red brick gravel",
+  "size": 16,
+  "period": 19.5,
+  "aniso": 0.8542148949411427,
+  "frac": 0.0849609375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "crushed red brick gravel",
+  "size": 24,
+  "period": 19.5,
+  "aniso": 0.8542148949411427,
+  "frac": 0.0849609375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "crushed red brick gravel",
+  "size": 32,
+  "period": 19.5,
+  "aniso": 0.8542148949411427,
+  "frac": 0.0849609375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "peat soil",
+  "size": 16,
+  "period": 26.5,
+  "aniso": 0.3428355401379285,
+  "frac": 0.1162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "peat soil",
+  "size": 24,
+  "period": 26.5,
+  "aniso": 0.3428355401379285,
+  "frac": 0.1162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "peat soil",
+  "size": 32,
+  "period": 26.5,
+  "aniso": 0.3428355401379285,
+  "frac": 0.1162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "beach shingle",
+  "size": 16,
+  "period": 37.0,
+  "aniso": 0.876437762170517,
+  "frac": 0.162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "beach shingle",
+  "size": 24,
+  "period": 37.0,
+  "aniso": 0.876437762170517,
+  "frac": 0.162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "beach shingle",
+  "size": 32,
+  "period": 37.0,
+  "aniso": 0.876437762170517,
+  "frac": 0.162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "loose scree slope",
+  "size": 16,
+  "period": 23.0,
+  "aniso": 0.8917849042161373,
+  "frac": 0.1005859375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "loose scree slope",
+  "size": 24,
+  "period": 23.0,
+  "aniso": 0.8917849042161373,
+  "frac": 0.1005859375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "loose scree slope",
+  "size": 32,
+  "period": 23.0,
+  "aniso": 0.8917849042161373,
+  "frac": 0.1005859375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "frozen tundra ground",
+  "size": 16,
+  "period": 32.0,
+  "aniso": 0.1735128059510388,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "frozen tundra ground",
+  "size": 24,
+  "period": 32.0,
+  "aniso": 0.1735128059510388,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "frozen tundra ground",
+  "size": 32,
+  "period": 32.0,
+  "aniso": 0.1735128059510388,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "malachite ore vein",
+  "size": 16,
+  "period": 386.0,
+  "aniso": 0.016477506804562808,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "malachite ore vein",
+  "size": 24,
+  "period": 386.0,
+  "aniso": 0.016477506804562808,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "malachite ore vein",
+  "size": 32,
+  "period": 386.0,
+  "aniso": 0.016477506804562808,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "quartz crystal cluster",
+  "size": 16,
+  "period": 379.5,
+  "aniso": 0.08115228115664061,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "quartz crystal cluster",
+  "size": 24,
+  "period": 379.5,
+  "aniso": 0.08115228115664061,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "quartz crystal cluster",
+  "size": 32,
+  "period": 379.5,
+  "aniso": 0.08115228115664061,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "basalt columns",
+  "size": 16,
+  "period": 113.5,
+  "aniso": 0.5929494378720892,
+  "frac": 0.498046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "basalt columns",
+  "size": 24,
+  "period": 113.5,
+  "aniso": 0.5929494378720892,
+  "frac": 0.498046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "basalt columns",
+  "size": 32,
+  "period": 113.5,
+  "aniso": 0.5929494378720892,
+  "frac": 0.498046875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "slate shale layers",
+  "size": 16,
+  "period": 123.0,
+  "aniso": 0.7222414898904639,
+  "frac": 0.5400390625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "slate shale layers",
+  "size": 24,
+  "period": 123.0,
+  "aniso": 0.7222414898904639,
+  "frac": 0.5400390625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "slate shale layers",
+  "size": 32,
+  "period": 123.0,
+  "aniso": 0.7222414898904639,
+  "frac": 0.5400390625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "geode interior",
+  "size": 16,
+  "period": 314.0,
+  "aniso": 0.005621599636546427,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "geode interior",
+  "size": 24,
+  "period": 314.0,
+  "aniso": 0.005621599636546427,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "geode interior",
+  "size": 32,
+  "period": 314.0,
+  "aniso": 0.005621599636546427,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "pumice stone",
+  "size": 16,
+  "period": 61.5,
+  "aniso": 0.10791164914095448,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "pumice stone",
+  "size": 24,
+  "period": 61.5,
+  "aniso": 0.10791164914095448,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "pumice stone",
+  "size": 32,
+  "period": 61.5,
+  "aniso": 0.10791164914095448,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "ivy covered wall",
+  "size": 16,
+  "period": 25.0,
+  "aniso": 0.4270127193364448,
+  "frac": 0.109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "ivy covered wall",
+  "size": 24,
+  "period": 25.0,
+  "aniso": 0.4270127193364448,
+  "frac": 0.109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "ivy covered wall",
+  "size": 32,
+  "period": 25.0,
+  "aniso": 0.4270127193364448,
+  "frac": 0.109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "fern frond mat",
+  "size": 16,
+  "period": 182.0,
+  "aniso": 0.1514877207864553,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "fern frond mat",
+  "size": 24,
+  "period": 182.0,
+  "aniso": 0.1514877207864553,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "fern frond mat",
+  "size": 32,
+  "period": 182.0,
+  "aniso": 0.1514877207864553,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "pine needle floor",
+  "size": 16,
+  "period": 72.0,
+  "aniso": 0.3707616350351246,
+  "frac": 0.31640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "pine needle floor",
+  "size": 24,
+  "period": 72.0,
+  "aniso": 0.3707616350351246,
+  "frac": 0.31640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "pine needle floor",
+  "size": 32,
+  "period": 72.0,
+  "aniso": 0.3707616350351246,
+  "frac": 0.31640625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "lily pads on water",
+  "size": 16,
+  "period": 282.0,
+  "aniso": 0.22594895758147082,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "lily pads on water",
+  "size": 24,
+  "period": 282.0,
+  "aniso": 0.22594895758147082,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "lily pads on water",
+  "size": 32,
+  "period": 282.0,
+  "aniso": 0.22594895758147082,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "bamboo forest floor",
+  "size": 16,
+  "period": 14.5,
+  "aniso": 0.5042694368057491,
+  "frac": 0.0791015625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "bamboo forest floor",
+  "size": 24,
+  "period": 14.5,
+  "aniso": 0.5042694368057491,
+  "frac": 0.0791015625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "bamboo forest floor",
+  "size": 32,
+  "period": 14.5,
+  "aniso": 0.5042694368057491,
+  "frac": 0.0791015625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "cracked ice sheet",
+  "size": 16,
+  "period": 334.0,
+  "aniso": 0.009793259535700767,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "cracked ice sheet",
+  "size": 24,
+  "period": 334.0,
+  "aniso": 0.009793259535700767,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "cracked ice sheet",
+  "size": 32,
+  "period": 334.0,
+  "aniso": 0.009793259535700767,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "lava flow crust",
+  "size": 16,
+  "period": 56.0,
+  "aniso": 0.28023627442037685,
+  "frac": 0.24609375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "lava flow crust",
+  "size": 24,
+  "period": 56.0,
+  "aniso": 0.28023627442037685,
+  "frac": 0.24609375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "lava flow crust",
+  "size": 32,
+  "period": 56.0,
+  "aniso": 0.28023627442037685,
+  "frac": 0.24609375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "coral reef surface",
+  "size": 16,
+  "period": 147.5,
+  "aniso": 0.033447804720898575,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "coral reef surface",
+  "size": 24,
+  "period": 147.5,
+  "aniso": 0.033447804720898575,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "coral reef surface",
+  "size": 32,
+  "period": 147.5,
+  "aniso": 0.033447804720898575,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "mushroom cap top",
+  "size": 16,
+  "period": 306.5,
+  "aniso": 0.16679756470362456,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "mushroom cap top",
+  "size": 24,
+  "period": 306.5,
+  "aniso": 0.16679756470362456,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "mushroom cap top",
+  "size": 32,
+  "period": 306.5,
+  "aniso": 0.16679756470362456,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "sponge surface",
+  "size": 16,
+  "period": 22.0,
+  "aniso": 0.3522621611176981,
+  "frac": 0.0966796875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "sponge surface",
+  "size": 24,
+  "period": 22.0,
+  "aniso": 0.3522621611176981,
+  "frac": 0.0966796875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "sponge surface",
+  "size": 32,
+  "period": 22.0,
+  "aniso": 0.3522621611176981,
+  "frac": 0.0966796875,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "asphalt road surface",
+  "size": 16,
+  "period": 31.5,
+  "aniso": 0.393985940127636,
+  "frac": 0.1376953125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "asphalt road surface",
+  "size": 24,
+  "period": 31.5,
+  "aniso": 0.393985940127636,
+  "frac": 0.1376953125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "asphalt road surface",
+  "size": 32,
+  "period": 31.5,
+  "aniso": 0.393985940127636,
+  "frac": 0.1376953125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "concrete sidewalk slab",
+  "size": 16,
+  "period": 40.5,
+  "aniso": 0.12236336192161716,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "concrete sidewalk slab",
+  "size": 24,
+  "period": 40.5,
+  "aniso": 0.12236336192161716,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "concrete sidewalk slab",
+  "size": 32,
+  "period": 40.5,
+  "aniso": 0.12236336192161716,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "roof tar paper",
+  "size": 16,
+  "period": 22.5,
+  "aniso": 0.2589338023959076,
+  "frac": 0.0986328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "roof tar paper",
+  "size": 24,
+  "period": 22.5,
+  "aniso": 0.2589338023959076,
+  "frac": 0.0986328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "roof tar paper",
+  "size": 32,
+  "period": 22.5,
+  "aniso": 0.2589338023959076,
+  "frac": 0.0986328125,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "perforated metal panel",
+  "size": 16,
+  "period": 79.0,
+  "aniso": 0.05193952997209985,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "perforated metal panel",
+  "size": 24,
+  "period": 79.0,
+  "aniso": 0.05193952997209985,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "perforated metal panel",
+  "size": 32,
+  "period": 79.0,
+  "aniso": 0.05193952997209985,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "acoustic foam panel",
+  "size": 16,
+  "period": 29.5,
+  "aniso": 0.22273253933050963,
+  "frac": 0.12890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "acoustic foam panel",
+  "size": 24,
+  "period": 29.5,
+  "aniso": 0.22273253933050963,
+  "frac": 0.12890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "acoustic foam panel",
+  "size": 32,
+  "period": 29.5,
+  "aniso": 0.22273253933050963,
+  "frac": 0.12890625,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "carpet loop pile",
+  "size": 16,
+  "period": 49.5,
+  "aniso": 0.10635369720800132,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "carpet loop pile",
+  "size": 24,
+  "period": 49.5,
+  "aniso": 0.10635369720800132,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "carpet loop pile",
+  "size": 32,
+  "period": 49.5,
+  "aniso": 0.10635369720800132,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "woven rattan panel",
+  "size": 16,
+  "period": 26.5,
+  "aniso": 0.028979212529199164,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "woven rattan panel",
+  "size": 24,
+  "period": 26.5,
+  "aniso": 0.028979212529199164,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "woven rattan panel",
+  "size": 32,
+  "period": 26.5,
+  "aniso": 0.028979212529199164,
+  "frac": 1.0,
+  "gate_fired": false
+ },
+ {
+  "variant": "base",
+  "material": "slate roof tiles wet",
+  "size": 16,
+  "period": 26.5,
+  "aniso": 1.0213980866756642,
+  "frac": 0.1162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "slate roof tiles wet",
+  "size": 24,
+  "period": 26.5,
+  "aniso": 1.0213980866756642,
+  "frac": 0.1162109375,
+  "gate_fired": true
+ },
+ {
+  "variant": "base",
+  "material": "slate roof tiles wet",
+  "size": 32,
+  "period": 26.5,
+  "aniso": 1.0213980866756642,
+  "frac": 0.1162109375,
+  "gate_fired": true
+ }
+]
