@@ -36,11 +36,14 @@ human, 45\% by the validated judge). The bottleneck
 is not model capacity but a \emph{structural-unit convention} mismatch: the
 generator draws ${\sim}25$ units per tile regardless of canvas while artists
 draw ${\sim}3.2$, measured independently from 5{,}979 artist tiles and 125
-artist sources. Cropping to the detected dominant period fixes it, and
-manipulating the unit count produces a monotone dose--response in the fix's
-benefit (88\%, 54\%, 17\% at 27.7, 13.8 and 9.4 units). We pre-registered and
-\emph{falsified} a pure sampling-limit account along the way; reporting that
-failure is what selects the surviving mechanism.
+artist sources. Cropping to the detected dominant period repairs this on the
+45\% of prompts where a period is found, and manipulating the unit count
+produces a monotone dose--response in the fix's benefit (88\%, 54\%, 17\% at
+27.7, 13.8 and 9.4 units). On the rest, where artists draw per-cell colour
+rather than structural units, we close three candidate routes and find none
+that works. We pre-registered and \emph{falsified} a pure sampling-limit
+account along the way; reporting that failure is what selects the surviving
+mechanism.
 \end{abstract}
 
 \section{Introduction}
@@ -87,16 +90,14 @@ low-resolution pixel art is an artist's redesign rather than a downsampling
 had been looking.
 
 \paragraph{The bottleneck is a scale convention, not capacity.} Where no
-suitable source exists, the source has to be generated, and there the
-baseline is weak. Not because the generator cannot draw the material: its
-$1024$px render is structurally sound. It draws about $25$ structural units
-per tile while pixel artists place about $3.2$, an eight-fold mismatch
-that we measure from two independent sources (\S\ref{sec:mechanism}).
+suitable source exists it has to be generated, and there the baseline is weak
+--- not because the generator cannot draw the material, since its $1024$px
+render is structurally sound, but because it draws about $25$ structural units
+per tile while pixel artists place about $3.2$ (\S\ref{sec:mechanism}).
 Cropping the render to its detected dominant period repairs it. We
-pre-registered a pure sampling-limit explanation of why this works and
-\emph{falsified} it; reporting that failure is what selects the surviving
-account, which then passed a second pre-registered test with a monotone
-dose--response in unit count (\S\ref{sec:falsify}).
+pre-registered a pure sampling-limit explanation of why that works and
+\emph{falsified} it; reporting the failure is what selects the surviving
+account, which then passed a second pre-registered test (\S\ref{sec:falsify}).
 
 \paragraph{Contributions.}
 \begin{itemize}
