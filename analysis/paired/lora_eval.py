@@ -111,7 +111,9 @@ def main():
     tuned = StableDiffusionXLPipeline.from_pretrained(
         "stabilityai/stable-diffusion-xl-base-1.0", torch_dtype=dt,
         variant="fp16", use_safetensors=True).to("cuda")
-    tuned.load_lora_weights(str(a.lora))
+    # 离线模式下必须显式给 weight_name，否则 diffusers 只报一句就失败
+    # （`tools/from_prompt.py` 的 load_lora 修的是同一个坑，这里是本地目录）。
+    tuned.load_lora_weights(str(a.lora), weight_name="pytorch_lora_weights.safetensors")
     tuned.fuse_lora(lora_scale=a.scale)
     tuned.set_progress_bar_config(disable=True)
     a.tiles.mkdir(parents=True, exist_ok=True)
