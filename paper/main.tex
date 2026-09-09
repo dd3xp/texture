@@ -27,16 +27,15 @@ that neither standard judge diagnostic detects: on the same human-labelled set,
 two judges agree with the human on \emph{identical} fractions of items
 (66.7\%), yet one compresses an 87\% effect to 62\% ($p{=}0.14$) and erases
 its stratification while the other preserves both; a third inverts the human
-conclusion outright. Self-consistency is no better a guide --- the judge that
-erases the stratification is the most consistent of the three under order
-swapping. Under human blind comparison a trivial downsampling
+conclusion outright. Self-consistency is no better: the judge that erases the
+stratification is the most self-consistent of the three. Under human blind comparison a trivial downsampling
 baseline beats a purpose-built masked-prediction model 83:17, and is
 indistinguishable from artist-drawn tiles under both arbiters (43\% by a
 human, 45\% by the validated judge). The bottleneck
 is not model capacity but a \emph{structural-unit convention} mismatch: the
 generator draws ${\sim}25$ units per tile regardless of canvas while artists
 draw ${\sim}3.2$, measured independently from 5{,}979 artist tiles and 125
-artist sources. Cropping to the detected dominant period repairs this on the
+artist sources and reproduced on a second generator. Cropping to the detected dominant period repairs this on the
 45--58\% of prompts where a period is found, and manipulating the unit count
 produces a monotone dose--response in the fix's benefit (88\%, 54\%, 17\% at
 27.7, 13.8 and 9.4 units). On the rest, where artists draw per-cell colour
