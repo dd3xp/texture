@@ -93,23 +93,30 @@ def main():
     if not train:
         raise SystemExit("没有训练数据")
 
+    # 冻结的基模走 bf16、只有 LoRA 参数保持 fp32：这是 diffusers 的标准配方，
+    # fp32 装整个 SDXL 光权重就 10G，而这台卡是**共享的**，别人占了大半。
+    dt = torch.bfloat16
     pipe = StableDiffusionXLPipeline.from_pretrained(
-        BASE, torch_dtype=torch.float32, variant="fp16", use_safetensors=True)
+        BASE, torch_dtype=dt, variant="fp16", use_safetensors=True)
     unet, vae = pipe.unet, pipe.vae
     tok1, tok2 = pipe.tokenizer, pipe.tokenizer_2
     te1, te2 = pipe.text_encoder, pipe.text_encoder_2
     sched = DDPMScheduler.from_pretrained(BASE, subfolder="scheduler")
 
     dev = "cuda"
-    vae.to(dev, dtype=torch.float32).requires_grad_(False).eval()
-    te1.to(dev).requires_grad_(False).eval()
-    te2.to(dev).requires_grad_(False).eval()
-    unet.to(dev, dtype=torch.float32)
+    vae.to(dev, dtype=dt).requires_grad_(False).eval()
+    te1.to(dev, dtype=dt).requires_grad_(False).eval()
+    te2.to(dev, dtype=dt).requires_grad_(False).eval()
+    unet.to(dev, dtype=dt)
     unet.requires_grad_(False)
     unet.add_adapter(LoraConfig(
         r=a.rank, lora_alpha=a.rank, init_lora_weights="gaussian",
         target_modules=["to_k", "to_q", "to_v", "to_out.0"]))
     unet.enable_gradient_checkpointing()
+    # LoRA 参数升回 fp32：bf16 的 AdamW 更新在小 lr 下会被舍入吃掉
+    for prm in unet.parameters():
+        if prm.requires_grad:
+            prm.data = prm.data.float()
     params = [p for p in unet.parameters() if p.requires_grad]
     print(f"LoRA 可训练参数 {sum(p.numel() for p in params)/1e6:.1f}M", flush=True)
     opt = torch.optim.AdamW(params, lr=a.lr)
@@ -132,7 +139,7 @@ def main():
         rgb, prompt, _mat, _pack = train[random.randrange(len(train))]
         img = upscale(rgb, a.res)
         x = torch.from_numpy(np.asarray(img)).float().permute(2, 0, 1)[None]
-        x = (x / 127.5 - 1.0).to(dev)
+        x = (x / 127.5 - 1.0).to(dev, dtype=dt)
         with torch.no_grad():
             lat = vae.encode(x).latent_dist.sample() * vae.config.scaling_factor
         noise = torch.randn_like(lat)
@@ -140,11 +147,11 @@ def main():
         noisy = sched.add_noise(lat, noise, t)
         emb, pooled = encode_prompt(TMPL.format(p=prompt))
         add_time = torch.tensor([[a.res, a.res, 0, 0, a.res, a.res]],
-                                device=dev, dtype=torch.float32)
+                                device=dev, dtype=dt)
         pred = unet(noisy, t, encoder_hidden_states=emb,
                     added_cond_kwargs={"text_embeds": pooled,
                                        "time_ids": add_time}).sample
-        loss = torch.nn.functional.mse_loss(pred, noise) / a.accum
+        loss = torch.nn.functional.mse_loss(pred.float(), noise.float()) / a.accum
         loss.backward()
         run += loss.item() * a.accum
         step += 1
