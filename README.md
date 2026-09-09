@@ -35,6 +35,12 @@ HF_HUB_OFFLINE=1 CUDA_VISIBLE_DEVICES=2 python tools/paint_region.py \
 python tools/paint_region.py in.png --tile tile.png -o out.png
 ```
 
+> **默认多采样**（`--best-of 4`）。实测：采 4 个样、取有效裁剪中裁剪比最大的一版，
+> **有效裁剪率 52% → 90%**（新增 16、失去 0，p=3.05e-5），新救回的 16 个材质
+> 判官偏好新版 **10/12 = 83%**（p=0.039，下界）。代价是 4 倍渲染时间，
+> `--best-of 1` 退回单样本。⚠「取裁剪比最大」这条规则本身尚未与「随机取一个有效的」
+> 分开验证；已验证的是**多采样提高覆盖**。
+
 `tools/paint_region.py` 做三件事：
 
 1. **定区域**——先把占据画面边框的颜色判为背景，再取其余颜色里最多的那个。

@@ -79,8 +79,19 @@ def auto_scale(mask: np.ndarray, size: int, target_tiles: float = 4.0) -> int:
 
 
 def tile_from_prompt(prompt: str, size: int, colors: int, seed: int,
-                     steps: int, render: int, lora: str) -> np.ndarray:
-    """现生成一张瓦片。只在有 GPU 的机器上可用。"""
+                     steps: int, render: int, lora: str,
+                     best_of: int = 4) -> np.ndarray:
+    """现生成一张瓦片。只在有 GPU 的机器上可用。
+
+    **默认多采样**（`best_of=4`）。实测（`analysis/paired/bestof_units.py`）：
+    采 4 个样、取「门触发且真的裁了」之中裁剪比最大的一版，
+    有效裁剪率 **52% -> 90%**（新增 16、失去 0，p=3.05e-5）；
+    新救回的 16 个材质里判官偏好新版 **10/12 = 83%**（p=0.039，下界）。
+    代价是 4 倍渲染时间，`--best-of 1` 可退回单样本。
+
+    ⚠ 「取裁剪比最大」这条规则本身尚未与「随机取一个有效的」分开验证
+    （`bestof_rule.py` 待跑）；已验证的是**多采样提高覆盖**这件事。
+    """
     import torch
     from diffusers import StableDiffusionXLPipeline
     from from_prompt import TMPL, NEG, load_lora
@@ -91,15 +102,30 @@ def tile_from_prompt(prompt: str, size: int, colors: int, seed: int,
     load_lora(pipe, lora)
     pipe.to("cuda")
     pipe.set_progress_bar_config(disable=True)
-    g = torch.Generator("cuda").manual_seed(seed)
-    im = pipe(TMPL.format(p=prompt), negative_prompt=NEG,
-              num_inference_steps=steps, generator=g,
-              height=render, width=render).images[0]
-    a = np.asarray(im).astype(float)
-    a, frac = auto_crop(a, size)
-    if frac < 1.0:
-        print(f"检出周期结构，裁 1/{1/frac:.1f}", flush=True)
-    small = np.asarray(Image.fromarray(a.astype(np.uint8))
+
+    cands = []
+    for k in range(max(1, best_of)):
+        g = torch.Generator("cuda").manual_seed(seed + 1000 * k)
+        im = pipe(TMPL.format(p=prompt), negative_prompt=NEG,
+                  num_inference_steps=steps, generator=g,
+                  height=render, width=render).images[0]
+        src = np.asarray(im).astype(float)
+        cropped, frac = auto_crop(src, size)
+        # frac>=0.999 = 窗口被钳成整图，门显示触发但等于没裁，不算有效
+        cands.append({"k": k, "img": cropped, "frac": frac,
+                      "eff": frac < 0.999})
+        print(f"  样本{k+1}/{best_of} "
+              f"{'裁 1/%.1f' % (1 / frac) if frac < 0.999 else '无有效裁剪'}",
+              flush=True)
+
+    eff = [c for c in cands if c["eff"]]
+    best = max(eff, key=lambda c: c["frac"]) if eff else cands[0]
+    if eff:
+        print(f"选中样本 {best['k']+1}（裁 1/{1/best['frac']:.1f}）", flush=True)
+    else:
+        print("四个样本都没有有效裁剪，退回第一个（与单样本管线一致）", flush=True)
+
+    small = np.asarray(Image.fromarray(best["img"].astype(np.uint8))
                        .resize((size,) * 2, Image.BOX))
     return quantize(small, extract_palette(small, colors, seed=seed)).astype(np.uint8)
 
@@ -119,6 +145,8 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--steps", type=int, default=28)
     ap.add_argument("--render", type=int, default=1024, help="生成时的渲染分辨率")
+    ap.add_argument("--best-of", type=int, default=4,
+                    help="采几个样再挑（默认 4）。实测有效裁剪率 52%%->90%%；传 1 退回单样本")
     ap.add_argument("--lora", default="none",
                     help="默认不用 adapter：4 材质同种子对比下 base 更利落"
                          "（`experiments/lora_compare.png`，目视未盲比），"
@@ -147,7 +175,7 @@ def main():
         tile = t.astype(np.uint8)
     else:
         tile = tile_from_prompt(a.prompt, a.size, a.colors, a.seed,
-                                a.steps, a.render, a.lora)
+                                a.steps, a.render, a.lora, a.best_of)
 
     if not a.keep_hue:
         pal = extract_palette(tile, a.colors, seed=a.seed)

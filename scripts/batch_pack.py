@@ -46,6 +46,8 @@ def main():
                     help="每个材质额外出一张不带 LoRA 的，用于对比")
     ap.add_argument("--prompts", type=Path,
                     help="外挂材质表（JSON 数组）。缺省用内置的 18 个。")
+    ap.add_argument("--best-of", type=int, default=4,
+                    help="每个材质采几个样再挑（默认 4）。实测有效裁剪率 52%%->90%%，新救回的材质判官偏好 83%%；传 1 退回单样本")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", type=Path, default=ROOT / "experiments/pack")
     a = ap.parse_args()
@@ -77,11 +79,21 @@ def main():
             pass
         load_lora(pipe, lora)
         for mi, m in enumerate(mats):
-            g = torch.Generator("cuda").manual_seed(a.seed + mi)
-            im = pipe(TMPL.format(p=m), negative_prompt=NEG,
-                      num_inference_steps=a.steps, generator=g,
-                      height=a.render, width=a.render).images[0]
-            src = np.asarray(im).astype(float)
+            # 多采样选样（方法一）：先全采出来，再选。
+            # 选中的是「门触发且真的裁了（frac<0.999）」之中裁剪比最大的一版；
+            # frac>=0.999 是窗口被钳成整图的退化情形，门显示触发但等于没裁。
+            # 一个都没有则退回第一个样本，与单样本管线一致。
+            cands = []
+            for kk in range(max(1, a.best_of)):
+                g = torch.Generator("cuda").manual_seed(a.seed + mi + 1000 * kk)
+                im = pipe(TMPL.format(p=m), negative_prompt=NEG,
+                          num_inference_steps=a.steps, generator=g,
+                          height=a.render, width=a.render).images[0]
+                cand = np.asarray(im).astype(float)
+                _, f0 = auto_crop(cand, a.sizes[0])
+                cands.append((cand, f0))
+            eff = [c for c in cands if c[1] < 0.999]
+            src = max(eff, key=lambda c: c[1])[0] if eff else cands[0][0]
             per, ani = dominant_period(src), anisotropy(src)
             slug = m.replace(" ", "_")
             for size in a.sizes:
