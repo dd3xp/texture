@@ -11,12 +11,20 @@
    而周期大恰恰意味着这一版本来就画得更接近真人惯例。
    所以「在触发的样本里挑裁剪比最大的」= 「挑生成时最接近真人惯例的」。
 
-选样规则（跑前固定，不事后调）：
-  在 N 个样本中，优先取**门触发**的；其中取**裁剪比最大**的那个；
-  若无一触发，退回第一个样本（与现管线一致，不制造虚假优势）。
+选样规则（跑前固定）：
+  在 N 个样本中，取**有效裁剪**的（门触发 **且** frac < 0.999）；
+  其中取 **frac 最大**的那个；若无一有效，退回第一个样本
+  （与现管线一致，不制造虚假优势）。
+
+  ⚠ **首轮跑到 16/42 时发现并修正**：原规则只要求「门触发」。
+  但 `auto_crop` 在「4.5 个周期装不下源图」时会把窗口钳成整图，
+  返回 frac=1.0 —— 门显示触发、实际等于没裁（论文 §5.3 已记这个混淆）。
+  取 frac 最大就会**优先选中这些退化样本**，适用率虚高而实际无改进。
+  故加上 frac<0.999，并据此重跑；首轮数据作废，不参与任何统计。
 
 --- 判据（跑之前写下并 commit）---
-① 适用率（客观量，无需判官）：best-of-4 的门触发率必须**高于**单样本基线，
+① 适用率（客观量，无需判官）：best-of-4 的**有效裁剪率**（触发且真的裁了）
+   必须**高于**单样本基线，
    且配对符号检验 p<0.05。不过则本方法在适用率上无效。
 ② 质量（经验证判官 claude-opus-5，正反两问去偏、不一致弃用）：
    在**两者都触发**的材质上，best-of-4 的成品被偏好 >50% 且二项 p<0.05。
@@ -101,8 +109,12 @@ def main():
             tile, frac = to_tile(arr, a.size, a.colors, pi)
             cands.append({"k": k, "period": float(per), "aniso": float(ani),
                           "fired": bool(fired), "frac": float(frac), "tile": tile})
-        # 选样规则：优先门触发；其中裁剪比最大（= 生成时最接近真人惯例）
-        fired_c = [c for c in cands if c["fired"]]
+        # 选样规则：取**有效裁剪**的（触发且真的裁了），其中 frac 最大
+        # （= 生成时最接近真人惯例）。frac>=0.999 是「窗口被钳成整图」的退化情形，
+        # 门显示触发但等于没裁，不能算数——见模块文档里的修正说明。
+        for c in cands:
+            c["effective"] = c["fired"] and c["frac"] < 0.999
+        fired_c = [c for c in cands if c["effective"]]
         best = max(fired_c, key=lambda c: c["frac"]) if fired_c else cands[0]
         base = cands[0]
         slug = p.replace(" ", "_")
@@ -110,31 +122,33 @@ def main():
         Image.fromarray(best["tile"]).save(a.tiles / f"{slug}_best.png")
         recs.append({"prompt": p,
                      "single_fired": base["fired"], "single_frac": base["frac"],
+                     "single_eff": base["effective"],
                      "best_k": best["k"], "best_fired": best["fired"],
+                     "best_eff": best["effective"],
                      "best_frac": best["frac"],
-                     "n_fired": len(fired_c),
+                     "n_eff": len(fired_c),
                      "periods": [c["period"] for c in cands],
                      "anisos": [c["aniso"] for c in cands]})
-        print(f"[{pi+1}/{len(prompts)}] {p:<32} 单样本{'触发' if base['fired'] else '未触发'}"
-              f"  {len(fired_c)}/{a.N} 触发  选中 k={best['k']}"
+        print(f"[{pi+1}/{len(prompts)}] {p:<32} 单样本{'有效' if base['effective'] else '无效'}"
+              f"  {len(fired_c)}/{a.N} 有效  选中 k={best['k']}"
               f" frac={best['frac']:.3f}", flush=True)
 
     a.out.write_text(json.dumps(recs, ensure_ascii=False, indent=1), encoding="utf-8")
 
     # —— 判据① 适用率 ——
-    s_fire = sum(r["single_fired"] for r in recs)
-    b_fire = sum(r["best_fired"] for r in recs)
-    gained = sum(1 for r in recs if r["best_fired"] and not r["single_fired"])
-    lost = sum(1 for r in recs if r["single_fired"] and not r["best_fired"])
+    s_fire = sum(r["single_eff"] for r in recs)
+    b_fire = sum(r["best_eff"] for r in recs)
+    gained = sum(1 for r in recs if r["best_eff"] and not r["single_eff"])
+    lost = sum(1 for r in recs if r["single_eff"] and not r["best_eff"])
     p1 = binom_test(gained, gained + lost) if (gained + lost) else 1.0
-    print(f"\n判据① 适用率：单样本 {s_fire}/{len(recs)} = {s_fire/len(recs):.0%}"
+    print(f"\n判据① 有效裁剪率：单样本 {s_fire}/{len(recs)} = {s_fire/len(recs):.0%}"
           f" -> best-of-{a.N} {b_fire}/{len(recs)} = {b_fire/len(recs):.0%}")
     print(f"   新增触发 {gained}，失去 {lost}，符号检验 p={p1:.3g}"
           f"  -> {'**成立**' if gained > lost and p1 < 0.05 else '不成立'}")
 
     if a.no_judge:
         return
-    both = [r for r in recs if r["single_fired"] and r["best_fired"]
+    both = [r for r in recs if r["single_eff"] and r["best_eff"]
             and r["best_k"] != 0]
     if not both:
         print("\n判据②：没有「两者都触发且选了不同样本」的材质，不予评估"); return
