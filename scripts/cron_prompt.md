@@ -23,16 +23,20 @@
 
 ## 这一轮按顺序做（第一条命中就做那条）
 
-1. **LoRA 训练完了但没评测** —— `runs/lora_convention/` 存在、
-   而 `experiments/lora_eval.json` 不存在（或早于它）：
-   跑 `analysis/paired/lora_eval.py`（要 GPU + VLM 凭据），照判据判读，
-   结果如实写进 `docs/loop.md`，**不合格就写不合格**。
-2. **LoRA 训练掉了** —— 无 `runs/lora_convention/`、且 `tmux ls` 里没有 `lora` 会话：
-   重启 `model/train_lora.py --steps 1500`。
-3. **方法一缺的对照** —— `experiments/bestof_random.json` 不存在：
-   方法一的收益可能只来自「候选变多」而非「按 frac 挑」。
-   照 `bestof_units.py` 改一版**在有效样本里随机挑**的对照（同种子、同 N），
-   判据先 commit 再跑：若随机挑与 frac 挑无差异，则主张须收窄为「多采样提高覆盖」。
+1. **LoRA 第二次训练完了但没评测** —— `runs/lora_lr1e5/` 存在、
+   而 `experiments/lora_eval_lr1e5.json` 不存在：跑
+   `analysis/paired/lora_eval.py --lora runs/lora_lr1e5 --out experiments/lora_eval_lr1e5.json`
+   （要 GPU + VLM 凭据），照判据判读，**不合格就写不合格**。
+   ⚠ **第一次训练（lr 1e-4）已塌陷**（跨提示词色彩多样性掉到 49%），
+   评测脚本现在有自动塌陷检测，排在操作检验之前。
+   **停止规则**：第二次若仍塌陷或操作检验不过，**这套训练配置就关闭**，
+   不许再调学习率试第三次；换数据形式要单独预注册。
+2. **第二次训练掉了** —— 无 `runs/lora_lr1e5/`、且 `tmux ls` 无 `lora2` 会话：
+   重启 `model/train_lora.py --steps 1500 --lr 1e-5 --out runs/lora_lr1e5`。
+3. **方法一缺的对照** —— `experiments/bestof_rule.json` 不存在：
+   跑 `analysis/paired/bestof_rule.py`（已写好、判据已 commit 6c12667）。
+   它在同一批候选上比「取 frac 最大」与「随机挑一个有效的」。
+   若两者无差异，方法一的主张须收窄为「多采样提高覆盖」，与挑哪一个无关。
 4. **远端任务掉了就重启**；结果出来了就拉回、复算、提交。
 5. **以上都不适用**：想一个**新的方法方向**，先写判据再动手。
    已排除的见下——不要重走。真没有可做的，就什么都别做、退出，
