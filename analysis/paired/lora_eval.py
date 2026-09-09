@@ -144,6 +144,30 @@ def main():
 
     a.out.write_text(json.dumps(recs, ensure_ascii=False, indent=1), encoding="utf-8")
 
+
+    # —— 塌陷检测（必须在操作检验之前）——
+    # 第一次训练（lr 1e-4）**塌了**：输出全是同一种褪色粉灰噪点，材质身份消失。
+    # 单元数因此降了 45%，但那是「输出变成噪声」的副产物，不是学会画大块。
+    # 数值判据差点放它过去（中位 14.4 vs 阈值 13.85），是看图才发现的——
+    # 所以把「看图」变成一个自动量：**跨提示词的平均色标准差**。
+    # 模型塌了以后不管问什么材质都画同一个东西，这个量会大幅下降。
+    def colour_diversity(tag):
+        v = []
+        for r in recs:
+            f = a.tiles / f"{r['prompt'].replace(' ', '_')}_{tag}.png"
+            if f.exists():
+                v.append(np.asarray(Image.open(f).convert("RGB")).reshape(-1, 3).mean(0))
+        return float(np.array(v).std(0).sum()) if v else 0.0
+
+    div_b, div_l = colour_diversity("base_crop"), colour_diversity("lora_raw")
+    ratio = div_l / div_b if div_b else 0.0
+    print(f"\n塌陷检测：跨提示词色彩多样性 base {div_b:.1f} -> lora {div_l:.1f}"
+          f"（{ratio:.0%}）；阈值 70%")
+    if ratio < 0.70:
+        print("  -> **模型已塌陷**，材质身份丢失，后续判据全部不予评估。")
+        print("     （第一次训练实测 49%，正是据此定的这条检测。）")
+        return
+    print("  -> 未塌陷，继续")
     # —— 操作检验 ——
     both = [(r["units_base"], r["units_lora"]) for r in recs
             if r["units_base"] > 0 and r["units_lora"] > 0]
