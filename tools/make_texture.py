@@ -37,13 +37,27 @@ def derive_palette(hex_color: str, k: int, spread: float) -> np.ndarray:
 
 
 def extract_palette(img: np.ndarray, k: int, seed: int = 0) -> np.ndarray:
-    """从源图提取 k 色，按亮度排序。用 k-means++ 初始化的简单 Lloyd 迭代。"""
+    """从源图提取 k 色，按亮度排序。用 k-means++ 初始化的简单 Lloyd 迭代。
+
+    **近似均匀的图必须能走通**：k-means++ 按「到已选中心的距离」加权采样，
+    当图里可分辨的颜色少于 k 时，剩余距离全是 0，
+    `d / max(d.sum(), 1e-9)` 得到一组和为 **0** 的概率，numpy 直接报
+    `Probabilities do not sum to 1`。这不是假想情形——微调塌陷后的渲染就是
+    近似纯色，实测让整条评测崩在第 24 个提示词上；而 `paint_region.py`、
+    `batch_pack.py` 走的是同一个函数，用户只要渲染出一张平的图就会崩。
+    距离全零时退化成**均匀随机**取点：此时任何点都一样远（都是 0），
+    均匀取是这个准则下的正确行为，不是凑合。
+    """
     x = img.reshape(-1, 3).astype(float)
     rng = np.random.default_rng(seed)
     c = [x[rng.integers(len(x))]]
     for _ in range(k - 1):
         d = np.min(((x[:, None, :] - np.array(c)[None]) ** 2).sum(-1), axis=1)
-        c.append(x[rng.choice(len(x), p=d / max(d.sum(), 1e-9))])
+        tot = float(d.sum())
+        if tot > 0:
+            c.append(x[rng.choice(len(x), p=d / tot)])
+        else:                       # 没有可分辨的新颜色了
+            c.append(x[rng.integers(len(x))])
     c = np.array(c)
     for _ in range(30):
         lab = ((x[:, None, :] - c[None]) ** 2).sum(-1).argmin(1)
