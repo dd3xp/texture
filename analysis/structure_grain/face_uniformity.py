@@ -118,8 +118,7 @@ def main():
         alln += ns
         print(f"{m:<30}{per:>5}{np.median(rs):>12.2f}"
               f"{(np.median(ns) if ns else float('nan')):>12.2f}{len(rs):>6}")
-        print(f"
-缝对比度中位：真人 {np.median(allr):+.2f}   种子+噪声 {np.median(alln):+.2f}")
+        print(f"\n缝对比度中位：真人 {np.median(allr):+.2f}   种子+噪声 {np.median(alln):+.2f}")
         print("  两者相近 -> 缝不弱，检不出是别的原因："
               "_col_period 在 lag 3-8 上取自相关最大值，赢者通吃；")
         print("  周期 4 有 4 根缝真峰稳赢，周期 8 只有 2 根，噪声的伪峰就能夺冠。")

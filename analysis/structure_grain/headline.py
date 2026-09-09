@@ -125,15 +125,13 @@ def main():
     print(f"\nWilcoxon p={stats.wilcoxon(db, dm).pvalue:.3g}   "
           f"基线/模型 距离比 {np.median(db)/max(np.median(dm),1e-9):.1f}×")
 
-    h1 = np.array([x for x, _ in mod_halves])
-    h2 = np.array([y for _, y in mod_halves])
-    d1, d2 = np.abs(h1 - art_all), np.abs(h2 - art_all)
-    print(f"\n=== 折半稳定性（各 {n_samp//2} 样本）===")
-    print(f"  上半距真人中位 {np.median(d1):.4f}   下半 {np.median(d2):.4f}")
-    print(f"  两半 Wilcoxon p 分别 {stats.wilcoxon(db, d1).pvalue:.3g} / "
-          f"{stats.wilcoxon(db, d2).pvalue:.3g}")
-    print(f"  两半间相关 Spearman ρ={stats.spearmanr(d1, d2).correlation:+.3f}")
-    print("  判读：两半结论一致且相关高 -> 样本量够，头条成立")
+    # **这一段从来没跑起来过**：`mod_halves` 从未被赋值，走到这里必然 NameError。
+    # 它想做的「头条数字的折半稳定性」检查因此从未产出过任何数字，
+    # 而它要检验的那个头条本身已经撤回（论文附录 A 第一条：那个量是两组均值之差、
+    # 不是距离，且只有 4 个样本）。故整块删去而不是补全——
+    # 补全会产出一个从未存在过、也无人看过的新数字。
+    # 论文真正用到的折半机制在 `analysis/stability.py`（`struct_metric.py` 调它），
+    # 与本块无关，不受影响。
 
 
 if __name__ == "__main__":
