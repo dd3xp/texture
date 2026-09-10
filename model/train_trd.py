@@ -1,0 +1,241 @@
+"""训练 TRD（新架构 v1）。数据：`split=train` 的 16×16 真人瓦片；`split=val` 选检查点。
+
+用法（服务器，离线）：
+    HF_HUB_OFFLINE=1 python model/train_trd.py --out runs/trd_v1 --steps 40000
+冒烟：
+    python model/train_trd.py --smoke        （极小配置跑几十步 + 采样一次）
+"""
+import argparse
+import json
+import math
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "model"))
+sys.path.insert(0, str(ROOT / "eval"))
+from tiles_data import load, W_LUM                      # noqa: E402
+from trd import TRD, K_MAX, training_loss, sample       # noqa: E402
+from prompts import prompt_words                        # noqa: E402
+
+TEXT_TMPL = "pixel art texture of {p}"
+
+
+# ------------------------------------------------------------------ 颜色码本
+def kmeans(x, k, iters=25, seed=0):
+    rng = np.random.default_rng(seed)
+    c = x[rng.choice(len(x), k, replace=False)].astype(np.float64)
+    for _ in range(iters):
+        d = ((x[:, None, :] - c[None]) ** 2).sum(-1) if len(x) * k < 4e7 else None
+        if d is None:                                   # 大时分块
+            lab = np.concatenate([((x[i:i + 20000, None] - c[None]) ** 2).sum(-1).argmin(1)
+                                  for i in range(0, len(x), 20000)])
+        else:
+            lab = d.argmin(1)
+        for j in range(k):
+            sel = x[lab == j]
+            c[j] = sel.mean(0) if len(sel) else x[rng.integers(len(x))]
+    return c
+
+
+def build_codebook(samples, k):
+    cols = np.concatenate([s["palette"].astype(np.float64) for s in samples])
+    cb = kmeans(cols, k)
+    # 按亮度排序，便于查看
+    cb = cb[np.argsort(cb @ W_LUM)]
+    err = np.sqrt(((cols[:, None] - cb[None]) ** 2).sum(-1).min(1)).mean()
+    return cb.astype(np.float32), float(err)
+
+
+def encode_palette(pal, cb):
+    d = ((pal[:, None].astype(np.float32) - cb[None]) ** 2).sum(-1)
+    return d.argmin(1)
+
+
+# ------------------------------------------------------------------ 文本
+def text_prompt(material):
+    w = prompt_words(material)
+    return TEXT_TMPL.format(p=" ".join(w) if w else material)
+
+
+@torch.no_grad()
+def clip_text(prompts, dev):
+    from transformers import CLIPModel, CLIPTokenizer
+    name = "openai/clip-vit-base-patch32"
+    m = CLIPModel.from_pretrained(name).to(dev).eval()
+    tok = CLIPTokenizer.from_pretrained(name)
+    out = []
+    for i in range(0, len(prompts), 256):
+        t = tok(prompts[i:i + 256], padding=True, return_tensors="pt").to(dev)
+        out.append(F.normalize(m.get_text_features(**t).float(), dim=-1).cpu())
+    del m
+    return torch.cat(out)
+
+
+# ------------------------------------------------------------------ 数据张量
+def to_tensors(samples, cb, n_codes, text_index, text_emb):
+    B = len(samples)
+    pal = np.full((B, K_MAX), n_codes + 1, np.int64)          # PAD
+    grid = np.zeros((B, 16, 16), np.int64)
+    k = np.zeros(B, np.int64)
+    col = np.zeros((B, 4), np.float32)
+    tix = np.zeros(B, np.int64)
+    for i, s in enumerate(samples):
+        kk = s["k_used"]
+        pal[i, :kk] = encode_palette(s["palette"], cb)
+        grid[i] = s["idx"]
+        k[i] = kk
+        col[i, :3] = (s["palette"][s["idx"]].reshape(-1, 3).mean(0) / 255.0).astype(np.float32)
+        col[i, 3] = 1.0                                   # 标志位：颜色已给出
+        tix[i] = text_index[s["material"]]
+    return {"pal": torch.from_numpy(pal), "grid": torch.from_numpy(grid), "k": torch.from_numpy(k),
+            "color": torch.from_numpy(col), "text": text_emb[torch.from_numpy(tix)]}
+
+
+def augment(grid):
+    """循环平移（每样本独立）+ 水平翻转。纹理可平铺，任意循环平移都是合法样本。"""
+    B, N, _ = grid.shape
+    dy = torch.randint(0, N, (B,))
+    dx = torch.randint(0, N, (B,))
+    ar = torch.arange(N)
+    rows = (ar[None] - dy[:, None]) % N
+    cols = (ar[None] - dx[:, None]) % N
+    g = grid[torch.arange(B)[:, None, None], rows[:, :, None], cols[:, None, :]]
+    flip = torch.rand(B) < 0.5
+    g[flip] = g[flip].flip(-1)
+    return g
+
+
+def decode(pal_codes, ranks, cb):
+    """pal_codes [B,16], ranks [B,N,N] -> RGB uint8 [B,N,N,3]"""
+    cbt = torch.as_tensor(cb)
+    codes = pal_codes.clamp(max=len(cb) - 1).cpu()
+    cols = cbt[codes]                                      # [B,16,3]
+    r = ranks.cpu()
+    img = torch.gather(cols, 1, r.view(r.shape[0], -1, 1).expand(-1, -1, 3))
+    return img.view(*r.shape, 3).round().clamp(0, 255).byte().numpy()
+
+
+# ------------------------------------------------------------------ 主流程
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", type=Path, default=ROOT / "runs/trd_v1")
+    ap.add_argument("--steps", type=int, default=40000)
+    ap.add_argument("--batch", type=int, default=256)
+    ap.add_argument("--lr", type=float, default=3e-4)
+    ap.add_argument("--wd", type=float, default=0.05)
+    ap.add_argument("--warmup", type=int, default=1000)
+    ap.add_argument("--d", type=int, default=384)
+    ap.add_argument("--depth", type=int, default=12)
+    ap.add_argument("--heads", type=int, default=6)
+    ap.add_argument("--drop", type=float, default=0.1)
+    ap.add_argument("--codes", type=int, default=512)
+    ap.add_argument("--p_text_drop", type=float, default=0.1)
+    ap.add_argument("--p_color_drop", type=float, default=0.5)
+    ap.add_argument("--eval_every", type=int, default=1000)
+    ap.add_argument("--smoke", action="store_true")
+    a = ap.parse_args()
+    if a.smoke:
+        a.steps, a.batch, a.d, a.depth, a.heads, a.codes, a.eval_every = 40, 16, 64, 2, 2, 64, 20
+        a.out = ROOT / "runs/trd_smoke"
+    a.out.mkdir(parents=True, exist_ok=True)
+    dev = "cuda" if torch.cuda.is_available() else "cpu"
+    torch.manual_seed(0)
+
+    train, val = load(16, "train"), load(16, "val")
+    test = load(16, "test")
+    cb, err = build_codebook(train, a.codes)
+    np.save(a.out / "codebook.npy", cb)
+    print(f"train {len(train)}  val {len(val)}  码本 {a.codes} 色，平均量化误差 {err:.2f}/255", flush=True)
+
+    mats = sorted({s["material"] for s in train + val + test})
+    prompts = [text_prompt(m) for m in mats]
+    temb = clip_text(prompts, dev) if not a.smoke else F.normalize(torch.randn(len(mats), 512), dim=-1)
+    tindex = {m: i for i, m in enumerate(mats)}
+    torch.save({"materials": mats, "prompts": prompts, "emb": temb}, a.out / "text_emb.pt")
+
+    T = to_tensors(train, cb, a.codes, tindex, temb)
+    V = to_tensors(val, cb, a.codes, tindex, temb)
+    model = TRD(a.codes, d=a.d, depth=a.depth, heads=a.heads, drop=a.drop).to(dev)
+    print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
+    opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.99))
+    sched = torch.optim.lr_scheduler.LambdaLR(
+        opt, lambda s: min(1, (s + 1) / a.warmup) * 0.5 * (1 + math.cos(math.pi * min(1, s / a.steps))))
+    cfg = {kk: (str(v) if isinstance(v, Path) else v) for kk, v in vars(a).items()} | {"codebook_err": err}
+    json.dump(cfg, open(a.out / "config.json", "w"), indent=1)
+
+    def batch_of(D, idx, train_mode):
+        g = D["grid"][idx]
+        if train_mode:
+            g = augment(g)
+        t = D["text"][idx].clone()
+        c = D["color"][idx].clone()
+        if train_mode:
+            dt = torch.rand(len(idx)) < a.p_text_drop
+            dc = torch.rand(len(idx)) < a.p_color_drop
+            t[dt] = model.null_text.detach().cpu()
+            c[dc] = model.null_color.detach().cpu()
+        else:                                             # 评估：丢颜色条件（与基线同等）
+            c[:] = model.null_color.detach().cpu()
+        return [x.to(dev) for x in (D["pal"][idx], g, D["k"][idx], t, c)]
+
+    best, log = float("inf"), []
+    t0 = time.time()
+    n = len(train)
+    for step in range(a.steps + 1):
+        model.train()
+        idx = torch.randint(0, n, (a.batch,))
+        with torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
+            loss, parts = training_loss(model, *batch_of(T, idx, True))
+        opt.zero_grad(set_to_none=True)
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        opt.step()
+        sched.step()
+        if step % a.eval_every == 0:
+            model.eval()
+            vl, vn = 0.0, 0
+            # 固定掩码随机性让各次验证损失可比；fork_rng 隔离，不污染训练的随机序列
+            with torch.random.fork_rng(devices=[torch.cuda.current_device()] if dev == "cuda" else []), \
+                    torch.no_grad(), torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
+                torch.manual_seed(123)
+                for i in range(0, len(val), 256):
+                    idx = torch.arange(i, min(i + 256, len(val)))
+                    l, _ = training_loss(model, *batch_of(V, idx, False))
+                    vl += l.item() * len(idx)
+                    vn += len(idx)
+            vl /= vn
+            rec = {"step": step, "train": loss.item(), **parts, "val": vl,
+                   "lr": sched.get_last_lr()[0], "min": (time.time() - t0) / 60}
+            log.append(rec)
+            print(json.dumps(rec), flush=True)
+            json.dump(log, open(a.out / "log.json", "w"), indent=0)
+            torch.save({"model": model.state_dict(), "args": cfg,
+                        "step": step, "val": vl}, a.out / "last.pt")
+            if vl < best:
+                best = vl
+                torch.save({"model": model.state_dict(), "args": cfg,
+                            "step": step, "val": vl}, a.out / "best.pt")
+
+    # 训练末：用最佳检查点给 val 材质各采一张，存图便于目视
+    ck = torch.load(a.out / "best.pt", map_location=dev)
+    model.load_state_dict(ck["model"])
+    model.eval()
+    from PIL import Image
+    sv = val[:64]
+    V2 = to_tensors(sv, cb, a.codes, tindex, temb)
+    pal, grid = sample(model, V2["text"].to(dev), V2["k"].to(dev), n=16,
+                       steps=24 if not a.smoke else 4)
+    imgs = decode(pal, grid, cb)
+    sheet = np.concatenate([np.concatenate(list(imgs[r * 8:(r + 1) * 8]), 1) for r in range(len(imgs) // 8)], 0)
+    Image.fromarray(sheet).resize((sheet.shape[1] * 4, sheet.shape[0] * 4), Image.NEAREST).save(a.out / "val_samples.png")
+    print(f"最佳 val {best:.4f} @ step {ck['step']}；样例 -> {a.out / 'val_samples.png'}", flush=True)
+
+
+if __name__ == "__main__":
+    main()
