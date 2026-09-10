@@ -1,0 +1,87 @@
+idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
+0,knitted sweater wool · 16px,real,-0.004,16px,before,after,tie,tie,6444,p019
+1,ivy covered wall · 16px,check,0,16px,good,blur,left,good,2173,
+2,ivy covered wall · 24px,real,0.036,24px,before,after,right,after,7604,p017
+3,concrete sidewalk slab · 24px,real,0.272,24px,before,after,right,after,865,p033
+4,wet river pebbles · 24px,real,0.038,24px,before,after,tie,tie,6804,p028
+5,pumice stone · 32px,real,-0.158,32px,after,before,right,before,3262,p024
+6,ivy covered wall · 16px,real,0.089,16px,after,before,left,after,1606,p021
+7,ivy covered wall · 32px,real,0.039,32px,after,before,left,after,1238,p004
+8,pine needle floor · 24px,real,0.213,24px,after,before,left,after,1519,p037
+9,wet river pebbles · 16px,real,0.099,16px,after,before,left,after,1952,p023
+10,malachite ore vein · 24px,real,-0.035,24px,before,after,left,before,1510,p022
+11,grass turf top · 24px,real,0.268,24px,after,before,left,after,1831,p011
+12,coral reef surface · 16px,real,0.207,16px,before,after,right,after,3327,p001
+13,frozen tundra ground · 16px,real,0.096,16px,before,after,right,after,3853,p013
+14,wet river pebbles · 32px,real,-0.084,32px,after,before,right,before,1063,p014
+15,concrete sidewalk slab · 16px,real,0.273,16px,after,before,left,after,831,p036
+16,geode interior · 32px,real,-0.336,32px,after,before,right,before,1918,p035
+17,malachite ore vein · 32px,real,-0.045,32px,after,before,left,after,1464,p029
+18,cracked ice sheet · 32px,real,-0.169,32px,after,before,right,before,1662,p002
+19,coral reef surface · 24px,real,0.181,24px,after,before,left,after,799,p003
+20,pumice stone · 16px,real,-0.069,16px,after,before,right,before,873,p020
+21,quartz crystal cluster · 16px,real,-0.183,16px,before,after,left,before,717,p010
+22,concrete sidewalk slab · 24px,check,0,24px,good,blur,left,good,2997,
+23,malachite ore vein · 16px,real,0.004,16px,after,before,left,after,1912,p025
+24,grass turf top · 32px,real,0.258,32px,before,after,right,after,766,p038
+25,quartz crystal cluster · 24px,real,-0.2,24px,after,before,right,before,1526,p016
+26,wet river pebbles · 24px,check,0,24px,blur,good,right,good,775,
+27,grass turf top · 16px,real,0.266,16px,before,after,right,after,1886,p006
+28,geode interior · 24px,real,-0.325,24px,before,after,left,before,2373,p005
+29,pine needle floor · 32px,real,0.19,32px,before,after,right,after,2055,p034
+30,frozen tundra ground · 32px,real,0.01,32px,before,after,left,before,3166,p026
+31,coral reef surface · 32px,real,0.159,32px,before,after,right,after,1541,p031
+32,concrete sidewalk slab · 32px,real,0.265,32px,after,before,left,after,1745,p008
+33,quartz crystal cluster · 24px,check_same,0,24px,same,same,left,same,1975,s000
+34,pine needle floor · 16px,real,0.235,16px,before,after,right,after,1647,p027
+35,knitted sweater wool · 24px,real,-0.029,24px,after,before,right,before,3326,p000
+36,cracked ice sheet · 16px,real,-0.073,16px,after,before,right,before,1103,p032
+37,cracked ice sheet · 24px,real,-0.121,24px,before,after,left,before,768,p009
+38,knitted sweater wool · 32px,real,-0.071,32px,before,after,left,before,1359,p015
+39,pumice stone · 24px,real,-0.107,24px,before,after,left,before,1397,p030
+40,quartz crystal cluster · 32px,real,-0.281,32px,before,after,left,before,1097,p018
+41,geode interior · 16px,real,-0.249,16px,after,before,right,before,33903,p007
+42,frozen tundra ground · 24px,real,0.042,24px,after,before,left,after,2222,p012
+43,pumice stone · 16px,check_same,0,16px,same,same,left,same,2086,s001
+44,grass turf top · 24px,real,0.268,24px,before,after,right,after,753,p011
+45,concrete sidewalk slab · 24px,real,0.272,24px,after,before,left,after,735,p033
+46,frozen tundra ground · 24px,check_same,0,24px,same,same,left,same,1895,s002
+47,pumice stone · 32px,real,-0.158,32px,before,after,left,before,1446,p024
+48,malachite ore vein · 16px,real,0.004,16px,before,after,left,before,959,p025
+49,cracked ice sheet · 32px,real,-0.169,32px,before,after,left,before,775,p002
+50,wet river pebbles · 24px,real,0.038,24px,after,before,left,after,1007,p028
+51,quartz crystal cluster · 24px,real,-0.2,24px,before,after,left,before,1455,p016
+52,ivy covered wall · 32px,real,0.039,32px,before,after,right,after,1854,p004
+53,wet river pebbles · 32px,real,-0.084,32px,before,after,left,before,1392,p014
+54,grass turf top · 32px,real,0.258,32px,after,before,left,after,1141,p038
+55,frozen tundra ground · 32px,real,0.01,32px,after,before,right,before,1502,p026
+56,pine needle floor · 24px,real,0.213,24px,before,after,right,after,927,p037
+57,pumice stone · 16px,real,-0.069,16px,before,after,left,before,800,p020
+58,concrete sidewalk slab · 32px,real,0.265,32px,before,after,right,after,896,p008
+59,ivy covered wall · 24px,real,0.036,24px,after,before,left,after,799,p017
+60,geode interior · 24px,real,-0.325,24px,after,before,right,before,838,p005
+61,knitted sweater wool · 32px,real,-0.071,32px,after,before,right,before,1311,p015
+62,quartz crystal cluster · 32px,real,-0.281,32px,after,before,right,before,1270,p018
+63,cracked ice sheet · 16px,real,-0.073,16px,before,after,left,before,1350,p032
+64,geode interior · 32px,real,-0.336,32px,before,after,left,before,919,p035
+65,malachite ore vein · 32px,real,-0.045,32px,before,after,left,before,926,p029
+66,pumice stone · 24px,real,-0.107,24px,after,before,right,before,1432,p030
+67,pine needle floor · 16px,real,0.235,16px,after,before,left,after,791,p027
+68,coral reef surface · 16px,real,0.207,16px,after,before,left,after,879,p001
+69,cracked ice sheet · 24px,real,-0.121,24px,after,before,right,before,2687,p009
+70,geode interior · 16px,real,-0.249,16px,before,after,left,before,873,p007
+71,coral reef surface · 24px,real,0.181,24px,before,after,right,after,894,p003
+72,knitted sweater wool · 16px,real,-0.004,16px,after,before,left,after,1391,p019
+73,knitted sweater wool · 32px,check_same,0,32px,same,same,right,same,1406,s003
+74,ivy covered wall · 16px,real,0.089,16px,before,after,right,after,1679,p021
+75,wet river pebbles · 16px,real,0.099,16px,before,after,right,after,1183,p023
+76,knitted sweater wool · 24px,real,-0.029,24px,before,after,right,after,1614,p000
+77,malachite ore vein · 24px,real,-0.035,24px,after,before,right,before,879,p022
+78,coral reef surface · 32px,real,0.159,32px,after,before,left,after,894,p031
+79,quartz crystal cluster · 16px,real,-0.183,16px,after,before,right,before,968,p010
+80,pine needle floor · 32px,real,0.19,32px,after,before,left,after,887,p034
+81,frozen tundra ground · 16px,real,0.096,16px,after,before,left,after,1078,p013
+82,coral reef surface · 32px,check,0,32px,good,blur,left,good,720,
+83,grass turf top · 16px,real,0.266,16px,after,before,left,after,1118,p006
+84,frozen tundra ground · 24px,real,0.042,24px,before,after,right,after,895,p012
+85,concrete sidewalk slab · 16px,real,0.273,16px,before,after,right,after,1056,p036
