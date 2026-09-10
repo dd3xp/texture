@@ -2197,6 +2197,19 @@ https://claude.ai/code/artifact/467d2c3a-1dd2-4925-82ef-94c7685763cb
 `bestof_rule.json`、`lora_eval_lr1e5.json`——本轮所有交付与判读数字
 都能从净克隆核对。
 
+### 净克隆复验（2026-09-10）：今天改的交付管线能从零跑起来
+
+只验了 JSON 在 `git archive` 里还不够——今天动了 `downsample.py` 与三个交付入口，
+得确认净克隆真能跑。`git archive HEAD` 解到临时目录（514 文件）后实跑：
+
+- `analysis/paired/test_seam_equiv.py` 四用例**位置与统计全一致**（生产实现 vs 跑时原样的实验实现）
+- `analysis/check_names.py` 102 文件**零可疑**
+- `auto_crop(seam_align=True)` 在归档自带的三张 1024 渲染上：接缝比 **3.85→0.60**、
+  **1.80→0.92**；门拒绝那张 **1.98→1.98 原样不动**（行为正确，位置对它无意义）
+- `tools/paint_region.py` CPU 路径正常出图
+
+**结论：交付管线不依赖任何未入库的东西。**
+
 ### 待用户
 
 **⚠ 论文与今天的方法结果已经脱节（摘要截止剩 7 天）——需要你拍板，我没动 `paper/`。**
