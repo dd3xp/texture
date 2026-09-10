@@ -2952,3 +2952,87 @@ CSV 仍未到（`experiments/annotate/` 无新 `*.csv`），远程无本项目�
   **不在 main.tex 里**（正文 Fig 7 是 `fig_units.py` 的 `fig7_units.png`），
   且它 import scipy（emnlp 环境没有）。属**被取代但仍随包发出**的脚本，
   与 `structure_grain/` 那批同类，不影响任何已发表数字。
+
+### 第 66 轮 — 2026-09-10（无头轮）：交付出去的那个 zip，比仓库落后了三轮
+
+CSV 仍未到（`experiments/annotate/` 无新 `*.csv`），远程无本项目任务
+（`tmux ls` 只剩 pixel 的会话，GPU 上没有我的进程），工作树干净、无未推送提交。
+**没动 `paper/` 下任何有内容的文件**——待用户 (a)–(e) 仍未裁决，规矩不变。
+（`paper/supplementary.zip` 是不入库的构建产物，重打包等同于重编译 PDF，见下。）
+
+上一轮查的是"标注做完之后那段路"。这一轮往同一方向再走一步：
+**审稿人真正拿到手的那个包**。结论是它同时有一个陈旧问题和一个从没被检查过的问题。
+
+#### 一、包比仓库旧三轮（重打包，552 文件）
+
+`paper/supplementary.zip` mtime 12:18，而最后触及 `scripts/`+`analysis/`
+的提交是 18:48（`318988f`）。按记忆里那条新鲜度判法就是**陈旧**。实测缺的不止一轮：
+
+| 包内缺失 | 属于 |
+| --- | --- |
+| `analysis/paired/seam_null.py` | 62 轮，接缝零假设的修正 |
+| `analysis/paired/units_paired.py` | 63 轮，剂量-反应的配对复算 |
+| `analysis/annotate/analyze_pair_study.py` | 65 轮，另两份盲比的预注册分析 |
+| `analysis/annotate/audit_seam_key.py` | 64 轮，接缝研究的验钥 |
+
+前两个尤其要紧：它们正是**把已发表效应量从乐观改成正确**的那两个脚本
+（2.76->0.85 而非 3.34；三档 25.0/13.8/9.8 而非 27.7/13.8/9.4）。
+包里没有它们，等于对外只发了旧口径的那一半。
+
+#### 二、指南把审稿人指向包里没有的文件（`dfcaad8`）
+
+`supplementary_README.md` 的"需要 GPU/网络"表里写着：
+
+- `scripts/batch_pack.py` | GPU; regenerates a delivery pack
+- `analysis/paired/second_generator.py` | ... (`scripts/fetch_sd15.sh` fetches them)
+
+而 `make_supplementary.py` 的 `DROP = ["docs", "scripts"]` **把整个 `scripts/` 删掉了**。
+两处引用在交付包里都是**断链**。
+
+**根因不是这两行写错了，是没人比对过两边**：指南是照着**仓库**写的，
+包是**仓库减去 `docs/` 与 `scripts/`**，两边一漂移就断，而这中间没有任何检查。
+（与上一轮"导出格式与分析脚本的接口从没端到端对过"是同一形状的洞。）
+
+修法**不改指南一个字**（`paper/` 归用户），而是把指南真正指给审稿人的两个文件
+按白名单发出去——两个文件的禁词扫描本来就是干净的（`fetch_sd15.sh`
+里早就写成 `<gpu>:<某处>` 占位符了）。`scripts/` 其余的运维件
+（`cron.ps1`、`sync_to_emnlp.sh`、`auto_train.sh`、打包脚本自身）照旧不发，
+保留清单用 `assert` 钉死，多一个少一个都报错。
+
+真正的修法是加检查：`check_guide_paths()` 把指南里出现的**每一条路径**
+（带 `/` 的按包内相对路径，裸文件名按 basename，支持 `*` 通配）在包内解析一遍，
+**断链就拒绝打包**。抽到 44 个 token。
+
+**负向测试**（不是只看它通过）：拿这个函数去跑**旧的那个 zip**，
+精确报出 2 条断链、就是上面那两条——确认它不是空跑。
+
+#### 三、指南的 15 条命令，从新包里逐条实跑
+
+46 轮验过一次，此后包变了很多（GBK 字形修复、导出文件名修复、四个新脚本）。
+把新 zip 解到临时目录，不带任何前缀直接跑：
+
+**14 条 PASS**（fig_agreement / fig_judges / judge_bootstrap / analyze_d6 /
+fig_units / resolution_tiers / aniso_gate / crop_res5_eval ×3 /
+fig_gradient / decline_spread / isotropic_scale）。
+
+**1 条 FAIL**：`recheck_gpu_claims.py` 退出码 1，且**只挂在一处**——
+
+```
+FAIL scale 0.8 条件后中位（配对口径 vs 正文）: 复算 15.8  正文 8.1
+```
+
+这**不是新缺陷**，正是待用户 **(d)** 那处（B25 跨集合中位，`main.tex:875`）。
+B24 七个数、B23 五个数、B25 其余四个数全部 OK。
+
+→ 但它把 (c) 的代价从"预计"变成了**已实测**：
+**现在这个投稿包里躺着一个自己跑不通过的自检脚本**，
+审稿人跑指南第 15 条就会看到一行 FAIL 指着正文的数字。
+选 (d) 是三个字符的事，选 (c) 就要接受这个。
+
+1 条未跑：`emoji_agreement.py` 首次运行要下三套 emoji（本会话无代理，240s 超时
+挂死，rc=124）。属环境，非代码；46 轮验过。
+
+#### 复验
+
+`check_names.py` 109 文件零缺陷；新包禁词扫描零命中、指南断链零条、
+`docs/` 零文件、`scripts/` 恰好两个文件。
