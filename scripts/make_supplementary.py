@@ -13,6 +13,7 @@
 from __future__ import annotations
 
 import fnmatch
+import os
 import re
 import shutil
 import subprocess
@@ -161,6 +162,28 @@ def check_guide_paths(dst: Path) -> list[str]:
     return problems
 
 
+# 指南把下面这些命令当作"审稿人可以自己跑"的自检推出去，它们各自有明确的
+# 通过/不通过契约（非零退出即不通过）。上面那个 check_guide_paths 只验了
+# **路径存在**，没人验过**跑起来过不过**——于是包里可以带着一个自己跑不过的
+# 自检出门，等于把反证材料一并交上去。这里在**包内副本**上真跑一遍。
+# 只列不依赖 GPU / 网络 / 未入库数据的那几个。
+SELFCHECKS = ["analysis/paired/recheck_gpu_claims.py"]
+
+
+def run_selfchecks(dst: Path) -> list[str]:
+    guide = (dst / "README.md").read_text(encoding="utf-8")
+    env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
+    problems = []
+    for rel in SELFCHECKS:
+        assert rel in guide, f"{rel} 不在复现指南里，自检清单已过期"
+        r = subprocess.run([sys.executable, rel], cwd=dst,
+                           capture_output=True, env=env)
+        if r.returncode:
+            out = (r.stdout + r.stderr).decode("utf-8", errors="replace")
+            problems.append(f"{rel} 退出码 {r.returncode}：\n{out.strip()}")
+    return problems
+
+
 def verify(dst: Path) -> list[str]:
     problems = []
     for f in sorted(dst.rglob("*")):
@@ -190,6 +213,12 @@ def main() -> int:
         if dangling:
             print("复现指南有断链，拒绝打包：")
             print("\n".join(dangling))
+            return 1
+        failing = run_selfchecks(root)
+        if failing:
+            print("包内自检自己跑不过，拒绝打包"
+                  "（先把正文/脚本对不上的那处修好，别把反证一起交出去）：")
+            print("\n\n".join(failing))
             return 1
         OUT.unlink(missing_ok=True)
         n_files = 0
