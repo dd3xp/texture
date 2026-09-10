@@ -114,11 +114,11 @@ def main():
                              ("clip 截断10后均值", "clip", 1.0)):
         r = evaluate(data, mode, fl, frac)
         print(f"{name:<20}{r['artist']:>8.2f}{r['seeded']:>9.2f}{r['none']:>9.2f}"
-              f"{'✓' if r['c1'] else '✗':>5}{'✓' if r['c2'] else '✗':>5}"
-              f"{'✓' if r['c3'] else '✗':>5}{r['rel']:>9.1%}{r['p']:>10.3g}"
+              f"{'OK' if r['c1'] else 'X':>5}{'OK' if r['c2'] else 'X':>5}"
+              f"{'OK' if r['c3'] else 'X':>5}{r['rel']:>9.1%}{r['p']:>10.3g}"
               f"{('稳定' if r['stable'] else '不稳'):>7}"
               f" ρ={r['rho']:+.2f} 差{r['gap']:.0%}")
-    print("\n三条必须同时为 ✓。只修好 C3 而弄坏 C1/C2 的变体不算修复。")
+    print("\n三条必须同时为 OK。只修好 C3 而弄坏 C1/C2 的变体不算修复。")
 
 
 if __name__ == "__main__":

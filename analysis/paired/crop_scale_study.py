@@ -91,7 +91,7 @@ def main():
     ap.add_argument("--fewer-units", action="store_true",
                     help="加修饰词让 SDXL 少画结构单元——检验单元惯例说（预注册于 8207f3f）")
     ap.add_argument("--render-size", type=int, default=1024,
-                    help="SDXL 渲染分辨率。384 时单元数显著变少（render_res_probe 真中位 30.1→8.8，−70.9%，MW p=0.0066；旧记的 32.5→9.3 是 med() 取上中位数所致，已修），是唯一通过操作检验的少单元杠杆")
+                    help="SDXL 渲染分辨率。384 时单元数显著变少（render_res_probe 真中位 30.1→8.8，-70.9%，MW p=0.0066；旧记的 32.5→9.3 是 med() 取上中位数所致，已修），是唯一通过操作检验的少单元杠杆")
     ap.add_argument("--prompts", type=Path,
                     help="外挂提示词表（JSON 数组）。缺省用内置的 42 个。"
                          "泛化复现用：见 experiments/prompts_holdout60.json")

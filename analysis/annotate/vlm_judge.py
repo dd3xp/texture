@@ -134,7 +134,7 @@ def main():
             agree += chosen == r["chosen"]
         print(f"  [{len(recs)}/{len(rows)}] {it['material'][:26]:<26} "
               f"人={r['chosen']:<9} 模型={chosen:<9}"
-              f"{'✓' if chosen == r['chosen'] else '✗'}", flush=True)
+              f"{'OK' if chosen == r['chosen'] else 'NG'}", flush=True)
 
     print(f"\n模型 {args.model}")
     print(f"  有效对 {tot}，与人一致 {agree} = {agree/max(tot,1):.1%}")

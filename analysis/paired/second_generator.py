@@ -106,7 +106,7 @@ def main():
     inside = lo <= med <= hi
     print(f"  次判据（描述性）：落在 SDXL@512 的 2 倍区间 [{lo:.1f}, {hi:.1f}] 内？"
           f" {'是' if inside else '否'}")
-    print("\n⚠ 该比法下 SDXL 低于其原生 1024，属让 SDXL 吃亏的口径，报告时须写明。")
+    print("\n警告：该比法下 SDXL 低于其原生 1024，属让 SDXL 吃亏的口径，报告时须写明。")
 
 
 if __name__ == "__main__":

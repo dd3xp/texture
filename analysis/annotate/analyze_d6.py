@@ -36,7 +36,7 @@ def main():
     ok = sum(x["chosen"] == "good" for x in chk)
     print(f"{CSV.name}：{len(rows)} 行，注意力检查 {ok}/{len(chk)}")
     if chk and ok < len(chk):
-        print("  ⚠ 注意力检查未全对")
+        print("  警告：注意力检查未全对")
 
     for a, b, win, label in PAIRS:
         g = [x for x in rows if x["kind"] == "real"

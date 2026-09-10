@@ -78,7 +78,7 @@ def analyse(path: Path) -> int:
     wrong = sum(1 for r in check if (r.get("chosen") or "").strip() != "good")
     print(f"\n注意力检查：错 {wrong}/{len(check)}（预注册阈值：错 >{MAX_CHECK_WRONG} 即作废）")
     if not check:
-        print("  -> ⚠ 这份 CSV 里没有检查条目，无法验标注质量；**不出主判据**。")
+        print("  -> 警告：这份 CSV 里没有检查条目，无法验标注质量；**不出主判据**。")
         return 2
     if wrong > MAX_CHECK_WRONG:
         print("  -> **该次标注作废**，主判据不予评估（判据已在跑前固定）。")

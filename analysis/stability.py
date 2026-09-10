@@ -32,7 +32,7 @@ class StabilityReport:
     note: str
 
     def __str__(self) -> str:
-        flag = "稳定" if self.stable else "⚠ 不稳定，不要据此下结论"
+        flag = "稳定" if self.stable else "警告：不稳定，不要据此下结论"
         return (f"折半检验：{self.n_items} 项 × {self.n_samples} 样本  "
                 f"ρ={self.rho:+.3f}  两半相对差={self.half_gap:.1%}  [{flag}]"
                 + (f"\n  {self.note}" if self.note else ""))
@@ -101,4 +101,4 @@ def compare(per_item_a: list[list[float]], per_item_b: list[list[float]],
         print(f"  Wilcoxon p={p:.3g}  距离比 "
               f"{np.median(da)/max(np.median(db),1e-9):.2f}×")
     else:
-        print("  ⚠ 有一边不稳定，不报 p 值——先加样本")
+        print("  警告：有一边不稳定，不报 p 值——先加样本")
