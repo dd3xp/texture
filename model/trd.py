@@ -83,14 +83,14 @@ class Block(nn.Module):
         nn.init.zeros_(self.ada[1].bias)
         self.drop = drop
 
-    def forward(self, x, c, bias, keymask):
+    def forward(self, x, c, bias):
         B, L, D = x.shape
         s1, g1, a1, s2, g2, a2 = self.ada(c).chunk(6, -1)
         h = modulate(self.n1(x), s1, g1)
         q, k, v = self.qkv(h).view(B, L, 3, self.heads, D // self.heads).permute(2, 0, 3, 1, 4)
-        m = bias[None].expand(B, -1, -1, -1).clone()
-        m = m.masked_fill(~keymask[:, None, None, :], float("-inf"))
-        o = F.scaled_dot_product_attention(q, k, v, attn_mask=m,
+        # 偏置 [1,H,L,L] 按批次广播，不复制（按批次复制 256x6x272x272 每层每步要几个 GB，
+        # 还会逼 SDPA 退回慢内核——v1 首次开训因此每千步 >10 分钟）
+        o = F.scaled_dot_product_attention(q, k, v, attn_mask=bias.to(q.dtype)[None],
                                            dropout_p=self.drop if self.training else 0.0)
         x = x + a1[:, None] * self.proj(o.transpose(1, 2).reshape(B, L, D))
         x = x + a2[:, None] * self.mlp(modulate(self.n2(x), s2, g2))
@@ -132,11 +132,10 @@ class TRD(nn.Module):
         xg = self.grid_emb(grid.view(B, -1))
         x = torch.cat([xp, xg], 1)
         c = self.text_proj(text) + self.k_emb(k) + self.color_proj(color)
+        # PAD 调色板槽不屏蔽：它是可学的 PAD 记号（"此槽不用"本身就是信息），只是不计损失
         bias = self.bias(N, x.device)
-        keymask = torch.cat([pal != self.PAL_PAD,
-                             torch.ones(B, N * N, dtype=torch.bool, device=x.device)], 1)
         for blk in self.blocks:
-            x = blk(x, c, bias, keymask)
+            x = blk(x, c, bias)
         sh, sc = self.ada_f(c).chunk(2, -1)
         x = modulate(self.nf(x), sh, sc)
         return self.head_pal(x[:, :K_MAX]), self.head_grid(x[:, K_MAX:]).view(B, N, N, K_MAX)
