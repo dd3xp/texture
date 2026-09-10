@@ -2360,6 +2360,13 @@ https://claude.ai/code/artifact/467d2c3a-1dd2-4925-82ef-94c7685763cb
 
 ⚠ 三份都**已验钥**，CSV 回来即可直接信任。
 
+⚠ **已给用户重发 `study_seam.html`（2026-09-10 晚）**：今早发出去的那份是
+`f2e0cd8` 之前的，导出仍叫 `annotations.csv`，会顶掉已入库的 71 行标注
+（`experiments/annotate/annotations.csv`，7 列，在 `674c7fa` 数据快照里）。
+重发的这份导出成 `study_seam.csv`（= `analyze_seam_study.py` 的默认路径），
+题面／图／钥匙未变，验钥仍 57/57 `INSTRUMENT-OK`。
+**若用户用的是旧副本，导出物要先改名再放进 `experiments/annotate/`。**
+
 ### 预注册：真人到底抖不抖动（写于运行之前）
 
 **为什么是这个。** 门拒绝的那半（各向同性，78 个里 13 个）四条路已全关：
