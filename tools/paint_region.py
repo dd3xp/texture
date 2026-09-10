@@ -117,8 +117,10 @@ def tile_from_prompt(prompt: str, size: int, colors: int, seed: int,
         src = np.asarray(im).astype(float)
         # 接缝对齐（方法三，`downsample.seam_offset`）：贴图是平铺用的，
         # 窗口没落在周期格点上会在墙面留一条断线。
-        # 接缝比在两轮 57/57 个材质上全降（客观、已泛化）；判官偏好 10/12
-        # 只在原 42 条上成立，60 个零重叠材质上 12/18 未复现——别说成普遍更好。
+        # 接缝比在两轮 57/57 个材质上全降（客观、已泛化）。
+        # ⚠ **观感上没有证据**：判官 10/12 只在原 42 条上成立、60 个零重叠材质
+        # 12/18 未复现，而人工盲比 34/55=62% p=0.105 **主判据不成立**
+        # （且那次位置偏好显著）。别写成"更好看"，只能说"接得上"。
         cropped, frac = auto_crop(src, size, seam_align=True)
         # frac>=0.999 = 窗口被钳成整图，门显示触发但等于没裁，不算有效
         cands.append({"k": k, "img": cropped, "frac": frac,
