@@ -84,6 +84,15 @@ experiments/pack78_out/base/
 # 方法一的招牌数（52%->90%、救回材质 10/12）此前不可从净克隆核对
 !experiments/bestof_units.json
 !experiments/bestof_gained.json
+# 可辨认性检验（spread_rescale 复查）：试点与扩大批、门拒绝清单的判定依据。
+# 扩大批推翻了试点，正式结论出自合并值——两份都要能从净克隆核对。
+!experiments/spread_recognise.json
+!experiments/spread_recognise53.json
+!experiments/prompts_declined.json
+!experiments/pack53_out/
+!experiments/pack53_out/manifest.json
+# PNG 不入库，可由 batch_pack.py + 种子重出
+experiments/pack53_out/base/
 !experiments/lora_eval_lr1e5.json
 !experiments/prompts_pack78.json
 # B21 的输入表：没有它，crop_holdout60.json 无法复现（论文 §5.3 引了它）

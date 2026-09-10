@@ -1,0 +1,353 @@
+[
+ {
+  "material": "concrete sidewalk slab",
+  "size": 16,
+  "spread_before": 0.01798823529411766,
+  "spread_after": 0.29092156862745094,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "concrete sidewalk slab",
+  "size": 24,
+  "spread_before": 0.0196078431372549,
+  "spread_after": 0.29164705882352937,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "concrete sidewalk slab",
+  "size": 32,
+  "spread_before": 0.02470196078431375,
+  "spread_after": 0.28979215686274495,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "coral reef surface",
+  "size": 16,
+  "spread_before": 0.08499999999999999,
+  "spread_after": 0.2920549019607842,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "coral reef surface",
+  "size": 24,
+  "spread_before": 0.11155294117647058,
+  "spread_after": 0.29252549019607843,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "coral reef surface",
+  "size": 32,
+  "spread_before": 0.13150980392156855,
+  "spread_after": 0.2908078431372549,
+  "manip_ok": true,
+  "vlm_recog": "B",
+  "vlm_pref": "B"
+ },
+ {
+  "material": "cracked ice sheet",
+  "size": 16,
+  "spread_before": 0.3627725490196078,
+  "spread_after": 0.29016078431372544,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "cracked ice sheet",
+  "size": 24,
+  "spread_before": 0.41565098039215687,
+  "spread_after": 0.29423529411764693,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "cracked ice sheet",
+  "size": 32,
+  "spread_before": 0.4620941176470588,
+  "spread_after": 0.2927686274509804,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "frozen tundra ground",
+  "size": 16,
+  "spread_before": 0.19593333333333332,
+  "spread_after": 0.29235294117647054,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "frozen tundra ground",
+  "size": 24,
+  "spread_before": 0.2479176470588235,
+  "spread_after": 0.2898823529411764,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "B"
+ },
+ {
+  "material": "frozen tundra ground",
+  "size": 32,
+  "spread_before": 0.2836431372549019,
+  "spread_after": 0.2937882352941177,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "geode interior",
+  "size": 16,
+  "spread_before": 0.5403803921568628,
+  "spread_after": 0.2917843137254902,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "geode interior",
+  "size": 24,
+  "spread_before": 0.6173882352941177,
+  "spread_after": 0.29204705882352944,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "geode interior",
+  "size": 32,
+  "spread_before": 0.629235294117647,
+  "spread_after": 0.29325882352941174,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "grass turf top",
+  "size": 16,
+  "spread_before": 0.02592156862745098,
+  "spread_after": 0.29158431372549026,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "grass turf top",
+  "size": 24,
+  "spread_before": 0.024301960784313736,
+  "spread_after": 0.2922666666666666,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "grass turf top",
+  "size": 32,
+  "spread_before": 0.03242352941176477,
+  "spread_after": 0.2906901960784314,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "ivy covered wall",
+  "size": 16,
+  "spread_before": 0.20351764705882355,
+  "spread_after": 0.29284705882352935,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "ivy covered wall",
+  "size": 24,
+  "spread_before": 0.2559529411764706,
+  "spread_after": 0.29180392156862744,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "ivy covered wall",
+  "size": 32,
+  "spread_before": 0.25386666666666663,
+  "spread_after": 0.2931254901960784,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "knitted sweater wool",
+  "size": 16,
+  "spread_before": 0.2945254901960785,
+  "spread_after": 0.2906039215686275,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "knitted sweater wool",
+  "size": 24,
+  "spread_before": 0.321835294117647,
+  "spread_after": 0.2924862745098038,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "knitted sweater wool",
+  "size": 32,
+  "spread_before": 0.36240392156862744,
+  "spread_after": 0.29109019607843134,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "malachite ore vein",
+  "size": 16,
+  "spread_before": 0.28627843137254905,
+  "spread_after": 0.2902,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "malachite ore vein",
+  "size": 24,
+  "spread_before": 0.32694509803921573,
+  "spread_after": 0.29145882352941177,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "malachite ore vein",
+  "size": 32,
+  "spread_before": 0.33798431372549015,
+  "spread_after": 0.29263137254901966,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "pine needle floor",
+  "size": 16,
+  "spread_before": 0.05793725490196073,
+  "spread_after": 0.2930941176470588,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "pine needle floor",
+  "size": 24,
+  "spread_before": 0.07805882352941176,
+  "spread_after": 0.2915176470588235,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "pine needle floor",
+  "size": 32,
+  "spread_before": 0.10125098039215687,
+  "spread_after": 0.2909450980392157,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "pumice stone",
+  "size": 16,
+  "spread_before": 0.3636117647058823,
+  "spread_after": 0.29504705882352944,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "pumice stone",
+  "size": 24,
+  "spread_before": 0.3996313725490196,
+  "spread_after": 0.29229803921568626,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "pumice stone",
+  "size": 32,
+  "spread_before": 0.4520627450980392,
+  "spread_after": 0.2937058823529412,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "size": 16,
+  "spread_before": 0.4749843137254902,
+  "spread_after": 0.29207843137254896,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "size": 24,
+  "spread_before": 0.4920823529411764,
+  "spread_after": 0.2918705882352941,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "size": 32,
+  "spread_before": 0.5749176470588234,
+  "spread_after": 0.2938039215686274,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "wet river pebbles",
+  "size": 16,
+  "spread_before": 0.19254509803921566,
+  "spread_after": 0.2920352941176471,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "wet river pebbles",
+  "size": 24,
+  "spread_before": 0.25484313725490204,
+  "spread_after": 0.2924823529411765,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "wet river pebbles",
+  "size": 32,
+  "spread_before": 0.3774156862745097,
+  "spread_after": 0.29316470588235294,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ }
+]

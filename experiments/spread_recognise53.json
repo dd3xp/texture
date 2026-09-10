@@ -1,0 +1,326 @@
+[
+ {
+  "material": "cracked ice sheet",
+  "size": 16,
+  "spread_before": 0.3011764705882353,
+  "spread_after": 0.28941176470588226,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "B"
+ },
+ {
+  "material": "cracked ice sheet",
+  "size": 24,
+  "spread_before": 0.37249019607843126,
+  "spread_after": 0.2927607843137256,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "cracked ice sheet",
+  "size": 32,
+  "spread_before": 0.4421843137254902,
+  "spread_after": 0.294043137254902,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "fallen autumn leaves",
+  "size": 16,
+  "spread_before": 0.2148274509803923,
+  "spread_after": 0.291835294117647,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "fallen autumn leaves",
+  "size": 24,
+  "spread_before": 0.30980784313725485,
+  "spread_after": 0.29109411764705884,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "fallen autumn leaves",
+  "size": 32,
+  "spread_before": 0.3186980392156864,
+  "spread_after": 0.29096862745098034,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "fern frond mat",
+  "size": 16,
+  "spread_before": 0.18456862745098038,
+  "spread_after": 0.29047843137254903,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "fern frond mat",
+  "size": 24,
+  "spread_before": 0.19887058823529413,
+  "spread_after": 0.2923333333333333,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "fern frond mat",
+  "size": 32,
+  "spread_before": 0.24904705882352937,
+  "spread_after": 0.2928901960784313,
+  "manip_ok": true,
+  "vlm_recog": "B",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "geode interior",
+  "size": 16,
+  "spread_before": 0.21235686274509807,
+  "spread_after": 0.2939019607843138,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "geode interior",
+  "size": 24,
+  "spread_before": 0.20568627450980387,
+  "spread_after": 0.291878431372549,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "geode interior",
+  "size": 32,
+  "spread_before": 0.22629803921568634,
+  "spread_after": 0.29098431372549016,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "gold ore in dark rock",
+  "size": 16,
+  "spread_before": 0.35279215686274507,
+  "spread_after": 0.29268627450980395,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "gold ore in dark rock",
+  "size": 24,
+  "spread_before": 0.40181568627450975,
+  "spread_after": 0.2929215686274509,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "gold ore in dark rock",
+  "size": 32,
+  "spread_before": 0.49783921568627443,
+  "spread_after": 0.2907294117647058,
+  "manip_ok": true,
+  "vlm_recog": "B",
+  "vlm_pref": "B"
+ },
+ {
+  "material": "hexagonal floor tiles",
+  "size": 16,
+  "spread_before": 0.1788352941176471,
+  "spread_after": 0.29126274509803923,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "hexagonal floor tiles",
+  "size": 24,
+  "spread_before": 0.24033725490196078,
+  "spread_after": 0.2932156862745098,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "hexagonal floor tiles",
+  "size": 32,
+  "spread_before": 0.27804313725490193,
+  "spread_after": 0.2909803921568628,
+  "manip_ok": true,
+  "vlm_recog": "B",
+  "vlm_pref": "B"
+ },
+ {
+  "material": "honeycomb wax",
+  "size": 16,
+  "spread_before": 0.21389019607843132,
+  "spread_after": 0.2917490196078431,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "honeycomb wax",
+  "size": 24,
+  "spread_before": 0.3867098039215685,
+  "spread_after": 0.2924392156862745,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "honeycomb wax",
+  "size": 32,
+  "spread_before": 0.4753803921568628,
+  "spread_after": 0.2923803921568628,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "malachite ore vein",
+  "size": 16,
+  "spread_before": 0.12524313725490202,
+  "spread_after": 0.29242352941176475,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "malachite ore vein",
+  "size": 24,
+  "spread_before": 0.14747450980392154,
+  "spread_after": 0.2916156862745099,
+  "manip_ok": true,
+  "vlm_recog": "A",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "malachite ore vein",
+  "size": 32,
+  "spread_before": 0.17669803921568625,
+  "spread_after": 0.2903607843137255,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "mushroom cap top",
+  "size": 16,
+  "spread_before": 0.401643137254902,
+  "spread_after": 0.29100392156862737,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "mushroom cap top",
+  "size": 24,
+  "spread_before": 0.42592549019607834,
+  "spread_after": 0.2914745098039214,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "mushroom cap top",
+  "size": 32,
+  "spread_before": 0.43779999999999997,
+  "spread_after": 0.29186666666666655,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "size": 16,
+  "spread_before": 0.3702941176470589,
+  "spread_after": 0.2909686274509803,
+  "manip_ok": true,
+  "vlm_recog": "B",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "size": 24,
+  "spread_before": 0.4189137254901962,
+  "spread_after": 0.29030980392156863,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "size": 32,
+  "spread_before": 0.476749019607843,
+  "spread_after": 0.29174901960784305,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "reptile scales",
+  "size": 16,
+  "spread_before": 0.1368745098039216,
+  "spread_after": 0.29058823529411765,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "reptile scales",
+  "size": 24,
+  "spread_before": 0.1686941176470588,
+  "spread_after": 0.2912470588235294,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "reptile scales",
+  "size": 32,
+  "spread_before": 0.18830196078431372,
+  "spread_after": 0.29214117647058824,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "wet river pebbles",
+  "size": 16,
+  "spread_before": 0.2993725490196078,
+  "spread_after": 0.2931058823529412,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "A"
+ },
+ {
+  "material": "wet river pebbles",
+  "size": 24,
+  "spread_before": 0.3919294117647058,
+  "spread_after": 0.29199215686274504,
+  "manip_ok": true,
+  "vlm_recog": "inconsistent",
+  "vlm_pref": "inconsistent"
+ },
+ {
+  "material": "wet river pebbles",
+  "size": 32,
+  "spread_before": 0.4312549019607843,
+  "spread_after": 0.2916549019607842,
+  "manip_ok": true,
+  "vlm_recog": "B",
+  "vlm_pref": "B"
+ }
+]
