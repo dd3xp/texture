@@ -18,8 +18,8 @@ This script fixes them before they are annotated, not after.
 No pixels are regenerated
 -------------------------
 Both pages were key-audited in round 30 (ab60 60/60, crop 39/39 byte-exact).
-Regenerating would need a GPU and would invalidate that audit -- and
-/mnt/data is full. So this script only re-arranges the items that are
+Regenerating would need a GPU and would invalidate that audit, and the
+GPU box is out of disk anyway. So this script only re-arranges the items that are
 already in the page: every image in the output is copied verbatim from the
 input, and `verify()` asserts exactly that. The key audit still holds.
 
