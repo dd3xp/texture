@@ -108,7 +108,13 @@ def main():
                     help="当初那轮的 JSON，用来做渲染复现自检")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", type=Path, default=ROOT / "experiments/seam_null.json")
+    ap.add_argument("--report-only", action="store_true",
+                    help="不渲染、不导入 torch，直接从 --out 的 JSON 重报判读（净克隆可跑）")
     a = ap.parse_args()
+
+    if a.report_only:
+        report(json.loads(a.out.read_text(encoding="utf-8")))
+        return
 
     import re
     if a.prompts:
@@ -196,7 +202,7 @@ def report(recs):
     q1_beats = w / n > 0.5 and p1 < 0.05
     print("  -> " + ("**随机位置也打败居中**：原 22/22 主要在说「居中是个差位置」，"
                      "那两个 p 只能作选择性构造下的界" if q1_beats else
-                     "随机位置打不过居中：居中本身不差，22/22 里确有内容"))
+                     "随机位置打不过居中：居中本身不是个差位置"))
 
     print("\n== Q2：选中位置 vs 随机可行位置（(a) 该有的零假设）==")
     w2 = sum(1 for r, m in zip(recs, med_rand) if r["ratio_seam"] < m)

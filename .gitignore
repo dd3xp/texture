@@ -77,6 +77,9 @@ data/tiles/*
 experiments/pack78_out/base/
 !experiments/seam_crop.json
 !experiments/seam_crop60.json
+# 方法三的零假设对照：没有它，那两个 p 只有旧的（错的）比法可查
+!experiments/seam_null.json
+!experiments/seam_null60.json
 !experiments/bestof_rule.json
 # 方法一的招牌数（52%->90%、救回材质 10/12）此前不可从净克隆核对
 !experiments/bestof_units.json
