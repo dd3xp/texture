@@ -90,6 +90,14 @@ python analysis/paired/decline_spread.py    # 0.128 vs 0.240 across 78 materials
 python analysis/paired/isotropic_scale.py   # why a crop has nothing to align to
 ```
 
+**The three results whose scripts need a GPU** (the second generator, the
+ControlNet attempt and point sampling) ship their raw per-material JSON, so the
+reported statistics can be rechecked without one:
+
+```bash
+python analysis/paired/recheck_gpu_claims.py   # recomputes each figure and compares it to the text
+```
+
 **Figures.** The five committed PNGs in `figures/` regenerate byte-identically
 from `fig_agreement.py`, `fig_judges.py`, `fig_qualitative.py`,
 `fig_gradient.py` and `fig_units.py`.
