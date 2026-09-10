@@ -1,0 +1,979 @@
+[
+ {
+  "prompt": "brick wall",
+  "single_fired": true,
+  "single_frac": 0.1494140625,
+  "single_eff": true,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.5908203125,
+  "n_eff": 4,
+  "periods": [
+   34.0,
+   27.5,
+   32.5,
+   134.5
+  ],
+  "anisos": [
+   0.923209390151694,
+   0.5739500315314702,
+   0.7130377762286266,
+   0.669188075060166
+  ]
+ },
+ {
+  "prompt": "stone brick wall",
+  "single_fired": true,
+  "single_frac": 0.17578125,
+  "single_eff": true,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.2900390625,
+  "n_eff": 4,
+  "periods": [
+   40.0,
+   29.0,
+   66.0,
+   37.0
+  ],
+  "anisos": [
+   0.7242393225632339,
+   0.6846298599789185,
+   0.7030074659496053,
+   0.7060439493044773
+  ]
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "single_fired": true,
+  "single_frac": 0.478515625,
+  "single_eff": true,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.9287109375,
+  "n_eff": 4,
+  "periods": [
+   109.0,
+   172.0,
+   43.5,
+   211.5
+  ],
+  "anisos": [
+   0.44188477825490574,
+   0.46347806818193205,
+   0.45650413037175364,
+   0.23809084330290173
+  ],
+  "vlm": "best"
+ },
+ {
+  "prompt": "sandstone block wall",
+  "single_fired": true,
+  "single_frac": 0.1318359375,
+  "single_eff": true,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.4833984375,
+  "n_eff": 3,
+  "periods": [
+   30.0,
+   79.5,
+   280.0,
+   110.0
+  ],
+  "anisos": [
+   0.6626433669851344,
+   0.6656195933100726,
+   0.8712834360806234,
+   0.6731109332419076
+  ],
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "clay roof tiles",
+  "single_fired": true,
+  "single_frac": 0.17578125,
+  "single_eff": true,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.392578125,
+  "n_eff": 3,
+  "periods": [
+   40.0,
+   89.5,
+   48.0,
+   58.0
+  ],
+  "anisos": [
+   0.6985738827412797,
+   0.4560078421597341,
+   0.14136267975777775,
+   0.5884798544295649
+  ]
+ },
+ {
+  "prompt": "slate roof shingles",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.263671875,
+  "n_eff": 3,
+  "periods": [
+   44.5,
+   29.5,
+   39.0,
+   60.0
+  ],
+  "anisos": [
+   0.1448873911437479,
+   0.7712967459959955,
+   0.63290940619742,
+   0.31386912682046314
+  ]
+ },
+ {
+  "prompt": "wooden planks floor",
+  "single_fired": true,
+  "single_frac": 0.0791015625,
+  "single_eff": true,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.7841796875,
+  "n_eff": 4,
+  "periods": [
+   15.0,
+   13.0,
+   178.5,
+   63.0
+  ],
+  "anisos": [
+   1.2129320587262629,
+   1.3089853831684166,
+   1.1887735104794956,
+   1.5593864856388204
+  ],
+  "vlm": "single"
+ },
+ {
+  "prompt": "parquet wood floor",
+  "single_fired": true,
+  "single_frac": 0.1142578125,
+  "single_eff": true,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.1708984375,
+  "n_eff": 3,
+  "periods": [
+   26.0,
+   0.0,
+   39.0,
+   28.0
+  ],
+  "anisos": [
+   0.2560481196690216,
+   0.11244819406321781,
+   0.4268323714396144,
+   1.3498861984162418
+  ],
+  "vlm": "single"
+ },
+ {
+  "prompt": "bamboo mat",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.0830078125,
+  "n_eff": 2,
+  "periods": [
+   22.0,
+   25.0,
+   19.0,
+   19.0
+  ],
+  "anisos": [
+   0.19276964050858092,
+   0.10237187881183916,
+   0.6232859965896286,
+   0.4475937485195246
+  ]
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "single_fired": true,
+  "single_frac": 0.17578125,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.17578125,
+  "n_eff": 2,
+  "periods": [
+   40.0,
+   29.0,
+   34.0,
+   59.0
+  ],
+  "anisos": [
+   0.20077250364431626,
+   0.2131079864968678,
+   0.11984099932720332,
+   0.10445815448970902
+  ]
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 0,
+  "best_fired": false,
+  "best_eff": false,
+  "best_frac": 1.0,
+  "n_eff": 0,
+  "periods": [
+   518.0,
+   39.0,
+   86.0,
+   32.0
+  ],
+  "anisos": [
+   0.030838039564521535,
+   0.07455307693687467,
+   0.12006326914327545,
+   0.0018329641107548717
+  ]
+ },
+ {
+  "prompt": "metal grate panel",
+  "single_fired": true,
+  "single_frac": 0.146484375,
+  "single_eff": true,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.52734375,
+  "n_eff": 2,
+  "periods": [
+   33.5,
+   120.0,
+   22.0,
+   15.0
+  ],
+  "anisos": [
+   0.42759437731232797,
+   0.4117161770708261,
+   0.10858068556403469,
+   0.014108661771539322
+  ],
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "chain link fence",
+  "single_fired": true,
+  "single_frac": 0.140625,
+  "single_eff": true,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.38671875,
+  "n_eff": 2,
+  "periods": [
+   32.0,
+   108.0,
+   88.0,
+   41.0
+  ],
+  "anisos": [
+   1.0760281949760937,
+   0.043415145816897247,
+   0.27657365871457035,
+   0.024923533307554858
+  ],
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "woven basket surface",
+  "single_fired": true,
+  "single_frac": 0.126953125,
+  "single_eff": true,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.265625,
+  "n_eff": 4,
+  "periods": [
+   29.0,
+   35.0,
+   10.0,
+   60.5
+  ],
+  "anisos": [
+   0.7571079182009085,
+   0.3829557578253115,
+   0.6858139715942168,
+   0.23571462587068356
+  ],
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.1689453125,
+  "n_eff": 2,
+  "periods": [
+   22.0,
+   33.0,
+   38.5,
+   22.5
+  ],
+  "anisos": [
+   0.018828700585674346,
+   0.050667166239113146,
+   0.8570515373018893,
+   1.7544588572364275
+  ]
+ },
+ {
+  "prompt": "stacked stone wall",
+  "single_fired": true,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.2109375,
+  "n_eff": 3,
+  "periods": [
+   338.0,
+   43.0,
+   38.0,
+   48.0
+  ],
+  "anisos": [
+   0.7697077089373405,
+   0.7337824990786781,
+   0.6531889755537766,
+   0.7267187286858559
+  ]
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.1865234375,
+  "n_eff": 2,
+  "periods": [
+   62.0,
+   30.0,
+   28.5,
+   42.5
+  ],
+  "anisos": [
+   0.17344619795533986,
+   0.2926151941463771,
+   0.07435160381846023,
+   0.5147085679206918
+  ]
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "single_fired": true,
+  "single_frac": 0.2109375,
+  "single_eff": true,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.375,
+  "n_eff": 4,
+  "periods": [
+   48.0,
+   24.5,
+   64.0,
+   85.5
+  ],
+  "anisos": [
+   0.5801247136624518,
+   0.7069118099077406,
+   0.6379296721071964,
+   0.5208263334252606
+  ],
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "coarse gravel path",
+  "single_fired": true,
+  "single_frac": 0.1142578125,
+  "single_eff": true,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.14453125,
+  "n_eff": 4,
+  "periods": [
+   26.0,
+   33.0,
+   25.0,
+   20.0
+  ],
+  "anisos": [
+   0.36746689928237525,
+   0.2669600181769126,
+   0.20540869580035992,
+   0.24492367999541195
+  ],
+  "vlm": "best"
+ },
+ {
+  "prompt": "desert sand dunes",
+  "single_fired": true,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.126953125,
+  "n_eff": 1,
+  "periods": [
+   305.0,
+   304.5,
+   29.0,
+   449.0
+  ],
+  "anisos": [
+   0.9731797385707729,
+   0.7943419744675485,
+   1.2438534567238146,
+   0.42629383957095895
+  ]
+ },
+ {
+  "prompt": "grass turf top",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.0791015625,
+  "n_eff": 1,
+  "periods": [
+   25.0,
+   12.0,
+   14.0,
+   48.5
+  ],
+  "anisos": [
+   0.006981451221460541,
+   0.10686075311961776,
+   0.21224944871445833,
+   0.09838918177345383
+  ]
+ },
+ {
+  "prompt": "snow covered ground",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.2412109375,
+  "n_eff": 1,
+  "periods": [
+   50.5,
+   55.0,
+   164.5,
+   100.5
+  ],
+  "anisos": [
+   0.12510798724638855,
+   0.34003073816342794,
+   0.006710925051958239,
+   0.023927497000762472
+  ]
+ },
+ {
+  "prompt": "cracked dry mud",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 0,
+  "best_fired": false,
+  "best_eff": false,
+  "best_frac": 1.0,
+  "n_eff": 0,
+  "periods": [
+   136.0,
+   64.0,
+   65.0,
+   371.0
+  ],
+  "anisos": [
+   0.17891496882444494,
+   0.15834488082935236,
+   0.10367658453579459,
+   0.012028779344968675
+  ]
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "single_fired": true,
+  "single_frac": 0.17578125,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.17578125,
+  "n_eff": 1,
+  "periods": [
+   40.0,
+   81.0,
+   187.0,
+   421.0
+  ],
+  "anisos": [
+   0.299617645355086,
+   0.14087352196633804,
+   0.08054211596833782,
+   0.1795269232595261
+  ]
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "single_fired": true,
+  "single_frac": 0.26953125,
+  "single_eff": true,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.3447265625,
+  "n_eff": 4,
+  "periods": [
+   61.5,
+   46.5,
+   78.5,
+   24.5
+  ],
+  "anisos": [
+   0.3937589684787923,
+   0.20969550516997493,
+   0.31010129148122195,
+   0.26976890659396885
+  ],
+  "vlm": "single"
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 0,
+  "best_fired": false,
+  "best_eff": false,
+  "best_frac": 1.0,
+  "n_eff": 0,
+  "periods": [
+   129.0,
+   71.0,
+   154.0,
+   0.0
+  ],
+  "anisos": [
+   0.10066602432521987,
+   0.07976441477758149,
+   0.055049068042486236,
+   0.022909769279401488
+  ]
+ },
+ {
+  "prompt": "coal ore vein",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.4169921875,
+  "n_eff": 1,
+  "periods": [
+   144.5,
+   95.0,
+   115.0,
+   226.0
+  ],
+  "anisos": [
+   0.12051931351029732,
+   0.3161912147640671,
+   0.06442290176210372,
+   0.042368768141501936
+  ]
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.5048828125,
+  "n_eff": 1,
+  "periods": [
+   42.0,
+   243.0,
+   536.0,
+   115.0
+  ],
+  "anisos": [
+   0.1828580589238341,
+   0.44755294798581696,
+   0.15036841396028736,
+   0.3789006485621064
+  ]
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 0,
+  "best_fired": false,
+  "best_eff": false,
+  "best_frac": 1.0,
+  "n_eff": 0,
+  "periods": [
+   69.5,
+   586.0,
+   165.0,
+   319.5
+  ],
+  "anisos": [
+   0.004765071028487411,
+   0.028691125064571884,
+   0.007627854894569432,
+   0.010943569046775181
+  ]
+ },
+ {
+  "prompt": "cobweb corner",
+  "single_fired": true,
+  "single_frac": 0.17578125,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.17578125,
+  "n_eff": 1,
+  "periods": [
+   40.0,
+   11.0,
+   0.0,
+   114.5
+  ],
+  "anisos": [
+   0.32503150827072264,
+   0.03177535327244637,
+   0.32307010611256065,
+   0.05970908690366336
+  ]
+ },
+ {
+  "prompt": "tree bark oak",
+  "single_fired": true,
+  "single_frac": 0.2900390625,
+  "single_eff": true,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.4921875,
+  "n_eff": 3,
+  "periods": [
+   66.0,
+   112.0,
+   33.5,
+   0.0
+  ],
+  "anisos": [
+   0.22328701355230834,
+   0.6420475953298447,
+   1.313511818268017,
+   0.11244915812944048
+  ]
+ },
+ {
+  "prompt": "birch tree bark",
+  "single_fired": true,
+  "single_frac": 0.21484375,
+  "single_eff": true,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.5556640625,
+  "n_eff": 3,
+  "periods": [
+   49.0,
+   126.5,
+   56.0,
+   162.0
+  ],
+  "anisos": [
+   0.4688862535261583,
+   0.37863395558520974,
+   0.36755767194745526,
+   0.10931944757355522
+  ],
+  "vlm": "best"
+ },
+ {
+  "prompt": "cactus skin",
+  "single_fired": true,
+  "single_frac": 0.6259765625,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.6259765625,
+  "n_eff": 1,
+  "periods": [
+   142.5,
+   468.0,
+   61.0,
+   121.5
+  ],
+  "anisos": [
+   0.3642725827375821,
+   0.13315996667658828,
+   0.10531825554317295,
+   0.11408517709694663
+  ]
+ },
+ {
+  "prompt": "reptile scales",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.14453125,
+  "n_eff": 2,
+  "periods": [
+   32.0,
+   32.0,
+   33.0,
+   40.0
+  ],
+  "anisos": [
+   0.0961174235807708,
+   0.4459641517278185,
+   0.4412503544759842,
+   0.07075646455755162
+  ]
+ },
+ {
+  "prompt": "fish scales",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.7421875,
+  "n_eff": 3,
+  "periods": [
+   20.5,
+   38.0,
+   22.5,
+   169.0
+  ],
+  "anisos": [
+   0.07088750100189752,
+   0.43730066687941077,
+   0.2523373296526992,
+   0.27443209866429674
+  ]
+ },
+ {
+  "prompt": "honeycomb wax",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.109375,
+  "n_eff": 1,
+  "periods": [
+   21.5,
+   25.0,
+   106.0,
+   20.0
+  ],
+  "anisos": [
+   0.10916025779182076,
+   0.3199816806969782,
+   0.13209009503172506,
+   0.12724017216172834
+  ]
+ },
+ {
+  "prompt": "rusty iron plate",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 1,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.3095703125,
+  "n_eff": 2,
+  "periods": [
+   43.5,
+   70.5,
+   53.0,
+   38.0
+  ],
+  "anisos": [
+   0.04195865861387317,
+   0.4573769158155967,
+   0.3291752704904422,
+   0.04918228444667915
+  ]
+ },
+ {
+  "prompt": "polished marble slab",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 3,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.2607421875,
+  "n_eff": 1,
+  "periods": [
+   22.5,
+   38.5,
+   40.0,
+   59.5
+  ],
+  "anisos": [
+   0.06674275821779284,
+   0.04992571687224152,
+   0.07335866244053067,
+   0.4880957748626905
+  ]
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "single_fired": false,
+  "single_frac": 1.0,
+  "single_eff": false,
+  "best_k": 2,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.2724609375,
+  "n_eff": 1,
+  "periods": [
+   36.0,
+   26.0,
+   62.0,
+   32.0
+  ],
+  "anisos": [
+   6.156318114034911e-06,
+   0.10202479534973768,
+   0.2094633980832602,
+   0.16116944105288342
+  ]
+ },
+ {
+  "prompt": "woven wool cloth",
+  "single_fired": true,
+  "single_frac": 0.162109375,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.162109375,
+  "n_eff": 3,
+  "periods": [
+   37.0,
+   23.0,
+   16.0,
+   54.5
+  ],
+  "anisos": [
+   0.3086962283725158,
+   0.2581026547480447,
+   0.3252485135726648,
+   0.055452076880984295
+  ]
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "single_fired": true,
+  "single_frac": 0.0791015625,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.0791015625,
+  "n_eff": 2,
+  "periods": [
+   9.0,
+   25.5,
+   10.0,
+   12.5
+  ],
+  "anisos": [
+   0.24686540761695078,
+   0.05638728457884448,
+   0.047516972737309114,
+   0.23567110145189482
+  ]
+ },
+ {
+  "prompt": "quilted padding",
+  "single_fired": true,
+  "single_frac": 0.2060546875,
+  "single_eff": true,
+  "best_k": 0,
+  "best_fired": true,
+  "best_eff": true,
+  "best_frac": 0.2060546875,
+  "n_eff": 4,
+  "periods": [
+   47.0,
+   36.5,
+   36.5,
+   38.5
+  ],
+  "anisos": [
+   0.5399056560199053,
+   0.22436719636716881,
+   1.0371286622013607,
+   0.30436048534833055
+  ]
+ }
+]
