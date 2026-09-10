@@ -180,9 +180,21 @@ def verify(src, out, n_same):
     return min(gaps), bal
 
 
-def emit(out_items, dest: Path):
+def emit(out_items, dest: Path, src: Path):
     tpl = (Path(__file__).parent / "task_template.html").read_text(encoding="utf-8")
     assert "__ITEMS__" in tpl, "template lost its __ITEMS__ placeholder"
+    # Carry over the source page's question. Rebuilding from the template alone
+    # silently reverts a study that asks a different question to the template's
+    # default -- caught on study_spread, whose whole point is to ask about
+    # recognisability rather than preference. Asking the wrong axis is exactly
+    # the confusion that reopened that route in the first place.
+    src_h1 = re.search(r"<h1>([^<]*)</h1>", src.read_text(encoding="utf-8"))
+    tpl_h1 = re.search(r"<h1>([^<]*)</h1>", tpl)
+    if src_h1 and tpl_h1 and src_h1.group(1) != tpl_h1.group(1):
+        tpl = tpl.replace(tpl_h1.group(0), src_h1.group(0), 1)
+        print(f"  question carried over from source: {src_h1.group(1)}")
+    assert re.search(r"<h1>([^<]*)</h1>", tpl).group(1) == (
+        src_h1.group(1) if src_h1 else tpl_h1.group(1)), "question not carried over"
     assert "MIN_MS" in tpl and "r.pair" in tpl, \
         "template lacks the time gate or the pair column; refusing to build"
     html = tpl.replace("__ITEMS__", json.dumps(out_items, ensure_ascii=False))
@@ -264,7 +276,7 @@ def main():
     gap, bal = verify(src, out_items, a.n_same)
 
     dest = a.out or a.src.with_name(a.src.stem + "_v2.html")
-    emit(out_items, dest)
+    emit(out_items, dest, a.src)
 
     n_real = sum(1 for it in out_items if it["kind"] == "real")
     print(f"{a.src.name} -> {dest.name}")

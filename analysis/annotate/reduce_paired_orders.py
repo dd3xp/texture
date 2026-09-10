@@ -61,6 +61,13 @@ FIELDS = ["idx", "material", "kind", "struct", "stratum",
           "left", "right", "choice", "chosen", "ms", "pair"]
 MAX_SAME_WRONG = 2
 
+try:                       # 研究名从注册表来，别写死漏掉新加的（spread 就漏过）
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from analyze_pair_study import STUDIES as _S
+    STUDY_HINT = '|'.join(_S)
+except Exception:          # 一句提示不值得让脚本崩
+    STUDY_HINT = 'crop|ab60|spread'
+
 
 def binom_two_sided(k, n, p=0.5):
     if n == 0:
@@ -392,7 +399,7 @@ def main():
             w.writerow(r)
     print(f"wrote {out}  ({len(kept)} pairs + {len(stats['blur'])} checks)")
     print(f"next: python analysis/annotate/analyze_pair_study.py "
-          f"<crop|ab60> {out}")
+          f"{STUDY_HINT} {out}")
     raise SystemExit(code)
 
 
