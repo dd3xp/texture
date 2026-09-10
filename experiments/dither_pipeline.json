@@ -1,0 +1,263 @@
+[
+ {
+  "material": "carpet loop pile",
+  "box": 0.16666666666666666,
+  "box_null": 0.15404534195144126,
+  "box_n2": 18,
+  "point": 0.031746031746031744,
+  "point_null": 0.10740248247150674,
+  "point_n2": 63
+ },
+ {
+  "material": "chain mail armour",
+  "box": 0.07142857142857142,
+  "box_null": 0.1345865696876496,
+  "box_n2": 14,
+  "point": 0.1,
+  "point_null": 0.08474822762690504,
+  "point_n2": 40
+ },
+ {
+  "material": "coarse gravel",
+  "box": 0.19047619047619047,
+  "box_null": 0.1477731874351607,
+  "box_n2": 21,
+  "point": 0.0,
+  "point_null": 0.14762603889896575,
+  "point_n2": 10
+ },
+ {
+  "material": "cobblestone street",
+  "box": 0.04,
+  "box_null": 0.12970454389253236,
+  "box_n2": 25,
+  "point": 0.0,
+  "point_null": 0.11647030544899611,
+  "point_n2": 31
+ },
+ {
+  "material": "concrete sidewalk slab",
+  "box": 0.09523809523809523,
+  "box_null": 0.12463392883919182,
+  "box_n2": 21,
+  "point": 0.021739130434782608,
+  "point_null": 0.12247461301907549,
+  "point_n2": 46
+ },
+ {
+  "material": "coral reef surface",
+  "box": 0.0,
+  "box_null": 0.13299102675685845,
+  "box_n2": 42,
+  "point": 0.14285714285714285,
+  "point_null": 0.12237279636501541,
+  "point_n2": 35
+ },
+ {
+  "material": "cracked ice sheet",
+  "box": 0.1111111111111111,
+  "box_null": 0.1295458168501119,
+  "box_n2": 18,
+  "point": 0.0625,
+  "point_null": 0.13118505475488423,
+  "point_n2": 16
+ },
+ {
+  "material": "denim fabric",
+  "box": 0.11764705882352941,
+  "box_null": 0.14173850887371242,
+  "box_n2": 17,
+  "point": 0.06944444444444445,
+  "point_null": 0.10337817820690669,
+  "point_n2": 72
+ },
+ {
+  "material": "diamond plate steel",
+  "box": 0.08333333333333333,
+  "box_null": 0.13231198572034317,
+  "box_n2": 24,
+  "point": 0.06666666666666667,
+  "point_null": 0.10921360315302393,
+  "point_n2": 60
+ },
+ {
+  "material": "felt cloth",
+  "box": 0.047619047619047616,
+  "box_null": 0.12288625157713146,
+  "box_n2": 42,
+  "point": 0.014285714285714285,
+  "point_null": 0.04830007264643563,
+  "point_n2": 70
+ },
+ {
+  "material": "fern frond mat",
+  "box": 0.13636363636363635,
+  "box_null": 0.14527308897663468,
+  "box_n2": 22,
+  "point": 0.09090909090909091,
+  "point_null": 0.11682827913937628,
+  "point_n2": 11
+ },
+ {
+  "material": "frozen tundra ground",
+  "box": 0.02702702702702703,
+  "box_null": 0.12739483320479844,
+  "box_n2": 37,
+  "point": 0.11538461538461539,
+  "point_null": 0.13108101892814325,
+  "point_n2": 26
+ },
+ {
+  "material": "galvanized corrugated roof",
+  "box": 0.05172413793103448,
+  "box_null": 0.12590663340651131,
+  "box_n2": 58,
+  "point": 0.0,
+  "point_null": 0.1235920956605216,
+  "point_n2": 23
+ },
+ {
+  "material": "geode interior",
+  "box": 0.07017543859649122,
+  "box_null": 0.09762189874366997,
+  "box_n2": 57,
+  "point": 0.0851063829787234,
+  "point_null": 0.08472827492059874,
+  "point_n2": 47
+ },
+ {
+  "material": "grass turf top",
+  "box": 0.125,
+  "box_null": 0.12098516879637326,
+  "box_n2": 24,
+  "point": 0.3076923076923077,
+  "point_null": 0.1380427535686834,
+  "point_n2": 13
+ },
+ {
+  "material": "iron ore in stone",
+  "box": 0.0,
+  "box_null": 0.11803551850588802,
+  "box_n2": 24,
+  "point": 0.045454545454545456,
+  "point_null": 0.1313586340360143,
+  "point_n2": 22
+ },
+ {
+  "material": "malachite ore vein",
+  "box": 0.1111111111111111,
+  "box_null": 0.1218557470185559,
+  "box_n2": 27,
+  "point": 0.07692307692307693,
+  "point_null": 0.10680195693942447,
+  "point_n2": 39
+ },
+ {
+  "material": "mosaic tile floor",
+  "box": 0.08695652173913043,
+  "box_null": 0.1266482705923885,
+  "box_n2": 23,
+  "point": 0.09523809523809523,
+  "point_null": 0.1294761067395504,
+  "point_n2": 21
+ },
+ {
+  "material": "mushroom cap top",
+  "box": 0.25,
+  "box_null": 0.1361127404068356,
+  "box_n2": 12,
+  "point": 0.047619047619047616,
+  "point_null": 0.11125881250957748,
+  "point_n2": 21
+ },
+ {
+  "material": "oak log bark",
+  "box": 0.05,
+  "box_null": 0.11927450358764306,
+  "box_n2": 60,
+  "point": 0.045454545454545456,
+  "point_null": 0.12422422912772747,
+  "point_n2": 44
+ },
+ {
+  "material": "perforated metal panel",
+  "box": 0.0,
+  "box_null": 0.12692508137950922,
+  "box_n2": 36,
+  "point": 0.0136986301369863,
+  "point_null": 0.132834454003317,
+  "point_n2": 73
+ },
+ {
+  "material": "plywood sheet",
+  "box": 0.08695652173913043,
+  "box_null": 0.12693849345008396,
+  "box_n2": 23,
+  "point": 0.06451612903225806,
+  "point_null": 0.11786429931019571,
+  "point_n2": 31
+ },
+ {
+  "material": "pumice stone",
+  "box": 0.0,
+  "box_null": 0.13750589316245826,
+  "box_n2": 15,
+  "point": 0.07407407407407407,
+  "point_null": 0.11902283041495836,
+  "point_n2": 27
+ },
+ {
+  "material": "quartz crystal cluster",
+  "box": 0.15384615384615385,
+  "box_null": 0.12569378667776837,
+  "box_n2": 13,
+  "point": 0.12903225806451613,
+  "point_null": 0.07115442984166848,
+  "point_n2": 31
+ },
+ {
+  "material": "sandstone block",
+  "box": 0.1111111111111111,
+  "box_null": 0.13279234309554155,
+  "box_n2": 18,
+  "point": 0.0,
+  "point_null": 0.12331741723532234,
+  "point_n2": 16
+ },
+ {
+  "material": "smooth stone",
+  "box": 0.16666666666666666,
+  "box_null": 0.12919147745694592,
+  "box_n2": 18,
+  "point": 0.05263157894736842,
+  "point_null": 0.1379903465843967,
+  "point_n2": 38
+ },
+ {
+  "material": "terracotta floor tiles",
+  "box": 0.0851063829787234,
+  "box_null": 0.11840077543926457,
+  "box_n2": 47,
+  "point": 0.09210526315789473,
+  "point_null": 0.10550776797703247,
+  "point_n2": 76
+ },
+ {
+  "material": "wet river pebbles",
+  "box": 0.07142857142857142,
+  "box_null": 0.12781738664667475,
+  "box_n2": 28,
+  "point": 0.2,
+  "point_null": 0.13061849980804777,
+  "point_n2": 10
+ },
+ {
+  "material": "woven rattan panel",
+  "box": 0.0,
+  "box_null": 0.12193008189605879,
+  "box_n2": 28,
+  "point": 0.08333333333333333,
+  "point_null": 0.1283193403729585,
+  "point_n2": 24
+ }
+]

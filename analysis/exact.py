@@ -8,14 +8,32 @@
 这里只实现实际用到的两项，纯标准库。
 """
 
-from math import comb, lgamma, log, exp
+from math import lgamma, log, log1p, exp
 
 
 def binom_test(k: int, n: int, p: float = 0.5) -> float:
-    """双尾精确二项检验。把概率不高于观测值的所有结果加起来。"""
+    """双尾精确二项检验。把概率不高于观测值的所有结果加起来。
+
+    pmf 走**对数空间**：原先写的是 `comb(n, i) * p ** i * ...`，`comb` 在
+    n 上千时是几百位的大整数，乘上早已下溢成 0.0 的 `p ** i` 会直接抛
+    `OverflowError: int too large to convert to float`。真人瓦片那种几千个
+    样本的符号检验因此崩在脚本末尾——正是本模块开头说要避免的那种崩法
+    （数据都算完了，只丢统计行）。对数空间下 n 多大都不溢出，
+    小 n 的结果与原式在 1e-12 内一致。
+    """
     if n <= 0:
         return float("nan")
-    pm = [comb(n, i) * p ** i * (1 - p) ** (n - i) for i in range(n + 1)]
+    lg = lgamma(n + 1)
+
+    def lpmf(i):
+        if p <= 0.0:
+            return 0.0 if i == 0 else -float("inf")
+        if p >= 1.0:
+            return 0.0 if i == n else -float("inf")
+        return (lg - lgamma(i + 1) - lgamma(n - i + 1)
+                + i * log(p) + (n - i) * log1p(-p))
+
+    pm = [exp(v) if v != -float("inf") else 0.0 for v in map(lpmf, range(n + 1))]
     return min(1.0, sum(x for x in pm if x <= pm[k] * (1 + 1e-9)))
 
 

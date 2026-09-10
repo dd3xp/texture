@@ -87,6 +87,14 @@ experiments/pack78_out/base/
 # 所以必须先把目录本身放行（带斜杠），`!experiments/pack/**` 无效。
 !experiments/pack/
 !experiments/pack60/
+# 抖动前提检查（analysis/premise/dither.py）：逐瓦片的观测与洗牌零模型都留下，
+# 「对角只占 2 色窗 5.8%」「8.1% 的瓦片超过自己的洗牌 95 分位」要能从净克隆核对。
+!experiments/dither_premise.json
+!experiments/dither_pipeline.json
+# B23 的门拒绝瓦片（29 材质 x box/point，192K）：dither.py --pipeline 要读它们，
+# 而重出它们需要 GPU 渲 1024，本机无法复现，故 PNG 入库。
+!experiments/iso_point/
+!experiments/iso_point/16/
 
 # supplementary 产物不入库（可由 scripts/make_supplementary.py 随时重建）
 paper/supplementary.zip
