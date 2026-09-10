@@ -12,6 +12,7 @@
 """
 from __future__ import annotations
 
+import fnmatch
 import re
 import shutil
 import subprocess
@@ -26,8 +27,12 @@ ROOT = Path(subprocess.check_output(
     ["git", "rev-parse", "--show-toplevel"], text=True).strip())
 OUT = ROOT / "paper" / "supplementary.zip"
 
-# 整目录移除：内部研究日志与服务器运维脚本（含身份信息，不属复现所需）
-DROP = ["docs", "scripts"]
+# 整目录移除：内部研究日志（含服务器状态与身份信息，不属复现所需）
+DROP = ["docs"]
+
+# scripts/ 是运维目录（cron、同步、打包自身），整体不发。例外是复现指南
+# 明确指给审稿人的那几个——指南提到却不在包里，审稿人按图索骥必然落空。
+SCRIPTS_KEEP = {"batch_pack.py", "fetch_sd15.sh"}
 
 STRUCT_OLD = """    # emnlp 上只有 shenhao_h3 自己的守护脚本，它只杀 h3_serve_* 会话与
     # 自身路径下的 sglang，匹配不到本项目；也读不到 OOM 记录（无权限）。
@@ -106,6 +111,15 @@ def export_head(dst: Path) -> None:
 def sanitize(dst: Path) -> None:
     for d in DROP:
         shutil.rmtree(dst / d)
+    kept = set()
+    for f in sorted((dst / "scripts").iterdir()):
+        if f.is_file() and f.name in SCRIPTS_KEEP:
+            kept.add(f.name)
+        elif f.is_dir():
+            shutil.rmtree(f)
+        else:
+            f.unlink()
+    assert kept == SCRIPTS_KEEP, f"scripts/ 保留清单对不上：实得 {sorted(kept)}"
     for rel, old, new, n in REPLACEMENTS:
         f = dst / rel
         text = f.read_text(encoding="utf-8")
@@ -120,6 +134,31 @@ def sanitize(dst: Path) -> None:
     (dst / "README.md").write_text(guide.read_text(encoding="utf-8"),
                                    encoding="utf-8")
     guide.unlink()
+
+
+# 复现指南里写的每一条路径，都必须在包内真的存在。此前无人检查这件事：
+# 指南是照着**仓库**写的，而包是仓库删掉 docs/ 与 scripts/ 之后的样子，
+# 两边一漂移，审稿人就会照着指南去找一个不存在的文件。
+GUIDE_PATH = re.compile(
+    r"[A-Za-z0-9_][A-Za-z0-9_/.*-]*\.(?:py|sh|json|csv|html|md|tex|png|bib)\b")
+
+
+def check_guide_paths(dst: Path) -> list[str]:
+    text = (dst / "README.md").read_text(encoding="utf-8")
+    files = {f.relative_to(dst).as_posix()
+             for f in dst.rglob("*") if f.is_file()}
+    names = {f.rsplit("/", 1)[-1] for f in files}
+    problems = []
+    tokens = sorted(set(GUIDE_PATH.findall(text)))
+    assert tokens, "指南里一条路径都没抽到，正则坏了"
+    for tok in tokens:
+        # 带 / 的按包内相对路径解析，裸文件名按 basename 解析（指南两种都用）。
+        pool = files if "/" in tok else names
+        ok = (any(fnmatch.fnmatch(p, tok) for p in pool) if "*" in tok
+              else tok in pool)
+        if not ok:
+            problems.append(f"README.md 指向包内不存在的路径：{tok}")
+    return problems
 
 
 def verify(dst: Path) -> list[str]:
@@ -146,6 +185,11 @@ def main() -> int:
         if problems:
             print("泄露扫描命中，拒绝打包：")
             print("\n".join(problems[:40]))
+            return 1
+        dangling = check_guide_paths(root)
+        if dangling:
+            print("复现指南有断链，拒绝打包：")
+            print("\n".join(dangling))
             return 1
         OUT.unlink(missing_ok=True)
         n_files = 0
