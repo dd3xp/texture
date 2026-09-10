@@ -1,0 +1,54 @@
+{
+ "seed": 2026,
+ "n": 12,
+ "items": [
+  {
+   "material": "baked_clay_green.png",
+   "prompt": "baked clay green"
+  },
+  {
+   "material": "ctf_map_damage_cobble.png",
+   "prompt": "ctf map damage cobble"
+  },
+  {
+   "material": "default_desert_stone_block.png",
+   "prompt": "desert stone block"
+  },
+  {
+   "material": "farming_desert_sand_soil.png",
+   "prompt": "desert sand soil"
+  },
+  {
+   "material": "farming_desert_sand_soil_wet.png",
+   "prompt": "desert sand soil wet"
+  },
+  {
+   "material": "farming_soil.png",
+   "prompt": "soil"
+  },
+  {
+   "material": "mcl_bamboo_bamboo_bottom.png",
+   "prompt": "bamboo bamboo bottom"
+  },
+  {
+   "material": "mcl_core_log_spruce_top.png",
+   "prompt": "log spruce top"
+  },
+  {
+   "material": "mcl_core_red_sandstone_bottom.png",
+   "prompt": "red sandstone bottom"
+  },
+  {
+   "material": "mcl_stairs_stone_slab_top.png",
+   "prompt": "stone slab top"
+  },
+  {
+   "material": "moreblocks_circle_stone_bricks.png",
+   "prompt": "circle stone bricks"
+  },
+  {
+   "material": "nc_fire_coal_4.png",
+   "prompt": "coal"
+  }
+ ]
+}
