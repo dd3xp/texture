@@ -151,6 +151,10 @@ def main():
     ap.add_argument("--render", type=int, default=1024)
     ap.add_argument("--seed", type=int, default=21, help="与 lora_eval / crop_scale_study 同口径")
     ap.add_argument("--grid", type=int, default=12, help="位置搜索步长（像素）")
+    ap.add_argument("--prompts", type=Path,
+                    help="外挂材质表（JSON 数组）。缺省用 crop_scale_study 的 42 条。"
+                         "**纯增量开关，跑过的默认路径分毫未动**——加它是为了在"
+                         "B21 那 60 个零重叠材质上做泛化复现。")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--model", default="claude-opus-5")
     ap.add_argument("--no-judge", action="store_true")
@@ -161,9 +165,12 @@ def main():
     a = ap.parse_args()
 
     import re
-    src_py = (ROOT / "analysis/paired/crop_scale_study.py").read_text(encoding="utf-8")
-    prompts = re.findall(r'"([^"]+)"',
-                         re.search(r"PROMPTS\s*=\s*\[(.*?)\]", src_py, re.S).group(1))
+    if a.prompts:
+        prompts = json.loads(a.prompts.read_text(encoding="utf-8"))
+    else:
+        src_py = (ROOT / "analysis/paired/crop_scale_study.py").read_text(encoding="utf-8")
+        prompts = re.findall(r'"([^"]+)"',
+                             re.search(r"PROMPTS\s*=\s*\[(.*?)\]", src_py, re.S).group(1))
     if a.limit:
         prompts = prompts[:a.limit]
     a.tiles.mkdir(parents=True, exist_ok=True)
