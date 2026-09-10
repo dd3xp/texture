@@ -39,8 +39,11 @@
 免得将来多出或少掉文件时口径悄悄变了。
 
 **每条臂算三个数**：
-  - 已答 = 该字段存在的记录数；缺字段 = 当时 API 调用失败（协议里 fired 必问），
-    只作描述，不参与判读；
+  - 已答 = 该字段存在的记录数。缺字段的记录分两类，**都只作描述、不参与判读**：
+    门没触发所以**根本没问**（`crop_*` 那套里 `fired == False` 的记录），
+    与**问了但 API 调用失败**（`fired == True` 却没有 `vlm`，协议里 fired 必问）。
+    ⚠ 这两类必须分开数：混在一起会把"没问"说成"失败"，
+    把失败率从 4% 吹成 51%（本轮初稿就是这么错的，判据未受影响）；
   - 一致率 c = 可解 / (可解 + inconsistent)，Jeffreys 95% 区间；
   - 该臂在**可解子集**上偏离 50/50 的双侧精确二项 p。
     ⚠ 这个 p 是**筛子，不是已发表统计**：它把所有尺寸/分层混在一起、
@@ -133,8 +136,21 @@ def score(recs, field):
         k, n = top[0][1], top[0][1] + top[1][1]
     else:                      # 全落在一个值上（含 0 个），退化成单侧极端
         k = n = top[0][1] if top else 0
+    # 缺字段的两类：门没触发（没问）与 fired 却没答（API 失败）。
+    # 只有带 `fired` 字段的那套协议能区分；其余记为 unknown。
+    nogate = failed = unknown = 0
+    for r in recs:
+        if isinstance(r.get(field), str):
+            continue
+        if "fired" in r:
+            if r["fired"]:
+                failed += 1
+            else:
+                nogate += 1
+        else:
+            unknown += 1
     return {"answered": len(answered), "resolved": len(resolved), "inc": inc,
-            "missing": len(vals) - len(answered),
+            "nogate": nogate, "failed": failed, "unknown": unknown,
             "k": k, "n": n,
             "p": binom_test(k, n) if n else float("nan"),
             "labels": [t[0] for t in top]}
@@ -191,10 +207,16 @@ def selftest():
     recs = [{"vlm": "after"}] * 8 + [{"vlm": "before"}] * 2 + \
            [{"vlm": "inconsistent"}] * 5 + [{}] * 3
     s = score(recs, "vlm")
-    if (s["answered"], s["resolved"], s["inc"], s["missing"]) != (15, 10, 5, 3):
+    if (s["answered"], s["resolved"], s["inc"], s["unknown"]) != (15, 10, 5, 3):
         fails.append(f"score 计数错: {s}")
     if (s["k"], s["n"]) != (8, 10):
         fails.append(f"score 二项口径错: {s['k']}/{s['n']}")
+
+    # 门没触发（没问）不许被记成 API 失败——本轮初稿正是在这里把两类混掉了。
+    s2 = score([{"fired": False}] * 7 + [{"fired": True}] * 2
+               + [{"fired": True, "vlm": "after"}] * 3, "vlm")
+    if (s2["nogate"], s2["failed"], s2["answered"]) != (7, 2, 3):
+        fails.append(f"未答分类错: nogate={s2['nogate']} failed={s2['failed']}")
 
     # 3) 判据三分支各命中一次
     cases = [
@@ -265,10 +287,42 @@ def main():
 
     ans = sum(r[1]["answered"] for r in rows)
     res = sum(r[1]["resolved"] for r in rows)
-    mis = sum(r[1]["missing"] for r in rows)
-    print(f"\n合计 已答 {ans}   可解 {res} = {res/ans:.0%}   "
-          f"（另有 {mis} 例当时 API 调用失败，未答，不参与判读）")
+    nog = sum(r[1]["nogate"] for r in rows)
+    fai = sum(r[1]["failed"] for r in rows)
+    unk = sum(r[1]["unknown"] for r in rows)
+    print(f"\n合计 已答 {ans}   可解 {res} = {res/ans:.0%}")
+    print(f"  未答的分两类（都不参与判读）：门没触发所以没问 {nog} 例；"
+          f"问了但 API 失败 {fai} 例 = 已问的 {fai/max(fai+ans-unk,1):.0%}；"
+          f"另有 {unk} 例所在协议无 fired 字段，分不出是哪类")
     print(f"按 r = 2c - 1，整个判官后目录的加权可解比例约 {max(0.0, 2*res/ans-1):.0%}")
+
+    # --- 以下为描述性附录，写于看到结果之后，不参与任何判读 ---
+    # 弃样是按"两序不一致"选的，不是按胜负选的，但选择毕竟发生了。
+    # 最保守的界：把该臂弃掉的对**全部**算给劣势一方 / 全部算给优势一方，
+    # 看已发表的方向还在不在。正文对 B13 已经做过"三种弃样处理"，这里补齐其余臂。
+    # 单独看 FLAG 臂会得出"全都翻"这个同义反复（弃样一多，最坏界必然吞掉效应）。
+    # 有信息的是**对照**：同一个界在 ABOVE 臂上翻不翻。翻不翻由弃样比例决定，
+    # 而弃样比例正是一致率——这一栏因此是判据的独立佐证，不是判据本身。
+    print("\n弃样敏感性（描述性，事后加的，不参与判读）：把弃掉的对**全部**算给")
+    print("劣势一方，看方向与显著性还在不在。弃样一多，最坏界必然失效。")
+    print(f"{'臂':<32}{'判读':>12}{'可解子集':>14}{'最坏界':>22}  结果")
+    survive = {"ABOVE": [0, 0], "FLAG": [0, 0]}
+    for name, s, v, lo in rows:
+        if v == "REPORT-ONLY" or not s["n"]:
+            continue
+        k, n, m = s["k"], s["n"], s["inc"]
+        wk, wn = k, n + m
+        pw = binom_test(wk, wn)
+        held = (wk / wn > 0.5) and pw < 0.05
+        grp = "ABOVE" if v == "ABOVE" else "FLAG"
+        survive[grp][1] += 1
+        survive[grp][0] += held
+        print(f"{name:<32}{v:>12}{f'{k}/{n}={k/n:.0%}':>14}"
+              f"{f'{wk}/{wn}={wk/wn:.0%} p={pw:.3g}':>22}"
+              f"  {'方向与显著性都在' if held else '吞掉了'}")
+    for g in ("ABOVE", "FLAG"):
+        h, t = survive[g]
+        print(f"  {g:<6} 最坏界下仍成立 {h}/{t}")
 
     flags = [r for r in rows if r[2].startswith("FLAG")]
     if not hook_ok:
