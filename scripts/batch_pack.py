@@ -23,7 +23,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
 # 模组里最常见的方块材质。刻意包含几个各向同性的（沙、砾石、树叶），
-# 用来看门在交付批次上的拒绝率是否与实验一致（约一半）。
+# 用来看门在交付批次上的拒绝率是否与同口径的实验一致。
+# ⚠ 参照系随 --best-of 变：单样本约 50%，多采样 4 个约 90%。
 MATERIALS = [
     "brick wall", "stone brick wall", "cobblestone", "mossy cobblestone",
     "wooden planks floor", "oak log bark", "sandstone block", "smooth stone",
@@ -127,12 +128,17 @@ def main():
         print(f"\n门在 {n}/{len(fired)} 个材质上触发（{rate:.0%}）")
         # 判读跟着数走。此前这里无条件打印「与实验批次的约一半一致」，
         # 小样本全是方向性材质时会打出「100%…约一半一致」的自相矛盾。
+        # **参照系要跟着 --best-of 走**（2026-09-10 修）：约 50% 那个数出自
+        # **单样本**批次；方法一把有效裁剪率抬到 90%（`bestof_units.py`），
+        # 所以 best-of 4 下打出 83% 是**对的**，拿 50% 去比会误报"不一致"。
+        ref, lo, hi = (0.90, 0.75, 1.01) if a.best_of > 1 else (0.50, 0.35, 0.65)
+        how = f"多采样 {a.best_of} 个" if a.best_of > 1 else "单样本"
         if len(fired) < 8:
-            print("      样本太小，不与实验批次的约 50% 作比较")
-        elif 0.35 <= rate <= 0.65:
-            print("      与实验批次的约 50% 一致")
+            print(f"      样本太小，不与{how}批次的约 {ref:.0%} 作比较")
+        elif lo <= rate <= hi:
+            print(f"      与{how}批次的约 {ref:.0%} 一致")
         else:
-            print("      与实验批次的约 50% **不一致**，看一眼材质构成")
+            print(f"      与{how}批次的约 {ref:.0%} **不一致**，看一眼材质构成")
     print(f"写入 {a.out}")
 
 
