@@ -1,0 +1,296 @@
+[
+ {
+  "prompt": "brick wall",
+  "units": 36.57142857142857,
+  "aniso": 0.5154319960457074,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "stone brick wall",
+  "units": 26.94736842105263,
+  "aniso": 0.8434735258286686,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "units": 7.314285714285714,
+  "aniso": 0.49962329427990376,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "sandstone block wall",
+  "units": 12.8,
+  "aniso": 0.31599341739758874,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "clay roof tiles",
+  "units": 10.778947368421052,
+  "aniso": 0.7101111221304376,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "slate roof shingles",
+  "units": 36.57142857142857,
+  "aniso": 0.308808753129527,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "wooden planks floor",
+  "units": 30.11764705882353,
+  "aniso": 1.6991302577021488,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "parquet wood floor",
+  "units": 4.047430830039525,
+  "aniso": 0.5592724353653036,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "bamboo mat",
+  "units": 26.256410256410255,
+  "aniso": 0.3160486039371022,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "units": 15.753846153846155,
+  "aniso": 0.039771392882478565,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "units": 34.13333333333333,
+  "aniso": 0.14588422746765997,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "metal grate panel",
+  "units": 24.38095238095238,
+  "aniso": 0.020311509571289153,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "chain link fence",
+  "units": 24.38095238095238,
+  "aniso": 0.09781222191718697,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "woven basket surface",
+  "units": 24.38095238095238,
+  "aniso": 0.06229084126355311,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "units": 13.473684210526315,
+  "aniso": 1.5421332959289729,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "stacked stone wall",
+  "units": 5.885057471264368,
+  "aniso": 0.014969067880488995,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "units": 10.778947368421052,
+  "aniso": 0.017108439834667734,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "units": 10.24,
+  "aniso": 0.14607747639913604,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "coarse gravel path",
+  "units": 2.6666666666666665,
+  "aniso": 0.14224523570794276,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "desert sand dunes",
+  "units": 42.666666666666664,
+  "aniso": 0.9273691042012031,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "grass turf top",
+  "units": 5.305699481865285,
+  "aniso": 0.21319563226773944,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "snow covered ground",
+  "units": 4.923076923076923,
+  "aniso": 0.3620047512674553,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "cracked dry mud",
+  "units": 4.266666666666667,
+  "aniso": 0.5410692967844988,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "units": 51.2,
+  "aniso": 0.91111527274111,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "units": 40.96,
+  "aniso": 0.08925340788152097,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "units": 16.78688524590164,
+  "aniso": 0.032952482634280814,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "coal ore vein",
+  "units": 19.32075471698113,
+  "aniso": 0.23382127888507126,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "units": 0.0,
+  "aniso": 0.07793323830486214,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "units": 24.38095238095238,
+  "aniso": 0.11976036423589563,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "cobweb corner",
+  "units": 6.87248322147651,
+  "aniso": 0.13463020850298468,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "tree bark oak",
+  "units": 12.047058823529412,
+  "aniso": 0.10651839016951539,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "birch tree bark",
+  "units": 3.710144927536232,
+  "aniso": 0.08961335178731712,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "cactus skin",
+  "units": 3.7372262773722627,
+  "aniso": 0.04301312688695631,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "reptile scales",
+  "units": 20.897959183673468,
+  "aniso": 0.38814093060685706,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "fish scales",
+  "units": 40.96,
+  "aniso": 0.5126807467353793,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "honeycomb wax",
+  "units": 22.26086956521739,
+  "aniso": 0.05691486470117075,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "rusty iron plate",
+  "units": 4.079681274900398,
+  "aniso": 0.3653591918987172,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "polished marble slab",
+  "units": 15.515151515151516,
+  "aniso": 0.018407430603410435,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "units": 28.444444444444443,
+  "aniso": 0.14059804558196617,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "woven wool cloth",
+  "units": 24.38095238095238,
+  "aniso": 0.3513570957499787,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "units": 25.6,
+  "aniso": 0.10185855230549039,
+  "render": 512,
+  "model": "sd15"
+ },
+ {
+  "prompt": "quilted padding",
+  "units": 8.258064516129032,
+  "aniso": 0.5864801710728184,
+  "render": 512,
+  "model": "sd15"
+ }
+]

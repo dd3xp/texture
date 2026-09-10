@@ -1,0 +1,292 @@
+[
+ {
+  "material": "oak log bark",
+  "seed": 26,
+  "size": 16,
+  "period": 38.0,
+  "aniso": 0.12582233048770086,
+  "spread_box": 0.0672235294117648,
+  "spread_point": 0.3578196078431372,
+  "vlm": "point"
+ },
+ {
+  "material": "sandstone block",
+  "seed": 27,
+  "size": 16,
+  "period": 43.0,
+  "aniso": 0.044104889593189596,
+  "spread_box": 0.10526666666666668,
+  "spread_point": 0.3112117647058823,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "smooth stone",
+  "seed": 28,
+  "size": 16,
+  "period": 64.0,
+  "aniso": 0.14470286000805316,
+  "spread_box": 0.1475529411764706,
+  "spread_point": 0.5273960784313725,
+  "vlm": "box"
+ },
+ {
+  "material": "iron ore in stone",
+  "seed": 34,
+  "size": 16,
+  "period": 41.0,
+  "aniso": 0.050853251497244845,
+  "spread_box": 0.0686901960784314,
+  "spread_point": 0.5918627450980392,
+  "vlm": "point"
+ },
+ {
+  "material": "grass turf top",
+  "seed": 36,
+  "size": 16,
+  "period": 11.0,
+  "aniso": 0.03897707801867518,
+  "spread_box": 0.018525490196078447,
+  "spread_point": 0.16092549019607844,
+  "vlm": "point"
+ },
+ {
+  "material": "coarse gravel",
+  "seed": 37,
+  "size": 16,
+  "period": 0.0,
+  "aniso": 0.06796297980476004,
+  "spread_box": 0.16515294117647067,
+  "spread_point": 0.7524941176470586,
+  "vlm": "box"
+ },
+ {
+  "material": "cobblestone street",
+  "seed": 77,
+  "size": 16,
+  "period": 39.5,
+  "aniso": 0.1478549423515374,
+  "spread_box": 0.0826313725490196,
+  "spread_point": 0.4796980392156863,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "terracotta floor tiles",
+  "seed": 78,
+  "size": 16,
+  "period": 21.0,
+  "aniso": 0.052523837121837384,
+  "spread_box": 0.012364705882352908,
+  "spread_point": 0.30134901960784316,
+  "vlm": "point"
+ },
+ {
+  "material": "mosaic tile floor",
+  "seed": 84,
+  "size": 16,
+  "period": 26.0,
+  "aniso": 0.08564519718396645,
+  "spread_box": 0.08933725490196075,
+  "spread_point": 0.4072549019607842,
+  "vlm": "box"
+ },
+ {
+  "material": "plywood sheet",
+  "seed": 91,
+  "size": 16,
+  "period": 31.0,
+  "aniso": 0.00029762181018695624,
+  "spread_box": 0.042243137254901926,
+  "spread_point": 0.295592156862745,
+  "vlm": "point"
+ },
+ {
+  "material": "diamond plate steel",
+  "seed": 94,
+  "size": 16,
+  "period": 0.0,
+  "aniso": 0.038703063922075585,
+  "spread_box": 0.04863529411764712,
+  "spread_point": 0.7969725490196078,
+  "vlm": "box"
+ },
+ {
+  "material": "galvanized corrugated roof",
+  "seed": 98,
+  "size": 16,
+  "period": 30.0,
+  "aniso": 0.13800367706221348,
+  "spread_box": 0.08121960784313725,
+  "spread_point": 0.2693725490196079,
+  "vlm": "box"
+ },
+ {
+  "material": "chain mail armour",
+  "seed": 99,
+  "size": 16,
+  "period": 96.0,
+  "aniso": 0.16696730185525008,
+  "spread_box": 0.06129411764705875,
+  "spread_point": 0.4714980392156862,
+  "vlm": "point"
+ },
+ {
+  "material": "denim fabric",
+  "seed": 100,
+  "size": 16,
+  "period": 20.0,
+  "aniso": 0.15227316599204574,
+  "spread_box": 0.18907450980392151,
+  "spread_point": 0.33169411764705886,
+  "vlm": "box"
+ },
+ {
+  "material": "felt cloth",
+  "seed": 106,
+  "size": 16,
+  "period": 51.0,
+  "aniso": 0.12019017796152977,
+  "spread_box": 0.15367450980392156,
+  "spread_point": 0.5400823529411765,
+  "vlm": "box"
+ },
+ {
+  "material": "wet river pebbles",
+  "seed": 107,
+  "size": 16,
+  "period": 216.5,
+  "aniso": 0.12684246841801036,
+  "spread_box": 0.32196862745098037,
+  "spread_point": 0.7505725490196078,
+  "vlm": "box"
+ },
+ {
+  "material": "frozen tundra ground",
+  "seed": 112,
+  "size": 16,
+  "period": 32.0,
+  "aniso": 0.1735128059510388,
+  "spread_box": 0.10901960784313725,
+  "spread_point": 0.4314117647058823,
+  "vlm": "box"
+ },
+ {
+  "material": "malachite ore vein",
+  "seed": 113,
+  "size": 16,
+  "period": 386.0,
+  "aniso": 0.016477506804562808,
+  "spread_box": 0.2750588235294117,
+  "spread_point": 0.593121568627451,
+  "vlm": "box"
+ },
+ {
+  "material": "quartz crystal cluster",
+  "seed": 114,
+  "size": 16,
+  "period": 379.5,
+  "aniso": 0.08115228115664061,
+  "spread_box": 0.5020705882352939,
+  "spread_point": 0.7856627450980392,
+  "vlm": "point"
+ },
+ {
+  "material": "geode interior",
+  "seed": 117,
+  "size": 16,
+  "period": 314.0,
+  "aniso": 0.005621599636546427,
+  "spread_box": 0.32781960784313735,
+  "spread_point": 0.6582117647058825,
+  "vlm": "box"
+ },
+ {
+  "material": "pumice stone",
+  "seed": 118,
+  "size": 16,
+  "period": 61.5,
+  "aniso": 0.10791164914095448,
+  "spread_box": 0.3098980392156862,
+  "spread_point": 0.6562784313725492,
+  "vlm": "box"
+ },
+ {
+  "material": "fern frond mat",
+  "seed": 120,
+  "size": 16,
+  "period": 182.0,
+  "aniso": 0.1514877207864553,
+  "spread_box": 0.11938039215686272,
+  "spread_point": 0.4328862745098039,
+  "vlm": "box"
+ },
+ {
+  "material": "cracked ice sheet",
+  "seed": 124,
+  "size": 16,
+  "period": 334.0,
+  "aniso": 0.009793259535700767,
+  "spread_box": 0.525627450980392,
+  "spread_point": 0.735686274509804,
+  "vlm": "box"
+ },
+ {
+  "material": "coral reef surface",
+  "seed": 126,
+  "size": 16,
+  "period": 147.5,
+  "aniso": 0.033447804720898575,
+  "spread_box": 0.2314941176470588,
+  "spread_point": 0.4325098039215685,
+  "vlm": "box"
+ },
+ {
+  "material": "mushroom cap top",
+  "seed": 127,
+  "size": 16,
+  "period": 306.5,
+  "aniso": 0.16679756470362456,
+  "spread_box": 0.15229803921568627,
+  "spread_point": 0.6518313725490196,
+  "vlm": "inconsistent"
+ },
+ {
+  "material": "concrete sidewalk slab",
+  "seed": 130,
+  "size": 16,
+  "period": 40.5,
+  "aniso": 0.12236336192161716,
+  "spread_box": 0.01888235294117646,
+  "spread_point": 0.22672549019607838,
+  "vlm": "point"
+ },
+ {
+  "material": "perforated metal panel",
+  "seed": 132,
+  "size": 16,
+  "period": 79.0,
+  "aniso": 0.05193952997209985,
+  "spread_box": 0.1568627450980391,
+  "spread_point": 0.600278431372549,
+  "vlm": "point"
+ },
+ {
+  "material": "carpet loop pile",
+  "seed": 134,
+  "size": 16,
+  "period": 49.5,
+  "aniso": 0.10635369720800132,
+  "spread_box": 0.053741176470588264,
+  "spread_point": 0.4353764705882352,
+  "vlm": "box"
+ },
+ {
+  "material": "woven rattan panel",
+  "seed": 135,
+  "size": 16,
+  "period": 26.5,
+  "aniso": 0.028979212529199164,
+  "spread_box": 0.07187058823529406,
+  "spread_point": 0.5788627450980391,
+  "vlm": "inconsistent"
+ }
+]

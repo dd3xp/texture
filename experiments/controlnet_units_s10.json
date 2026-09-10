@@ -1,0 +1,86 @@
+[
+ {
+  "material": "brick wall",
+  "units_plain": 30.11764705882353,
+  "units_cond": 2.8131868131868134,
+  "aniso_plain": 0.923209390151694,
+  "aniso_cond": 0.31862942178128206
+ },
+ {
+  "material": "stone brick wall",
+  "units_plain": 25.6,
+  "units_cond": 102.4,
+  "aniso_plain": 0.7242393225632339,
+  "aniso_cond": 0.24698089184238867
+ },
+ {
+  "material": "wooden planks floor",
+  "units_plain": 0.0,
+  "units_cond": 107.78947368421052,
+  "aniso_plain": 0.11577900816685938,
+  "aniso_cond": 0.24922404005849494
+ },
+ {
+  "material": "clay roof tiles",
+  "units_plain": 36.57142857142857,
+  "units_cond": 55.351351351351354,
+  "aniso_plain": 0.520071291597315,
+  "aniso_cond": 0.002304708830182556
+ },
+ {
+  "material": "sandstone block wall",
+  "units_plain": 27.675675675675677,
+  "units_cond": 23.272727272727273,
+  "aniso_plain": 0.6874681632792102,
+  "aniso_cond": 0.36342197472007054
+ },
+ {
+  "material": "herringbone brick paving",
+  "units_plain": 0.0,
+  "units_cond": 4.079681274900398,
+  "aniso_plain": 1.1623825607253009,
+  "aniso_cond": 0.08946125207936265
+ },
+ {
+  "material": "subway tile wall",
+  "units_plain": 23.813953488372093,
+  "units_cond": 0.0,
+  "aniso_plain": 0.12352553523103735,
+  "aniso_cond": 0.29908316261374873
+ },
+ {
+  "material": "log cabin wall",
+  "units_plain": 26.256410256410255,
+  "units_cond": 81.92,
+  "aniso_plain": 1.1797474134806016,
+  "aniso_cond": 0.23308627323275172
+ },
+ {
+  "material": "roman tile roof",
+  "units_plain": 44.52173913043478,
+  "units_cond": 8.605042016806722,
+  "aniso_plain": 0.5626834887161282,
+  "aniso_cond": 0.46492486782044995
+ },
+ {
+  "material": "cinder block wall",
+  "units_plain": 14.628571428571428,
+  "units_cond": 3.757798165137615,
+  "aniso_plain": 0.7590562280896799,
+  "aniso_cond": 0.027910705716550348
+ },
+ {
+  "material": "slate roof shingles",
+  "units_plain": 4.6439909297052155,
+  "units_cond": 8.533333333333333,
+  "aniso_plain": 0.0322598950899902,
+  "aniso_cond": 0.3134934528985767
+ },
+ {
+  "material": "teak deck boards",
+  "units_plain": 56.888888888888886,
+  "units_cond": 8.605042016806722,
+  "aniso_plain": 1.3628666263480427,
+  "aniso_cond": 1.4110924162313958
+ }
+]

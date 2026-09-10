@@ -98,6 +98,13 @@ experiments/pack78_out/base/
 # 而重出它们需要 GPU 渲 1024，本机无法复现，故 PNG 入库。
 !experiments/iso_point/
 !experiments/iso_point/16/
+# 三个**只能在 GPU 上产出**的实验的结果（B24/B25/B23，正文与附录都引了它们）：
+# 生成脚本要 diffusers+CUDA，净克隆跑不了，不入库就等于这三段正文无法核对。
+# 复算入口（不导入 torch）：analysis/paired/recheck_gpu_claims.py
+!experiments/second_generator.json
+!experiments/controlnet_units_s08.json
+!experiments/controlnet_units_s10.json
+!experiments/point_sample_iso.json
 
 # supplementary 产物不入库（可由 scripts/make_supplementary.py 随时重建）
 paper/supplementary.zip
