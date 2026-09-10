@@ -88,6 +88,13 @@ def controlnet(p08, p10):
     ex = {r["material"]: (r["units_plain"], r["units_cond"]) for r in r10}
     check("brick wall @1.0 条件后", round(ex["brick wall"][1], 1), 2.8, 0.05)
     check("stone brick wall @1.0 条件后", round(ex["stone brick wall"][1]), 102)
+    # **中位数也必须是被检查项**，不能只作为细节打印出来。
+    # 否则正文那个跨集合的 8.1 会一直"静静地"对不上，而末尾照样打印
+    # 「全部对上正文」——本项目写死的规矩：判读要跟着数据分支走。
+    b08 = [(r["units_plain"], r["units_cond"]) for r in r08
+           if r["units_plain"] > 0 and r["units_cond"] > 0]
+    check("scale 0.8 条件后中位（配对口径 vs 正文）",
+          round(statistics.median(b for _, b in b08), 1), 8.1, 0.05)
 
 
 def point_sample(path):
