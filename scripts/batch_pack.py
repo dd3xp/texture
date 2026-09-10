@@ -102,6 +102,7 @@ def main():
             for size in a.sizes:
                 # 接缝对齐（方法三）：只在**最终出图**这一次付搜索的钱，
                 # 上面选样阶段只要 frac，不需要位置。
+                # 接缝本身两轮 57/57 全改善；判官偏好未在不相交材质上复现。
                 cropped, frac = auto_crop(src, size, seam_align=True)
                 small = np.asarray(Image.fromarray(cropped.astype(np.uint8))
                                    .resize((size,) * 2, Image.BOX))

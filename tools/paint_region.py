@@ -116,7 +116,9 @@ def tile_from_prompt(prompt: str, size: int, colors: int, seed: int,
                   height=render, width=render).images[0]
         src = np.asarray(im).astype(float)
         # 接缝对齐（方法三，`downsample.seam_offset`）：贴图是平铺用的，
-        # 窗口没落在周期格点上会在墙面留一条断线。3x3 平铺下判官 10/12 偏好它。
+        # 窗口没落在周期格点上会在墙面留一条断线。
+        # 接缝比在两轮 57/57 个材质上全降（客观、已泛化）；判官偏好 10/12
+        # 只在原 42 条上成立，60 个零重叠材质上 12/18 未复现——别说成普遍更好。
         cropped, frac = auto_crop(src, size, seam_align=True)
         # frac>=0.999 = 窗口被钳成整图，门显示触发但等于没裁，不算有效
         cands.append({"k": k, "img": cropped, "frac": frac,
