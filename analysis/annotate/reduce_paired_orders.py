@@ -40,8 +40,15 @@ looks like a position-bias check but cannot detect one. The real position
 statistics are printed HERE, over all 2N presentations, which is the caliber
 the round-67 audit used.
 
-Exit codes: 0 ok / 1 session voided / 2 nothing to reduce.
+Exit codes: 0 ok / 1 session voided / 2 nothing to reduce. A non-zero code
+writes NO output file. The gate above lives here and nowhere else -- the
+reduced CSV carries only the blur checks onward, so a downstream reader has
+no way to rediscover that a session was voided. An exit code nobody reads is
+not a gate, so the refusal has to be the missing file.
+
 Self-test:  python analysis/annotate/reduce_paired_orders.py --selftest
+End to end: python analysis/annotate/reduce_paired_orders.py \
+                --simulate experiments/annotate/study_crop_v2.html
 """
 
 import argparse
@@ -227,11 +234,23 @@ def simulate(html: Path, out_dir: Path):
     import json
     import random
     import re as _re
+    import subprocess
 
-    items = json.loads(_re.search(r"const ITEMS = (\[.*?\]);",
-                                  html.read_text(encoding="utf-8"), _re.S).group(1))
-    # These must match the header emitted by task_template.html's save().
+    src_html = html.read_text(encoding="utf-8")
+    items = json.loads(_re.search(r"const ITEMS = (\[.*?\]);", src_html, _re.S).group(1))
+
+    # These must match the header emitted by task_template.html's save(). The
+    # assert further down cannot show that on its own -- it compares columns we
+    # wrote ourselves against the list we wrote them from -- so read the header
+    # the page really ships and compare that.
     head = FIELDS
+    marker = "const head = '"
+    emitted = src_html[src_html.find(marker) + len(marker):].split("'")[0]
+    emitted = [c.replace("\\n", "") for c in emitted.split(",")]
+    if emitted != FIELDS:
+        print(f"  FAIL: page exports {emitted}, this script reads {FIELDS}")
+        return 1
+    print(f"page header matches FIELDS ({len(FIELDS)} columns)")
 
     def export(name, answer):
         rng = random.Random(0)
@@ -267,9 +286,29 @@ def simulate(html: Path, out_dir: Path):
         """Round 67's failure mode: always press left."""
         return "left"
 
+    def not_comparing(it, rng):
+        """Consistent on the real pairs, but never compares the two cards.
+
+        This is the model the same-image checks were added for in round 68:
+        the blur checks are easy enough to pass without comparing anything,
+        and answering both orders the same way is what someone who reads only
+        the left card would do. Reduction keeps every pair, so the ONLY trace
+        of the problem is the check_same verdict -- which is exactly the trace
+        that does not survive into the reduced CSV.
+        """
+        if it["kind"] == "check_same":
+            return "left"
+        if it["kind"] == "check":
+            return "left" if it["left"] == "good" else "right"
+        return "left" if it["left"] in ("after", "artist") else "right"
+
     print(f"\n--- end-to-end simulation on {html.name} ---")
-    for name, model, expect in [("honest", honest, "most pairs kept"),
-                                ("side_picker", side_picker, "all pairs discarded")]:
+    for name, model, expect, usable in [
+            ("honest", honest, "most pairs kept", True),
+            # A pure side-picker trips both gates: every pair disagrees AND the
+            # same-image checks are answered with a side, so it is voided too.
+            ("side_picker", side_picker, "all pairs discarded, and voided", False),
+            ("not_comparing", not_comparing, "voided by the same-image checks", False)]:
         p = export(f"sim_{name}.csv", model)
         with open(p, newline="", encoding="utf-8-sig") as f:
             rows = list(csv.DictReader(f))
@@ -283,6 +322,24 @@ def simulate(html: Path, out_dir: Path):
             return 1
         if name == "side_picker" and len(kept) != 0:
             print("  FAIL: a pure side-picker must not survive reduction")
+            return 1
+
+        # Drive the real command line, not just reduce_rows(). The verdict has
+        # to reach the next step as an artifact, because that is all the next
+        # step gets to see: the reduced file must exist if and only if the
+        # session was usable.
+        red = out_dir / f"reduced_{name}.csv"
+        rc = subprocess.run([sys.executable, str(Path(__file__).resolve()),
+                             str(p), "-o", str(red)],
+                            capture_output=True, text=True).returncode
+        print(f"  cli exit {rc}, reduced file on disk: {red.exists()}")
+        if red.exists() != usable:
+            print(f"  FAIL: session usable={usable} but file exists={red.exists()}"
+                  f" -- a voided session must not leave a file the analysis"
+                  f" would happily read")
+            return 1
+        if (rc == 0) != usable:
+            print(f"  FAIL: exit {rc} does not match usable={usable}")
             return 1
     print("\nend-to-end simulation OK")
     return 0
@@ -316,6 +373,16 @@ def main():
     code = report(stats)
 
     out = a.out or a.src.with_name(a.src.stem + "_reduced.csv")
+    if code != 0:
+        # Writing it anyway -- and printing the "next:" line under the verdict
+        # -- hands the next reader a clean-looking CSV whose judgements have
+        # already been ruled unusable, with the evidence for that ruling
+        # (the check_same rows) stripped out on the way.
+        print(f"  -> NOT writing {out.name}. The judgements in this session are"
+              f" not usable, so no reduced file is produced; there is nothing"
+              f" downstream that could tell them apart from a good one.")
+        raise SystemExit(code)
+
     with open(out, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, extrasaction="ignore")
         w.writeheader()
