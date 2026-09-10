@@ -1,0 +1,63 @@
+idx,material,kind,struct,stratum,left,right,choice,chosen,ms
+0,cinder block wall,real,1.416,holdout60,center,seam,left,center,8226
+1,quilted padding,real,1.996,orig42,center,seam,left,center,11497
+2,granite block wall,real,0.477,holdout60,seam,center,left,seam,1878
+3,sponge surface,real,1.894,holdout60,seam,center,left,seam,1438
+4,loose scree slope,real,2.025,holdout60,center,seam,left,center,3118
+5,weathered barn wood,real,6.308,holdout60,seam,center,left,seam,2399
+6,subway tile wall,real,0.922,holdout60,seam,center,left,seam,5005
+7,log cabin wall,real,3.183,holdout60,seam,center,left,seam,1631
+8,flagstone patio,real,7.241,holdout60,center,seam,left,center,6500
+9,basalt columns,real,1.222,holdout60,seam,center,left,seam,4502
+10,birch tree bark,real,2.345,orig42,center,seam,right,seam,6340
+11,brass mesh screen,real,1.537,holdout60,seam,center,left,seam,2262
+12,asphalt road surface,real,1.234,holdout60,center,seam,left,center,3399
+13,knitted sweater wool,real,2.802,holdout60,center,seam,left,center,6797
+14,acoustic foam panel,check,0,holdout60,blur,good,right,good,1694
+15,acoustic foam panel,real,1.99,holdout60,center,seam,right,seam,2238
+16,volcanic ash ground,real,1.797,orig42,center,seam,left,center,16050
+17,metal grate panel,real,0.573,orig42,seam,center,left,seam,1806
+18,wood shingle siding,real,1.637,holdout60,center,seam,left,center,6700
+19,copper roof patina,real,3.433,holdout60,center,seam,right,seam,2367
+20,pine needle floor,real,7.017,holdout60,center,seam,right,seam,2039
+21,slate shale layers,real,1.146,holdout60,center,seam,left,center,2447
+22,roof tar paper,real,1.42,holdout60,seam,center,left,seam,2925
+23,burlap sack fabric,real,0.805,orig42,seam,center,left,seam,2880
+24,checkered tiled floor,real,4.15,orig42,center,seam,left,center,5277
+25,tree bark oak,real,2.483,orig42,seam,center,left,seam,5461
+26,roman tile roof,check,0,holdout60,good,blur,left,good,1167
+27,herringbone brick paving,real,2.867,holdout60,seam,center,left,seam,3655
+28,cactus skin,real,1.797,orig42,seam,center,left,seam,2158
+29,iron ore in grey stone,real,0.556,orig42,seam,center,tie,tie,5069
+30,crushed red brick gravel,real,5.55,holdout60,seam,center,left,seam,7636
+31,oak plank ceiling,real,1.503,holdout60,center,seam,left,center,5046
+32,stone brick wall,real,5.065,orig42,center,seam,left,center,4453
+33,cobweb corner,real,1.573,orig42,center,seam,tie,tie,5733
+34,coarse gravel path,real,1.538,orig42,seam,center,right,center,5188
+35,ivy covered wall,real,2.393,holdout60,seam,center,left,seam,3958
+36,sandstone block wall,real,2.867,orig42,center,seam,left,center,2654
+37,clay roof tiles,real,1.311,orig42,seam,center,left,seam,6077
+38,teak deck boards,real,7.842,holdout60,center,seam,left,center,6876
+39,brick wall,real,3.519,orig42,seam,center,left,seam,1935
+40,peat soil,real,2.751,holdout60,center,seam,right,seam,2494
+41,woven basket surface,real,2.253,orig42,seam,center,left,seam,4494
+42,copper roof patina,check,0,holdout60,blur,good,right,good,1078
+43,roof tar paper,check,0,holdout60,good,blur,left,good,1008
+44,canvas tarp,real,3.33,holdout60,center,seam,left,center,5205
+45,slate roof tiles wet,real,13.787,holdout60,seam,center,right,center,1191
+46,limestone brick wall,real,2.992,holdout60,center,seam,right,seam,1142
+47,leather hide,real,1.696,holdout60,seam,center,left,seam,2662
+48,mossy cracked stone bricks,real,0.131,orig42,seam,center,left,seam,1415
+49,pine needle floor,check,0,holdout60,blur,good,right,good,918
+50,beach shingle,real,5.305,holdout60,seam,center,left,seam,4477
+51,lava flow crust,real,6.304,holdout60,center,seam,right,seam,2278
+52,riveted iron hull,real,3.379,holdout60,seam,center,left,seam,2662
+53,wooden planks floor,real,11.55,orig42,center,seam,left,center,5575
+54,chain link fence,real,2.663,orig42,center,seam,right,seam,1621
+55,woven wool cloth,real,5.397,orig42,center,seam,right,seam,9717
+56,roman tile roof,real,5.647,holdout60,seam,center,right,center,1223
+57,parquet wood floor,real,4.372,orig42,seam,center,left,seam,2085
+58,adobe mud bricks,real,2.857,orig42,center,seam,right,seam,975
+59,bamboo forest floor,real,2.084,holdout60,seam,center,right,center,1310
+60,straw thatch roof,real,5.888,holdout60,center,seam,right,seam,863
+61,reed mat,real,5.918,holdout60,seam,center,right,center,3813
