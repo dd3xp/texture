@@ -2,7 +2,9 @@
 
 **问题**。`seam_crop.py` 的操作检验 (a) 是：出厂瓦片的接缝比
 `ratio_seam < ratio_center`，逐材质符号检验。两批各 22/22、35/35 全降，
-报出 p=4.8e-7、p=5.8e-11（`tools/downsample.py:210,218`，README 与交付页同步）。
+报出 p=4.8e-7、p=5.8e-11（`tools/downsample.py:210,218` 与交付页）。
+⚠ 本行原写着「README 同步」，那是错的——**当时 README 里根本没有接缝这一节**；
+README 已于同一天补写（含本次零假设修正后的口径）。
 
 但 `ratio_seam` 是**在约 3930 个可行候选位置上取的 argmin**（中位数，见 JSON 的
 `n_admissible`），`ratio_center` 是**一个固定点**的值。「几千个里挑最小的」
