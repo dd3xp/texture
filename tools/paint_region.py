@@ -115,7 +115,9 @@ def tile_from_prompt(prompt: str, size: int, colors: int, seed: int,
                   num_inference_steps=steps, generator=g,
                   height=render, width=render).images[0]
         src = np.asarray(im).astype(float)
-        cropped, frac = auto_crop(src, size)
+        # 接缝对齐（方法三，`downsample.seam_offset`）：贴图是平铺用的，
+        # 窗口没落在周期格点上会在墙面留一条断线。3x3 平铺下判官 10/12 偏好它。
+        cropped, frac = auto_crop(src, size, seam_align=True)
         # frac>=0.999 = 窗口被钳成整图，门显示触发但等于没裁，不算有效
         cands.append({"k": k, "img": cropped, "frac": frac,
                       "eff": frac < 0.999})

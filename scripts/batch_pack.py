@@ -100,7 +100,9 @@ def main():
             per, ani = dominant_period(src), anisotropy(src)
             slug = m.replace(" ", "_")
             for size in a.sizes:
-                cropped, frac = auto_crop(src, size)
+                # 接缝对齐（方法三）：只在**最终出图**这一次付搜索的钱，
+                # 上面选样阶段只要 frac，不需要位置。
+                cropped, frac = auto_crop(src, size, seam_align=True)
                 small = np.asarray(Image.fromarray(cropped.astype(np.uint8))
                                    .resize((size,) * 2, Image.BOX))
                 tile = quantize(small, extract_palette(small, a.colors, seed=mi))

@@ -174,9 +174,67 @@ def correlation_length(img: np.ndarray, thresh: float = 0.5) -> float:
 UNITS_PER_TILE = 4.5   # 真人在 16–32 上保持的结构单元数，见下
 
 
+def _small(win: np.ndarray, size: int) -> np.ndarray:
+    """窗口 -> size x size（量化前），与出厂管线同一条降采样路径。"""
+    from PIL import Image
+    return np.asarray(Image.fromarray(win.astype(np.uint8))
+                      .resize((size,) * 2, Image.BOX)).astype(float)
+
+
+def seam_stats(t: np.ndarray) -> tuple[float, float]:
+    """(seam, internal)：平铺时露出来的那条缝，与内部相邻差的中位。
+
+    贴图是**平铺**使用的，玩家看到的是一片墙而不是一张瓦片。
+    首列与末列（首行与末行）接不上，平铺后就是一条贯穿整面墙的断线。
+    """
+    t = t.astype(float)
+    seam = float(np.abs(t[:, -1] - t[:, 0]).mean() + np.abs(t[-1, :] - t[0, :]).mean())
+    dv = [float(np.abs(t[:, i + 1] - t[:, i]).mean()) for i in range(t.shape[1] - 1)]
+    dh = [float(np.abs(t[i + 1, :] - t[i, :]).mean()) for i in range(t.shape[0] - 1)]
+    return seam, float(np.median(dv + dh))
+
+
+def seam_offset(img: np.ndarray, side: int, size: int = 16,
+                step: int = 12, keep: float = 0.85) -> tuple[int, int]:
+    """给定窗口边长，选**位置**：在保住结构的窗口里取平铺接缝最小的。
+
+    `auto_crop` 的 `side` 一直选得很讲究，**位置却写死居中**。
+    位置对平铺使用直接可见：窗口没落在周期格点上，墙面就会有断线。
+
+    ⚠ **`keep` 这条约束不是装饰**：纯平窗口的 seam/internal 是 **0**
+    （分子分母都为零），即平坦窗口拿满分——单看接缝必然把画面拍平，
+    正是本项目栽过三次的坑。故要求候选窗口的 internal >= 居中窗口的 `keep` 倍。
+    居中窗口自己恒满足，候选集非空，最差退回居中。
+
+    实证（`analysis/paired/seam_crop.py`，判据预注册 `95e5c81`）：
+      操作检验 接缝比中位 3.34 -> 0.85，22/22 全降，p=4.8e-7；
+              平坦守卫 internal 10.37 -> 10.72（**103%**，反而更有结构）
+      主判据   3x3 平铺视图下经验证判官（opus-5）选接缝裁 **10/12 = 83%**
+              （p=0.0386，[56%,96%]，判官压缩故为下界）
+      次判据   单张瓦片上 15 判 13 不一致 —— **收益只在平铺视图里显形**，
+              这正是"赢的是接缝而不是别的画质差异"的旁证。
+    """
+    H, W = img.shape[:2]
+    ys = list(range(0, H - side + 1, step)) or [0]
+    xs = list(range(0, W - side + 1, step)) or [0]
+    cy, cx = (H - side) // 2, (W - side) // 2
+    floor = keep * seam_stats(_small(img[cy:cy + side, cx:cx + side], size))[1]
+    best, arg = None, (cy, cx)
+    for y in ys:
+        for x in xs:
+            s_, i_ = seam_stats(_small(img[y:y + side, x:x + side], size))
+            if i_ < floor:                 # 结构比现行裁法还少，不要
+                continue
+            r = s_ / max(i_, 1e-6)
+            if best is None or r < best:
+                best, arg = r, (y, x)
+    return arg
+
+
 def auto_crop(img: np.ndarray, size: int = 16, target_px: float | None = None,
               min_frac: float = 0.08,
-              min_aniso: float = 0.20) -> tuple[np.ndarray, float]:
+              min_aniso: float = 0.20,
+              seam_align: bool = False) -> tuple[np.ndarray, float]:
     """按结构尺度裁剪，使一个结构周期约占 `target_px` 个输出像素。
 
     B4 定位的失败原因：SDXL 在 1024 上画了约 25 层砖，
@@ -239,5 +297,11 @@ def auto_crop(img: np.ndarray, size: int = 16, target_px: float | None = None,
     # 实测 1024 下未触发的 69 例里有 21 例属于此类（论文 §5.3 已分开报）。
     # 调用方要区分的话，看 period*UNITS_PER_TILE 是否 >= min(H, W)。
     side = int(np.clip(side, min_frac * min(H, Wd), min(H, Wd)))
-    y0, x0 = (H - side) // 2, (Wd - side) // 2
+    if seam_align:
+        # **只换位置，不换 side**：门与尺度完全不变，故 B9/B13/B14 全部沿用。
+        # 默认关着是为了**保住已发表结果的可复现性**——所有已报数字都出自居中裁；
+        # 交付脚本显式打开（`paint_region.py`、`batch_pack.py`）。
+        y0, x0 = seam_offset(img, side, size)
+    else:
+        y0, x0 = (H - side) // 2, (Wd - side) // 2
     return img[y0:y0 + side, x0:x0 + side], side / min(H, Wd)

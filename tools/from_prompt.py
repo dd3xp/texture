@@ -88,7 +88,8 @@ def main():
         hires.append(im)
         a = np.asarray(im).astype(float)
         if args.autocrop:
-            a, frac = auto_crop(a, args.size)
+            # 接缝对齐（方法三）：见 `downsample.seam_offset` 的实证。
+            a, frac = auto_crop(a, args.size, seam_align=True)
             if frac < 1.0:
                 print(f"  样本{i+1} 检出周期结构，裁 1/{1/frac:.1f}", flush=True)
         small = np.asarray(Image.fromarray(a.astype(np.uint8))
