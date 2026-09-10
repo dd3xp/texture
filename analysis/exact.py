@@ -11,15 +11,20 @@
 from math import lgamma, log, log1p, exp
 
 
-def binom_test(k: int, n: int, p: float = 0.5) -> float:
-    """双尾精确二项检验。把概率不高于观测值的所有结果加起来。
+def _logsumexp(vs) -> float:
+    """对数空间求和。逐项 exp 再相加会让每一项各自下溢成 0。"""
+    vs = [v for v in vs if v != -float("inf")]
+    if not vs:
+        return -float("inf")
+    m = max(vs)
+    return m + log(sum(exp(v - m) for v in vs))
 
-    pmf 走**对数空间**：原先写的是 `comb(n, i) * p ** i * ...`，`comb` 在
-    n 上千时是几百位的大整数，乘上早已下溢成 0.0 的 `p ** i` 会直接抛
-    `OverflowError: int too large to convert to float`。真人瓦片那种几千个
-    样本的符号检验因此崩在脚本末尾——正是本模块开头说要避免的那种崩法
-    （数据都算完了，只丢统计行）。对数空间下 n 多大都不溢出，
-    小 n 的结果与原式在 1e-12 内一致。
+
+def binom_test_log(k: int, n: int, p: float = 0.5) -> float:
+    """双尾精确二项检验，返回**自然对数**的 p。
+
+    真值小到 1e-308 以下时 `binom_test` 只能返回 0.0，而把 0.0 印成 "p=0"
+    是一句不该发表的话。需要报极小 p 的地方用这个，配 `fmt_p` 打印。
     """
     if n <= 0:
         return float("nan")
@@ -33,8 +38,43 @@ def binom_test(k: int, n: int, p: float = 0.5) -> float:
         return (lg - lgamma(i + 1) - lgamma(n - i + 1)
                 + i * log(p) + (n - i) * log1p(-p))
 
-    pm = [exp(v) if v != -float("inf") else 0.0 for v in map(lpmf, range(n + 1))]
-    return min(1.0, sum(x for x in pm if x <= pm[k] * (1 + 1e-9)))
+    lv = [lpmf(i) for i in range(n + 1)]
+    cut = lv[k] + log1p(1e-9)
+    return min(0.0, _logsumexp([v for v in lv if v <= cut]))
+
+
+def binom_test(k: int, n: int, p: float = 0.5) -> float:
+    """双尾精确二项检验。把概率不高于观测值的所有结果加起来。
+
+    pmf 走**对数空间**：原先写的是 `comb(n, i) * p ** i * ...`，`comb` 在
+    n 上千时是几百位的大整数，乘上早已下溢成 0.0 的 `p ** i` 会直接抛
+    `OverflowError: int too large to convert to float`。真人瓦片那种几千个
+    样本的符号检验因此崩在脚本末尾——正是本模块开头说要避免的那种崩法
+    （数据都算完了，只丢统计行）。对数空间下 n 多大都不溢出，
+    小 n 的结果与原式在 1e-12 内一致。
+
+    ⚠ **求和也必须在对数空间做**（2026-09-10 补）：此前是把每项 `exp` 回
+    线性再相加，n=2971、k=241 时每一项各自下溢成 0，返回**恰好 0.0**。
+    真值低于 1e-308 时本函数仍只能返回 0.0——**那不是零，是下限**。
+    要报这种量级的 p，用 `binom_test_log`，打印用 `fmt_p`。
+    """
+    lp = binom_test_log(k, n, p)
+    if lp != lp:                       # nan
+        return lp
+    return min(1.0, exp(lp) if lp > -745.0 else 0.0)
+
+
+def fmt_p(k: int, n: int, p: float = 0.5, sig: int = 3) -> str:
+    """把 p 打印成人能信的样子——低于双精度下限时写成**界**，不写成 0。"""
+    lp = binom_test_log(k, n, p)
+    if lp != lp:
+        return "nan"
+    if lp > -745.0:
+        v = min(1.0, exp(lp))
+        if v > 0.0:
+            return f"{v:.{sig}g}"
+    log10p = lp / 2.302585092994046
+    return f"<1e{int(log10p) - 1}"
 
 
 def _beta_ppf(q: float, a: float, b: float, iters: int = 200) -> float:
