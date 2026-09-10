@@ -105,8 +105,12 @@ def judge(ask, model, q, imgA, imgB, base_url, key):
     return p1 if p1 == p2 else "inconsistent"
 
 
-def declined_materials():
-    recs = json.loads((ROOT / "experiments/pack78_out/manifest.json").read_text(encoding="utf-8"))
+def declined_materials(manifest: Path = None):
+    """门拒绝的材质。⚠ 这是**渲染**的属性不是材质的属性（2026-09-11 查明）：
+    种子含材质在列表里的索引，同一材质在不同批次拿到不同渲染，判定会翻
+    （pack78 的 13 个里 8 个在 pack53 批次触发了门）。所以清单必须跟着批次走。"""
+    manifest = manifest or (ROOT / "experiments/pack78_out/manifest.json")
+    recs = json.loads(Path(manifest).read_text(encoding="utf-8"))
     return sorted({r["material"] for r in recs
                    if r["variant"] == "base" and not r["gate_fired"]})
 
@@ -118,11 +122,13 @@ def main():
     ap.add_argument("--model", default="claude-opus-5")
     ap.add_argument("--no-judge", action="store_true")
     ap.add_argument("--pack", type=Path, default=ROOT / "experiments/pack78_out/base")
+    ap.add_argument("--manifest", type=Path, default=None,
+                    help="门拒绝清单跟着批次走（缺省 pack78_out）。纯增量，试点路径不变。")
     ap.add_argument("--out", type=Path, default=ROOT / "experiments/spread_recognise.json")
     ap.add_argument("--tiles", type=Path, default=ROOT / "experiments/spreadrecog")
     a = ap.parse_args()
 
-    mats = declined_materials()
+    mats = declined_materials(a.manifest)
     a.tiles.mkdir(parents=True, exist_ok=True)
     print(f"门拒绝材质 {len(mats)} 个 x {len(a.sizes)} 档；目标跨度 {SPREAD_ARTIST_MEDIAN}")
 
