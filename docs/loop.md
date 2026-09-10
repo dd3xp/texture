@@ -2814,3 +2814,67 @@ B25 的 `27.0 → 8.1`（仍在附录待拍板）与 coherence 的 `0.67×/0.34�
 **扫查到此为止**：`period>0` / `>0` 这类过滤在 `analysis/` 里还有多处，
 但只有进入**已发表数字**的才要紧，上述三处（B25、图 7、探针）已是全部。
 配对检验用 `math.comb` 精确二项，与本项目其余脚本同口径（emnlp 无 scipy）。
+
+### 人工仪器验钥：`study_seam.html` 57/57 通过（2026-09-10，预注册 `bb40ac3`）
+
+CSV 仍未到；本轮不等它，先把**它一到就要用的两样东西**验掉。
+
+**为什么先验钥**：这份 62 对盲比是方法三唯一的人工仪器，而
+`experiments/seamcrop*_demo/` 的 x9 图是**源图被磁盘清理后重渲染**的
+（60 批一度用默认种子 21 得 0/32，换 seed 77 才 35/35）。若某一步把
+`_seam_x9.png` 与 `_center_x9.png` 写反、或 HTML 的 `left/right` 与图不对应，
+用户几小时的标注会得出**方向相反**的结论，而且**事后无从分辨**。
+ab60 与 crop 两份都验过钥（`24bb1d9`），这份是最新的、没验过。
+
+**方法：不用启发式，用定义本身**（记忆里那条教训——拿"中心裁剪像不像"
+去验 study_crop 的键，39 对假报 26 对反钥）。x9 是 16×16 瓦片的 3×3 平铺、
+8 倍 NEAREST 放大，**逐像素可逆**；`downsample.seam_stats` 就是产出 JSON 时
+用的那个函数。于是"这张图是不是接缝对齐版"有**唯一确定的算术答案**：
+从标注者真正看到的 base64 像素还原出瓦片，重算 `(seam, internal)`，
+与该材质 JSON 的 `(seam_seam, int_seam)` / `(seam_center, int_center)` 对照。
+
+`analysis/annotate/audit_seam_key.py`，判据 A–E 写在跑之前（见文件头）。结果：
+
+| | |
+| --- | --- |
+| A 键正确（相对差 ≤1e-9） | **57/57**，两侧逐一对上 |
+| B x9 可逆（3×3 相同 + 8× NEAREST 精确） | 114/114 张 |
+| C 注意力检查有效 | 5/5（清晰侧确与某张 real 图逐像素相同，模糊侧高频更低） |
+| D 无退化对（两侧同图） | 0 例；JSON 里 `moved=False` 也是 0 |
+| E 左右平衡 | seam 在左 29 / 在右 28 |
+
+分层 orig42 22 + holdout60 35 = 57，与预注册的样本框一致。
+另核：`task_template.html` 只渲染材质名与两张图，`left/right/struct/stratum`
+只进导出的 CSV，**页面不泄题**。
+
+→ **`INSTRUMENT-OK`。CSV 一到即可直接信任，不必回头验钥**；
+分析用 `analysis/annotate/analyze_seam_study.py`（判据 `d4aad16`）。
+
+### 顺手挖出一个会吃掉标注结果的崩法（同轮，`462c1c2`）
+
+验完钥去跑 `analyze_seam_study.py --selftest`（就是 CSV 到了要用的那个脚本），
+6 个用例**跑到第 2 个就崩**：
+
+```
+UnicodeEncodeError: 'gbk' codec can't encode character '\u26a0'
+```
+
+Windows 控制台是 cp936，而那行警告里有 `⚠`。**所有数都已经算完，
+只是报告那行印不出来**——与 `binom_test` 的 OverflowError、
+`face_uniformity` 的换行转义是同一类：**缺陷藏在少走的那条分支里**，
+平时看不见，偏偏在出结果的那一刻发作。这条分支正是"CSV 里没有检查条目"，
+即用户手工整理 CSV 时最容易触发的情形。
+
+按 AST 扫了全树**会被打印**的字符串（`print` / `add_argument` / `SystemExit`
+里的常量与 f-string 片段），命中 **8 个文件 11 行 14 个字形**，全部换成
+GBK 安全写法（`⚠`→`警告：`，`✓/✗`→`OK/X`，`−`→`-`）。
+**docstring 与 matplotlib 标签里的不动**——前者不过控制台编码器，
+后者一改就动了已发布的图。
+
+复验：selftest 6/6 通过（含"注意力检查错 2 个 -> 作废"与"没有检查条目 ->
+不出主判据"两条退出路径）；`analysis/check_names.py` 108 文件零缺陷；
+`analyze_d6.py` 复算仍是 60.3% 那套数。
+
+⚠ **提交信息更正**：`462c1c2` 的首版标题写"Nine glyphs"、正文写"eight"，
+两个都是错的（实为 14 个字形 / 11 行 / 8 文件）。**该提交尚未推送**，
+故直接改了信息；已推送的历史仍按老规矩只在文档里更正。
