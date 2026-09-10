@@ -29,9 +29,15 @@ VLM 判官已在三个口径上给出 72–89% 偏好裁后，但判官是压缩
 平局按本项目一贯口径**弃用**并报出个数；注意力检查错 >1 个则该次标注作废，
 不出主判据——与接缝那份同规矩。
 
+**只吃一对一行的 CSV。** v2 双序页面（`study_crop_v2.html` / `study_ab60_v2.html`）
+每对呈现两次，直接喂进来会把每对**各算两遍**：判据一个字没改，n 却翻倍。
+实测 25/39（p=0.108，不成立）会变成 50/78（p=0.017，"成立"）——**判读反转，且不报错**。
+故本脚本自己拦：real 行里同一个 `pair` id 出现两次即拒绝，退出码 3，
+先跑 `reduce_paired_orders.py` 归约。归约后每对只剩一行，判据照旧、不受影响。
+
 跑法：python analysis/annotate/analyze_pair_study.py crop|ab60 [路径.csv]
 自检：python analysis/annotate/analyze_pair_study.py --selftest
-退出码：0 正常 / 1 标注作废 / 2 没有检查条目
+退出码：0 正常 / 1 标注作废 / 2 没有检查条目 / 3 是双序 CSV，须先归约
 """
 import csv
 import sys
@@ -72,6 +78,16 @@ def load(path: Path):
         return list(csv.DictReader(f))
 
 
+def duplicated_pairs(real):
+    """双序 CSV 的判别：同一个 `pair` id 在 real 行里出现不止一次。
+
+    v1 CSV 没有 `pair` 列；归约后的 CSV 有这一列但每对只剩一行。
+    因此这个判别对两种合法输入都不会误报，只认没归约的 v2 导出。
+    """
+    ids = Counter(p for r in real if (p := (r.get("pair") or "").strip()))
+    return sorted(k for k, v in ids.items() if v > 1)
+
+
 def tally(rows, target, other):
     """返回 (选 target 的数, 有效对数, 平局数)。"""
     win = tot = tie = 0
@@ -104,6 +120,16 @@ def analyse(key: str, path: Path) -> int:
     check = [r for r in rows if r.get("kind") == "check"]
     print(f"{path.name}（{cfg['title']}）：{len(rows)} 行，"
           f"real {len(real)}，注意力检查 {len(check)}")
+
+    # —— 输入形状（排在一切判读之前）——
+    dup = duplicated_pairs(real)
+    if dup:
+        print(f"\n**这是双序（v2）CSV**：{len(dup)} 个 pair id 在 real 行里出现两次。"
+              f"\n  直接算会把每对数两遍——判据没变，n 却翻倍，p 会凭空变小"
+              f"（25/39 p=0.108 -> 50/78 p=0.017，判读反转）。"
+              f"\n  -> 先归约，再用本脚本判："
+              f"\n     python analysis/annotate/reduce_paired_orders.py {path.name} -o reduced.csv")
+        return 3
 
     # —— 注意力检查（必须排在主判据之前）——
     wrong = sum(1 for r in check if (r.get("chosen") or "").strip() != "good")
@@ -152,17 +178,22 @@ def selftest() -> int:
     """用合成 CSV 把每条分支都走一遍。判据是死的，分支不能是。"""
     import tempfile
 
-    def make(rows):
+    def make(rows, pairs=None):
         d = Path(tempfile.mkdtemp()) / "t.csv"
+        head = ["idx", "material", "kind", "struct", "stratum",
+                "left", "right", "choice", "chosen", "ms"]
+        if pairs is not None:
+            head.append("pair")
         with open(d, "w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=["idx", "material", "kind", "struct",
-                                              "stratum", "left", "right", "choice",
-                                              "chosen", "ms"])
+            w = csv.DictWriter(f, fieldnames=head)
             w.writeheader()
             for i, (kind, stratum, chosen) in enumerate(rows):
-                w.writerow({"idx": i, "material": "m", "kind": kind, "struct": 0,
-                            "stratum": stratum, "left": chosen, "right": "x",
-                            "choice": "left", "chosen": chosen, "ms": 100})
+                row = {"idx": i, "material": "m", "kind": kind, "struct": 0,
+                       "stratum": stratum, "left": chosen, "right": "x",
+                       "choice": "left", "chosen": chosen, "ms": 100}
+                if pairs is not None:
+                    row["pair"] = pairs[i]
+                w.writerow(row)
         return d
 
     def rows(kind, stratum, chosen, n):
@@ -195,14 +226,25 @@ def selftest() -> int:
          + rows("real", "structured", "artist", 6) + rows("real", "structured", "baseline", 30)
          + rows("real", "plain", "artist", 24) + rows("real", "plain", "baseline", 6), 0),
     ]
+    prepared = [(n, k, make(rs), w) for n, k, rs, w in cases]
+
+    # 输入形状：同一批答案，只差有没有归约——必须一个被拒、一个照常判读。
+    # 25/39 是特意挑的：不归约会变成 50/78，p 从 0.108 掉到 0.017，判读反转。
+    arm = rows("real", "cropped", "after", 25) + rows("real", "cropped", "before", 14)
+    ck = rows("check", "cropped", "good", 3)
+    prepared.append(("双序 CSV 未归约 -> 拒绝", "crop",
+                     make(ck + arm + arm, pairs=[""] * 3 + list(range(39)) * 2), 3))
+    prepared.append(("归约后（有 pair 列、每对一行）-> 照常判读", "crop",
+                     make(ck + arm, pairs=[""] * 3 + list(range(39))), 0))
+
     bad = 0
-    for name, key, rs, want in cases:
+    for name, key, path, want in prepared:
         print(f"\n{'=' * 62}\n[自检] {name}（期望退出码 {want}）\n{'=' * 62}")
-        got = analyse(key, make(rs))
+        got = analyse(key, path)
         if got != want:
             print(f"**退出码不符：{got} != {want}**")
             bad += 1
-    print(f"\n自检 {len(cases)} 例，不符 {bad}")
+    print(f"\n自检 {len(prepared)} 例，不符 {bad}")
     return 1 if bad else 0
 
 
