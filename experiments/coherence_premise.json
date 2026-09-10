@@ -36,7 +36,9 @@
     "d": 0.04127084209004489,
     "n2": 18,
     "ncolors": 12,
-    "material": "carpet loop pile"
+    "material": "carpet loop pile",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.07142857142857142,
@@ -44,7 +46,9 @@
     "d": -0.07555881158893021,
     "n2": 14,
     "ncolors": 12,
-    "material": "chain mail armour"
+    "material": "chain mail armour",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.19047619047619047,
@@ -52,7 +56,9 @@
     "d": 0.044371194009518666,
     "n2": 21,
     "ncolors": 12,
-    "material": "coarse gravel"
+    "material": "coarse gravel",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.04,
@@ -60,7 +66,9 @@
     "d": -0.1012381860923264,
     "n2": 25,
     "ncolors": 12,
-    "material": "cobblestone street"
+    "material": "cobblestone street",
+    "source": "iso_point/box",
+    "tile_gated": true
    },
    {
     "obs": 0.09523809523809523,
@@ -68,7 +76,9 @@
     "d": -0.022492692661254116,
     "n2": 21,
     "ncolors": 12,
-    "material": "concrete sidewalk slab"
+    "material": "concrete sidewalk slab",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -76,7 +86,9 @@
     "d": -0.13726448902993102,
     "n2": 42,
     "ncolors": 12,
-    "material": "coral reef surface"
+    "material": "coral reef surface",
+    "source": "iso_point/box",
+    "tile_gated": true
    },
    {
     "obs": 0.1111111111111111,
@@ -84,7 +96,9 @@
     "d": -0.01978514160743633,
     "n2": 18,
     "ncolors": 12,
-    "material": "cracked ice sheet"
+    "material": "cracked ice sheet",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.11764705882352941,
@@ -92,7 +106,9 @@
     "d": -0.018501187697957555,
     "n2": 17,
     "ncolors": 12,
-    "material": "denim fabric"
+    "material": "denim fabric",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.08333333333333333,
@@ -100,7 +116,9 @@
     "d": -0.04829139726406366,
     "n2": 24,
     "ncolors": 12,
-    "material": "diamond plate steel"
+    "material": "diamond plate steel",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.047619047619047616,
@@ -108,7 +126,9 @@
     "d": -0.08692581221772819,
     "n2": 42,
     "ncolors": 12,
-    "material": "felt cloth"
+    "material": "felt cloth",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.13636363636363635,
@@ -116,7 +136,9 @@
     "d": -0.016071754896232054,
     "n2": 22,
     "ncolors": 12,
-    "material": "fern frond mat"
+    "material": "fern frond mat",
+    "source": "iso_point/box",
+    "tile_gated": true
    },
    {
     "obs": 0.02702702702702703,
@@ -124,7 +146,9 @@
     "d": -0.1043657597949195,
     "n2": 37,
     "ncolors": 12,
-    "material": "frozen tundra ground"
+    "material": "frozen tundra ground",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.05172413793103448,
@@ -132,7 +156,9 @@
     "d": -0.07401167147504009,
     "n2": 58,
     "ncolors": 12,
-    "material": "galvanized corrugated roof"
+    "material": "galvanized corrugated roof",
+    "source": "iso_point/box",
+    "tile_gated": true
    },
    {
     "obs": 0.07017543859649122,
@@ -140,7 +166,9 @@
     "d": -0.02360605762934552,
     "n2": 57,
     "ncolors": 12,
-    "material": "geode interior"
+    "material": "geode interior",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.125,
@@ -148,7 +176,9 @@
     "d": 0.002197696763508575,
     "n2": 24,
     "ncolors": 12,
-    "material": "grass turf top"
+    "material": "grass turf top",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -156,7 +186,9 @@
     "d": -0.13813476914655712,
     "n2": 24,
     "ncolors": 12,
-    "material": "iron ore in stone"
+    "material": "iron ore in stone",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.1111111111111111,
@@ -164,7 +196,9 @@
     "d": -0.021240466241239347,
     "n2": 27,
     "ncolors": 12,
-    "material": "malachite ore vein"
+    "material": "malachite ore vein",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.08695652173913043,
@@ -172,7 +206,9 @@
     "d": -0.04764707872091098,
     "n2": 23,
     "ncolors": 12,
-    "material": "mosaic tile floor"
+    "material": "mosaic tile floor",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.25,
@@ -180,7 +216,9 @@
     "d": 0.1169080271217913,
     "n2": 12,
     "ncolors": 12,
-    "material": "mushroom cap top"
+    "material": "mushroom cap top",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.05,
@@ -188,7 +226,9 @@
     "d": -0.07385156995851316,
     "n2": 60,
     "ncolors": 12,
-    "material": "oak log bark"
+    "material": "oak log bark",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -196,7 +236,9 @@
     "d": -0.12297528473226767,
     "n2": 36,
     "ncolors": 12,
-    "material": "perforated metal panel"
+    "material": "perforated metal panel",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.08695652173913043,
@@ -204,7 +246,9 @@
     "d": -0.042702751346581774,
     "n2": 23,
     "ncolors": 12,
-    "material": "plywood sheet"
+    "material": "plywood sheet",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -212,7 +256,9 @@
     "d": -0.14017490827570506,
     "n2": 15,
     "ncolors": 12,
-    "material": "pumice stone"
+    "material": "pumice stone",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.15384615384615385,
@@ -220,7 +266,9 @@
     "d": 0.01619173247393313,
     "n2": 13,
     "ncolors": 12,
-    "material": "quartz crystal cluster"
+    "material": "quartz crystal cluster",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.1111111111111111,
@@ -228,7 +276,9 @@
     "d": -0.01771499221355982,
     "n2": 18,
     "ncolors": 12,
-    "material": "sandstone block"
+    "material": "sandstone block",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.16666666666666666,
@@ -236,7 +286,9 @@
     "d": 0.029545502769605325,
     "n2": 18,
     "ncolors": 12,
-    "material": "smooth stone"
+    "material": "smooth stone",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.0851063829787234,
@@ -244,7 +296,9 @@
     "d": -0.024195430611589866,
     "n2": 47,
     "ncolors": 12,
-    "material": "terracotta floor tiles"
+    "material": "terracotta floor tiles",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.07142857142857142,
@@ -252,7 +306,9 @@
     "d": -0.0626835029597489,
     "n2": 28,
     "ncolors": 12,
-    "material": "wet river pebbles"
+    "material": "wet river pebbles",
+    "source": "iso_point/box",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -260,7 +316,9 @@
     "d": -0.12661485942769085,
     "n2": 28,
     "ncolors": 12,
-    "material": "woven rattan panel"
+    "material": "woven rattan panel",
+    "source": "iso_point/box",
+    "tile_gated": true
    }
   ],
   "P_per": [
@@ -270,7 +328,9 @@
     "d": -0.15658176255223166,
     "n2": 34,
     "ncolors": 12,
-    "material": "adobe mud bricks"
+    "material": "adobe mud bricks",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.021739130434782608,
@@ -278,7 +338,9 @@
     "d": -0.10318050694724877,
     "n2": 46,
     "ncolors": 12,
-    "material": "bamboo mat"
+    "material": "bamboo mat",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.02857142857142857,
@@ -286,7 +348,9 @@
     "d": -0.09878593163062886,
     "n2": 35,
     "ncolors": 12,
-    "material": "birch tree bark"
+    "material": "birch tree bark",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.03333333333333333,
@@ -294,7 +358,9 @@
     "d": -0.11345821861523611,
     "n2": 30,
     "ncolors": 12,
-    "material": "brick wall"
+    "material": "brick wall",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.038461538461538464,
@@ -302,7 +368,9 @@
     "d": -0.10192521298910939,
     "n2": 26,
     "ncolors": 12,
-    "material": "burlap sack fabric"
+    "material": "burlap sack fabric",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -310,7 +378,9 @@
     "d": -0.1408452254318166,
     "n2": 35,
     "ncolors": 12,
-    "material": "cactus skin"
+    "material": "cactus skin",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.04,
@@ -318,7 +388,9 @@
     "d": -0.09846750808268559,
     "n2": 25,
     "ncolors": 12,
-    "material": "chain link fence"
+    "material": "chain link fence",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -326,7 +398,9 @@
     "d": -0.12980881903487934,
     "n2": 91,
     "ncolors": 12,
-    "material": "checkered tiled floor"
+    "material": "checkered tiled floor",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -334,7 +408,9 @@
     "d": -0.1493160972031849,
     "n2": 38,
     "ncolors": 12,
-    "material": "clay roof tiles"
+    "material": "clay roof tiles",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.025,
@@ -342,7 +418,9 @@
     "d": -0.08046971558016527,
     "n2": 40,
     "ncolors": 12,
-    "material": "coal ore vein"
+    "material": "coal ore vein",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -350,7 +428,9 @@
     "d": -0.1445552124309927,
     "n2": 15,
     "ncolors": 12,
-    "material": "coarse gravel path"
+    "material": "coarse gravel path",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -358,7 +438,9 @@
     "d": -0.13387481864389927,
     "n2": 55,
     "ncolors": 12,
-    "material": "cobweb corner"
+    "material": "cobweb corner",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -366,7 +448,9 @@
     "d": -0.11856135668474456,
     "n2": 77,
     "ncolors": 12,
-    "material": "concrete blocks wall"
+    "material": "concrete blocks wall",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -374,7 +458,9 @@
     "d": -0.13964438825630232,
     "n2": 55,
     "ncolors": 12,
-    "material": "corrugated metal sheet"
+    "material": "corrugated metal sheet",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -382,7 +468,9 @@
     "d": -0.11541480400039526,
     "n2": 61,
     "ncolors": 12,
-    "material": "cracked obsidian glass"
+    "material": "cracked obsidian glass",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.029411764705882353,
@@ -390,7 +478,9 @@
     "d": -0.0958494719385555,
     "n2": 68,
     "ncolors": 12,
-    "material": "desert sand dunes"
+    "material": "desert sand dunes",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.07692307692307693,
@@ -398,7 +488,9 @@
     "d": -0.05425216036806743,
     "n2": 39,
     "ncolors": 12,
-    "material": "fish scales"
+    "material": "fish scales",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.1111111111111111,
@@ -406,7 +498,9 @@
     "d": -0.033102631698604196,
     "n2": 36,
     "ncolors": 12,
-    "material": "grass turf top"
+    "material": "grass turf top",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -414,7 +508,9 @@
     "d": -0.12179009184603258,
     "n2": 58,
     "ncolors": 12,
-    "material": "honeycomb wax"
+    "material": "honeycomb wax",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -422,7 +518,9 @@
     "d": -0.13681006279496752,
     "n2": 50,
     "ncolors": 12,
-    "material": "iron ore in grey stone"
+    "material": "iron ore in grey stone",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.08,
@@ -430,7 +528,9 @@
     "d": -0.061145434498409576,
     "n2": 25,
     "ncolors": 12,
-    "material": "metal grate panel"
+    "material": "metal grate panel",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.2,
@@ -438,7 +538,9 @@
     "d": 0.07145446200038752,
     "n2": 10,
     "ncolors": 12,
-    "material": "moss covered forest floor"
+    "material": "moss covered forest floor",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.08,
@@ -446,7 +548,9 @@
     "d": -0.05479487062329831,
     "n2": 25,
     "ncolors": 12,
-    "material": "mossy cracked stone bricks"
+    "material": "mossy cracked stone bricks",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -454,7 +558,9 @@
     "d": -0.12665148742404225,
     "n2": 88,
     "ncolors": 12,
-    "material": "parquet wood floor"
+    "material": "parquet wood floor",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.05970149253731343,
@@ -462,7 +568,9 @@
     "d": -0.07135982222590992,
     "n2": 67,
     "ncolors": 12,
-    "material": "polished marble slab"
+    "material": "polished marble slab",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -470,7 +578,9 @@
     "d": -0.14361092158506628,
     "n2": 57,
     "ncolors": 12,
-    "material": "quilted padding"
+    "material": "quilted padding",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.022222222222222223,
@@ -478,7 +588,9 @@
     "d": -0.11791538760876,
     "n2": 45,
     "ncolors": 12,
-    "material": "reptile scales"
+    "material": "reptile scales",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -486,7 +598,9 @@
     "d": -0.13901002271262472,
     "n2": 50,
     "ncolors": 12,
-    "material": "rusty iron plate"
+    "material": "rusty iron plate",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -494,7 +608,9 @@
     "d": -0.12631132134246648,
     "n2": 26,
     "ncolors": 12,
-    "material": "sandstone block wall"
+    "material": "sandstone block wall",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -502,7 +618,9 @@
     "d": -0.11621383476192948,
     "n2": 62,
     "ncolors": 12,
-    "material": "slate roof shingles"
+    "material": "slate roof shingles",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.027777777777777776,
@@ -510,7 +628,9 @@
     "d": -0.08306072267542801,
     "n2": 36,
     "ncolors": 12,
-    "material": "snow covered ground"
+    "material": "snow covered ground",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.0,
@@ -518,7 +638,9 @@
     "d": -0.14396187909681687,
     "n2": 44,
     "ncolors": 12,
-    "material": "stacked stone wall"
+    "material": "stacked stone wall",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -526,7 +648,9 @@
     "d": -0.1366697767532598,
     "n2": 42,
     "ncolors": 12,
-    "material": "stone brick wall"
+    "material": "stone brick wall",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.037037037037037035,
@@ -534,7 +658,9 @@
     "d": -0.09982055354835259,
     "n2": 27,
     "ncolors": 12,
-    "material": "tree bark oak"
+    "material": "tree bark oak",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -542,7 +668,9 @@
     "d": -0.12074095281787037,
     "n2": 28,
     "ncolors": 12,
-    "material": "volcanic ash ground"
+    "material": "volcanic ash ground",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.05,
@@ -550,7 +678,9 @@
     "d": -0.07509198022254289,
     "n2": 60,
     "ncolors": 12,
-    "material": "wooden planks floor"
+    "material": "wooden planks floor",
+    "source": "bestof/best",
+    "tile_gated": true
    },
    {
     "obs": 0.07407407407407407,
@@ -558,7 +688,9 @@
     "d": -0.06163231064724567,
     "n2": 27,
     "ncolors": 12,
-    "material": "woven basket surface"
+    "material": "woven basket surface",
+    "source": "bestof/best",
+    "tile_gated": false
    },
    {
     "obs": 0.0,
@@ -566,7 +698,9 @@
     "d": -0.13209670124256337,
     "n2": 94,
     "ncolors": 12,
-    "material": "woven wool cloth"
+    "material": "woven wool cloth",
+    "source": "bestof/best",
+    "tile_gated": false
    }
   ],
   "A_iso": [
@@ -4252,6 +4386,31 @@
     "ncolors": 14,
     "material": "nc_tree_bud_side.png"
    }
+  ]
+ },
+ "tile_gate_sensitivity": {
+  "n": {
+   "P_iso": 39,
+   "P_per": 28
+  },
+  "iso": {
+   "gap": 0.006276250737166644,
+   "z": -1.083848299111508,
+   "p": 0.278432066098174,
+   "cles": 0.44654422855114895
+  },
+  "per": {
+   "gap": -0.03014425078478722,
+   "z": -3.9895367536559845,
+   "p": 6.620246110169276e-05,
+   "cles": 0.2646198830409357
+  },
+  "moved": [
+   "cobblestone street",
+   "coral reef surface",
+   "fern frond mat",
+   "galvanized corrugated roof",
+   "woven rattan panel"
   ]
  }
 }

@@ -95,13 +95,23 @@ def stat(idx: np.ndarray, seed: int):
             "ncolors": int(len(np.unique(idx)))}
 
 
-def pipeline_group(paths, seed0: int):
+def tile_gate(rgb: np.ndarray) -> bool:
+    """瓦片层的门——与真人组用的是同一行判断（见 `artist_groups`）。"""
+    return (dominant_period(rgb, lo=2, hi_frac=0.625) > 0
+            and anisotropy(rgb) >= 0.20)
+
+
+def pipeline_group(paths, seed0: int, source: str = ""):
     recs = []
     for k, p in enumerate(paths):
-        idx = as_index_map(np.asarray(Image.open(p).convert("RGB")))
+        rgb = np.asarray(Image.open(p).convert("RGB"))
+        idx = as_index_map(rgb)
         s = stat(idx, seed0 + k)
         if s:
             s["material"] = p.name.rsplit("_", 1)[0].replace("_", " ")
+            s["source"] = source
+            # 只记录、不参与预注册主判据；供 --tile-gate 的敏感性分析重新分组。
+            s["tile_gated"] = bool(tile_gate(rgb.astype(float)))
             recs.append(s)
     return recs
 
@@ -138,8 +148,46 @@ def describe(tag, recs):
     return statistics.median(d)
 
 
+def tile_gate_mode(P_iso, P_per, A_iso, A_per):
+    """敏感性分析：把**瓦片层的门**也套到管线组上，两边用同一个定义。
+
+    不是预注册的一部分。另一会话在**看结果之前**指出（`2b11231`）：真人组的
+    "门拒绝" 判在 16x16 瓦片上，管线组却继承自 1024 渲染图的判定，
+    29 张里 5 张按瓦片层的门反而算触发——**分组方式本身**是个混淆，
+    与已列的"材质集不同"不是一回事。修法不用 GPU（瓦片都在本地），
+    所以这里补做，主判据的数**照原样保留在上面**，两种口径并排看。
+    """
+    pool = P_iso + P_per
+    p_iso2 = [r for r in pool if not r["tile_gated"]]
+    p_per2 = [r for r in pool if r["tile_gated"]]
+    print("\n=== 敏感性分析（非预注册）：两组都用瓦片层的门 ===")
+    for tag, g in (("P_iso'", p_iso2), ("P_per'", p_per2)):
+        src = {}
+        for r in g:
+            src[r["source"]] = src.get(r["source"], 0) + 1
+        print(f"  {tag} 来源构成：" + "、".join(f"{k} {v}" for k, v in sorted(src.items())))
+    if not p_iso2 or not p_per2:
+        print("  某一组为空，无法比较")
+        return None
+    m_pi2 = describe("P_iso'", p_iso2)
+    m_ai = statistics.median([r["d"] for r in A_iso])
+    m_pp2 = describe("P_per'", p_per2)
+    m_ap = statistics.median([r["d"] for r in A_per])
+    _, z1, q1, c1 = mannwhitney([r["d"] for r in p_iso2], [r["d"] for r in A_iso])
+    _, z2, q2, c2 = mannwhitney([r["d"] for r in p_per2], [r["d"] for r in A_per])
+    print(f"  P_iso' vs A_iso：中位差 {m_pi2 - m_ai:+.4f}"
+          f"   MW z={z1:+.2f} p={q1:.3g}   共同语言 {c1:.0%}")
+    print(f"  P_per' vs A_per：中位差 {m_pp2 - m_ap:+.4f}"
+          f"   MW z={z2:+.2f} p={q2:.3g}   共同语言 {c2:.0%}")
+    print("  -> 与上面预注册口径的判读一致则结论稳；不一致则**两种都要报**。")
+    return {"n": {"P_iso": len(p_iso2), "P_per": len(p_per2)},
+            "iso": {"gap": m_pi2 - m_ai, "z": z1, "p": q1, "cles": c1},
+            "per": {"gap": m_pp2 - m_ap, "z": z2, "p": q2, "cles": c2},
+            "moved": sorted(r["material"] for r in P_iso if r["tile_gated"])}
+
+
 def main():
-    unknown = [a for a in sys.argv[1:] if a != "--force"]
+    unknown = [a for a in sys.argv[1:] if a not in ("--force", "--tile-gate")]
     if unknown:
         raise SystemExit(f"不认识的参数：{' '.join(unknown)}")
     _guard()
@@ -158,8 +206,8 @@ def main():
     if not p_per_paths:
         raise SystemExit(f"缺 {bestof} 里 best_eff 的瓦片（需从服务器取回）")
 
-    P_iso = pipeline_group(p_iso_paths, 100)
-    P_per = pipeline_group(p_per_paths, 200)
+    P_iso = pipeline_group(p_iso_paths, 100, "iso_point/box")
+    P_per = pipeline_group(p_per_paths, 200, "bestof/best")
     A_iso, A_per = artist_groups()
 
     print(f"用色数窗口 [{COLOR_LO},{COLOR_HI}]（管线侧实测全为 12 色）\n")
@@ -192,6 +240,8 @@ def main():
            "per": {"gap": gap_per, "z": z2, "p": p2, "cles": cl2},
            "material_overlap": sorted(overlap),
            "tiles": {"P_iso": P_iso, "P_per": P_per, "A_iso": A_iso, "A_per": A_per}}
+    if "--tile-gate" in sys.argv:
+        res["tile_gate_sensitivity"] = tile_gate_mode(P_iso, P_per, A_iso, A_per)
     OUT.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
 
     print("\n--- 主判据（预注册）---")
