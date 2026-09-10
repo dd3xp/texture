@@ -73,8 +73,13 @@ data/tiles/*
 # 「门在 65/78 上触发」这类交付数字要能从净克隆核对。
 !experiments/pack78_out/
 !experiments/pack78_out/manifest.json
-# PNG 不入库，可由 batch_pack.py + 种子重出
-experiments/pack78_out/base/
+# PNG 不入库，可由 batch_pack.py + 种子重出（要 GPU）
+# 写成 base/* 而不是 base/：目录本身被排除时 git 不再往里看，
+# 里面的 ! 例外一律无效（第 33 轮踩过的那个坑）。
+experiments/pack78_out/base/*
+# 例外：16x16 那一档（78 张共 40KB）是单元惯例残差检验的输入，
+# 没有它 units_residual_pack78.py 在净克隆上跑不了，而重出要 GPU。
+!experiments/pack78_out/base/16/
 !experiments/seam_crop.json
 !experiments/seam_crop60.json
 # 方法三的零假设对照：没有它，那两个 p 只有旧的（错的）比法可查
