@@ -2947,8 +2947,16 @@ CSV 仍未到（`experiments/annotate/` 无新 `*.csv`），远程无本项目�
 - **判据③（`bestof_gained.py`，预注册 `bfd1103`）是孤儿，且现在跑不了**：
   它要 `experiments/bestof/*_single.png`，而那个目录里 **42 张全是 `_best.png`，
   单样本版一张都没有**。要补就得重跑生成（GPU + 磁盘，而 `/mnt/data` 已满）。
-  这一格是方法一"新救回来的 16 个材质成品是否真的更好"，**仍然空着**，
-  正文对方法一的收窄措辞（"覆盖更多材质"）因此仍是必须的。
+  ⚠ **（2026-09-10 晚更正，另一会话逐条核过）上面这句"仍然空着"是错的。**
+  `experiments/bestof_gained.json` **存在且已入库**，含 14 条判官判读
+  （10 best / 2 single / 2 inconsistent → **10/12 = 83%，p=0.039**），
+  统计从净克隆可复算（实测复现）。**空着的是图像级可复现性**：
+  `_single.png` 已不在，审稿人能核算术、不能重生成瓦片再判一次。
+  这是个**可复现性限制**，不是"结论缺失"。
+  另外，正文对方法一的收窄（"多采样提高覆盖"）是 **`bestof_rule.py` 要求的**
+  （"取 frac 最大"不优于随机取一个有效的），**不是因为判据③空缺**——
+  而且判据③考察的正是"多采样让原本裁不了的材质有了可裁的样本"，
+  它**支持**那条存活下来的窄主张，与之不矛盾。
 - `analysis/paired/fig_dose.py` 产出的 `figures/fig_dose_response.png`
   **不在 main.tex 里**（正文 Fig 7 是 `fig_units.py` 的 `fig7_units.png`），
   且它 import scipy（emnlp 环境没有）。属**被取代但仍随包发出**的脚本，
