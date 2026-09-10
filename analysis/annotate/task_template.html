@@ -75,6 +75,23 @@ function resume(){
   } catch(e){}
 }
 
+// 最短用时门槛。接缝那份的中位用时 2.9s、13/55 不到 2 秒，而注意力检查
+// （清晰 vs 重糊）点得再快也不会错，抓不到草率标注。这里挡住"图还没看就按键"，
+// 是预防，不是事后筛数据。
+const MIN_MS = 700;
+function tooFast(){
+  if(Date.now() - t0 >= MIN_MS) return false;
+  const h = document.getElementById('cnt');
+  h.textContent = '慢一点：两张都看过再选';
+  h.style.color = '#e2a87e';
+  setTimeout(function(){ h.style.color = ''; render(); }, 450);
+  return true;
+}
+
+function render(){
+  document.getElementById('cnt').textContent = (i + 1) + ' / ' + ITEMS.length;
+}
+
 function show(){
   if(i >= ITEMS.length){
     document.getElementById('main').style.display = 'none';
@@ -92,12 +109,15 @@ function show(){
 }
 
 function pick(c){
+  if(tooFast()) return;
   const it = ITEMS[i];
   out.push({
     idx: i, material: it.material, kind: it.kind, struct: (it.struct !== undefined ? it.struct : ''), stratum: (it.stratum || ''),
     left: it.left, right: it.right, choice: c,
     chosen: c === 'tie' ? 'tie' : (c === 'left' ? it.left : it.right),
-    ms: Date.now() - t0
+    ms: Date.now() - t0,
+    // 同一对的正序与反序共用一个 pair，缺席时为空（旧的单次呈现页面）。
+    pair: (it.pair !== undefined ? it.pair : '')
   });
   i++;
   persist();
@@ -109,9 +129,9 @@ function undo(){
 }
 
 function save(){
-  const head = 'idx,material,kind,struct,stratum,left,right,choice,chosen,ms\n';
+  const head = 'idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair\n';
   const body = out.map(function(r){
-    return [r.idx, r.material, r.kind, r.struct, r.stratum, r.left, r.right, r.choice, r.chosen, (r.ms || '')].join(',');
+    return [r.idx, r.material, r.kind, r.struct, r.stratum, r.left, r.right, r.choice, r.chosen, (r.ms || ''), (r.pair !== undefined ? r.pair : '')].join(',');
   }).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([head + body], {type: 'text/csv'}));

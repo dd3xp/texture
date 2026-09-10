@@ -130,12 +130,15 @@ def audit(path, focal):
         if n_ar:
             print(f"                won {wr}/{n_ar} when on right ({wr/n_ar:.0%})")
 
-    times = [int(r["ms"]) for r in real if r.get("ms", "").strip().isdigit()]
+    # Caliber matters here: median over the 57 real seam rows is 3.1s, over the
+    # 55 DECIDED ones 2.9s. The published figure is the decided-set one, so use
+    # that and say so, rather than quietly reporting a third number.
+    times = sorted(int(r["ms"]) for r in decided if r.get("ms", "").strip().isdigit())
     if times:
-        times.sort()
         med = times[len(times) // 2]
         fast = sum(1 for t in times if t < 2000)
-        print(f"  timing: median {med/1000:.1f}s   under 2s: {fast}/{len(times)}")
+        print(f"  timing (decided pairs): median {med/1000:.1f}s"
+              f"   under 2s: {fast}/{len(times)}")
     else:
         print("  timing: not recorded by this build of the template")
 
