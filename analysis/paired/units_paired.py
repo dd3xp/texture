@@ -21,6 +21,28 @@
    - 方向不一致或不显著 → 这就不只是口径问题，剂量-反应的单元数那条腿要重写。
 5. 无论结论如何，**本脚本不改 `paper/`**（论文处于用户拍板冻结中）。
 
+**第二部分（2026-09-10 追加，判据同样写于运行之前、commit 后再跑）**
+
+查 fig_units.py 时发现**承重的那个更值得查**：§5.4 那句「clearing a manipulation
+criterion fixed in advance」靠的是 21 条提示词的分辨率探针（30.1 → 8.8，−70.9%，
+p=0.0066）。`render_res_probe.py:93-96` 是同一个形状——`hi` 与 `lo` 两个列表
+**各自过滤 period>0**——而且它用的是 **Mann-Whitney，一个非配对检验**，
+可这 21 条提示词在三个尺寸上是**同一批**。
+
+⚠ 预注册（`render_res_probe.py:7-11`）当初就写死了 MW，所以已发表的
+「按预先固定的判据通过」这句**在字面上没有说谎**；本部分不改判据、不追认新判据，
+只做一件事：**问配对口径同不同意**。
+
+  1. **自检先行**：须精确复现 30.1 / 16.8 / 8.76 与 −44.2% / −70.9%（容差 0.05
+     与 0.1pp），否则 REFUSE。
+  2. 报告三档各自的检出子集与两两交集。
+  3. 在**每对条件自己的交集**上重算中位变化，并做**配对符号检验**（精确二项）。
+  4. 判读：
+     - 配对口径方向一致、且 384 那档仍显著（p<0.05）与仍 ≥20% 下降
+       → 已发表判读**稳健**，只需在文档里记一条口径注记；
+     - 若任一条翻转 → 操作检验的结论**依赖口径**，必须作为限制披露。
+  5. 同样**不改 `paper/`**。
+
 只读 JSON，不导 torch，净克隆可跑：`python analysis/paired/units_paired.py`
 """
 
@@ -109,6 +131,61 @@ def main():
 
     print("\n判读按判据第 4 条：方向一致且显著 → 口径更正；否则该腿要重写。")
     print("（本脚本不改 paper/。）")
+    return probe()
+
+
+PROBE = ROOT / "experiments" / "render_res_probe.json"
+PROBE_PUBLISHED = {1024: 30.1, 512: 16.8, 384: 8.76}
+PROBE_CHG = {512: -44.2, 384: -70.9}
+
+
+def probe():
+    """第二部分：承重的那个操作检验（render_res_probe.py）。"""
+    print("\n\n########## 第二部分：21 条提示词的分辨率探针 ##########")
+    recs = json.loads(PROBE.read_text())
+
+    print("\n== 自检：复现 render_res_probe.py 的已发表数 ==")
+    ok = True
+    med = {}
+    for s in (1024, 512, 384):
+        vals = [s / r[str(s)] for r in recs if r[str(s)] > 0]
+        med[s] = statistics.median(vals)
+        hit = abs(med[s] - PROBE_PUBLISHED[s]) <= 0.05
+        ok &= hit
+        print(f"  {s:>4}px  n={len(vals):>2}  median={med[s]:7.4f}  "
+              f"已发表={PROBE_PUBLISHED[s]}  {'OK' if hit else 'MISMATCH'}")
+    for s in (512, 384):
+        chg = 100 * (med[s] / med[1024] - 1)
+        hit = abs(chg - PROBE_CHG[s]) <= 0.1
+        ok &= hit
+        print(f"  {s:>4}px 相对 1024 的中位变化 {chg:+.1f}%  "
+              f"已发表={PROBE_CHG[s]}%  {'OK' if hit else 'MISMATCH'}")
+    if not ok:
+        print("REFUSE：自检未过，按判据不予判读。")
+        return 1
+
+    det = {s: {r["prompt"] for r in recs if r[str(s)] > 0} for s in (1024, 512, 384)}
+    print("\n== 检出子集 ==")
+    for s in (1024, 512, 384):
+        missing = sorted({r["prompt"] for r in recs} - det[s])
+        print(f"  {s:>4}px 检出 {len(det[s])}/21"
+              f"{'；未检出 ' + ', '.join(missing) if missing else ''}")
+
+    print("\n== 配对口径（每对用自己的交集） ==")
+    for s in (512, 384):
+        keys = sorted(det[1024] & det[s])
+        by = {r["prompt"]: r for r in recs}
+        hi = [1024 / by[k]["1024"] for k in keys]
+        lo = [s / by[k][str(s)] for k in keys]
+        m_hi, m_lo = statistics.median(hi), statistics.median(lo)
+        chg = 100 * (m_lo / m_hi - 1)
+        down, n, p = sign_test(hi, lo)
+        print(f"  1024px → {s}px  交集 n={len(keys)}：中位 {m_hi:.2f} → {m_lo:.2f}"
+              f"（{chg:+.1f}%），配对符号检验 下降 {down}/{n}，p={p:.4g}")
+        big = abs(chg) >= 20 and chg < 0
+        sig = p < 0.05
+        verdict = ("稳健" if (big and sig) else "翻转/不稳")
+        print(f"      判据 4：≥20% 下降={big}，配对 p<0.05={sig} → **{verdict}**")
     return 0
 
 
