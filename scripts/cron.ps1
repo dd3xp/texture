@@ -1,4 +1,4 @@
-# 每 30 分钟拉起一个全新的无头 Claude 干一轮。
+﻿# 每 30 分钟拉起一个全新的无头 Claude 干一轮。
 # 由 Windows 计划任务 TextureCron 调用。
 #
 # 为什么是计划任务而不是 Claude Code 的 CronCreate：
@@ -63,8 +63,11 @@ try {
     # 提示词走**标准输入**，不走命令行参数：
     # PowerShell 把多行字符串按空白拆成多个参数传给原生 exe，
     # 提示词里的 `tail -3` 会被 claude 当成未知选项而直接失败。
+    # **必须显式给 --model**：不给就继承用户配置里的默认值，而那个值（`fable[1m]`）
+    # 在无头会话里取不到，claude 一句 "issue with the selected model" 就退出，
+    # 整轮什么也没干却记成 "round done"（09-10 05:07 那轮即如此）。
     $prompt | & claude -p --dangerously-skip-permissions --output-format text `
-        --max-turns 60 2>&1 | Out-File -Encoding utf8 $out
+        --model claude-opus-5 --max-turns 60 2>&1 | Out-File -Encoding utf8 $out
 
     $tail = (Get-Content $out -Tail 2 -ErrorAction SilentlyContinue) -join ' '
     $head = (git -C $root log --oneline -1) 2>$null
