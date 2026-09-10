@@ -1,0 +1,4257 @@
+{
+ "color_window": [
+  10,
+  14
+ ],
+ "median_d": {
+  "P_iso": -0.042702751346581774,
+  "A_iso": -0.06790856138441231,
+  "P_per": -0.11706461118534474,
+  "A_per": -0.0872433449385498
+ },
+ "n": {
+  "P_iso": 29,
+  "A_iso": 289,
+  "P_per": 38,
+  "A_per": 171
+ },
+ "iso": {
+  "gap": 0.02520581003783054,
+  "z": 0.24893457900358412,
+  "p": 0.8034113868774223,
+  "cles": 0.5140198067056437
+ },
+ "per": {
+  "gap": -0.029821266246794945,
+  "z": -4.359216682283928,
+  "p": 1.3052882153148013e-05,
+  "cles": 0.2737765466297322
+ },
+ "material_overlap": [],
+ "tiles": {
+  "P_iso": [
+   {
+    "obs": 0.16666666666666666,
+    "null": 0.12539582457662177,
+    "d": 0.04127084209004489,
+    "n2": 18,
+    "ncolors": 12,
+    "material": "carpet loop pile"
+   },
+   {
+    "obs": 0.07142857142857142,
+    "null": 0.14698738301750164,
+    "d": -0.07555881158893021,
+    "n2": 14,
+    "ncolors": 12,
+    "material": "chain mail armour"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.1461049964666718,
+    "d": 0.044371194009518666,
+    "n2": 21,
+    "ncolors": 12,
+    "material": "coarse gravel"
+   },
+   {
+    "obs": 0.04,
+    "null": 0.1412381860923264,
+    "d": -0.1012381860923264,
+    "n2": 25,
+    "ncolors": 12,
+    "material": "cobblestone street"
+   },
+   {
+    "obs": 0.09523809523809523,
+    "null": 0.11773078789934935,
+    "d": -0.022492692661254116,
+    "n2": 21,
+    "ncolors": 12,
+    "material": "concrete sidewalk slab"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13726448902993102,
+    "d": -0.13726448902993102,
+    "n2": 42,
+    "ncolors": 12,
+    "material": "coral reef surface"
+   },
+   {
+    "obs": 0.1111111111111111,
+    "null": 0.13089625271854743,
+    "d": -0.01978514160743633,
+    "n2": 18,
+    "ncolors": 12,
+    "material": "cracked ice sheet"
+   },
+   {
+    "obs": 0.11764705882352941,
+    "null": 0.13614824652148697,
+    "d": -0.018501187697957555,
+    "n2": 17,
+    "ncolors": 12,
+    "material": "denim fabric"
+   },
+   {
+    "obs": 0.08333333333333333,
+    "null": 0.131624730597397,
+    "d": -0.04829139726406366,
+    "n2": 24,
+    "ncolors": 12,
+    "material": "diamond plate steel"
+   },
+   {
+    "obs": 0.047619047619047616,
+    "null": 0.1345448598367758,
+    "d": -0.08692581221772819,
+    "n2": 42,
+    "ncolors": 12,
+    "material": "felt cloth"
+   },
+   {
+    "obs": 0.13636363636363635,
+    "null": 0.1524353912598684,
+    "d": -0.016071754896232054,
+    "n2": 22,
+    "ncolors": 12,
+    "material": "fern frond mat"
+   },
+   {
+    "obs": 0.02702702702702703,
+    "null": 0.13139278682194652,
+    "d": -0.1043657597949195,
+    "n2": 37,
+    "ncolors": 12,
+    "material": "frozen tundra ground"
+   },
+   {
+    "obs": 0.05172413793103448,
+    "null": 0.12573580940607457,
+    "d": -0.07401167147504009,
+    "n2": 58,
+    "ncolors": 12,
+    "material": "galvanized corrugated roof"
+   },
+   {
+    "obs": 0.07017543859649122,
+    "null": 0.09378149622583674,
+    "d": -0.02360605762934552,
+    "n2": 57,
+    "ncolors": 12,
+    "material": "geode interior"
+   },
+   {
+    "obs": 0.125,
+    "null": 0.12280230323649143,
+    "d": 0.002197696763508575,
+    "n2": 24,
+    "ncolors": 12,
+    "material": "grass turf top"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13813476914655712,
+    "d": -0.13813476914655712,
+    "n2": 24,
+    "ncolors": 12,
+    "material": "iron ore in stone"
+   },
+   {
+    "obs": 0.1111111111111111,
+    "null": 0.13235157735235045,
+    "d": -0.021240466241239347,
+    "n2": 27,
+    "ncolors": 12,
+    "material": "malachite ore vein"
+   },
+   {
+    "obs": 0.08695652173913043,
+    "null": 0.1346036004600414,
+    "d": -0.04764707872091098,
+    "n2": 23,
+    "ncolors": 12,
+    "material": "mosaic tile floor"
+   },
+   {
+    "obs": 0.25,
+    "null": 0.1330919728782087,
+    "d": 0.1169080271217913,
+    "n2": 12,
+    "ncolors": 12,
+    "material": "mushroom cap top"
+   },
+   {
+    "obs": 0.05,
+    "null": 0.12385156995851317,
+    "d": -0.07385156995851316,
+    "n2": 60,
+    "ncolors": 12,
+    "material": "oak log bark"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12297528473226767,
+    "d": -0.12297528473226767,
+    "n2": 36,
+    "ncolors": 12,
+    "material": "perforated metal panel"
+   },
+   {
+    "obs": 0.08695652173913043,
+    "null": 0.1296592730857122,
+    "d": -0.042702751346581774,
+    "n2": 23,
+    "ncolors": 12,
+    "material": "plywood sheet"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14017490827570506,
+    "d": -0.14017490827570506,
+    "n2": 15,
+    "ncolors": 12,
+    "material": "pumice stone"
+   },
+   {
+    "obs": 0.15384615384615385,
+    "null": 0.13765442137222073,
+    "d": 0.01619173247393313,
+    "n2": 13,
+    "ncolors": 12,
+    "material": "quartz crystal cluster"
+   },
+   {
+    "obs": 0.1111111111111111,
+    "null": 0.12882610332467093,
+    "d": -0.01771499221355982,
+    "n2": 18,
+    "ncolors": 12,
+    "material": "sandstone block"
+   },
+   {
+    "obs": 0.16666666666666666,
+    "null": 0.13712116389706133,
+    "d": 0.029545502769605325,
+    "n2": 18,
+    "ncolors": 12,
+    "material": "smooth stone"
+   },
+   {
+    "obs": 0.0851063829787234,
+    "null": 0.10930181359031327,
+    "d": -0.024195430611589866,
+    "n2": 47,
+    "ncolors": 12,
+    "material": "terracotta floor tiles"
+   },
+   {
+    "obs": 0.07142857142857142,
+    "null": 0.13411207438832032,
+    "d": -0.0626835029597489,
+    "n2": 28,
+    "ncolors": 12,
+    "material": "wet river pebbles"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12661485942769085,
+    "d": -0.12661485942769085,
+    "n2": 28,
+    "ncolors": 12,
+    "material": "woven rattan panel"
+   }
+  ],
+  "P_per": [
+   {
+    "obs": 0.0,
+    "null": 0.15658176255223166,
+    "d": -0.15658176255223166,
+    "n2": 34,
+    "ncolors": 12,
+    "material": "adobe mud bricks"
+   },
+   {
+    "obs": 0.021739130434782608,
+    "null": 0.12491963738203138,
+    "d": -0.10318050694724877,
+    "n2": 46,
+    "ncolors": 12,
+    "material": "bamboo mat"
+   },
+   {
+    "obs": 0.02857142857142857,
+    "null": 0.12735736020205743,
+    "d": -0.09878593163062886,
+    "n2": 35,
+    "ncolors": 12,
+    "material": "birch tree bark"
+   },
+   {
+    "obs": 0.03333333333333333,
+    "null": 0.14679155194856944,
+    "d": -0.11345821861523611,
+    "n2": 30,
+    "ncolors": 12,
+    "material": "brick wall"
+   },
+   {
+    "obs": 0.038461538461538464,
+    "null": 0.14038675145064786,
+    "d": -0.10192521298910939,
+    "n2": 26,
+    "ncolors": 12,
+    "material": "burlap sack fabric"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1408452254318166,
+    "d": -0.1408452254318166,
+    "n2": 35,
+    "ncolors": 12,
+    "material": "cactus skin"
+   },
+   {
+    "obs": 0.04,
+    "null": 0.1384675080826856,
+    "d": -0.09846750808268559,
+    "n2": 25,
+    "ncolors": 12,
+    "material": "chain link fence"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12980881903487934,
+    "d": -0.12980881903487934,
+    "n2": 91,
+    "ncolors": 12,
+    "material": "checkered tiled floor"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1493160972031849,
+    "d": -0.1493160972031849,
+    "n2": 38,
+    "ncolors": 12,
+    "material": "clay roof tiles"
+   },
+   {
+    "obs": 0.025,
+    "null": 0.10546971558016527,
+    "d": -0.08046971558016527,
+    "n2": 40,
+    "ncolors": 12,
+    "material": "coal ore vein"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1445552124309927,
+    "d": -0.1445552124309927,
+    "n2": 15,
+    "ncolors": 12,
+    "material": "coarse gravel path"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13387481864389927,
+    "d": -0.13387481864389927,
+    "n2": 55,
+    "ncolors": 12,
+    "material": "cobweb corner"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11856135668474456,
+    "d": -0.11856135668474456,
+    "n2": 77,
+    "ncolors": 12,
+    "material": "concrete blocks wall"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13964438825630232,
+    "d": -0.13964438825630232,
+    "n2": 55,
+    "ncolors": 12,
+    "material": "corrugated metal sheet"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11541480400039526,
+    "d": -0.11541480400039526,
+    "n2": 61,
+    "ncolors": 12,
+    "material": "cracked obsidian glass"
+   },
+   {
+    "obs": 0.029411764705882353,
+    "null": 0.12526123664443786,
+    "d": -0.0958494719385555,
+    "n2": 68,
+    "ncolors": 12,
+    "material": "desert sand dunes"
+   },
+   {
+    "obs": 0.07692307692307693,
+    "null": 0.13117523729114436,
+    "d": -0.05425216036806743,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "fish scales"
+   },
+   {
+    "obs": 0.1111111111111111,
+    "null": 0.1442137428097153,
+    "d": -0.033102631698604196,
+    "n2": 36,
+    "ncolors": 12,
+    "material": "grass turf top"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12179009184603258,
+    "d": -0.12179009184603258,
+    "n2": 58,
+    "ncolors": 12,
+    "material": "honeycomb wax"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13681006279496752,
+    "d": -0.13681006279496752,
+    "n2": 50,
+    "ncolors": 12,
+    "material": "iron ore in grey stone"
+   },
+   {
+    "obs": 0.08,
+    "null": 0.14114543449840958,
+    "d": -0.061145434498409576,
+    "n2": 25,
+    "ncolors": 12,
+    "material": "metal grate panel"
+   },
+   {
+    "obs": 0.2,
+    "null": 0.1285455379996125,
+    "d": 0.07145446200038752,
+    "n2": 10,
+    "ncolors": 12,
+    "material": "moss covered forest floor"
+   },
+   {
+    "obs": 0.08,
+    "null": 0.1347948706232983,
+    "d": -0.05479487062329831,
+    "n2": 25,
+    "ncolors": 12,
+    "material": "mossy cracked stone bricks"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12665148742404225,
+    "d": -0.12665148742404225,
+    "n2": 88,
+    "ncolors": 12,
+    "material": "parquet wood floor"
+   },
+   {
+    "obs": 0.05970149253731343,
+    "null": 0.13106131476322336,
+    "d": -0.07135982222590992,
+    "n2": 67,
+    "ncolors": 12,
+    "material": "polished marble slab"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14361092158506628,
+    "d": -0.14361092158506628,
+    "n2": 57,
+    "ncolors": 12,
+    "material": "quilted padding"
+   },
+   {
+    "obs": 0.022222222222222223,
+    "null": 0.14013760983098222,
+    "d": -0.11791538760876,
+    "n2": 45,
+    "ncolors": 12,
+    "material": "reptile scales"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13901002271262472,
+    "d": -0.13901002271262472,
+    "n2": 50,
+    "ncolors": 12,
+    "material": "rusty iron plate"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12631132134246648,
+    "d": -0.12631132134246648,
+    "n2": 26,
+    "ncolors": 12,
+    "material": "sandstone block wall"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11621383476192948,
+    "d": -0.11621383476192948,
+    "n2": 62,
+    "ncolors": 12,
+    "material": "slate roof shingles"
+   },
+   {
+    "obs": 0.027777777777777776,
+    "null": 0.11083850045320578,
+    "d": -0.08306072267542801,
+    "n2": 36,
+    "ncolors": 12,
+    "material": "snow covered ground"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14396187909681687,
+    "d": -0.14396187909681687,
+    "n2": 44,
+    "ncolors": 12,
+    "material": "stacked stone wall"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1366697767532598,
+    "d": -0.1366697767532598,
+    "n2": 42,
+    "ncolors": 12,
+    "material": "stone brick wall"
+   },
+   {
+    "obs": 0.037037037037037035,
+    "null": 0.13685759058538963,
+    "d": -0.09982055354835259,
+    "n2": 27,
+    "ncolors": 12,
+    "material": "tree bark oak"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12074095281787037,
+    "d": -0.12074095281787037,
+    "n2": 28,
+    "ncolors": 12,
+    "material": "volcanic ash ground"
+   },
+   {
+    "obs": 0.05,
+    "null": 0.1250919802225429,
+    "d": -0.07509198022254289,
+    "n2": 60,
+    "ncolors": 12,
+    "material": "wooden planks floor"
+   },
+   {
+    "obs": 0.07407407407407407,
+    "null": 0.13570638472131974,
+    "d": -0.06163231064724567,
+    "n2": 27,
+    "ncolors": 12,
+    "material": "woven basket surface"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13209670124256337,
+    "d": -0.13209670124256337,
+    "n2": 94,
+    "ncolors": 12,
+    "material": "woven wool cloth"
+   }
+  ],
+  "A_iso": [
+   {
+    "obs": 0.12121212121212122,
+    "null": 0.12656943608185467,
+    "d": -0.005357314869733454,
+    "n2": 33,
+    "ncolors": 14,
+    "material": "default_gravel.png"
+   },
+   {
+    "obs": 0.17543859649122806,
+    "null": 0.11032943523450242,
+    "d": 0.06510916125672564,
+    "n2": 57,
+    "ncolors": 10,
+    "material": "default_grass.png"
+   },
+   {
+    "obs": 0.17543859649122806,
+    "null": 0.10938854673815303,
+    "d": 0.06605004975307503,
+    "n2": 57,
+    "ncolors": 10,
+    "material": "default_grass.png"
+   },
+   {
+    "obs": 0.010526315789473684,
+    "null": 0.09996320235471265,
+    "d": -0.08943688656523896,
+    "n2": 95,
+    "ncolors": 12,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.012345679012345678,
+    "null": 0.11074112922153866,
+    "d": -0.09839545020919298,
+    "n2": 81,
+    "ncolors": 12,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.010309278350515464,
+    "null": 0.13579881445352732,
+    "d": -0.12548953610301186,
+    "n2": 194,
+    "ncolors": 10,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.023809523809523808,
+    "null": 0.09833719075823652,
+    "d": -0.07452766694871271,
+    "n2": 84,
+    "ncolors": 10,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.012345679012345678,
+    "null": 0.11583170329893665,
+    "d": -0.10348602428659097,
+    "n2": 81,
+    "ncolors": 12,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.023809523809523808,
+    "null": 0.09902378773975805,
+    "d": -0.07521426393023424,
+    "n2": 84,
+    "ncolors": 10,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.010309278350515464,
+    "null": 0.13096714090699643,
+    "d": -0.12065786255648096,
+    "n2": 194,
+    "ncolors": 10,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.010526315789473684,
+    "null": 0.09766796634117801,
+    "d": -0.08714165055170432,
+    "n2": 95,
+    "ncolors": 12,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.010526315789473684,
+    "null": 0.09823569269873729,
+    "d": -0.0877093769092636,
+    "n2": 95,
+    "ncolors": 12,
+    "material": "default_tree_top.png"
+   },
+   {
+    "obs": 0.06896551724137931,
+    "null": 0.1422232747679562,
+    "d": -0.0732577575265769,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.06896551724137931,
+    "null": 0.11371667341907454,
+    "d": -0.044751156177695234,
+    "n2": 87,
+    "ncolors": 12,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1230993830140574,
+    "d": -0.1230993830140574,
+    "n2": 16,
+    "ncolors": 12,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.08333333333333333,
+    "null": 0.15184482060181947,
+    "d": -0.06851148726848615,
+    "n2": 24,
+    "ncolors": 14,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.9444444444444444,
+    "null": 0.11397380145060527,
+    "d": 0.8304706429938391,
+    "n2": 18,
+    "ncolors": 10,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.21428571428571427,
+    "null": 0.13491445917251124,
+    "d": 0.07937125511320303,
+    "n2": 28,
+    "ncolors": 13,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.06896551724137931,
+    "null": 0.1235911129325938,
+    "d": -0.05462559569121449,
+    "n2": 87,
+    "ncolors": 12,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.10344827586206896,
+    "null": 0.1266371782267463,
+    "d": -0.02318890236467734,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_dirt.png"
+   },
+   {
+    "obs": 0.04938271604938271,
+    "null": 0.1063099879779831,
+    "d": -0.05692727192860039,
+    "n2": 81,
+    "ncolors": 14,
+    "material": "default_dirt.png"
+   },
+   {
+    "obs": 0.04938271604938271,
+    "null": 0.10425256295122519,
+    "d": -0.054869846901842476,
+    "n2": 81,
+    "ncolors": 14,
+    "material": "default_dirt.png"
+   },
+   {
+    "obs": 0.10344827586206896,
+    "null": 0.12486026958888868,
+    "d": -0.02141199372681972,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_dirt.png"
+   },
+   {
+    "obs": 0.10344827586206896,
+    "null": 0.12317058404568755,
+    "d": -0.019722308183618587,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_dirt.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.06415792695617512,
+    "d": -0.06415792695617512,
+    "n2": 114,
+    "ncolors": 11,
+    "material": "default_sand.png"
+   },
+   {
+    "obs": 0.10256410256410256,
+    "null": 0.13062525041148929,
+    "d": -0.028061147847386725,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "default_sand.png"
+   },
+   {
+    "obs": 0.10256410256410256,
+    "null": 0.13842301231649765,
+    "d": -0.035858909752395085,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "default_sand.png"
+   },
+   {
+    "obs": 0.22950819672131148,
+    "null": 0.12669925651523128,
+    "d": 0.1028089402060802,
+    "n2": 61,
+    "ncolors": 11,
+    "material": "mcl_core_lapis_block.png"
+   },
+   {
+    "obs": 0.008695652173913044,
+    "null": 0.12189719741460707,
+    "d": -0.11320154524069402,
+    "n2": 115,
+    "ncolors": 11,
+    "material": "default_diamond_block.png"
+   },
+   {
+    "obs": 0.027777777777777776,
+    "null": 0.1303368282928955,
+    "d": -0.10255905051511773,
+    "n2": 72,
+    "ncolors": 11,
+    "material": "mcl_cherry_blossom_log_top.png"
+   },
+   {
+    "obs": 0.016129032258064516,
+    "null": 0.13134572862758456,
+    "d": -0.11521669636952005,
+    "n2": 62,
+    "ncolors": 14,
+    "material": "mcl_cherry_blossom_log_top.png"
+   },
+   {
+    "obs": 0.010526315789473684,
+    "null": 0.10544903390971072,
+    "d": -0.09492271812023703,
+    "n2": 95,
+    "ncolors": 12,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.010101010101010102,
+    "null": 0.11889845763642602,
+    "d": -0.10879744753541593,
+    "n2": 99,
+    "ncolors": 14,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.023529411764705882,
+    "null": 0.0996013795940442,
+    "d": -0.07607196782933832,
+    "n2": 85,
+    "ncolors": 11,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.023529411764705882,
+    "null": 0.100254102082374,
+    "d": -0.07672469031766811,
+    "n2": 85,
+    "ncolors": 11,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.10416666666666667,
+    "null": 0.11847467744153903,
+    "d": -0.014308010774872357,
+    "n2": 48,
+    "ncolors": 14,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.010526315789473684,
+    "null": 0.10104421741322794,
+    "d": -0.09051790162375425,
+    "n2": 95,
+    "ncolors": 12,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.010526315789473684,
+    "null": 0.10673045069113052,
+    "d": -0.09620413490165683,
+    "n2": 95,
+    "ncolors": 12,
+    "material": "default_acacia_tree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11593008324521445,
+    "d": -0.11593008324521445,
+    "n2": 83,
+    "ncolors": 11,
+    "material": "mcl_core_log_birch_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11864477607294024,
+    "d": -0.11864477607294024,
+    "n2": 83,
+    "ncolors": 11,
+    "material": "mcl_core_log_birch_top.png"
+   },
+   {
+    "obs": 0.08333333333333333,
+    "null": 0.12766365478234154,
+    "d": -0.04433032144900821,
+    "n2": 48,
+    "ncolors": 14,
+    "material": "default_jungletree.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1151794274698893,
+    "d": -0.1151794274698893,
+    "n2": 80,
+    "ncolors": 11,
+    "material": "default_jungletree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11428450585541569,
+    "d": -0.11428450585541569,
+    "n2": 80,
+    "ncolors": 11,
+    "material": "default_jungletree_top.png"
+   },
+   {
+    "obs": 0.037037037037037035,
+    "null": 0.12506448534101713,
+    "d": -0.0880274483039801,
+    "n2": 54,
+    "ncolors": 14,
+    "material": "mcl_core_log_big_oak_top.png"
+   },
+   {
+    "obs": 0.06451612903225806,
+    "null": 0.1142004548347688,
+    "d": -0.04968432580251074,
+    "n2": 62,
+    "ncolors": 11,
+    "material": "mcl_mangrove_log_top.png"
+   },
+   {
+    "obs": 0.03225806451612903,
+    "null": 0.1328196102547357,
+    "d": -0.10056154573860668,
+    "n2": 62,
+    "ncolors": 14,
+    "material": "mcl_mangrove_log_top.png"
+   },
+   {
+    "obs": 0.031746031746031744,
+    "null": 0.14328859184387352,
+    "d": -0.11154256009784178,
+    "n2": 63,
+    "ncolors": 14,
+    "material": "mcl_mangrove_log_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13759399817154086,
+    "d": -0.13759399817154086,
+    "n2": 80,
+    "ncolors": 13,
+    "material": "mcl_core_log_spruce_top.png"
+   },
+   {
+    "obs": 0.07692307692307693,
+    "null": 0.12004214228778232,
+    "d": -0.04311906536470539,
+    "n2": 91,
+    "ncolors": 11,
+    "material": "mcl_core_log_spruce_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14871024267864696,
+    "d": -0.14871024267864696,
+    "n2": 80,
+    "ncolors": 13,
+    "material": "mcl_core_log_spruce_top.png"
+   },
+   {
+    "obs": 0.04918032786885246,
+    "null": 0.12895732771828397,
+    "d": -0.07977699984943151,
+    "n2": 61,
+    "ncolors": 14,
+    "material": "mcl_core_diamond_ore.png"
+   },
+   {
+    "obs": 0.06451612903225806,
+    "null": 0.13349906636732842,
+    "d": -0.06898293733507035,
+    "n2": 31,
+    "ncolors": 14,
+    "material": "mcl_deepslate_emerald_ore.png"
+   },
+   {
+    "obs": 0.11904761904761904,
+    "null": 0.1230048188077011,
+    "d": -0.003957199760082061,
+    "n2": 42,
+    "ncolors": 10,
+    "material": "mcl_deepslate_emerald_ore.png"
+   },
+   {
+    "obs": 0.23809523809523808,
+    "null": 0.12180420910760337,
+    "d": 0.11629102898763471,
+    "n2": 21,
+    "ncolors": 14,
+    "material": "mcl_deepslate_emerald_ore.png"
+   },
+   {
+    "obs": 0.23809523809523808,
+    "null": 0.13245750643275983,
+    "d": 0.10563773166247825,
+    "n2": 21,
+    "ncolors": 14,
+    "material": "mcl_deepslate_emerald_ore.png"
+   },
+   {
+    "obs": 0.021739130434782608,
+    "null": 0.12149589162719904,
+    "d": -0.09975676119241643,
+    "n2": 46,
+    "ncolors": 13,
+    "material": "mcl_core_coal_ore.png"
+   },
+   {
+    "obs": 0.037037037037037035,
+    "null": 0.12384398891777769,
+    "d": -0.08680695188074065,
+    "n2": 54,
+    "ncolors": 14,
+    "material": "mcl_core_gold_ore.png"
+   },
+   {
+    "obs": 0.06666666666666667,
+    "null": 0.1355989692594006,
+    "d": -0.06893230259273393,
+    "n2": 45,
+    "ncolors": 14,
+    "material": "mcl_core_redstone_ore.png"
+   },
+   {
+    "obs": 0.05084745762711865,
+    "null": 0.11900812688631492,
+    "d": -0.06816066925919627,
+    "n2": 59,
+    "ncolors": 13,
+    "material": "mcl_core_redstone_ore.png"
+   },
+   {
+    "obs": 0.1276595744680851,
+    "null": 0.12714969005711907,
+    "d": 0.0005098844109660272,
+    "n2": 47,
+    "ncolors": 14,
+    "material": "mcl_core_lapis_ore.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12956945166329456,
+    "d": -0.12956945166329456,
+    "n2": 48,
+    "ncolors": 14,
+    "material": "mcl_core_lapis_ore.png"
+   },
+   {
+    "obs": 0.03076923076923077,
+    "null": 0.11337057893903861,
+    "d": -0.08260134816980784,
+    "n2": 65,
+    "ncolors": 14,
+    "material": "mcl_core_emerald_ore.png"
+   },
+   {
+    "obs": 0.05405405405405406,
+    "null": 0.11773984410496961,
+    "d": -0.06368579005091556,
+    "n2": 37,
+    "ncolors": 14,
+    "material": "mcl_deepslate_copper_ore.png"
+   },
+   {
+    "obs": 0.022727272727272728,
+    "null": 0.1212802809435255,
+    "d": -0.09855300821625276,
+    "n2": 88,
+    "ncolors": 11,
+    "material": "mcl_core_dirt_podzol_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11741017260203943,
+    "d": -0.11741017260203943,
+    "n2": 76,
+    "ncolors": 12,
+    "material": "mcl_core_mycelium_side.png"
+   },
+   {
+    "obs": 0.054945054945054944,
+    "null": 0.12342267257726496,
+    "d": -0.06847761763221001,
+    "n2": 91,
+    "ncolors": 11,
+    "material": "mcl_core_grass_side_snowed.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.08482675506075105,
+    "d": -0.07556749580149179,
+    "n2": 108,
+    "ncolors": 14,
+    "material": "mcl_enchanting_table_top.png"
+   },
+   {
+    "obs": 0.1038961038961039,
+    "null": 0.1214756646490564,
+    "d": -0.0175795607529525,
+    "n2": 77,
+    "ncolors": 13,
+    "material": "mcl_enchanting_table_bottom.png"
+   },
+   {
+    "obs": 0.028846153846153848,
+    "null": 0.11155435528759104,
+    "d": -0.0827082014414372,
+    "n2": 104,
+    "ncolors": 10,
+    "material": "default_steel_block.png"
+   },
+   {
+    "obs": 0.06993006993006994,
+    "null": 0.14055347333124177,
+    "d": -0.07062340340117183,
+    "n2": 143,
+    "ncolors": 12,
+    "material": "default_steel_block.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13209173272850647,
+    "d": -0.13209173272850647,
+    "n2": 88,
+    "ncolors": 11,
+    "material": "default_gold_block.png"
+   },
+   {
+    "obs": 0.06896551724137931,
+    "null": 0.13919062628729467,
+    "d": -0.07022510904591536,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "mcl_walls_cobble_mossy_wall_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13324395621083107,
+    "d": -0.13324395621083107,
+    "n2": 16,
+    "ncolors": 12,
+    "material": "mcl_walls_cobble_mossy_wall_top.png"
+   },
+   {
+    "obs": 0.02564102564102564,
+    "null": 0.13424063330127786,
+    "d": -0.10859960766025223,
+    "n2": 78,
+    "ncolors": 14,
+    "material": "mcl_core_stonebrick_mossy.png"
+   },
+   {
+    "obs": 0.06896551724137931,
+    "null": 0.13687407862579162,
+    "d": -0.06790856138441231,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "mcl_walls_cobble_mossy_wall_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12973266695733965,
+    "d": -0.12973266695733965,
+    "n2": 16,
+    "ncolors": 12,
+    "material": "mcl_walls_cobble_mossy_wall_side.png"
+   },
+   {
+    "obs": 0.1282051282051282,
+    "null": 0.1334441549633835,
+    "d": -0.0052390267582553,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "mcl_walls_cobble_mossy_wall_side.png"
+   },
+   {
+    "obs": 0.052083333333333336,
+    "null": 0.12124589989648828,
+    "d": -0.06916256656315495,
+    "n2": 96,
+    "ncolors": 10,
+    "material": "mcl_stairs_stone_slab_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.0847822154723039,
+    "d": -0.0847822154723039,
+    "n2": 111,
+    "ncolors": 12,
+    "material": "mcl_core_sandstone_smooth.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.0876878924238683,
+    "d": -0.0876878924238683,
+    "n2": 111,
+    "ncolors": 12,
+    "material": "mcl_core_sandstone_smooth.png"
+   },
+   {
+    "obs": 0.2571428571428571,
+    "null": 0.1278968364336914,
+    "d": 0.12924602070916572,
+    "n2": 35,
+    "ncolors": 13,
+    "material": "mcl_core_crying_obsidian.png"
+   },
+   {
+    "obs": 0.15789473684210525,
+    "null": 0.12809466800373898,
+    "d": 0.029800068838366278,
+    "n2": 38,
+    "ncolors": 10,
+    "material": "default_obsidian.png"
+   },
+   {
+    "obs": 0.24489795918367346,
+    "null": 0.13609165816853414,
+    "d": 0.10880630101513933,
+    "n2": 49,
+    "ncolors": 10,
+    "material": "mcl_copper_block.png"
+   },
+   {
+    "obs": 0.125,
+    "null": 0.11396878798805396,
+    "d": 0.01103121201194604,
+    "n2": 40,
+    "ncolors": 13,
+    "material": "mcl_copper_oxidized_cut.png"
+   },
+   {
+    "obs": 0.1346153846153846,
+    "null": 0.13053712399781492,
+    "d": 0.00407826061756969,
+    "n2": 52,
+    "ncolors": 10,
+    "material": "mcl_nether_ancient_debris_top.png"
+   },
+   {
+    "obs": 0.007246376811594203,
+    "null": 0.13620678147990795,
+    "d": -0.12896040466831374,
+    "n2": 138,
+    "ncolors": 14,
+    "material": "beds_bed_top_top.png"
+   },
+   {
+    "obs": 0.04411764705882353,
+    "null": 0.10073831050051324,
+    "d": -0.05662066344168971,
+    "n2": 68,
+    "ncolors": 14,
+    "material": "beds_bed_top_top.png"
+   },
+   {
+    "obs": 0.007246376811594203,
+    "null": 0.13223127475815913,
+    "d": -0.12498489794656492,
+    "n2": 138,
+    "ncolors": 14,
+    "material": "beds_bed_top_top.png"
+   },
+   {
+    "obs": 0.051470588235294115,
+    "null": 0.10997230756067415,
+    "d": -0.058501719325380036,
+    "n2": 136,
+    "ncolors": 11,
+    "material": "beds_bed_top1.png"
+   },
+   {
+    "obs": 0.057971014492753624,
+    "null": 0.0911251307987283,
+    "d": -0.03315411630597468,
+    "n2": 69,
+    "ncolors": 12,
+    "material": "beds_bed_top1.png"
+   },
+   {
+    "obs": 0.051470588235294115,
+    "null": 0.11269144499319038,
+    "d": -0.061220856757896264,
+    "n2": 136,
+    "ncolors": 11,
+    "material": "beds_bed_top1.png"
+   },
+   {
+    "obs": 0.07936507936507936,
+    "null": 0.13654008060745795,
+    "d": -0.05717500124237859,
+    "n2": 63,
+    "ncolors": 14,
+    "material": "beds_bed_top2.png"
+   },
+   {
+    "obs": 0.09210526315789473,
+    "null": 0.11335463591625308,
+    "d": -0.02124937275835835,
+    "n2": 76,
+    "ncolors": 14,
+    "material": "beds_bed_top2.png"
+   },
+   {
+    "obs": 0.07017543859649122,
+    "null": 0.11879423770387391,
+    "d": -0.04861879910738269,
+    "n2": 57,
+    "ncolors": 14,
+    "material": "beds_bed_top2.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11056213852457088,
+    "d": -0.11056213852457088,
+    "n2": 104,
+    "ncolors": 14,
+    "material": "beds_bed_top2.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11424399217064586,
+    "d": -0.11424399217064586,
+    "n2": 104,
+    "ncolors": 14,
+    "material": "beds_bed_top2.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11043127049861409,
+    "d": -0.11043127049861409,
+    "n2": 104,
+    "ncolors": 14,
+    "material": "beds_bed_top2.png"
+   },
+   {
+    "obs": 0.023255813953488372,
+    "null": 0.025953708247497192,
+    "d": -0.00269789429400882,
+    "n2": 86,
+    "ncolors": 14,
+    "material": "tnt_top_burning.png"
+   },
+   {
+    "obs": 0.047619047619047616,
+    "null": 0.13525480905034284,
+    "d": -0.08763576143129523,
+    "n2": 42,
+    "ncolors": 11,
+    "material": "tnt_top_burning.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13933981992909367,
+    "d": -0.13933981992909367,
+    "n2": 97,
+    "ncolors": 11,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.03488372093023256,
+    "null": 0.09104133023096969,
+    "d": -0.056157609300737134,
+    "n2": 86,
+    "ncolors": 14,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.03225806451612903,
+    "null": 0.10310928314886592,
+    "d": -0.07085121863273688,
+    "n2": 93,
+    "ncolors": 11,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.013333333333333334,
+    "null": 0.14202395441127227,
+    "d": -0.12869062107793894,
+    "n2": 75,
+    "ncolors": 11,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.03225806451612903,
+    "null": 0.1061215531651751,
+    "d": -0.07386348864904607,
+    "n2": 93,
+    "ncolors": 11,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.03225806451612903,
+    "null": 0.10599676074036264,
+    "d": -0.07373869622423361,
+    "n2": 93,
+    "ncolors": 11,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.03773584905660377,
+    "null": 0.09540178141832678,
+    "d": -0.05766593236172301,
+    "n2": 53,
+    "ncolors": 10,
+    "material": "default_cactus_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12640499144951542,
+    "d": -0.12640499144951542,
+    "n2": 119,
+    "ncolors": 10,
+    "material": "default_cactus_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12109079128813455,
+    "d": -0.12109079128813455,
+    "n2": 119,
+    "ncolors": 10,
+    "material": "default_cactus_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13679321265783992,
+    "d": -0.13679321265783992,
+    "n2": 112,
+    "ncolors": 10,
+    "material": "default_mese_block.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10378111674180189,
+    "d": -0.10378111674180189,
+    "n2": 73,
+    "ncolors": 12,
+    "material": "default_fence_wood.png"
+   },
+   {
+    "obs": 0.04,
+    "null": 0.07046829209135214,
+    "d": -0.030468292091352135,
+    "n2": 75,
+    "ncolors": 12,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13030849641556835,
+    "d": -0.13030849641556835,
+    "n2": 37,
+    "ncolors": 12,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.06666666666666667,
+    "null": 0.10638149248995052,
+    "d": -0.03971482582328385,
+    "n2": 105,
+    "ncolors": 12,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.061224489795918366,
+    "null": 0.10869293723647341,
+    "d": -0.04746844744055505,
+    "n2": 98,
+    "ncolors": 11,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11741409408269438,
+    "d": -0.11741409408269438,
+    "n2": 122,
+    "ncolors": 13,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12847671578996042,
+    "d": -0.12847671578996042,
+    "n2": 37,
+    "ncolors": 12,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11135710414884364,
+    "d": -0.11135710414884364,
+    "n2": 122,
+    "ncolors": 13,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1168595967981437,
+    "d": -0.1168595967981437,
+    "n2": 122,
+    "ncolors": 13,
+    "material": "default_meselamp.png"
+   },
+   {
+    "obs": 0.016666666666666666,
+    "null": 0.12868264028158044,
+    "d": -0.11201597361491378,
+    "n2": 120,
+    "ncolors": 12,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.12643678160919541,
+    "null": 0.12834468838795557,
+    "d": -0.0019079067787601545,
+    "n2": 87,
+    "ncolors": 11,
+    "material": "default_cactus_top.png"
+   },
+   {
+    "obs": 0.11764705882352941,
+    "null": 0.13346176723233916,
+    "d": -0.015814708408809747,
+    "n2": 17,
+    "ncolors": 14,
+    "material": "default_cactus_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11080134429869475,
+    "d": -0.11080134429869475,
+    "n2": 114,
+    "ncolors": 12,
+    "material": "default_bookshelf.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12493338613885425,
+    "d": -0.12493338613885425,
+    "n2": 65,
+    "ncolors": 14,
+    "material": "vessels_shelf.png"
+   },
+   {
+    "obs": 0.45454545454545453,
+    "null": 0.13417618993259298,
+    "d": 0.3203692646128615,
+    "n2": 11,
+    "ncolors": 13,
+    "material": "ethereal_grass_fiery_top.png"
+   },
+   {
+    "obs": 0.2727272727272727,
+    "null": 0.14889183434405498,
+    "d": 0.12383543838321773,
+    "n2": 11,
+    "ncolors": 12,
+    "material": "ethereal_grass_fiery_top.png"
+   },
+   {
+    "obs": 0.17857142857142858,
+    "null": 0.08612558058631907,
+    "d": 0.0924458479851095,
+    "n2": 56,
+    "ncolors": 14,
+    "material": "ethereal_grass_cold_top.png"
+   },
+   {
+    "obs": 0.20967741935483872,
+    "null": 0.12105266959243487,
+    "d": 0.08862474976240385,
+    "n2": 62,
+    "ncolors": 13,
+    "material": "ethereal_grass_gray_top.png"
+   },
+   {
+    "obs": 0.14473684210526316,
+    "null": 0.1079991389824097,
+    "d": 0.03673770312285346,
+    "n2": 76,
+    "ncolors": 13,
+    "material": "ethereal_grass_jungle_top.png"
+   },
+   {
+    "obs": 0.45454545454545453,
+    "null": 0.14941756169199777,
+    "d": 0.30512789285345676,
+    "n2": 11,
+    "ncolors": 13,
+    "material": "ethereal_grass_mushroom_top.png"
+   },
+   {
+    "obs": 0.45454545454545453,
+    "null": 0.1331513358872975,
+    "d": 0.32139411865815704,
+    "n2": 11,
+    "ncolors": 13,
+    "material": "default_dry_grass.png"
+   },
+   {
+    "obs": 0.3333333333333333,
+    "null": 0.13456795301781035,
+    "d": 0.19876538031552296,
+    "n2": 30,
+    "ncolors": 11,
+    "material": "default_dry_grass.png"
+   },
+   {
+    "obs": 0.26666666666666666,
+    "null": 0.11146369723580211,
+    "d": 0.15520296943086453,
+    "n2": 15,
+    "ncolors": 12,
+    "material": "default_dry_grass.png"
+   },
+   {
+    "obs": 0.45454545454545453,
+    "null": 0.14219358217336817,
+    "d": 0.3123518723720864,
+    "n2": 11,
+    "ncolors": 13,
+    "material": "default_dry_grass.png"
+   },
+   {
+    "obs": 0.45454545454545453,
+    "null": 0.12096024984238163,
+    "d": 0.3335852047030729,
+    "n2": 11,
+    "ncolors": 13,
+    "material": "default_dry_grass.png"
+   },
+   {
+    "obs": 0.26666666666666666,
+    "null": 0.12750800652698693,
+    "d": 0.13915866013967973,
+    "n2": 15,
+    "ncolors": 12,
+    "material": "default_dry_grass.png"
+   },
+   {
+    "obs": 0.0707070707070707,
+    "null": 0.12374077827831367,
+    "d": -0.05303370757124297,
+    "n2": 99,
+    "ncolors": 14,
+    "material": "default_moss.png"
+   },
+   {
+    "obs": 0.30952380952380953,
+    "null": 0.10735764002786885,
+    "d": 0.20216616949594068,
+    "n2": 42,
+    "ncolors": 14,
+    "material": "default_rainforest_litter.png"
+   },
+   {
+    "obs": 0.5454545454545454,
+    "null": 0.13812442338437986,
+    "d": 0.40733012207016556,
+    "n2": 11,
+    "ncolors": 14,
+    "material": "default_coniferous_litter.png"
+   },
+   {
+    "obs": 0.03361344537815126,
+    "null": 0.10407325443696502,
+    "d": -0.07045980905881377,
+    "n2": 119,
+    "ncolors": 10,
+    "material": "default_copper_block.png"
+   },
+   {
+    "obs": 0.037383177570093455,
+    "null": 0.06925007927727442,
+    "d": -0.03186690170718096,
+    "n2": 107,
+    "ncolors": 11,
+    "material": "default_bronze_block.png"
+   },
+   {
+    "obs": 0.23333333333333334,
+    "null": 0.1261022622516015,
+    "d": 0.10723107108173183,
+    "n2": 60,
+    "ncolors": 12,
+    "material": "default_bronze_block.png"
+   },
+   {
+    "obs": 0.22950819672131148,
+    "null": 0.11982815533057525,
+    "d": 0.10968004139073623,
+    "n2": 61,
+    "ncolors": 11,
+    "material": "moreores_mithril_block.png"
+   },
+   {
+    "obs": 0.22448979591836735,
+    "null": 0.1102098248541489,
+    "d": 0.11427997106421844,
+    "n2": 49,
+    "ncolors": 10,
+    "material": "moreores_mithril_block.png"
+   },
+   {
+    "obs": 0.06349206349206349,
+    "null": 0.11333765317968084,
+    "d": -0.04984558968761735,
+    "n2": 126,
+    "ncolors": 10,
+    "material": "moreores_silver_block.png"
+   },
+   {
+    "obs": 0.23333333333333334,
+    "null": 0.13057804567488762,
+    "d": 0.10275528765844572,
+    "n2": 60,
+    "ncolors": 12,
+    "material": "moreores_silver_block.png"
+   },
+   {
+    "obs": 0.22448979591836735,
+    "null": 0.11341347135739,
+    "d": 0.11107632456097735,
+    "n2": 49,
+    "ncolors": 11,
+    "material": "moreores_silver_block.png"
+   },
+   {
+    "obs": 0.0821917808219178,
+    "null": 0.0702394217943248,
+    "d": 0.011952359027593007,
+    "n2": 73,
+    "ncolors": 14,
+    "material": "default_coal_block.png"
+   },
+   {
+    "obs": 0.12195121951219512,
+    "null": 0.120454012677748,
+    "d": 0.0014972068344471234,
+    "n2": 41,
+    "ncolors": 12,
+    "material": "default_coal_block.png"
+   },
+   {
+    "obs": 0.039603960396039604,
+    "null": 0.09917158698335049,
+    "d": -0.059567626587310886,
+    "n2": 101,
+    "ncolors": 11,
+    "material": "bones_bottom.png"
+   },
+   {
+    "obs": 0.0273972602739726,
+    "null": 0.12390063666082611,
+    "d": -0.09650337638685351,
+    "n2": 73,
+    "ncolors": 11,
+    "material": "mesecons_noteblock.png"
+   },
+   {
+    "obs": 0.033707865168539325,
+    "null": 0.09708890492234172,
+    "d": -0.0633810397538024,
+    "n2": 89,
+    "ncolors": 13,
+    "material": "bones_side.png"
+   },
+   {
+    "obs": 0.017241379310344827,
+    "null": 0.1005203736918525,
+    "d": -0.08327899438150768,
+    "n2": 116,
+    "ncolors": 10,
+    "material": "default_tin_block.png"
+   },
+   {
+    "obs": 0.23333333333333334,
+    "null": 0.12704272995202154,
+    "d": 0.1062906033813118,
+    "n2": 60,
+    "ncolors": 11,
+    "material": "default_tin_block.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1338118793627191,
+    "d": -0.1338118793627191,
+    "n2": 67,
+    "ncolors": 14,
+    "material": "mcl_nether_quartz_ore.png"
+   },
+   {
+    "obs": 0.4222222222222222,
+    "null": 0.1277733644450672,
+    "d": 0.294448857777155,
+    "n2": 45,
+    "ncolors": 11,
+    "material": "mcl_nether_quartz_ore.png"
+   },
+   {
+    "obs": 0.4222222222222222,
+    "null": 0.12692632371581458,
+    "d": 0.29529589850640764,
+    "n2": 45,
+    "ncolors": 11,
+    "material": "mcl_nether_quartz_ore.png"
+   },
+   {
+    "obs": 0.4222222222222222,
+    "null": 0.13079511792605877,
+    "d": 0.2914271042961635,
+    "n2": 45,
+    "ncolors": 11,
+    "material": "mcl_nether_quartz_ore.png"
+   },
+   {
+    "obs": 0.08108108108108109,
+    "null": 0.11848677973486507,
+    "d": -0.037405698653783986,
+    "n2": 37,
+    "ncolors": 11,
+    "material": "hardened_clay_stained_brown.png"
+   },
+   {
+    "obs": 0.05102040816326531,
+    "null": 0.12101230459239123,
+    "d": -0.06999189642912593,
+    "n2": 98,
+    "ncolors": 14,
+    "material": "default_furnace_side.png"
+   },
+   {
+    "obs": 0.05102040816326531,
+    "null": 0.1201803665482084,
+    "d": -0.0691599583849431,
+    "n2": 98,
+    "ncolors": 14,
+    "material": "default_furnace_side.png"
+   },
+   {
+    "obs": 0.075,
+    "null": 0.11200297492676428,
+    "d": -0.037002974926764284,
+    "n2": 40,
+    "ncolors": 14,
+    "material": "hardened_clay_stained_orange.png"
+   },
+   {
+    "obs": 0.016666666666666666,
+    "null": 0.12047911270551225,
+    "d": -0.10381244603884558,
+    "n2": 60,
+    "ncolors": 14,
+    "material": "default_furnace_front.png"
+   },
+   {
+    "obs": 0.016666666666666666,
+    "null": 0.13197085053948682,
+    "d": -0.11530418387282015,
+    "n2": 60,
+    "ncolors": 14,
+    "material": "default_furnace_front.png"
+   },
+   {
+    "obs": 0.08620689655172414,
+    "null": 0.09503547610268719,
+    "d": -0.008828579550963042,
+    "n2": 58,
+    "ncolors": 13,
+    "material": "mcl_core_granite.png"
+   },
+   {
+    "obs": 0.12195121951219512,
+    "null": 0.12901891101449287,
+    "d": -0.007067691502297746,
+    "n2": 41,
+    "ncolors": 10,
+    "material": "hardened_clay_stained_silver.png"
+   },
+   {
+    "obs": 0.08333333333333333,
+    "null": 0.10999788684686067,
+    "d": -0.02666455351352734,
+    "n2": 60,
+    "ncolors": 11,
+    "material": "hardened_clay_stained_green.png"
+   },
+   {
+    "obs": 0.14285714285714285,
+    "null": 0.10470467328749408,
+    "d": 0.03815246956964877,
+    "n2": 28,
+    "ncolors": 14,
+    "material": "hardened_clay_stained_cyan.png"
+   },
+   {
+    "obs": 0.05128205128205128,
+    "null": 0.1331691239036568,
+    "d": -0.08188707262160551,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "hardened_clay_stained_lime.png"
+   },
+   {
+    "obs": 0.1590909090909091,
+    "null": 0.1315271020840736,
+    "d": 0.0275638070068355,
+    "n2": 44,
+    "ncolors": 13,
+    "material": "hardened_clay_stained_lime.png"
+   },
+   {
+    "obs": 0.1590909090909091,
+    "null": 0.12555634830058518,
+    "d": 0.03353456079032391,
+    "n2": 44,
+    "ncolors": 13,
+    "material": "hardened_clay_stained_lime.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.07370606182238071,
+    "d": -0.07370606182238071,
+    "n2": 94,
+    "ncolors": 11,
+    "material": "crafting_workbench_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.07473534594082132,
+    "d": -0.07473534594082132,
+    "n2": 94,
+    "ncolors": 11,
+    "material": "crafting_workbench_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12917566558233354,
+    "d": -0.12917566558233354,
+    "n2": 52,
+    "ncolors": 10,
+    "material": "crafting_workbench_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11593321992099,
+    "d": -0.11593321992099,
+    "n2": 51,
+    "ncolors": 13,
+    "material": "crafting_workbench_top.png"
+   },
+   {
+    "obs": 0.2631578947368421,
+    "null": 0.12890917914536654,
+    "d": 0.13424871559147555,
+    "n2": 38,
+    "ncolors": 11,
+    "material": "mcl_core_sandstone_normal.png"
+   },
+   {
+    "obs": 0.13333333333333333,
+    "null": 0.1342235379000085,
+    "d": -0.0008902045666751568,
+    "n2": 15,
+    "ncolors": 14,
+    "material": "wool_blue.png"
+   },
+   {
+    "obs": 0.14516129032258066,
+    "null": 0.11836635662190181,
+    "d": 0.02679493370067884,
+    "n2": 62,
+    "ncolors": 14,
+    "material": "wool_blue.png"
+   },
+   {
+    "obs": 0.13333333333333333,
+    "null": 0.1369465440220157,
+    "d": -0.0036132106886823667,
+    "n2": 15,
+    "ncolors": 14,
+    "material": "wool_blue.png"
+   },
+   {
+    "obs": 0.16279069767441862,
+    "null": 0.10333749590721904,
+    "d": 0.05945320176719958,
+    "n2": 43,
+    "ncolors": 14,
+    "material": "wool_black.png"
+   },
+   {
+    "obs": 0.029411764705882353,
+    "null": 0.12437520593349576,
+    "d": -0.09496344122761341,
+    "n2": 34,
+    "ncolors": 13,
+    "material": "wool_black.png"
+   },
+   {
+    "obs": 0.034482758620689655,
+    "null": 0.13300014471177565,
+    "d": -0.098517386091086,
+    "n2": 58,
+    "ncolors": 12,
+    "material": "default_stone_block.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.09907843915100586,
+    "d": -0.09907843915100586,
+    "n2": 56,
+    "ncolors": 13,
+    "material": "default_fence_acacia_wood.png"
+   },
+   {
+    "obs": 0.12962962962962962,
+    "null": 0.14926441484239023,
+    "d": -0.019634785212760603,
+    "n2": 54,
+    "ncolors": 13,
+    "material": "default_grass_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.09431281447650722,
+    "d": -0.09431281447650722,
+    "n2": 55,
+    "ncolors": 13,
+    "material": "default_fence_aspen_wood.png"
+   },
+   {
+    "obs": 0.10256410256410256,
+    "null": 0.1328099247185228,
+    "d": -0.030245822154420232,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "default_silver_sand.png"
+   },
+   {
+    "obs": 0.10256410256410256,
+    "null": 0.13212609826040855,
+    "d": -0.029561995696305993,
+    "n2": 39,
+    "ncolors": 12,
+    "material": "default_silver_sand.png"
+   },
+   {
+    "obs": 0.054945054945054944,
+    "null": 0.10954663407804255,
+    "d": -0.054601579132987604,
+    "n2": 91,
+    "ncolors": 11,
+    "material": "default_snow_side.png"
+   },
+   {
+    "obs": 0.05555555555555555,
+    "null": 0.054516574140829624,
+    "d": 0.0010389814147259285,
+    "n2": 72,
+    "ncolors": 13,
+    "material": "default_desert_sand.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13123873670532477,
+    "d": -0.13123873670532477,
+    "n2": 111,
+    "ncolors": 12,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.023809523809523808,
+    "null": 0.10164321916367441,
+    "d": -0.0778336953541506,
+    "n2": 84,
+    "ncolors": 10,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13116668652988595,
+    "d": -0.13116668652988595,
+    "n2": 80,
+    "ncolors": 13,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.010309278350515464,
+    "null": 0.13336209777182811,
+    "d": -0.12305281942131265,
+    "n2": 194,
+    "ncolors": 10,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14105781812644205,
+    "d": -0.14105781812644205,
+    "n2": 80,
+    "ncolors": 13,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.023809523809523808,
+    "null": 0.1001603402744961,
+    "d": -0.0763508164649723,
+    "n2": 84,
+    "ncolors": 10,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.023809523809523808,
+    "null": 0.09648418905838241,
+    "d": -0.0726746652488586,
+    "n2": 84,
+    "ncolors": 10,
+    "material": "default_pine_tree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14053566922605767,
+    "d": -0.14053566922605767,
+    "n2": 135,
+    "ncolors": 10,
+    "material": "default_aspen_tree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11715151635739099,
+    "d": -0.11715151635739099,
+    "n2": 83,
+    "ncolors": 11,
+    "material": "default_aspen_tree_top.png"
+   },
+   {
+    "obs": 0.038461538461538464,
+    "null": 0.05368693963166267,
+    "d": -0.015225401170124206,
+    "n2": 104,
+    "ncolors": 10,
+    "material": "default_aspen_tree_top.png"
+   },
+   {
+    "obs": 0.010309278350515464,
+    "null": 0.1344713483797427,
+    "d": -0.12416207002922723,
+    "n2": 194,
+    "ncolors": 10,
+    "material": "default_aspen_tree_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11423848073864043,
+    "d": -0.11423848073864043,
+    "n2": 83,
+    "ncolors": 11,
+    "material": "default_aspen_tree_top.png"
+   },
+   {
+    "obs": 0.034482758620689655,
+    "null": 0.14266963336557364,
+    "d": -0.10818687474488399,
+    "n2": 58,
+    "ncolors": 12,
+    "material": "default_desert_stone_block.png"
+   },
+   {
+    "obs": 0.14285714285714285,
+    "null": 0.1266855299032717,
+    "d": 0.01617161295387115,
+    "n2": 21,
+    "ncolors": 11,
+    "material": "default_sandstone.png"
+   },
+   {
+    "obs": 0.125,
+    "null": 0.13145720599364255,
+    "d": -0.006457205993642551,
+    "n2": 16,
+    "ncolors": 12,
+    "material": "default_sandstone.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.0770141706667015,
+    "d": -0.0770141706667015,
+    "n2": 20,
+    "ncolors": 14,
+    "material": "default_coral_brown.png"
+   },
+   {
+    "obs": 0.02857142857142857,
+    "null": 0.13687058868697816,
+    "d": -0.10829916011554959,
+    "n2": 35,
+    "ncolors": 11,
+    "material": "default_coral_brown.png"
+   },
+   {
+    "obs": 0.603448275862069,
+    "null": 0.12854942587085566,
+    "d": 0.4748988499912133,
+    "n2": 58,
+    "ncolors": 11,
+    "material": "carts_cart_front.png"
+   },
+   {
+    "obs": 0.603448275862069,
+    "null": 0.12449920224061155,
+    "d": 0.4789490736214574,
+    "n2": 58,
+    "ncolors": 11,
+    "material": "carts_cart_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10539275337326595,
+    "d": -0.10539275337326595,
+    "n2": 176,
+    "ncolors": 10,
+    "material": "carts_cart_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.06914660179193528,
+    "d": -0.06914660179193528,
+    "n2": 120,
+    "ncolors": 10,
+    "material": "carts_cart_front.png"
+   },
+   {
+    "obs": 0.603448275862069,
+    "null": 0.11604394156199002,
+    "d": 0.4874043343000789,
+    "n2": 58,
+    "ncolors": 11,
+    "material": "carts_cart_side.png"
+   },
+   {
+    "obs": 0.603448275862069,
+    "null": 0.11179536212065244,
+    "d": 0.4916529137414165,
+    "n2": 58,
+    "ncolors": 11,
+    "material": "carts_cart_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.09798800387733442,
+    "d": -0.09798800387733442,
+    "n2": 140,
+    "ncolors": 12,
+    "material": "carts_cart_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.077062391488598,
+    "d": -0.077062391488598,
+    "n2": 151,
+    "ncolors": 12,
+    "material": "carts_cart_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13377937612860538,
+    "d": -0.13377937612860538,
+    "n2": 87,
+    "ncolors": 12,
+    "material": "carts_cart_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13810012257426146,
+    "d": -0.13810012257426146,
+    "n2": 87,
+    "ncolors": 12,
+    "material": "carts_cart_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13467186355981828,
+    "d": -0.13467186355981828,
+    "n2": 86,
+    "ncolors": 11,
+    "material": "farming_melon_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13825962740291434,
+    "d": -0.13825962740291434,
+    "n2": 51,
+    "ncolors": 11,
+    "material": "farming_pumpkin_face_light.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10415663998083778,
+    "d": -0.10415663998083778,
+    "n2": 137,
+    "ncolors": 14,
+    "material": "default_nc_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10361987615238359,
+    "d": -0.10361987615238359,
+    "n2": 137,
+    "ncolors": 14,
+    "material": "default_nc_side.png"
+   },
+   {
+    "obs": 0.2894736842105263,
+    "null": 0.07276056156531084,
+    "d": 0.21671312264521547,
+    "n2": 38,
+    "ncolors": 14,
+    "material": "default_grass_footsteps.png"
+   },
+   {
+    "obs": 0.008547008547008548,
+    "null": 0.12338189792872345,
+    "d": -0.1148348893817149,
+    "n2": 117,
+    "ncolors": 12,
+    "material": "default_nc_rb.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.07285303829656999,
+    "d": -0.07285303829656999,
+    "n2": 81,
+    "ncolors": 12,
+    "material": "default_obsidian_block.png"
+   },
+   {
+    "obs": 0.10344827586206896,
+    "null": 0.12597050068843152,
+    "d": -0.022522224826362555,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_dry_dirt.png"
+   },
+   {
+    "obs": 0.38461538461538464,
+    "null": 0.13096882197879253,
+    "d": 0.25364656263659213,
+    "n2": 13,
+    "ncolors": 10,
+    "material": "default_dry_dirt.png"
+   },
+   {
+    "obs": 0.10344827586206896,
+    "null": 0.12357690909550147,
+    "d": -0.020128633233432502,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_dry_dirt.png"
+   },
+   {
+    "obs": 0.10344827586206896,
+    "null": 0.13091776047485967,
+    "d": -0.02746948461279071,
+    "n2": 29,
+    "ncolors": 13,
+    "material": "default_dry_dirt.png"
+   },
+   {
+    "obs": 0.07692307692307693,
+    "null": 0.13076061453709328,
+    "d": -0.053837537614016356,
+    "n2": 13,
+    "ncolors": 14,
+    "material": "default_desert_sandstone_block.png"
+   },
+   {
+    "obs": 0.018867924528301886,
+    "null": 0.13205185215720772,
+    "d": -0.11318392762890583,
+    "n2": 53,
+    "ncolors": 12,
+    "material": "ethereal_redwood_trunk_top.png"
+   },
+   {
+    "obs": 0.017241379310344827,
+    "null": 0.12972118184897988,
+    "d": -0.11247980253863504,
+    "n2": 58,
+    "ncolors": 14,
+    "material": "moretrees_palm_trunk_top.png"
+   },
+   {
+    "obs": 0.046511627906976744,
+    "null": 0.0998378494839511,
+    "d": -0.05332622157697435,
+    "n2": 43,
+    "ncolors": 11,
+    "material": "nether_basalt_side.png"
+   },
+   {
+    "obs": 0.046511627906976744,
+    "null": 0.09550784619767332,
+    "d": -0.04899621829069657,
+    "n2": 43,
+    "ncolors": 11,
+    "material": "nether_basalt_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13194644407879702,
+    "d": -0.13194644407879702,
+    "n2": 56,
+    "ncolors": 14,
+    "material": "ethereal_scorched_tree_top.png"
+   },
+   {
+    "obs": 0.03636363636363636,
+    "null": 0.13760132907930572,
+    "d": -0.10123769271566936,
+    "n2": 55,
+    "ncolors": 14,
+    "material": "ethereal_scorched_tree_top.png"
+   },
+   {
+    "obs": 0.016129032258064516,
+    "null": 0.14547979012298487,
+    "d": -0.12935075786492034,
+    "n2": 62,
+    "ncolors": 14,
+    "material": "ethereal_sakura_trunk_top.png"
+   },
+   {
+    "obs": 0.14814814814814814,
+    "null": 0.14125907011265534,
+    "d": 0.006889078035492796,
+    "n2": 27,
+    "ncolors": 14,
+    "material": "farming_desert_sand_soil_wet_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.08068462347997435,
+    "d": -0.08068462347997435,
+    "n2": 105,
+    "ncolors": 14,
+    "material": "mcl_core_red_sandstone_smooth.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.09659317456006143,
+    "d": -0.09659317456006143,
+    "n2": 105,
+    "ncolors": 14,
+    "material": "mcl_core_red_sandstone_smooth.png"
+   },
+   {
+    "obs": 0.13432835820895522,
+    "null": 0.09079094379780125,
+    "d": 0.04353741441115397,
+    "n2": 67,
+    "ncolors": 13,
+    "material": "mcl_core_granite_smooth.png"
+   },
+   {
+    "obs": 0.0380952380952381,
+    "null": 0.07618583127535096,
+    "d": -0.03809059318011286,
+    "n2": 105,
+    "ncolors": 10,
+    "material": "mcl_core_granite_smooth.png"
+   },
+   {
+    "obs": 0.2631578947368421,
+    "null": 0.12354190131756787,
+    "d": 0.13961599341927422,
+    "n2": 38,
+    "ncolors": 11,
+    "material": "mcl_core_red_sandstone_normal.png"
+   },
+   {
+    "obs": 0.11475409836065574,
+    "null": 0.09305659143932761,
+    "d": 0.02169750692132813,
+    "n2": 61,
+    "ncolors": 13,
+    "material": "mcl_core_andesite_smooth.png"
+   },
+   {
+    "obs": 0.2608695652173913,
+    "null": 0.12994798181294026,
+    "d": 0.13092158340445104,
+    "n2": 23,
+    "ncolors": 10,
+    "material": "mcl_core_coarse_dirt.png"
+   },
+   {
+    "obs": 0.20588235294117646,
+    "null": 0.10715263345372598,
+    "d": 0.09872971948745048,
+    "n2": 68,
+    "ncolors": 13,
+    "material": "mcl_core_diorite_smooth.png"
+   },
+   {
+    "obs": 0.05405405405405406,
+    "null": 0.14491873048906717,
+    "d": -0.09086467643501311,
+    "n2": 37,
+    "ncolors": 13,
+    "material": "jeija_lightstone_gray_off.png"
+   },
+   {
+    "obs": 0.06,
+    "null": 0.11991278906851664,
+    "d": -0.059912789068516645,
+    "n2": 50,
+    "ncolors": 13,
+    "material": "jeija_lightstone_gray_on.png"
+   },
+   {
+    "obs": 0.30303030303030304,
+    "null": 0.12307572690634443,
+    "d": 0.1799545761239586,
+    "n2": 33,
+    "ncolors": 12,
+    "material": "receiver_bottom_on.png"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.13308396382223184,
+    "d": 0.05739222665395863,
+    "n2": 21,
+    "ncolors": 10,
+    "material": "receiver_bottom_on.png"
+   },
+   {
+    "obs": 0.04807692307692308,
+    "null": 0.11071792188103682,
+    "d": -0.06264099880411375,
+    "n2": 104,
+    "ncolors": 12,
+    "material": "jeija_pressure_plate_stone_off.png"
+   },
+   {
+    "obs": 0.014492753623188406,
+    "null": 0.12820943554968472,
+    "d": -0.11371668192649632,
+    "n2": 69,
+    "ncolors": 14,
+    "material": "mesecons_piston_pusher_front_sticky.png"
+   },
+   {
+    "obs": 0.06779661016949153,
+    "null": 0.12766883200049345,
+    "d": -0.05987222183100192,
+    "n2": 59,
+    "ncolors": 11,
+    "material": "mesecons_piston_back.png"
+   },
+   {
+    "obs": 0.0759493670886076,
+    "null": 0.09807290953871999,
+    "d": -0.022123542450112388,
+    "n2": 79,
+    "ncolors": 13,
+    "material": "jeija_removestone_inv.png"
+   },
+   {
+    "obs": 0.0759493670886076,
+    "null": 0.09832044426587483,
+    "d": -0.022371077177267232,
+    "n2": 79,
+    "ncolors": 13,
+    "material": "jeija_removestone_inv.png"
+   },
+   {
+    "obs": 0.01652892561983471,
+    "null": 0.11745943040501633,
+    "d": -0.10093050478518162,
+    "n2": 121,
+    "ncolors": 13,
+    "material": "jeija_pressure_plate_wood_off.png"
+   },
+   {
+    "obs": 0.04854368932038835,
+    "null": 0.11734837235434956,
+    "d": -0.0688046830339612,
+    "n2": 103,
+    "ncolors": 13,
+    "material": "jeija_pressure_plate_stone_on.png"
+   },
+   {
+    "obs": 0.0375,
+    "null": 0.1327935399023033,
+    "d": -0.0952935399023033,
+    "n2": 80,
+    "ncolors": 10,
+    "material": "jeija_movestone_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1240474480179087,
+    "d": -0.1240474480179087,
+    "n2": 58,
+    "ncolors": 10,
+    "material": "mesecons_piston_pusher_top.png"
+   },
+   {
+    "obs": 0.01652892561983471,
+    "null": 0.11114318481027483,
+    "d": -0.09461425919044011,
+    "n2": 121,
+    "ncolors": 13,
+    "material": "jeija_pressure_plate_wood_on.png"
+   },
+   {
+    "obs": 0.30303030303030304,
+    "null": 0.1193867928676688,
+    "d": 0.18364351016263425,
+    "n2": 33,
+    "ncolors": 12,
+    "material": "mesecons_wire_on.png"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.13450133620286633,
+    "d": 0.05597485427332413,
+    "n2": 21,
+    "ncolors": 10,
+    "material": "mesecons_wire_on.png"
+   },
+   {
+    "obs": 0.0375,
+    "null": 0.12463910705618478,
+    "d": -0.08713910705618477,
+    "n2": 80,
+    "ncolors": 10,
+    "material": "mesecons_switch_side.png"
+   },
+   {
+    "obs": 0.30303030303030304,
+    "null": 0.12923411027068155,
+    "d": 0.1737961927596215,
+    "n2": 33,
+    "ncolors": 12,
+    "material": "receiver_top_on.png"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.11805767896911049,
+    "d": 0.07241851150707998,
+    "n2": 21,
+    "ncolors": 10,
+    "material": "receiver_top_on.png"
+   },
+   {
+    "obs": 0.0759493670886076,
+    "null": 0.10152883840478712,
+    "d": -0.02557947131617952,
+    "n2": 79,
+    "ncolors": 13,
+    "material": "jeija_removestone.png"
+   },
+   {
+    "obs": 0.0759493670886076,
+    "null": 0.0959401241622532,
+    "d": -0.0199907570736456,
+    "n2": 79,
+    "ncolors": 13,
+    "material": "jeija_removestone.png"
+   },
+   {
+    "obs": 0.1590909090909091,
+    "null": 0.12909953527933907,
+    "d": 0.02999137381157002,
+    "n2": 44,
+    "ncolors": 13,
+    "material": "baked_clay_green.png"
+   },
+   {
+    "obs": 0.1590909090909091,
+    "null": 0.12230644816250491,
+    "d": 0.03678446092840418,
+    "n2": 44,
+    "ncolors": 13,
+    "material": "baked_clay_green.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.137978119189157,
+    "d": -0.137978119189157,
+    "n2": 51,
+    "ncolors": 11,
+    "material": "farming_pumpkin_face_on.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.07427649367034732,
+    "d": -0.07427649367034732,
+    "n2": 94,
+    "ncolors": 11,
+    "material": "xdecor_workbench_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.07405849378713913,
+    "d": -0.07405849378713913,
+    "n2": 94,
+    "ncolors": 11,
+    "material": "xdecor_workbench_front.png"
+   },
+   {
+    "obs": 0.05405405405405406,
+    "null": 0.13851746669655118,
+    "d": -0.08446341264249713,
+    "n2": 111,
+    "ncolors": 13,
+    "material": "xdecor_mailbox_side.png"
+   },
+   {
+    "obs": 0.05405405405405406,
+    "null": 0.13708070409224285,
+    "d": -0.08302665003818879,
+    "n2": 111,
+    "ncolors": 13,
+    "material": "xdecor_mailbox_side.png"
+   },
+   {
+    "obs": 0.125,
+    "null": 0.12419428826199083,
+    "d": 0.0008057117380091683,
+    "n2": 56,
+    "ncolors": 14,
+    "material": "xdecor_enchantment_side.png"
+   },
+   {
+    "obs": 0.03418803418803419,
+    "null": 0.11301696883434975,
+    "d": -0.07882893464631556,
+    "n2": 117,
+    "ncolors": 11,
+    "material": "xdecor_enchantment_side.png"
+   },
+   {
+    "obs": 0.01818181818181818,
+    "null": 0.12031951318023276,
+    "d": -0.10213769499841457,
+    "n2": 55,
+    "ncolors": 12,
+    "material": "xdecor_barrel_sides.png"
+   },
+   {
+    "obs": 0.1038961038961039,
+    "null": 0.12339266377531256,
+    "d": -0.01949655987920866,
+    "n2": 77,
+    "ncolors": 13,
+    "material": "xdecor_enchantment_bottom.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13242349293306419,
+    "d": -0.13242349293306419,
+    "n2": 44,
+    "ncolors": 13,
+    "material": "xdecor_stone_rune.png"
+   },
+   {
+    "obs": 0.16666666666666666,
+    "null": 0.11883125751835394,
+    "d": 0.04783540914831272,
+    "n2": 90,
+    "ncolors": 14,
+    "material": "xdecor_speaker_front.png"
+   },
+   {
+    "obs": 0.1780821917808219,
+    "null": 0.11578915891350802,
+    "d": 0.062293032867313886,
+    "n2": 73,
+    "ncolors": 14,
+    "material": "xdecor_speaker_front.png"
+   },
+   {
+    "obs": 0.1780821917808219,
+    "null": 0.11526579926073532,
+    "d": 0.06281639252008658,
+    "n2": 73,
+    "ncolors": 14,
+    "material": "xdecor_speaker_front.png"
+   },
+   {
+    "obs": 0.010752688172043012,
+    "null": 0.039071557470472876,
+    "d": -0.028318869298429864,
+    "n2": 93,
+    "ncolors": 10,
+    "material": "xdecor_enchantment_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.09900795735090812,
+    "d": -0.09900795735090812,
+    "n2": 36,
+    "ncolors": 11,
+    "material": "mobs_honey_block.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12338857782634129,
+    "d": -0.12338857782634129,
+    "n2": 146,
+    "ncolors": 10,
+    "material": "nyancat_back.png"
+   },
+   {
+    "obs": 0.030534351145038167,
+    "null": 0.1022429087042,
+    "d": -0.07170855755916183,
+    "n2": 131,
+    "ncolors": 13,
+    "material": "nyancat_front.png"
+   },
+   {
+    "obs": 0.6666666666666666,
+    "null": 0.12798254703963557,
+    "d": 0.5386841196270311,
+    "n2": 12,
+    "ncolors": 14,
+    "material": "nc_tree_bud_top.png"
+   },
+   {
+    "obs": 0.15789473684210525,
+    "null": 0.1165865226893192,
+    "d": 0.04130821415278606,
+    "n2": 38,
+    "ncolors": 10,
+    "material": "nc_terrain_stone.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.031284825826291114,
+    "d": -0.031284825826291114,
+    "n2": 25,
+    "ncolors": 11,
+    "material": "nc_woodwork_frame.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.029420657378671545,
+    "d": -0.029420657378671545,
+    "n2": 25,
+    "ncolors": 11,
+    "material": "nc_woodwork_frame.png"
+   },
+   {
+    "obs": 0.16326530612244897,
+    "null": 0.1165297144595669,
+    "d": 0.04673559166288206,
+    "n2": 49,
+    "ncolors": 13,
+    "material": "nc_concrete_adobe.png"
+   },
+   {
+    "obs": 0.16326530612244897,
+    "null": 0.10991697496475104,
+    "d": 0.05334833115769792,
+    "n2": 49,
+    "ncolors": 13,
+    "material": "nc_concrete_adobe.png"
+   }
+  ],
+  "A_per": [
+   {
+    "obs": 0.04918032786885246,
+    "null": 0.11040247451085942,
+    "d": -0.06122214664200697,
+    "n2": 61,
+    "ncolors": 13,
+    "material": "default_stone.png"
+   },
+   {
+    "obs": 0.021052631578947368,
+    "null": 0.12864111463054373,
+    "d": -0.10758848305159636,
+    "n2": 95,
+    "ncolors": 11,
+    "material": "default_stone.png"
+   },
+   {
+    "obs": 0.021052631578947368,
+    "null": 0.1319320255011063,
+    "d": -0.11087939392215894,
+    "n2": 95,
+    "ncolors": 11,
+    "material": "default_stone.png"
+   },
+   {
+    "obs": 0.075,
+    "null": 0.12123538786614226,
+    "d": -0.04623538786614226,
+    "n2": 40,
+    "ncolors": 11,
+    "material": "default_stone.png"
+   },
+   {
+    "obs": 0.011904761904761904,
+    "null": 0.11226491267537153,
+    "d": -0.10036015077060963,
+    "n2": 84,
+    "ncolors": 10,
+    "material": "default_stone.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1313782203019518,
+    "d": -0.1313782203019518,
+    "n2": 16,
+    "ncolors": 12,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.05714285714285714,
+    "null": 0.12976472686999002,
+    "d": -0.07262186972713289,
+    "n2": 70,
+    "ncolors": 13,
+    "material": "default_mossycobble.png"
+   },
+   {
+    "obs": 0.03278688524590164,
+    "null": 0.13714386501070605,
+    "d": -0.1043569797648044,
+    "n2": 61,
+    "ncolors": 10,
+    "material": "mcl_core_log_birch.png"
+   },
+   {
+    "obs": 0.06578947368421052,
+    "null": 0.09236632189358181,
+    "d": -0.026576848209371284,
+    "n2": 76,
+    "ncolors": 10,
+    "material": "default_jungletree.png"
+   },
+   {
+    "obs": 0.06578947368421052,
+    "null": 0.09064940341594906,
+    "d": -0.024859929731738534,
+    "n2": 76,
+    "ncolors": 10,
+    "material": "default_jungletree.png"
+   },
+   {
+    "obs": 0.06153846153846154,
+    "null": 0.13367775652404,
+    "d": -0.07213929498557844,
+    "n2": 65,
+    "ncolors": 12,
+    "material": "mcl_core_coal_ore.png"
+   },
+   {
+    "obs": 0.05357142857142857,
+    "null": 0.12730042880301837,
+    "d": -0.07372900023158979,
+    "n2": 56,
+    "ncolors": 14,
+    "material": "mcl_core_iron_ore.png"
+   },
+   {
+    "obs": 0.05,
+    "null": 0.14413563866498452,
+    "d": -0.09413563866498452,
+    "n2": 40,
+    "ncolors": 12,
+    "material": "mcl_deepslate_redstone_ore.png"
+   },
+   {
+    "obs": 0.03125,
+    "null": 0.1307801489328448,
+    "d": -0.09953014893284479,
+    "n2": 32,
+    "ncolors": 13,
+    "material": "mcl_deepslate_iron_ore.png"
+   },
+   {
+    "obs": 0.036036036036036036,
+    "null": 0.11587445006185002,
+    "d": -0.07983841402581399,
+    "n2": 111,
+    "ncolors": 11,
+    "material": "mcl_core_grass_side_snowed.png"
+   },
+   {
+    "obs": 0.02197802197802198,
+    "null": 0.09575004246768373,
+    "d": -0.07377202048966175,
+    "n2": 91,
+    "ncolors": 11,
+    "material": "default_stone_brick.png"
+   },
+   {
+    "obs": 0.024691358024691357,
+    "null": 0.13822691219472463,
+    "d": -0.11353555417003328,
+    "n2": 81,
+    "ncolors": 11,
+    "material": "default_stone_brick.png"
+   },
+   {
+    "obs": 0.021052631578947368,
+    "null": 0.13152703377928557,
+    "d": -0.1104744022003382,
+    "n2": 95,
+    "ncolors": 10,
+    "material": "mcl_stairs_stone_slab_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11121851348562801,
+    "d": -0.11121851348562801,
+    "n2": 76,
+    "ncolors": 11,
+    "material": "mcl_core_sandstone_carved.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12238585586791498,
+    "d": -0.12238585586791498,
+    "n2": 76,
+    "ncolors": 11,
+    "material": "mcl_core_sandstone_carved.png"
+   },
+   {
+    "obs": 0.07575757575757576,
+    "null": 0.1095049328983079,
+    "d": -0.03374735714073214,
+    "n2": 66,
+    "ncolors": 14,
+    "material": "smoker_side.png"
+   },
+   {
+    "obs": 0.07575757575757576,
+    "null": 0.10215867759779236,
+    "d": -0.0264011018402166,
+    "n2": 66,
+    "ncolors": 14,
+    "material": "smoker_side.png"
+   },
+   {
+    "obs": 0.14035087719298245,
+    "null": 0.15549609651746227,
+    "d": -0.01514521932447982,
+    "n2": 57,
+    "ncolors": 10,
+    "material": "default_brick.png"
+   },
+   {
+    "obs": 0.024691358024691357,
+    "null": 0.1039298494113438,
+    "d": -0.07923849138665244,
+    "n2": 81,
+    "ncolors": 11,
+    "material": "default_wood.png"
+   },
+   {
+    "obs": 0.05555555555555555,
+    "null": 0.14832164467450118,
+    "d": -0.09276608911894563,
+    "n2": 18,
+    "ncolors": 12,
+    "material": "default_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.13864338078502164,
+    "d": -0.09318883533047619,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "default_wood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12279312463135993,
+    "d": -0.12279312463135993,
+    "n2": 81,
+    "ncolors": 13,
+    "material": "default_wood.png"
+   },
+   {
+    "obs": 0.009009009009009009,
+    "null": 0.12810899222136365,
+    "d": -0.11909998321235464,
+    "n2": 111,
+    "ncolors": 10,
+    "material": "default_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12551426877841176,
+    "d": -0.08005972332386631,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "mcl_core_planks_birch.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.14278757171563913,
+    "d": -0.09733302626109368,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "mcl_core_planks_spruce.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12046137434855762,
+    "d": -0.07500682889401217,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "default_acacia_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12981475053666694,
+    "d": -0.08436020508212148,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "default_acacia_wood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1317483917181586,
+    "d": -0.1317483917181586,
+    "n2": 115,
+    "ncolors": 10,
+    "material": "default_acacia_wood.png"
+   },
+   {
+    "obs": 0.008928571428571428,
+    "null": 0.1263726504019545,
+    "d": -0.11744407897338308,
+    "n2": 112,
+    "ncolors": 10,
+    "material": "default_acacia_wood.png"
+   },
+   {
+    "obs": 0.009009009009009009,
+    "null": 0.12832877309279656,
+    "d": -0.11931976408378754,
+    "n2": 111,
+    "ncolors": 11,
+    "material": "default_acacia_wood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12421620283255379,
+    "d": -0.12421620283255379,
+    "n2": 103,
+    "ncolors": 12,
+    "material": "default_acacia_wood.png"
+   },
+   {
+    "obs": 0.22580645161290322,
+    "null": 0.1351252145822131,
+    "d": 0.09068123703069011,
+    "n2": 31,
+    "ncolors": 10,
+    "material": "mcl_copper_block_raw.png"
+   },
+   {
+    "obs": 0.010638297872340425,
+    "null": 0.09484513589187336,
+    "d": -0.08420683801953294,
+    "n2": 94,
+    "ncolors": 10,
+    "material": "mcl_nether_ancient_debris_side.png"
+   },
+   {
+    "obs": 0.1320754716981132,
+    "null": 0.11741961858816807,
+    "d": 0.014655853109945133,
+    "n2": 53,
+    "ncolors": 10,
+    "material": "wool_pink.png"
+   },
+   {
+    "obs": 0.1320754716981132,
+    "null": 0.12660576365125809,
+    "d": 0.005469708046855121,
+    "n2": 53,
+    "ncolors": 10,
+    "material": "wool_pink.png"
+   },
+   {
+    "obs": 0.1320754716981132,
+    "null": 0.1341165431623152,
+    "d": -0.002041071464201988,
+    "n2": 53,
+    "ncolors": 10,
+    "material": "wool_pink.png"
+   },
+   {
+    "obs": 0.009174311926605505,
+    "null": 0.104069873201834,
+    "d": -0.0948955612752285,
+    "n2": 109,
+    "ncolors": 10,
+    "material": "beds_bed_top_bottom.png"
+   },
+   {
+    "obs": 0.1935483870967742,
+    "null": 0.13629097377438087,
+    "d": 0.057257413322393313,
+    "n2": 31,
+    "ncolors": 13,
+    "material": "beds_bed_top_bottom.png"
+   },
+   {
+    "obs": 0.010638297872340425,
+    "null": 0.10536115554428087,
+    "d": -0.09472285767194044,
+    "n2": 94,
+    "ncolors": 14,
+    "material": "tnt_side.png"
+   },
+   {
+    "obs": 0.04918032786885246,
+    "null": 0.1416264465905156,
+    "d": -0.09244611872166314,
+    "n2": 61,
+    "ncolors": 11,
+    "material": "default_cactus_side.png"
+   },
+   {
+    "obs": 0.04040404040404041,
+    "null": 0.13320630209761417,
+    "d": -0.09280226169357375,
+    "n2": 99,
+    "ncolors": 10,
+    "material": "default_mese_block.png"
+   },
+   {
+    "obs": 0.07865168539325842,
+    "null": 0.11725442242933588,
+    "d": -0.03860273703607746,
+    "n2": 89,
+    "ncolors": 14,
+    "material": "default_fence_wood.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.13205816504136791,
+    "d": -0.12279890578210866,
+    "n2": 108,
+    "ncolors": 10,
+    "material": "default_fence_wood.png"
+   },
+   {
+    "obs": 0.18604651162790697,
+    "null": 0.11697925288396627,
+    "d": 0.06906725874394071,
+    "n2": 43,
+    "ncolors": 13,
+    "material": "default_fence_wood.png"
+   },
+   {
+    "obs": 0.02531645569620253,
+    "null": 0.1057959678069429,
+    "d": -0.08047951211074038,
+    "n2": 79,
+    "ncolors": 11,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12482111242879852,
+    "d": -0.07936656697425307,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.1446168972209389,
+    "d": -0.09916235176639344,
+    "n2": 22,
+    "ncolors": 12,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11976290358772418,
+    "d": -0.11976290358772418,
+    "n2": 41,
+    "ncolors": 14,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.009009009009009009,
+    "null": 0.12259034884734034,
+    "d": -0.11358133983833132,
+    "n2": 111,
+    "ncolors": 11,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.009009009009009009,
+    "null": 0.12971489898575167,
+    "d": -0.12070588997674266,
+    "n2": 111,
+    "ncolors": 11,
+    "material": "default_junglewood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11264991364414502,
+    "d": -0.11264991364414502,
+    "n2": 200,
+    "ncolors": 10,
+    "material": "default_bookshelf.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.13089049793311772,
+    "d": -0.13089049793311772,
+    "n2": 84,
+    "ncolors": 14,
+    "material": "default_bookshelf.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.06515276515923311,
+    "d": -0.06515276515923311,
+    "n2": 102,
+    "ncolors": 10,
+    "material": "default_bookshelf.png"
+   },
+   {
+    "obs": 0.02040816326530612,
+    "null": 0.11690612606815741,
+    "d": -0.09649796280285129,
+    "n2": 98,
+    "ncolors": 10,
+    "material": "vessels_shelf.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12255358877443295,
+    "d": -0.12255358877443295,
+    "n2": 99,
+    "ncolors": 10,
+    "material": "vessels_shelf.png"
+   },
+   {
+    "obs": 0.008928571428571428,
+    "null": 0.12144443002659276,
+    "d": -0.11251585859802134,
+    "n2": 112,
+    "ncolors": 11,
+    "material": "default_aspen_wood.png"
+   },
+   {
+    "obs": 0.009009009009009009,
+    "null": 0.12295465356327309,
+    "d": -0.11394564455426408,
+    "n2": 111,
+    "ncolors": 11,
+    "material": "default_aspen_wood.png"
+   },
+   {
+    "obs": 0.05128205128205128,
+    "null": 0.11934728180765504,
+    "d": -0.06806523052560376,
+    "n2": 78,
+    "ncolors": 13,
+    "material": "bones_rear.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12814684162497186,
+    "d": -0.08269229617042641,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "default_pine_wood.png"
+   },
+   {
+    "obs": 0.008695652173913044,
+    "null": 0.12165003472984211,
+    "d": -0.11295438255592906,
+    "n2": 115,
+    "ncolors": 11,
+    "material": "default_pine_wood.png"
+   },
+   {
+    "obs": 0.009708737864077669,
+    "null": 0.11630043492623089,
+    "d": -0.10659169706215323,
+    "n2": 103,
+    "ncolors": 12,
+    "material": "default_pine_wood.png"
+   },
+   {
+    "obs": 0.010810810810810811,
+    "null": 0.14924385390771552,
+    "d": -0.1384330430969047,
+    "n2": 185,
+    "ncolors": 14,
+    "material": "default_pine_wood.png"
+   },
+   {
+    "obs": 0.009708737864077669,
+    "null": 0.13035473735587344,
+    "d": -0.12064599949179577,
+    "n2": 103,
+    "ncolors": 12,
+    "material": "default_pine_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.11840006664231192,
+    "d": -0.07294552118776647,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "mcl_mangrove_planks.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12314491623946891,
+    "d": -0.07769037078492345,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "mcl_mangrove_planks.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12979725193137268,
+    "d": -0.12979725193137268,
+    "n2": 108,
+    "ncolors": 11,
+    "material": "default_furnace_side.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10926897140317753,
+    "d": -0.10926897140317753,
+    "n2": 90,
+    "ncolors": 14,
+    "material": "mcl_beehives_bee_nest_front_honey.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1241840893920192,
+    "d": -0.1241840893920192,
+    "n2": 104,
+    "ncolors": 12,
+    "material": "mcl_beehives_bee_nest_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1350429824213537,
+    "d": -0.1350429824213537,
+    "n2": 108,
+    "ncolors": 10,
+    "material": "default_furnace_front_active.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12707863813421266,
+    "d": -0.12707863813421266,
+    "n2": 76,
+    "ncolors": 13,
+    "material": "mcl_core_sandstone_normal.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11960144485875913,
+    "d": -0.11960144485875913,
+    "n2": 76,
+    "ncolors": 13,
+    "material": "mcl_core_sandstone_normal.png"
+   },
+   {
+    "obs": 0.21052631578947367,
+    "null": 0.13411113285042633,
+    "d": 0.07641518293904734,
+    "n2": 19,
+    "ncolors": 10,
+    "material": "mcl_core_sandstone_top.png"
+   },
+   {
+    "obs": 0.018018018018018018,
+    "null": 0.1074060725370499,
+    "d": -0.08938805451903188,
+    "n2": 111,
+    "ncolors": 11,
+    "material": "wool_white.png"
+   },
+   {
+    "obs": 0.3140495867768595,
+    "null": 0.12424119557629006,
+    "d": 0.18980839120056947,
+    "n2": 121,
+    "ncolors": 11,
+    "material": "wool_white.png"
+   },
+   {
+    "obs": 0.3140495867768595,
+    "null": 0.12373855534336257,
+    "d": 0.19031103143349692,
+    "n2": 121,
+    "ncolors": 11,
+    "material": "wool_white.png"
+   },
+   {
+    "obs": 0.21739130434782608,
+    "null": 0.12358220357704179,
+    "d": 0.09380910077078429,
+    "n2": 23,
+    "ncolors": 14,
+    "material": "wool_yellow.png"
+   },
+   {
+    "obs": 0.21739130434782608,
+    "null": 0.13887957921177316,
+    "d": 0.07851172513605292,
+    "n2": 23,
+    "ncolors": 14,
+    "material": "wool_yellow.png"
+   },
+   {
+    "obs": 0.21739130434782608,
+    "null": 0.11898898837955238,
+    "d": 0.0984023159682737,
+    "n2": 23,
+    "ncolors": 14,
+    "material": "wool_yellow.png"
+   },
+   {
+    "obs": 0.01834862385321101,
+    "null": 0.10635259442222024,
+    "d": -0.08800397056900923,
+    "n2": 109,
+    "ncolors": 12,
+    "material": "wool_cyan.png"
+   },
+   {
+    "obs": 0.3333333333333333,
+    "null": 0.09779609410462702,
+    "d": 0.23553723922870629,
+    "n2": 72,
+    "ncolors": 13,
+    "material": "wool_cyan.png"
+   },
+   {
+    "obs": 0.3333333333333333,
+    "null": 0.09903050574588476,
+    "d": 0.23430282758744855,
+    "n2": 72,
+    "ncolors": 13,
+    "material": "wool_cyan.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.1049265520841113,
+    "d": -0.09566729282485203,
+    "n2": 108,
+    "ncolors": 11,
+    "material": "wool_red.png"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.12304712487086518,
+    "d": 0.06742906560532529,
+    "n2": 21,
+    "ncolors": 12,
+    "material": "wool_violet.png"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.1300777383877009,
+    "d": 0.06039845208848957,
+    "n2": 21,
+    "ncolors": 12,
+    "material": "wool_violet.png"
+   },
+   {
+    "obs": 0.19047619047619047,
+    "null": 0.13136539452412255,
+    "d": 0.05911079595206792,
+    "n2": 21,
+    "ncolors": 12,
+    "material": "wool_violet.png"
+   },
+   {
+    "obs": 0.3037974683544304,
+    "null": 0.11254118529560958,
+    "d": 0.1912562830588208,
+    "n2": 79,
+    "ncolors": 10,
+    "material": "wool_brown.png"
+   },
+   {
+    "obs": 0.3037974683544304,
+    "null": 0.10758733389389569,
+    "d": 0.1962101344605347,
+    "n2": 79,
+    "ncolors": 10,
+    "material": "wool_brown.png"
+   },
+   {
+    "obs": 0.017857142857142856,
+    "null": 0.11132942451265646,
+    "d": -0.0934722816555136,
+    "n2": 112,
+    "ncolors": 10,
+    "material": "wool_dark_grey.png"
+   },
+   {
+    "obs": 0.29411764705882354,
+    "null": 0.12631446908497992,
+    "d": 0.16780317797384361,
+    "n2": 17,
+    "ncolors": 14,
+    "material": "wool_dark_grey.png"
+   },
+   {
+    "obs": 0.29411764705882354,
+    "null": 0.12221387444335417,
+    "d": 0.17190377261546935,
+    "n2": 17,
+    "ncolors": 14,
+    "material": "wool_dark_grey.png"
+   },
+   {
+    "obs": 0.29411764705882354,
+    "null": 0.13108443657979263,
+    "d": 0.1630332104790309,
+    "n2": 17,
+    "ncolors": 14,
+    "material": "wool_dark_grey.png"
+   },
+   {
+    "obs": 0.3425925925925926,
+    "null": 0.1109336730226551,
+    "d": 0.2316589195699375,
+    "n2": 108,
+    "ncolors": 10,
+    "material": "wool_grey.png"
+   },
+   {
+    "obs": 0.3425925925925926,
+    "null": 0.11171139329498476,
+    "d": 0.23088119929760786,
+    "n2": 108,
+    "ncolors": 10,
+    "material": "wool_grey.png"
+   },
+   {
+    "obs": 0.01834862385321101,
+    "null": 0.10592995958958831,
+    "d": -0.0875813357363773,
+    "n2": 109,
+    "ncolors": 11,
+    "material": "wool_orange.png"
+   },
+   {
+    "obs": 0.15384615384615385,
+    "null": 0.11630859139245645,
+    "d": 0.03753756245369741,
+    "n2": 26,
+    "ncolors": 13,
+    "material": "wool_dark_green.png"
+   },
+   {
+    "obs": 0.15384615384615385,
+    "null": 0.12928048982624651,
+    "d": 0.02456566401990734,
+    "n2": 26,
+    "ncolors": 13,
+    "material": "wool_dark_green.png"
+   },
+   {
+    "obs": 0.15384615384615385,
+    "null": 0.12515989451959056,
+    "d": 0.028686259326563296,
+    "n2": 26,
+    "ncolors": 13,
+    "material": "wool_dark_green.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.10386050915132948,
+    "d": -0.09460124989207022,
+    "n2": 108,
+    "ncolors": 11,
+    "material": "wool_magenta.png"
+   },
+   {
+    "obs": 0.009174311926605505,
+    "null": 0.13136027280682688,
+    "d": -0.12218596088022138,
+    "n2": 109,
+    "ncolors": 10,
+    "material": "default_fence_acacia_wood.png"
+   },
+   {
+    "obs": 0.02564102564102564,
+    "null": 0.1210845125181193,
+    "d": -0.09544348687709367,
+    "n2": 117,
+    "ncolors": 14,
+    "material": "default_fence_acacia_wood.png"
+   },
+   {
+    "obs": 0.18604651162790697,
+    "null": 0.12961950065705408,
+    "d": 0.0564270109708529,
+    "n2": 43,
+    "ncolors": 13,
+    "material": "default_fence_acacia_wood.png"
+   },
+   {
+    "obs": 0.075,
+    "null": 0.11427128081863897,
+    "d": -0.03927128081863897,
+    "n2": 40,
+    "ncolors": 11,
+    "material": "default_desert_stone.png"
+   },
+   {
+    "obs": 0.03278688524590164,
+    "null": 0.13139353573864812,
+    "d": -0.09860665049274647,
+    "n2": 61,
+    "ncolors": 10,
+    "material": "default_aspen_tree.png"
+   },
+   {
+    "obs": 0.1111111111111111,
+    "null": 0.08727929157106049,
+    "d": 0.02383181954005062,
+    "n2": 99,
+    "ncolors": 13,
+    "material": "default_aspen_tree.png"
+   },
+   {
+    "obs": 0.07894736842105263,
+    "null": 0.09564309882777326,
+    "d": -0.016695730406720635,
+    "n2": 76,
+    "ncolors": 11,
+    "material": "default_fence_junglewood.png"
+   },
+   {
+    "obs": 0.02857142857142857,
+    "null": 0.13891003581753716,
+    "d": -0.1103386072461086,
+    "n2": 35,
+    "ncolors": 13,
+    "material": "default_fence_junglewood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11962864857858546,
+    "d": -0.11962864857858546,
+    "n2": 41,
+    "ncolors": 14,
+    "material": "default_fence_junglewood.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.12924941802718773,
+    "d": -0.11999015876792847,
+    "n2": 108,
+    "ncolors": 11,
+    "material": "default_fence_junglewood.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.13355744929574695,
+    "d": -0.12429819003648769,
+    "n2": 108,
+    "ncolors": 11,
+    "material": "default_fence_junglewood.png"
+   },
+   {
+    "obs": 0.18604651162790697,
+    "null": 0.12266480155818874,
+    "d": 0.06338171006971824,
+    "n2": 43,
+    "ncolors": 12,
+    "material": "default_fence_junglewood.png"
+   },
+   {
+    "obs": 0.009345794392523364,
+    "null": 0.12255693071766888,
+    "d": -0.11321113632514551,
+    "n2": 107,
+    "ncolors": 11,
+    "material": "default_fence_aspen_wood.png"
+   },
+   {
+    "obs": 0.009345794392523364,
+    "null": 0.13174184079625723,
+    "d": -0.12239604640373386,
+    "n2": 107,
+    "ncolors": 11,
+    "material": "default_fence_aspen_wood.png"
+   },
+   {
+    "obs": 0.18604651162790697,
+    "null": 0.11611998766260836,
+    "d": 0.06992652396529861,
+    "n2": 43,
+    "ncolors": 13,
+    "material": "default_fence_aspen_wood.png"
+   },
+   {
+    "obs": 0.012987012987012988,
+    "null": 0.12205079376611654,
+    "d": -0.10906378077910354,
+    "n2": 77,
+    "ncolors": 10,
+    "material": "default_desert_cobble.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12953589433302742,
+    "d": -0.12953589433302742,
+    "n2": 62,
+    "ncolors": 13,
+    "material": "default_desert_stone_brick.png"
+   },
+   {
+    "obs": 0.024691358024691357,
+    "null": 0.1279755812408582,
+    "d": -0.10328422321616684,
+    "n2": 81,
+    "ncolors": 11,
+    "material": "default_desert_stone_brick.png"
+   },
+   {
+    "obs": 0.007575757575757576,
+    "null": 0.09235620564999855,
+    "d": -0.08478044807424098,
+    "n2": 132,
+    "ncolors": 12,
+    "material": "default_desert_stone_brick.png"
+   },
+   {
+    "obs": 0.019801980198019802,
+    "null": 0.11368136728168439,
+    "d": -0.09387938708366458,
+    "n2": 101,
+    "ncolors": 10,
+    "material": "default_desert_stone_brick.png"
+   },
+   {
+    "obs": 0.007575757575757576,
+    "null": 0.09481910251430736,
+    "d": -0.0872433449385498,
+    "n2": 132,
+    "ncolors": 12,
+    "material": "default_desert_stone_brick.png"
+   },
+   {
+    "obs": 0.007575757575757576,
+    "null": 0.09190090454213565,
+    "d": -0.08432514696637808,
+    "n2": 132,
+    "ncolors": 12,
+    "material": "default_desert_stone_brick.png"
+   },
+   {
+    "obs": 0.03571428571428571,
+    "null": 0.07787373955944482,
+    "d": -0.04215945384515911,
+    "n2": 56,
+    "ncolors": 14,
+    "material": "default_pine_tree.png"
+   },
+   {
+    "obs": 0.008849557522123894,
+    "null": 0.11900726621061701,
+    "d": -0.11015770868849312,
+    "n2": 113,
+    "ncolors": 11,
+    "material": "default_fence_pine_wood.png"
+   },
+   {
+    "obs": 0.009708737864077669,
+    "null": 0.1260156563357075,
+    "d": -0.11630691847162983,
+    "n2": 103,
+    "ncolors": 12,
+    "material": "default_fence_pine_wood.png"
+   },
+   {
+    "obs": 0.18604651162790697,
+    "null": 0.13336130674822969,
+    "d": 0.05268520487967729,
+    "n2": 43,
+    "ncolors": 13,
+    "material": "default_fence_pine_wood.png"
+   },
+   {
+    "obs": 0.009259259259259259,
+    "null": 0.10425435328656768,
+    "d": -0.09499509402730842,
+    "n2": 108,
+    "ncolors": 13,
+    "material": "wool_green.png"
+   },
+   {
+    "obs": 0.21052631578947367,
+    "null": 0.12369775743976387,
+    "d": 0.0868285583497098,
+    "n2": 19,
+    "ncolors": 10,
+    "material": "default_sandstone.png"
+   },
+   {
+    "obs": 0.01680672268907563,
+    "null": 0.08763727000432507,
+    "d": -0.07083054731524945,
+    "n2": 119,
+    "ncolors": 13,
+    "material": "default_obsidian_brick.png"
+   },
+   {
+    "obs": 0.08247422680412371,
+    "null": 0.11745191541294478,
+    "d": -0.03497768860882107,
+    "n2": 97,
+    "ncolors": 13,
+    "material": "carts_cart_front.png"
+   },
+   {
+    "obs": 0.08247422680412371,
+    "null": 0.1198470682735052,
+    "d": -0.037372841469381496,
+    "n2": 97,
+    "ncolors": 13,
+    "material": "carts_cart_front.png"
+   },
+   {
+    "obs": 0.06493506493506493,
+    "null": 0.11858689056074562,
+    "d": -0.05365182562568069,
+    "n2": 77,
+    "ncolors": 13,
+    "material": "carts_cart_side.png"
+   },
+   {
+    "obs": 0.06493506493506493,
+    "null": 0.11612353889240684,
+    "d": -0.05118847395734191,
+    "n2": 77,
+    "ncolors": 13,
+    "material": "carts_cart_side.png"
+   },
+   {
+    "obs": 0.04285714285714286,
+    "null": 0.14330785533910534,
+    "d": -0.10045071248196248,
+    "n2": 70,
+    "ncolors": 14,
+    "material": "farming_pumpkin_side.png"
+   },
+   {
+    "obs": 0.027777777777777776,
+    "null": 0.0730636535529092,
+    "d": -0.04528587577513142,
+    "n2": 108,
+    "ncolors": 13,
+    "material": "default_obsidian_block.png"
+   },
+   {
+    "obs": 0.027777777777777776,
+    "null": 0.06826386478762463,
+    "d": -0.04048608700984685,
+    "n2": 108,
+    "ncolors": 13,
+    "material": "default_obsidian_block.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.1104468130607591,
+    "d": -0.06499226760621364,
+    "n2": 44,
+    "ncolors": 14,
+    "material": "default_desert_sandstone_brick.png"
+   },
+   {
+    "obs": 0.024390243902439025,
+    "null": 0.14789528128780907,
+    "d": -0.12350503738537005,
+    "n2": 41,
+    "ncolors": 11,
+    "material": "default_silver_sandstone_brick.png"
+   },
+   {
+    "obs": 0.08,
+    "null": 0.12874202021683315,
+    "d": -0.048742020216833146,
+    "n2": 50,
+    "ncolors": 12,
+    "material": "default_silver_sandstone_brick.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.1253053794616649,
+    "d": -0.07985083400711944,
+    "n2": 22,
+    "ncolors": 12,
+    "material": "ethereal_redwood_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12687239284317192,
+    "d": -0.08141784738862647,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "moretrees_birch_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.13096683554324984,
+    "d": -0.08551229008870438,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "moretrees_palm_wood.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.14686761711458002,
+    "d": -0.14686761711458002,
+    "n2": 10,
+    "ncolors": 13,
+    "material": "moretrees_birch_trunk.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.14344874454620934,
+    "d": -0.09799419909166389,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "ethereal_olive_wood.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.13531954131918045,
+    "d": -0.08986499586463499,
+    "n2": 22,
+    "ncolors": 13,
+    "material": "ethereal_banana_wood.png"
+   },
+   {
+    "obs": 0.07142857142857142,
+    "null": 0.10820994915325664,
+    "d": -0.03678137772468522,
+    "n2": 56,
+    "ncolors": 13,
+    "material": "mcl_stairs_granite_smooth_slab.png"
+   },
+   {
+    "obs": 0.034482758620689655,
+    "null": 0.10099176529533349,
+    "d": -0.06650900667464384,
+    "n2": 58,
+    "ncolors": 13,
+    "material": "mcl_stairs_andesite_smooth_slab.png"
+   },
+   {
+    "obs": 0.045454545454545456,
+    "null": 0.12748614844389222,
+    "d": -0.08203160298934677,
+    "n2": 22,
+    "ncolors": 12,
+    "material": "mcl_core_planks_big_oak.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10507706685821158,
+    "d": -0.10507706685821158,
+    "n2": 74,
+    "ncolors": 13,
+    "material": "mcl_core_red_sandstone_carved.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.10388294046287996,
+    "d": -0.10388294046287996,
+    "n2": 74,
+    "ncolors": 13,
+    "material": "mcl_core_red_sandstone_carved.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1280264160636727,
+    "d": -0.1280264160636727,
+    "n2": 71,
+    "ncolors": 14,
+    "material": "mcl_core_red_sandstone_normal.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.11397041546641319,
+    "d": -0.11397041546641319,
+    "n2": 71,
+    "ncolors": 14,
+    "material": "mcl_core_red_sandstone_normal.png"
+   },
+   {
+    "obs": 0.21052631578947367,
+    "null": 0.13500604759486318,
+    "d": 0.0755202681946105,
+    "n2": 19,
+    "ncolors": 10,
+    "material": "mcl_core_red_sandstone_top.png"
+   },
+   {
+    "obs": 0.23728813559322035,
+    "null": 0.11798779985309668,
+    "d": 0.11930033574012366,
+    "n2": 59,
+    "ncolors": 13,
+    "material": "mcl_stairs_diorite_smooth_slab.png"
+   },
+   {
+    "obs": 0.05555555555555555,
+    "null": 0.11973126388160552,
+    "d": -0.06417570832604996,
+    "n2": 18,
+    "ncolors": 13,
+    "material": "crimson_hyphae_wood.png"
+   },
+   {
+    "obs": 0.05555555555555555,
+    "null": 0.12406276178797651,
+    "d": -0.06850720623242096,
+    "n2": 18,
+    "ncolors": 12,
+    "material": "warped_hyphae_wood.png"
+   },
+   {
+    "obs": 0.043478260869565216,
+    "null": 0.15859054238220144,
+    "d": -0.11511228151263622,
+    "n2": 23,
+    "ncolors": 12,
+    "material": "mcl_books_bookshelf_top.png"
+   },
+   {
+    "obs": 0.03225806451612903,
+    "null": 0.12472632660943911,
+    "d": -0.09246826209331008,
+    "n2": 31,
+    "ncolors": 14,
+    "material": "mesecons_piston_pusher_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12183643469622166,
+    "d": -0.12183643469622166,
+    "n2": 104,
+    "ncolors": 12,
+    "material": "xdecor_hive_front.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1293760260838943,
+    "d": -0.1293760260838943,
+    "n2": 35,
+    "ncolors": 11,
+    "material": "xdecor_barrel_top.png"
+   },
+   {
+    "obs": 0.0594059405940594,
+    "null": 0.11516347994827171,
+    "d": -0.05575753935421231,
+    "n2": 101,
+    "ncolors": 14,
+    "material": "xdecor_mailbox.png"
+   },
+   {
+    "obs": 0.13157894736842105,
+    "null": 0.12393788309159764,
+    "d": 0.0076410642768234005,
+    "n2": 38,
+    "ncolors": 14,
+    "material": "xdecor_workbench_top.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12537871331329026,
+    "d": -0.12537871331329026,
+    "n2": 34,
+    "ncolors": 14,
+    "material": "xdecor_cactusbrick.png"
+   },
+   {
+    "obs": 0.029411764705882353,
+    "null": 0.13315152923361878,
+    "d": -0.10373976452773642,
+    "n2": 68,
+    "ncolors": 14,
+    "material": "mesecons_piston_right.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.1233371671768372,
+    "d": -0.1233371671768372,
+    "n2": 29,
+    "ncolors": 14,
+    "material": "quartz_pillar_side_horizontal.png"
+   },
+   {
+    "obs": 0.0,
+    "null": 0.12968429694564887,
+    "d": -0.12968429694564887,
+    "n2": 29,
+    "ncolors": 14,
+    "material": "quartz_pillar_side.png"
+   },
+   {
+    "obs": 0.017699115044247787,
+    "null": 0.10614127234125742,
+    "d": -0.08844215729700963,
+    "n2": 113,
+    "ncolors": 10,
+    "material": "ctf_map_stone_red.png"
+   },
+   {
+    "obs": 0.06153846153846154,
+    "null": 0.12296593382537654,
+    "d": -0.061427472286915,
+    "n2": 65,
+    "ncolors": 14,
+    "material": "nc_tree_bud_side.png"
+   }
+  ]
+ }
+}
