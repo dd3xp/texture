@@ -69,6 +69,17 @@ data/tiles/*
 !experiments/render_*.json
 !experiments/spread_rescale.json
 !experiments/manifest.json
+# 交付批次的清单（不含 PNG，PNG 可由 batch_pack.py + 种子重出）：
+# 「门在 65/78 上触发」这类交付数字要能从净克隆核对。
+!experiments/pack78_out/
+!experiments/pack78_out/manifest.json
+# PNG 不入库，可由 batch_pack.py + 种子重出
+experiments/pack78_out/base/
+!experiments/seam_crop.json
+!experiments/seam_crop60.json
+!experiments/bestof_rule.json
+!experiments/lora_eval_lr1e5.json
+!experiments/prompts_pack78.json
 # B21 的输入表：没有它，crop_holdout60.json 无法复现（论文 §5.3 引了它）
 !experiments/prompts_*.json
 # 两批交付瓦片：限制节的 78 材质跨度对比由这些 PNG 算出（decline_spread.py）

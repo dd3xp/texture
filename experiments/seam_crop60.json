@@ -1,0 +1,984 @@
+[
+ {
+  "prompt": "cobblestone street",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "terracotta floor tiles",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "subway tile wall",
+  "eligible": true,
+  "frac": 0.5048828125,
+  "side": 517,
+  "n_cand": 1849,
+  "n_admissible": 1387,
+  "off_center": [
+   253,
+   253
+  ],
+  "off_seam": [
+   336,
+   468
+  ],
+  "moved": true,
+  "seam_center": 18.8125,
+  "int_center": 7.791666666666667,
+  "seam_seam": 12.875,
+  "int_seam": 8.625,
+  "ratio_center": 2.414438502673797,
+  "ratio_seam": 1.4927536231884058,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "flagstone patio",
+  "eligible": true,
+  "frac": 0.123046875,
+  "side": 126,
+  "n_cand": 5625,
+  "n_admissible": 2720,
+  "off_center": [
+   449,
+   449
+  ],
+  "off_seam": [
+   528,
+   240
+  ],
+  "moved": true,
+  "seam_center": 79.77083333333334,
+  "int_center": 9.364583333333332,
+  "seam_seam": 19.104166666666668,
+  "int_seam": 14.958333333333332,
+  "ratio_center": 8.518353726362628,
+  "ratio_seam": 1.2771587743732593,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "granite block wall",
+  "eligible": true,
+  "frac": 0.2412109375,
+  "side": 247,
+  "n_cand": 4225,
+  "n_admissible": 671,
+  "off_center": [
+   388,
+   388
+  ],
+  "off_seam": [
+   36,
+   552
+  ],
+  "moved": true,
+  "seam_center": 34.166666666666664,
+  "int_center": 19.802083333333336,
+  "seam_seam": 24.3125,
+  "int_seam": 19.479166666666664,
+  "ratio_center": 1.7254076801683322,
+  "ratio_seam": 1.2481283422459895,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "limestone brick wall",
+  "eligible": true,
+  "frac": 0.162109375,
+  "side": 166,
+  "n_cand": 5184,
+  "n_admissible": 4125,
+  "off_center": [
+   429,
+   429
+  ],
+  "off_seam": [
+   696,
+   420
+  ],
+  "moved": true,
+  "seam_center": 49.97916666666667,
+  "int_center": 12.541666666666666,
+  "seam_seam": 11.9375,
+  "int_seam": 12.020833333333332,
+  "ratio_center": 3.985049833887044,
+  "ratio_seam": 0.9930675909878683,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "herringbone brick paving",
+  "eligible": true,
+  "frac": 0.16015625,
+  "side": 164,
+  "n_cand": 5184,
+  "n_admissible": 5067,
+  "off_center": [
+   430,
+   430
+  ],
+  "off_seam": [
+   348,
+   156
+  ],
+  "moved": true,
+  "seam_center": 21.1875,
+  "int_center": 7.010416666666666,
+  "seam_seam": 2.2708333333333335,
+  "int_seam": 14.59375,
+  "ratio_center": 3.022288261515602,
+  "ratio_seam": 0.15560314061384725,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "seam"
+ },
+ {
+  "prompt": "mosaic tile floor",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "cinder block wall",
+  "eligible": true,
+  "frac": 0.3115234375,
+  "side": 319,
+  "n_cand": 3481,
+  "n_admissible": 3056,
+  "off_center": [
+   352,
+   352
+  ],
+  "off_seam": [
+   336,
+   684
+  ],
+  "moved": true,
+  "seam_center": 21.895833333333332,
+  "int_center": 10.552083333333334,
+  "seam_seam": 6.520833333333334,
+  "int_seam": 9.895833333333332,
+  "ratio_center": 2.0750246791707796,
+  "ratio_seam": 0.6589473684210527,
+  "vlm_x9": "inconsistent"
+ },
+ {
+  "prompt": "roman tile roof",
+  "eligible": true,
+  "frac": 0.14453125,
+  "side": 148,
+  "n_cand": 5476,
+  "n_admissible": 4978,
+  "off_center": [
+   438,
+   438
+  ],
+  "off_seam": [
+   36,
+   504
+  ],
+  "moved": true,
+  "seam_center": 82.39583333333334,
+  "int_center": 12.84375,
+  "seam_seam": 9.458333333333334,
+  "int_seam": 12.3125,
+  "ratio_center": 6.415247364152474,
+  "ratio_seam": 0.7681895093062606,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "oak plank ceiling",
+  "eligible": true,
+  "frac": 0.6787109375,
+  "side": 695,
+  "n_cand": 784,
+  "n_admissible": 784,
+  "off_center": [
+   164,
+   164
+  ],
+  "off_seam": [
+   132,
+   180
+  ],
+  "moved": true,
+  "seam_center": 5.104166666666667,
+  "int_center": 1.84375,
+  "seam_seam": 2.4375,
+  "int_seam": 1.9270833333333335,
+  "ratio_center": 2.768361581920904,
+  "ratio_seam": 1.2648648648648648,
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "weathered barn wood",
+  "eligible": true,
+  "frac": 0.21484375,
+  "side": 220,
+  "n_cand": 4624,
+  "n_admissible": 4124,
+  "off_center": [
+   402,
+   402
+  ],
+  "off_seam": [
+   288,
+   240
+  ],
+  "moved": true,
+  "seam_center": 21.125,
+  "int_center": 2.8125,
+  "seam_seam": 8.4375,
+  "int_seam": 7.010416666666666,
+  "ratio_center": 7.511111111111111,
+  "ratio_seam": 1.2035661218424965,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "driftwood planks",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "wood shingle siding",
+  "eligible": true,
+  "frac": 0.17578125,
+  "side": 180,
+  "n_cand": 5041,
+  "n_admissible": 5016,
+  "off_center": [
+   422,
+   422
+  ],
+  "off_seam": [
+   792,
+   612
+  ],
+  "moved": true,
+  "seam_center": 15.104166666666666,
+  "int_center": 6.291666666666666,
+  "seam_seam": 5.416666666666666,
+  "int_seam": 7.09375,
+  "ratio_center": 2.4006622516556293,
+  "ratio_seam": 0.763582966226138,
+  "vlm_x9": "inconsistent"
+ },
+ {
+  "prompt": "plywood sheet",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "log cabin wall",
+  "eligible": true,
+  "frac": 0.142578125,
+  "side": 146,
+  "n_cand": 5476,
+  "n_admissible": 5401,
+  "off_center": [
+   439,
+   439
+  ],
+  "off_seam": [
+   720,
+   408
+  ],
+  "moved": true,
+  "seam_center": 26.770833333333336,
+  "int_center": 5.895833333333334,
+  "seam_seam": 9.333333333333334,
+  "int_seam": 6.875,
+  "ratio_center": 4.540636042402827,
+  "ratio_seam": 1.3575757575757577,
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "teak deck boards",
+  "eligible": true,
+  "frac": 0.123046875,
+  "side": 126,
+  "n_cand": 5625,
+  "n_admissible": 3590,
+  "off_center": [
+   449,
+   449
+  ],
+  "off_seam": [
+   696,
+   312
+  ],
+  "moved": true,
+  "seam_center": 27.479166666666664,
+  "int_center": 2.8541666666666665,
+  "seam_seam": 5.208333333333333,
+  "int_seam": 2.916666666666667,
+  "ratio_center": 9.627737226277372,
+  "ratio_seam": 1.7857142857142854,
+  "vlm_x9": "seam",
+  "vlm_one": "seam"
+ },
+ {
+  "prompt": "diamond plate steel",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "riveted iron hull",
+  "eligible": true,
+  "frac": 0.14453125,
+  "side": 148,
+  "n_cand": 5476,
+  "n_admissible": 4567,
+  "off_center": [
+   438,
+   438
+  ],
+  "off_seam": [
+   732,
+   216
+  ],
+  "moved": true,
+  "seam_center": 42.625,
+  "int_center": 11.916666666666666,
+  "seam_seam": 2.3958333333333335,
+  "int_seam": 12.114583333333334,
+  "ratio_center": 3.576923076923077,
+  "ratio_seam": 0.19776440240756665,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "copper roof patina",
+  "eligible": true,
+  "frac": 0.1005859375,
+  "side": 103,
+  "n_cand": 5929,
+  "n_admissible": 5456,
+  "off_center": [
+   460,
+   460
+  ],
+  "off_seam": [
+   0,
+   276
+  ],
+  "moved": true,
+  "seam_center": 26.520833333333336,
+  "int_center": 5.666666666666666,
+  "seam_seam": 12.3125,
+  "int_seam": 9.875,
+  "ratio_center": 4.68014705882353,
+  "ratio_seam": 1.2468354430379747,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "brass mesh screen",
+  "eligible": true,
+  "frac": 0.1904296875,
+  "side": 195,
+  "n_cand": 4900,
+  "n_admissible": 3717,
+  "off_center": [
+   414,
+   414
+  ],
+  "off_seam": [
+   792,
+   96
+  ],
+  "moved": true,
+  "seam_center": 37.125,
+  "int_center": 22.177083333333332,
+  "seam_seam": 2.770833333333333,
+  "int_seam": 20.239583333333332,
+  "ratio_center": 1.674025364020667,
+  "ratio_seam": 0.13690169840452907,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "galvanized corrugated roof",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "chain mail armour",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "denim fabric",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "knitted sweater wool",
+  "eligible": true,
+  "frac": 0.2744140625,
+  "side": 281,
+  "n_cand": 3844,
+  "n_admissible": 3493,
+  "off_center": [
+   371,
+   371
+  ],
+  "off_seam": [
+   540,
+   540
+  ],
+  "moved": true,
+  "seam_center": 26.666666666666664,
+  "int_center": 7.354166666666666,
+  "seam_seam": 11.916666666666666,
+  "int_seam": 14.458333333333332,
+  "ratio_center": 3.6260623229461757,
+  "ratio_seam": 0.8242074927953891,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "leather hide",
+  "eligible": true,
+  "frac": 0.31640625,
+  "side": 324,
+  "n_cand": 3481,
+  "n_admissible": 3437,
+  "off_center": [
+   350,
+   350
+  ],
+  "off_seam": [
+   624,
+   348
+  ],
+  "moved": true,
+  "seam_center": 63.47916666666667,
+  "int_center": 18.260416666666668,
+  "seam_seam": 36.83333333333333,
+  "int_seam": 20.6875,
+  "ratio_center": 3.4763262977752425,
+  "ratio_seam": 1.780463242698892,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "straw thatch roof",
+  "eligible": true,
+  "frac": 0.181640625,
+  "side": 186,
+  "n_cand": 4900,
+  "n_admissible": 2901,
+  "off_center": [
+   419,
+   419
+  ],
+  "off_seam": [
+   780,
+   504
+  ],
+  "moved": true,
+  "seam_center": 69.97916666666666,
+  "int_center": 9.989583333333332,
+  "seam_seam": 20.645833333333332,
+  "int_seam": 18.479166666666668,
+  "ratio_center": 7.005213764337852,
+  "ratio_seam": 1.117249154453213,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "reed mat",
+  "eligible": true,
+  "frac": 0.0986328125,
+  "side": 101,
+  "n_cand": 5929,
+  "n_admissible": 2147,
+  "off_center": [
+   461,
+   461
+  ],
+  "off_seam": [
+   168,
+   480
+  ],
+  "moved": true,
+  "seam_center": 69.375,
+  "int_center": 11.1875,
+  "seam_seam": 2.833333333333333,
+  "int_seam": 10.010416666666666,
+  "ratio_center": 6.201117318435754,
+  "ratio_seam": 0.28303850156087407,
+  "vlm_x9": "inconsistent"
+ },
+ {
+  "prompt": "canvas tarp",
+  "eligible": true,
+  "frac": 0.111328125,
+  "side": 114,
+  "n_cand": 5776,
+  "n_admissible": 3454,
+  "off_center": [
+   455,
+   455
+  ],
+  "off_seam": [
+   588,
+   156
+  ],
+  "moved": true,
+  "seam_center": 75.4375,
+  "int_center": 13.0,
+  "seam_seam": 25.375,
+  "int_seam": 10.260416666666668,
+  "ratio_center": 5.802884615384615,
+  "ratio_seam": 2.473096446700507,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "felt cloth",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "wet river pebbles",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "crushed red brick gravel",
+  "eligible": true,
+  "frac": 0.0849609375,
+  "side": 87,
+  "n_cand": 6241,
+  "n_admissible": 6179,
+  "off_center": [
+   468,
+   468
+  ],
+  "off_seam": [
+   300,
+   672
+  ],
+  "moved": true,
+  "seam_center": 44.4375,
+  "int_center": 7.270833333333334,
+  "seam_seam": 5.958333333333333,
+  "int_seam": 10.614583333333334,
+  "ratio_center": 6.111747851002865,
+  "ratio_seam": 0.5613346418056918,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "peat soil",
+  "eligible": true,
+  "frac": 0.1162109375,
+  "side": 119,
+  "n_cand": 5776,
+  "n_admissible": 5436,
+  "off_center": [
+   452,
+   452
+  ],
+  "off_seam": [
+   816,
+   840
+  ],
+  "moved": true,
+  "seam_center": 13.4375,
+  "int_center": 4.0,
+  "seam_seam": 2.9583333333333335,
+  "int_seam": 4.864583333333334,
+  "ratio_center": 3.359375,
+  "ratio_seam": 0.60813704496788,
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "beach shingle",
+  "eligible": true,
+  "frac": 0.162109375,
+  "side": 166,
+  "n_cand": 5184,
+  "n_admissible": 2693,
+  "off_center": [
+   429,
+   429
+  ],
+  "off_seam": [
+   840,
+   516
+  ],
+  "moved": true,
+  "seam_center": 118.89583333333333,
+  "int_center": 18.125,
+  "seam_seam": 24.979166666666664,
+  "int_seam": 19.90625,
+  "ratio_center": 6.559770114942529,
+  "ratio_seam": 1.2548403976975404,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "loose scree slope",
+  "eligible": true,
+  "frac": 0.1005859375,
+  "side": 103,
+  "n_cand": 5929,
+  "n_admissible": 5749,
+  "off_center": [
+   460,
+   460
+  ],
+  "off_seam": [
+   12,
+   828
+  ],
+  "moved": true,
+  "seam_center": 15.770833333333332,
+  "int_center": 5.03125,
+  "seam_seam": 8.458333333333334,
+  "int_seam": 7.625,
+  "ratio_center": 3.134575569358178,
+  "ratio_seam": 1.109289617486339,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "frozen tundra ground",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "malachite ore vein",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "quartz crystal cluster",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "basalt columns",
+  "eligible": true,
+  "frac": 0.498046875,
+  "side": 510,
+  "n_cand": 1849,
+  "n_admissible": 1727,
+  "off_center": [
+   257,
+   257
+  ],
+  "off_seam": [
+   216,
+   108
+  ],
+  "moved": true,
+  "seam_center": 25.770833333333336,
+  "int_center": 11.375,
+  "seam_seam": 11.541666666666668,
+  "int_seam": 11.0625,
+  "ratio_center": 2.265567765567766,
+  "ratio_seam": 1.0433145009416196,
+  "vlm_x9": "inconsistent"
+ },
+ {
+  "prompt": "slate shale layers",
+  "eligible": true,
+  "frac": 0.5400390625,
+  "side": 553,
+  "n_cand": 1600,
+  "n_admissible": 1554,
+  "off_center": [
+   235,
+   235
+  ],
+  "off_seam": [
+   444,
+   408
+  ],
+  "moved": true,
+  "seam_center": 24.604166666666668,
+  "int_center": 10.5,
+  "seam_seam": 12.1875,
+  "int_seam": 10.177083333333332,
+  "ratio_center": 2.3432539682539684,
+  "ratio_seam": 1.197543500511771
+ },
+ {
+  "prompt": "geode interior",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "pumice stone",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "ivy covered wall",
+  "eligible": true,
+  "frac": 0.109375,
+  "side": 112,
+  "n_cand": 5929,
+  "n_admissible": 4605,
+  "off_center": [
+   456,
+   456
+  ],
+  "off_seam": [
+   732,
+   432
+  ],
+  "moved": true,
+  "seam_center": 21.6875,
+  "int_center": 8.666666666666668,
+  "seam_seam": 1.0833333333333333,
+  "int_seam": 9.927083333333332,
+  "ratio_center": 2.502403846153846,
+  "ratio_seam": 0.10912906610703044,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "fern frond mat",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "pine needle floor",
+  "eligible": true,
+  "frac": 0.31640625,
+  "side": 324,
+  "n_cand": 3481,
+  "n_admissible": 267,
+  "off_center": [
+   350,
+   350
+  ],
+  "off_seam": [
+   492,
+   48
+  ],
+  "moved": true,
+  "seam_center": 54.1875,
+  "int_center": 7.208333333333333,
+  "seam_seam": 3.6666666666666665,
+  "int_seam": 7.333333333333333,
+  "ratio_center": 7.517341040462428,
+  "ratio_seam": 0.5,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "lily pads on water",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "bamboo forest floor",
+  "eligible": true,
+  "frac": 0.0791015625,
+  "side": 81,
+  "n_cand": 6241,
+  "n_admissible": 1587,
+  "off_center": [
+   471,
+   471
+  ],
+  "off_seam": [
+   684,
+   432
+  ],
+  "moved": true,
+  "seam_center": 31.958333333333336,
+  "int_center": 9.6875,
+  "seam_seam": 13.666666666666668,
+  "int_seam": 11.25,
+  "ratio_center": 3.298924731182796,
+  "ratio_seam": 1.214814814814815,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "center"
+ },
+ {
+  "prompt": "cracked ice sheet",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "lava flow crust",
+  "eligible": true,
+  "frac": 0.24609375,
+  "side": 252,
+  "n_cand": 4225,
+  "n_admissible": 3336,
+  "off_center": [
+   386,
+   386
+  ],
+  "off_seam": [
+   252,
+   264
+  ],
+  "moved": true,
+  "seam_center": 50.60416666666667,
+  "int_center": 6.333333333333334,
+  "seam_seam": 10.729166666666666,
+  "int_seam": 6.364583333333333,
+  "ratio_center": 7.990131578947368,
+  "ratio_seam": 1.685761047463175
+ },
+ {
+  "prompt": "coral reef surface",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "mushroom cap top",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "sponge surface",
+  "eligible": true,
+  "frac": 0.0966796875,
+  "side": 99,
+  "n_cand": 6084,
+  "n_admissible": 4860,
+  "off_center": [
+   462,
+   462
+  ],
+  "off_seam": [
+   852,
+   96
+  ],
+  "moved": true,
+  "seam_center": 44.75,
+  "int_center": 12.65625,
+  "seam_seam": 22.625,
+  "int_seam": 13.78125,
+  "ratio_center": 3.5358024691358025,
+  "ratio_seam": 1.6417233560090703,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "asphalt road surface",
+  "eligible": true,
+  "frac": 0.1376953125,
+  "side": 141,
+  "n_cand": 5476,
+  "n_admissible": 3648,
+  "off_center": [
+   441,
+   441
+  ],
+  "off_seam": [
+   372,
+   408
+  ],
+  "moved": true,
+  "seam_center": 8.958333333333334,
+  "int_center": 5.322916666666667,
+  "seam_seam": 3.5833333333333335,
+  "int_seam": 7.989583333333333,
+  "ratio_center": 1.6829745596868886,
+  "ratio_seam": 0.44850065189048244
+ },
+ {
+  "prompt": "concrete sidewalk slab",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "roof tar paper",
+  "eligible": true,
+  "frac": 0.0986328125,
+  "side": 101,
+  "n_cand": 5929,
+  "n_admissible": 5108,
+  "off_center": [
+   461,
+   461
+  ],
+  "off_seam": [
+   588,
+   492
+  ],
+  "moved": true,
+  "seam_center": 13.041666666666668,
+  "int_center": 6.333333333333333,
+  "seam_seam": 5.270833333333334,
+  "int_seam": 8.25,
+  "ratio_center": 2.05921052631579,
+  "ratio_seam": 0.638888888888889,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "perforated metal panel",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "acoustic foam panel",
+  "eligible": true,
+  "frac": 0.12890625,
+  "side": 132,
+  "n_cand": 5625,
+  "n_admissible": 5389,
+  "off_center": [
+   446,
+   446
+  ],
+  "off_seam": [
+   888,
+   372
+  ],
+  "moved": true,
+  "seam_center": 46.60416666666667,
+  "int_center": 19.375,
+  "seam_seam": 10.3125,
+  "int_seam": 24.822916666666664,
+  "ratio_center": 2.405376344086022,
+  "ratio_seam": 0.4154427192614352,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "carpet loop pile",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "woven rattan panel",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "slate roof tiles wet",
+  "eligible": true,
+  "frac": 0.1162109375,
+  "side": 119,
+  "n_cand": 5776,
+  "n_admissible": 4232,
+  "off_center": [
+   452,
+   452
+  ],
+  "off_seam": [
+   120,
+   516
+  ],
+  "moved": true,
+  "seam_center": 46.666666666666664,
+  "int_center": 3.28125,
+  "seam_seam": 3.875,
+  "int_seam": 8.895833333333334,
+  "ratio_center": 14.222222222222221,
+  "ratio_seam": 0.43559718969555034,
+  "vlm_x9": "seam",
+  "vlm_one": "seam"
+ }
+]

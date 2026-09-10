@@ -1,0 +1,422 @@
+[
+ {
+  "prompt": "brick wall",
+  "units_base": 30.567164179104477,
+  "units_lora": 32.0,
+  "aniso_base": 0.9076107357933021,
+  "aniso_lora": 0.7228441553425279,
+  "frac_base_crop": 0.146484375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.140625
+ },
+ {
+  "prompt": "stone brick wall",
+  "units_base": 25.6,
+  "units_lora": 30.11764705882353,
+  "aniso_base": 0.7289683032887848,
+  "aniso_lora": 0.05713875138565311,
+  "frac_base_crop": 0.17578125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "units_base": 9.394495412844037,
+  "units_lora": 16.0,
+  "aniso_base": 0.4333984190788041,
+  "aniso_lora": 0.34210257924864196,
+  "frac_base_crop": 0.478515625,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.28125
+ },
+ {
+  "prompt": "sandstone block wall",
+  "units_base": 34.13333333333333,
+  "units_lora": 22.755555555555556,
+  "aniso_base": 0.6390030037567276,
+  "aniso_lora": 0.33451720829489484,
+  "frac_base_crop": 0.1318359375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.197265625
+ },
+ {
+  "prompt": "clay roof tiles",
+  "units_base": 25.6,
+  "units_lora": 45.51111111111111,
+  "aniso_base": 0.7750894167014254,
+  "aniso_lora": 1.1470708110486965,
+  "frac_base_crop": 0.17578125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.0986328125
+ },
+ {
+  "prompt": "slate roof shingles",
+  "units_base": 23.01123595505618,
+  "units_lora": 23.272727272727273,
+  "aniso_base": 0.1298955217970211,
+  "aniso_lora": 0.04846331397463125,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "wooden planks floor",
+  "units_base": 68.26666666666667,
+  "units_lora": 21.333333333333332,
+  "aniso_base": 1.2167763578614672,
+  "aniso_lora": 1.099090785481315,
+  "frac_base_crop": 0.0791015625,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.2109375
+ },
+ {
+  "prompt": "parquet wood floor",
+  "units_base": 38.64150943396226,
+  "units_lora": 78.76923076923077,
+  "aniso_base": 0.2566713224250547,
+  "aniso_lora": 0.30814822921996055,
+  "frac_base_crop": 0.1162109375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.0791015625
+ },
+ {
+  "prompt": "bamboo mat",
+  "units_base": 45.51111111111111,
+  "units_lora": 28.054794520547944,
+  "aniso_base": 0.26442410243289655,
+  "aniso_lora": 0.5615497731579363,
+  "frac_base_crop": 0.0986328125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.16015625
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "units_base": 26.256410256410255,
+  "units_lora": 93.0909090909091,
+  "aniso_base": 0.2687047452089933,
+  "aniso_lora": 0.28340025153828785,
+  "frac_base_crop": 0.1708984375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.0791015625
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "units_base": 1.965451055662188,
+  "units_lora": 7.474452554744525,
+  "aniso_base": 0.01959403170262274,
+  "aniso_lora": 0.28403934767660693,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.6015625
+ },
+ {
+  "prompt": "metal grate panel",
+  "units_base": 30.567164179104477,
+  "units_lora": 32.0,
+  "aniso_base": 0.40238938862063767,
+  "aniso_lora": 0.25889404917781966,
+  "frac_base_crop": 0.146484375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.140625
+ },
+ {
+  "prompt": "chain link fence",
+  "units_base": 32.0,
+  "units_lora": 33.57377049180328,
+  "aniso_base": 0.8031153163619006,
+  "aniso_lora": 0.8622252029469616,
+  "frac_base_crop": 0.140625,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.1337890625
+ },
+ {
+  "prompt": "woven basket surface",
+  "units_base": 35.92982456140351,
+  "units_lora": 3.813780260707635,
+  "aniso_base": 0.7116026942457495,
+  "aniso_lora": 0.11893653009614458,
+  "frac_base_crop": 0.125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "units_base": 47.627906976744185,
+  "units_lora": 46.54545454545455,
+  "aniso_base": 0.07183832079045535,
+  "aniso_lora": 0.17139150764788932,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "stacked stone wall",
+  "units_base": 3.0385756676557865,
+  "units_lora": 32.507936507936506,
+  "aniso_base": 0.7460877374944018,
+  "aniso_lora": 0.7789005265738101,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.1376953125
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "units_base": 16.516129032258064,
+  "units_lora": 33.03225806451613,
+  "aniso_base": 0.14888789222653687,
+  "aniso_lora": 0.18791035662615724,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "units_base": 21.333333333333332,
+  "units_lora": 8.904347826086957,
+  "aniso_base": 0.5577544915922363,
+  "aniso_lora": 1.376317541644326,
+  "frac_base_crop": 0.2109375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.5048828125
+ },
+ {
+  "prompt": "coarse gravel path",
+  "units_base": 39.38461538461539,
+  "units_lora": 0.0,
+  "aniso_base": 0.35272467174192335,
+  "aniso_lora": 0.5167393677262856,
+  "frac_base_crop": 0.1142578125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "desert sand dunes",
+  "units_base": 48.76190476190476,
+  "units_lora": 32.0,
+  "aniso_base": 0.9522255169972871,
+  "aniso_lora": 1.3438142818808514,
+  "frac_base_crop": 0.091796875,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.140625
+ },
+ {
+  "prompt": "grass turf top",
+  "units_base": 40.96,
+  "units_lora": 64.0,
+  "aniso_base": 0.006545425301575057,
+  "aniso_lora": 0.737344546940842,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.0791015625
+ },
+ {
+  "prompt": "snow covered ground",
+  "units_base": 13.38562091503268,
+  "units_lora": 48.76190476190476,
+  "aniso_base": 0.09012495076800225,
+  "aniso_lora": 1.4960801161555237,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.091796875
+ },
+ {
+  "prompt": "cracked dry mud",
+  "units_base": 7.557195571955719,
+  "units_lora": 0.0,
+  "aniso_base": 0.16384891104069735,
+  "aniso_lora": 0.2332297995513736,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "units_base": 25.6,
+  "units_lora": 102.4,
+  "aniso_base": 0.3034050961805128,
+  "aniso_lora": 0.7079403971618448,
+  "frac_base_crop": 0.17578125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.0791015625
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "units_base": 16.384,
+  "units_lora": 16.0,
+  "aniso_base": 0.45062540620151276,
+  "aniso_lora": 1.529922450634871,
+  "frac_base_crop": 0.2744140625,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.28125
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "units_base": 7.9073359073359075,
+  "units_lora": 25.6,
+  "aniso_base": 0.10170463242393157,
+  "aniso_lora": 0.2760553727112816,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.17578125
+ },
+ {
+  "prompt": "coal ore vein",
+  "units_base": 9.706161137440759,
+  "units_lora": 0.0,
+  "aniso_base": 0.147388804520206,
+  "aniso_lora": 0.6835900724666445,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "units_base": 24.094117647058823,
+  "units_lora": 78.76923076923077,
+  "aniso_base": 0.15406073036320153,
+  "aniso_lora": 0.6126175213641507,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.0791015625
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "units_base": 14.733812949640289,
+  "units_lora": 6.826666666666667,
+  "aniso_base": 0.006142995419826087,
+  "aniso_lora": 0.01121069639837844,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "cobweb corner",
+  "units_base": 25.6,
+  "units_lora": 25.924050632911392,
+  "aniso_base": 0.3381948712570765,
+  "aniso_lora": 0.37651726462489243,
+  "frac_base_crop": 0.17578125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.1728515625
+ },
+ {
+  "prompt": "tree bark oak",
+  "units_base": 15.515151515151516,
+  "units_lora": 0.0,
+  "aniso_base": 0.16090386330844056,
+  "aniso_lora": 0.23493473463269632,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "birch tree bark",
+  "units_base": 20.897959183673468,
+  "units_lora": 49.951219512195124,
+  "aniso_base": 0.4736996874572507,
+  "aniso_lora": 0.7949081216848531,
+  "frac_base_crop": 0.21484375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.08984375
+ },
+ {
+  "prompt": "cactus skin",
+  "units_base": 51.2,
+  "units_lora": 0.0,
+  "aniso_base": 0.3083975599604755,
+  "aniso_lora": 0.11589395311505846,
+  "frac_base_crop": 0.087890625,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "reptile scales",
+  "units_base": 32.0,
+  "units_lora": 37.236363636363635,
+  "aniso_base": 0.11969608976618261,
+  "aniso_lora": 0.028426863081442367,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "fish scales",
+  "units_base": 49.951219512195124,
+  "units_lora": 5.375328083989501,
+  "aniso_base": 0.07729697052745602,
+  "aniso_lora": 0.4459253281978121,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.8369140625
+ },
+ {
+  "prompt": "honeycomb wax",
+  "units_base": 46.54545454545455,
+  "units_lora": 35.92982456140351,
+  "aniso_base": 0.11499707005744851,
+  "aniso_lora": 0.24014280666370907,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.125
+ },
+ {
+  "prompt": "rusty iron plate",
+  "units_base": 23.54022988505747,
+  "units_lora": 48.76190476190476,
+  "aniso_base": 0.05185435588293086,
+  "aniso_lora": 0.01366313036866417,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "polished marble slab",
+  "units_base": 46.54545454545455,
+  "units_lora": 47.627906976744185,
+  "aniso_base": 0.0843911344634457,
+  "aniso_lora": 0.13165374865664772,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "units_base": 28.444444444444443,
+  "units_lora": 35.310344827586206,
+  "aniso_base": 0.002159941388514124,
+  "aniso_lora": 0.23041477470389818,
+  "frac_base_crop": 1.0,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.126953125
+ },
+ {
+  "prompt": "woven wool cloth",
+  "units_base": 27.675675675675677,
+  "units_lora": 0.0,
+  "aniso_base": 0.336840045082688,
+  "aniso_lora": 0.07580625286876651,
+  "frac_base_crop": 0.162109375,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "units_base": 113.77777777777777,
+  "units_lora": 27.675675675675677,
+  "aniso_base": 0.2519237878229066,
+  "aniso_lora": 0.16497693811802272,
+  "frac_base_crop": 0.0791015625,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 1.0
+ },
+ {
+  "prompt": "quilted padding",
+  "units_base": 21.557894736842105,
+  "units_lora": 4.911270983213429,
+  "aniso_base": 0.5145983096761132,
+  "aniso_lora": 0.48596045739246446,
+  "frac_base_crop": 0.2080078125,
+  "frac_lora_raw": 1.0,
+  "frac_lora_crop": 0.916015625
+ }
+]

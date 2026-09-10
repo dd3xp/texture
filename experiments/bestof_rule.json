@@ -1,0 +1,380 @@
+[
+ {
+  "prompt": "brick wall",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 3,
+  "frac_frac": 0.5908203125,
+  "k_rand": 2,
+  "frac_rand": 0.142578125,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "stone brick wall",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 2,
+  "frac_frac": 0.2900390625,
+  "k_rand": 1,
+  "frac_rand": 0.126953125,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "n_eff": 4,
+  "same": true,
+  "k_frac": 3,
+  "frac_frac": 0.9287109375,
+  "k_rand": 3,
+  "frac_rand": 0.9287109375
+ },
+ {
+  "prompt": "sandstone block wall",
+  "n_eff": 3,
+  "same": true,
+  "k_frac": 3,
+  "frac_frac": 0.4833984375,
+  "k_rand": 3,
+  "frac_rand": 0.4833984375
+ },
+ {
+  "prompt": "clay roof tiles",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 1,
+  "frac_frac": 0.392578125,
+  "k_rand": 0,
+  "frac_rand": 0.17578125,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "slate roof shingles",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 3,
+  "frac_frac": 0.263671875,
+  "k_rand": 1,
+  "frac_rand": 0.12890625
+ },
+ {
+  "prompt": "wooden planks floor",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 2,
+  "frac_frac": 0.7841796875,
+  "k_rand": 0,
+  "frac_rand": 0.0791015625,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "parquet wood floor",
+  "n_eff": 3,
+  "same": true,
+  "k_frac": 2,
+  "frac_frac": 0.1708984375,
+  "k_rand": 2,
+  "frac_rand": 0.1708984375
+ },
+ {
+  "prompt": "bamboo mat",
+  "n_eff": 2,
+  "same": true,
+  "k_frac": 2,
+  "frac_frac": 0.0830078125,
+  "k_rand": 2,
+  "frac_rand": 0.0830078125
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "n_eff": 2,
+  "same": true,
+  "k_frac": 0,
+  "frac_frac": 0.17578125,
+  "k_rand": 0,
+  "frac_rand": 0.17578125
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "n_eff": 0,
+  "same": true
+ },
+ {
+  "prompt": "metal grate panel",
+  "n_eff": 2,
+  "same": false,
+  "k_frac": 1,
+  "frac_frac": 0.52734375,
+  "k_rand": 0,
+  "frac_rand": 0.146484375,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "chain link fence",
+  "n_eff": 2,
+  "same": false,
+  "k_frac": 2,
+  "frac_frac": 0.38671875,
+  "k_rand": 0,
+  "frac_rand": 0.140625,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "woven basket surface",
+  "n_eff": 4,
+  "same": true,
+  "k_frac": 3,
+  "frac_frac": 0.265625,
+  "k_rand": 3,
+  "frac_rand": 0.265625
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "n_eff": 2,
+  "same": false,
+  "k_frac": 2,
+  "frac_frac": 0.1689453125,
+  "k_rand": 3,
+  "frac_rand": 0.0986328125,
+  "vlm": "frac"
+ },
+ {
+  "prompt": "stacked stone wall",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 3,
+  "frac_frac": 0.2109375,
+  "k_rand": 1,
+  "frac_rand": 0.1884765625,
+  "vlm": "frac"
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "n_eff": 2,
+  "same": false,
+  "k_frac": 3,
+  "frac_frac": 0.1865234375,
+  "k_rand": 1,
+  "frac_rand": 0.1318359375,
+  "vlm": "rand"
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 3,
+  "frac_frac": 0.375,
+  "k_rand": 0,
+  "frac_rand": 0.2109375,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "coarse gravel path",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 1,
+  "frac_frac": 0.14453125,
+  "k_rand": 3,
+  "frac_rand": 0.087890625
+ },
+ {
+  "prompt": "desert sand dunes",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 2,
+  "frac_frac": 0.126953125,
+  "k_rand": 2,
+  "frac_rand": 0.126953125
+ },
+ {
+  "prompt": "grass turf top",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 2,
+  "frac_frac": 0.0791015625,
+  "k_rand": 2,
+  "frac_rand": 0.0791015625
+ },
+ {
+  "prompt": "snow covered ground",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 1,
+  "frac_frac": 0.2412109375,
+  "k_rand": 1,
+  "frac_rand": 0.2412109375
+ },
+ {
+  "prompt": "cracked dry mud",
+  "n_eff": 0,
+  "same": true
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 0,
+  "frac_frac": 0.17578125,
+  "k_rand": 0,
+  "frac_rand": 0.17578125
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 2,
+  "frac_frac": 0.3447265625,
+  "k_rand": 3,
+  "frac_rand": 0.107421875
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "n_eff": 0,
+  "same": true
+ },
+ {
+  "prompt": "coal ore vein",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 1,
+  "frac_frac": 0.4169921875,
+  "k_rand": 1,
+  "frac_rand": 0.4169921875
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 3,
+  "frac_frac": 0.5048828125,
+  "k_rand": 3,
+  "frac_rand": 0.5048828125
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "n_eff": 0,
+  "same": true
+ },
+ {
+  "prompt": "cobweb corner",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 0,
+  "frac_frac": 0.17578125,
+  "k_rand": 0,
+  "frac_rand": 0.17578125
+ },
+ {
+  "prompt": "tree bark oak",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 1,
+  "frac_frac": 0.4921875,
+  "k_rand": 2,
+  "frac_rand": 0.146484375,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "birch tree bark",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 1,
+  "frac_frac": 0.5556640625,
+  "k_rand": 0,
+  "frac_rand": 0.21484375,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "cactus skin",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 0,
+  "frac_frac": 0.6259765625,
+  "k_rand": 0,
+  "frac_rand": 0.6259765625
+ },
+ {
+  "prompt": "reptile scales",
+  "n_eff": 2,
+  "same": true,
+  "k_frac": 2,
+  "frac_frac": 0.14453125,
+  "k_rand": 2,
+  "frac_rand": 0.14453125
+ },
+ {
+  "prompt": "fish scales",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 3,
+  "frac_frac": 0.7421875,
+  "k_rand": 1,
+  "frac_rand": 0.1669921875,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "honeycomb wax",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 1,
+  "frac_frac": 0.109375,
+  "k_rand": 1,
+  "frac_rand": 0.109375
+ },
+ {
+  "prompt": "rusty iron plate",
+  "n_eff": 2,
+  "same": false,
+  "k_frac": 1,
+  "frac_frac": 0.3095703125,
+  "k_rand": 2,
+  "frac_rand": 0.232421875,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "polished marble slab",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 3,
+  "frac_frac": 0.2607421875,
+  "k_rand": 3,
+  "frac_rand": 0.2607421875
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "n_eff": 1,
+  "same": true,
+  "k_frac": 2,
+  "frac_frac": 0.2724609375,
+  "k_rand": 2,
+  "frac_rand": 0.2724609375
+ },
+ {
+  "prompt": "woven wool cloth",
+  "n_eff": 3,
+  "same": false,
+  "k_frac": 0,
+  "frac_frac": 0.162109375,
+  "k_rand": 2,
+  "frac_rand": 0.0791015625,
+  "vlm": "inconsistent"
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "n_eff": 2,
+  "same": true,
+  "k_frac": 0,
+  "frac_frac": 0.0791015625,
+  "k_rand": 0,
+  "frac_rand": 0.0791015625
+ },
+ {
+  "prompt": "quilted padding",
+  "n_eff": 4,
+  "same": false,
+  "k_frac": 0,
+  "frac_frac": 0.2060546875,
+  "k_rand": 2,
+  "frac_rand": 0.16015625,
+  "vlm": "frac"
+ }
+]

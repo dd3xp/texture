@@ -1,0 +1,641 @@
+[
+ {
+  "prompt": "brick wall",
+  "eligible": true,
+  "frac": 0.1494140625,
+  "side": 153,
+  "n_cand": 5329,
+  "n_admissible": 4366,
+  "off_center": [
+   435,
+   435
+  ],
+  "off_seam": [
+   756,
+   204
+  ],
+  "moved": true,
+  "seam_center": 45.375,
+  "int_center": 11.375,
+  "seam_seam": 7.395833333333333,
+  "int_seam": 15.739583333333332,
+  "ratio_center": 3.989010989010989,
+  "ratio_seam": 0.4698874917273329,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "stone brick wall",
+  "eligible": true,
+  "frac": 0.17578125,
+  "side": 180,
+  "n_cand": 5041,
+  "n_admissible": 4833,
+  "off_center": [
+   422,
+   422
+  ],
+  "off_seam": [
+   516,
+   600
+  ],
+  "moved": true,
+  "seam_center": 67.25,
+  "int_center": 11.5625,
+  "seam_seam": 11.833333333333332,
+  "int_seam": 15.75,
+  "ratio_center": 5.816216216216216,
+  "ratio_seam": 0.7513227513227513,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "mossy cracked stone bricks",
+  "eligible": true,
+  "frac": 0.478515625,
+  "side": 490,
+  "n_cand": 2025,
+  "n_admissible": 1910,
+  "off_center": [
+   267,
+   267
+  ],
+  "off_seam": [
+   96,
+   156
+  ],
+  "moved": true,
+  "seam_center": 9.729166666666668,
+  "int_center": 7.875,
+  "seam_seam": 9.395833333333332,
+  "int_seam": 8.510416666666668,
+  "ratio_center": 1.2354497354497356,
+  "ratio_seam": 1.104039167686658,
+  "vlm_x9": "inconsistent"
+ },
+ {
+  "prompt": "sandstone block wall",
+  "eligible": true,
+  "frac": 0.1318359375,
+  "side": 135,
+  "n_cand": 5625,
+  "n_admissible": 569,
+  "off_center": [
+   444,
+   444
+  ],
+  "off_seam": [
+   288,
+   600
+  ],
+  "moved": true,
+  "seam_center": 37.625,
+  "int_center": 10.09375,
+  "seam_seam": 9.104166666666668,
+  "int_seam": 10.583333333333332,
+  "ratio_center": 3.7275541795665634,
+  "ratio_seam": 0.8602362204724412
+ },
+ {
+  "prompt": "clay roof tiles",
+  "eligible": true,
+  "frac": 0.17578125,
+  "side": 180,
+  "n_cand": 5041,
+  "n_admissible": 662,
+  "off_center": [
+   422,
+   422
+  ],
+  "off_seam": [
+   456,
+   540
+  ],
+  "moved": true,
+  "seam_center": 14.979166666666668,
+  "int_center": 7.21875,
+  "seam_seam": 4.854166666666666,
+  "int_seam": 6.354166666666666,
+  "ratio_center": 2.075036075036075,
+  "ratio_seam": 0.7639344262295081,
+  "vlm_x9": "inconsistent"
+ },
+ {
+  "prompt": "slate roof shingles",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "wooden planks floor",
+  "eligible": true,
+  "frac": 0.0791015625,
+  "side": 81,
+  "n_cand": 6241,
+  "n_admissible": 4145,
+  "off_center": [
+   471,
+   471
+  ],
+  "off_seam": [
+   756,
+   432
+  ],
+  "moved": true,
+  "seam_center": 21.9375,
+  "int_center": 1.625,
+  "seam_seam": 7.333333333333334,
+  "int_seam": 3.760416666666667,
+  "ratio_center": 13.5,
+  "ratio_seam": 1.9501385041551247,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "parquet wood floor",
+  "eligible": true,
+  "frac": 0.1142578125,
+  "side": 117,
+  "n_cand": 5776,
+  "n_admissible": 4872,
+  "off_center": [
+   453,
+   453
+  ],
+  "off_seam": [
+   36,
+   804
+  ],
+  "moved": true,
+  "seam_center": 29.125,
+  "int_center": 5.15625,
+  "seam_seam": 7.833333333333334,
+  "int_seam": 6.135416666666666,
+  "ratio_center": 5.648484848484848,
+  "ratio_seam": 1.276740237691002,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "bamboo mat",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "checkered tiled floor",
+  "eligible": true,
+  "frac": 0.17578125,
+  "side": 180,
+  "n_cand": 5041,
+  "n_admissible": 2828,
+  "off_center": [
+   422,
+   422
+  ],
+  "off_seam": [
+   828,
+   156
+  ],
+  "moved": true,
+  "seam_center": 56.79166666666667,
+  "int_center": 10.645833333333334,
+  "seam_seam": 12.875,
+  "int_seam": 10.864583333333332,
+  "ratio_center": 5.334637964774951,
+  "ratio_seam": 1.1850431447746885,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "hexagonal floor tiles",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "metal grate panel",
+  "eligible": true,
+  "frac": 0.146484375,
+  "side": 150,
+  "n_cand": 5329,
+  "n_admissible": 2884,
+  "off_center": [
+   437,
+   437
+  ],
+  "off_seam": [
+   144,
+   204
+  ],
+  "moved": true,
+  "seam_center": 21.583333333333336,
+  "int_center": 28.166666666666664,
+  "seam_seam": 4.729166666666667,
+  "int_seam": 24.447916666666664,
+  "ratio_center": 0.7662721893491126,
+  "ratio_seam": 0.1934384320409033,
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "chain link fence",
+  "eligible": true,
+  "frac": 0.140625,
+  "side": 144,
+  "n_cand": 5476,
+  "n_admissible": 4867,
+  "off_center": [
+   440,
+   440
+  ],
+  "off_seam": [
+   336,
+   192
+  ],
+  "moved": true,
+  "seam_center": 16.75,
+  "int_center": 5.239583333333333,
+  "seam_seam": 3.1458333333333335,
+  "int_seam": 5.895833333333334,
+  "ratio_center": 3.1968190854870775,
+  "ratio_seam": 0.5335689045936396,
+  "vlm_x9": "seam"
+ },
+ {
+  "prompt": "woven basket surface",
+  "eligible": true,
+  "frac": 0.126953125,
+  "side": 130,
+  "n_cand": 5625,
+  "n_admissible": 5374,
+  "off_center": [
+   447,
+   447
+  ],
+  "off_seam": [
+   156,
+   456
+  ],
+  "moved": true,
+  "seam_center": 27.833333333333332,
+  "int_center": 7.135416666666666,
+  "seam_seam": 12.583333333333334,
+  "int_seam": 7.635416666666666,
+  "ratio_center": 3.9007299270072995,
+  "ratio_seam": 1.6480218281036838,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "corrugated metal sheet",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "stacked stone wall",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "concrete blocks wall",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "adobe mud bricks",
+  "eligible": true,
+  "frac": 0.2109375,
+  "side": 216,
+  "n_cand": 4624,
+  "n_admissible": 3448,
+  "off_center": [
+   404,
+   404
+  ],
+  "off_seam": [
+   96,
+   60
+  ],
+  "moved": true,
+  "seam_center": 50.41666666666667,
+  "int_center": 14.46875,
+  "seam_seam": 10.479166666666666,
+  "int_seam": 16.708333333333336,
+  "ratio_center": 3.4845212383009363,
+  "ratio_seam": 0.6271820448877804,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "coarse gravel path",
+  "eligible": true,
+  "frac": 0.1142578125,
+  "side": 117,
+  "n_cand": 5776,
+  "n_admissible": 5200,
+  "off_center": [
+   453,
+   453
+  ],
+  "off_seam": [
+   204,
+   696
+  ],
+  "moved": true,
+  "seam_center": 37.1875,
+  "int_center": 16.010416666666668,
+  "seam_seam": 11.791666666666668,
+  "int_seam": 15.03125,
+  "ratio_center": 2.3227065712426804,
+  "ratio_seam": 0.7844767844767846,
+  "vlm_one": "seam"
+ },
+ {
+  "prompt": "desert sand dunes",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "grass turf top",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "snow covered ground",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "cracked dry mud",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "volcanic ash ground",
+  "eligible": true,
+  "frac": 0.17578125,
+  "side": 180,
+  "n_cand": 5041,
+  "n_admissible": 4904,
+  "off_center": [
+   422,
+   422
+  ],
+  "off_seam": [
+   300,
+   372
+  ],
+  "moved": true,
+  "seam_center": 31.645833333333336,
+  "int_center": 12.510416666666668,
+  "seam_seam": 8.458333333333332,
+  "int_seam": 11.541666666666668,
+  "ratio_center": 2.5295587010824314,
+  "ratio_seam": 0.7328519855595667,
+  "vlm_x9": "center",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "iron ore in grey stone",
+  "eligible": true,
+  "frac": 0.26953125,
+  "side": 276,
+  "n_cand": 3969,
+  "n_admissible": 2919,
+  "off_center": [
+   374,
+   374
+  ],
+  "off_seam": [
+   372,
+   408
+  ],
+  "moved": true,
+  "seam_center": 13.291666666666666,
+  "int_center": 9.489583333333334,
+  "seam_seam": 8.520833333333334,
+  "int_seam": 10.083333333333334,
+  "ratio_center": 1.4006586169045003,
+  "ratio_seam": 0.8450413223140496,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "seam"
+ },
+ {
+  "prompt": "gold ore in dark rock",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "coal ore vein",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "moss covered forest floor",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "fallen autumn leaves",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "cobweb corner",
+  "eligible": true,
+  "frac": 0.17578125,
+  "side": 180,
+  "n_cand": 5041,
+  "n_admissible": 4967,
+  "off_center": [
+   422,
+   422
+  ],
+  "off_seam": [
+   24,
+   204
+  ],
+  "moved": true,
+  "seam_center": 19.354166666666668,
+  "int_center": 6.958333333333334,
+  "seam_seam": 8.333333333333334,
+  "int_seam": 6.895833333333333,
+  "ratio_center": 2.781437125748503,
+  "ratio_seam": 1.2084592145015107,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "tree bark oak",
+  "eligible": true,
+  "frac": 0.2900390625,
+  "side": 297,
+  "n_cand": 3721,
+  "n_admissible": 3715,
+  "off_center": [
+   363,
+   363
+  ],
+  "off_seam": [
+   540,
+   48
+  ],
+  "moved": true,
+  "seam_center": 47.541666666666664,
+  "int_center": 15.6875,
+  "seam_seam": 9.0625,
+  "int_seam": 16.552083333333332,
+  "ratio_center": 3.0305444887118194,
+  "ratio_seam": 0.5475141598489617,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "birch tree bark",
+  "eligible": true,
+  "frac": 0.21484375,
+  "side": 220,
+  "n_cand": 4624,
+  "n_admissible": 4581,
+  "off_center": [
+   402,
+   402
+  ],
+  "off_seam": [
+   732,
+   708
+  ],
+  "moved": true,
+  "seam_center": 89.875,
+  "int_center": 24.083333333333336,
+  "seam_seam": 44.95833333333333,
+  "int_seam": 32.42708333333333,
+  "ratio_center": 3.731833910034602,
+  "ratio_seam": 1.3864439447478318,
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "cactus skin",
+  "eligible": true,
+  "frac": 0.6259765625,
+  "side": 641,
+  "n_cand": 1024,
+  "n_admissible": 1024,
+  "off_center": [
+   191,
+   191
+  ],
+  "off_seam": [
+   168,
+   144
+  ],
+  "moved": true,
+  "seam_center": 84.33333333333333,
+  "int_center": 23.0625,
+  "seam_seam": 47.89583333333333,
+  "int_seam": 25.760416666666664,
+  "ratio_center": 3.6567299006323393,
+  "ratio_seam": 1.8592802264456125,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "reptile scales",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "fish scales",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "honeycomb wax",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "rusty iron plate",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "polished marble slab",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "cracked obsidian glass",
+  "eligible": false,
+  "frac": 1.0
+ },
+ {
+  "prompt": "woven wool cloth",
+  "eligible": true,
+  "frac": 0.162109375,
+  "side": 166,
+  "n_cand": 5184,
+  "n_admissible": 2150,
+  "off_center": [
+   429,
+   429
+  ],
+  "off_seam": [
+   204,
+   696
+  ],
+  "moved": true,
+  "seam_center": 74.04166666666667,
+  "int_center": 7.90625,
+  "seam_seam": 31.291666666666668,
+  "int_seam": 7.885416666666666,
+  "ratio_center": 9.364953886693018,
+  "ratio_seam": 3.9682959048877153,
+  "vlm_x9": "seam",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "burlap sack fabric",
+  "eligible": true,
+  "frac": 0.0791015625,
+  "side": 81,
+  "n_cand": 6241,
+  "n_admissible": 6233,
+  "off_center": [
+   471,
+   471
+  ],
+  "off_seam": [
+   72,
+   120
+  ],
+  "moved": true,
+  "seam_center": 3.6666666666666665,
+  "int_center": 1.625,
+  "seam_seam": 2.979166666666667,
+  "int_seam": 2.052083333333333,
+  "ratio_center": 2.2564102564102564,
+  "ratio_seam": 1.4517766497461932,
+  "vlm_x9": "inconsistent",
+  "vlm_one": "inconsistent"
+ },
+ {
+  "prompt": "quilted padding",
+  "eligible": true,
+  "frac": 0.2060546875,
+  "side": 211,
+  "n_cand": 4624,
+  "n_admissible": 3694,
+  "off_center": [
+   406,
+   406
+  ],
+  "off_seam": [
+   36,
+   168
+  ],
+  "moved": true,
+  "seam_center": 48.354166666666664,
+  "int_center": 19.40625,
+  "seam_seam": 9.833333333333334,
+  "int_seam": 19.84375,
+  "ratio_center": 2.4916800858829844,
+  "ratio_seam": 0.4955380577427822,
+  "vlm_x9": "seam"
+ }
+]
