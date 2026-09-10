@@ -129,5 +129,12 @@ experiments/pack53_out/base/
 !experiments/controlnet_units_s10.json
 !experiments/point_sample_iso.json
 
+# 3.2 对 4.5 的可解率试点：判官臂开不开的判定依据。瓦片重出要 GPU，
+# 而结论是「不开」——没有这 30 张，将来谁想复核这条否决都得先要一块卡。
+!experiments/units_ab/
+!experiments/units_ab/pairs.json
+!experiments/units_ab/*.png
+!experiments/units_ab_resolvable.json
+
 # supplementary 产物不入库（可由 scripts/make_supplementary.py 随时重建）
 paper/supplementary.zip
