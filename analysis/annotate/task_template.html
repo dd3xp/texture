@@ -115,7 +115,9 @@ function save(){
   }).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([head + body], {type: 'text/csv'}));
-  a.download = 'annotations.csv';
+  // 文件名跟着页面走（study_seam.html -> study_seam.csv）。固定叫 annotations.csv 有两个坑：
+  // 多份盲比同时排队时下载互相覆盖／分不清谁是谁，而 annotations.csv 本身还是已入库的第一份标注。
+  a.download = (location.pathname.split('/').pop() || 'study').replace(/\.html?$/i, '') + '.csv';
   a.click();
 }
 

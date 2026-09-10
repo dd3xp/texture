@@ -115,7 +115,7 @@ function save(){
   }).join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([head + body], {type: 'text/csv'}));
-  a.download = 'annotations.csv';
+  a.download = (location.pathname.split('/').pop() || 'study').replace(/\.html?$/i, '') + '.csv';
   a.click();
 }
 
