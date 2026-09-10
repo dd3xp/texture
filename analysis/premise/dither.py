@@ -149,6 +149,7 @@ def pipeline_mode():
             rec[tag + "_n2"] = n2
         rows.append(rec)
 
+    _guard(ROOT / "experiments/dither_pipeline.json")
     (ROOT / "experiments/dither_pipeline.json").write_text(
         json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
 
@@ -166,7 +167,37 @@ def pipeline_mode():
     print("  真人（门拒绝组）中位 0.041、富集 0.34x —— 对照上面两行看谁偏到了哪边")
 
 
+USAGE = """用法：
+  python analysis/premise/dither.py              # 真人瓦片上的前提检验
+  python analysis/premise/dither.py --pipeline   # 改看管线自己出的瓦片
+  ... --force                                    # 允许覆盖已存在的结果 JSON
+
+⚠ 本脚本**会覆盖** experiments/dither_premise.json / dither_pipeline.json。
+   它们是已提交的一手数据，覆盖前请确认你真的想重跑（加 --force）。"""
+
+
+def _guard(out: Path) -> None:
+    """别让一次手滑覆盖掉已提交的一手数据。
+
+    此前用的是 `sys.argv` 成员判断，**任何不认识的参数都会静默跑完整分析
+    并覆盖 JSON**——实测 `--help` 就这么把 dither_premise.json 冲了一次
+    （所幸分析是确定性的，只有 p 值末位因 exact.py 换 logsumexp 变了 1e-14）。
+    """
+    if out.exists() and "--force" not in sys.argv:
+        raise SystemExit(f"{out.name} 已存在。重跑会覆盖这份已提交的数据，"
+                         f"确认要重跑就加 --force。" + "\n\n" + USAGE)
+
+
 def main():
+    if any(a in ("-h", "--help") for a in sys.argv[1:]):
+        print(USAGE)
+        return
+    unknown = [a for a in sys.argv[1:] if a not in ("--pipeline", "--force")]
+    if unknown:
+        raise SystemExit(f"不认识的参数：{' '.join(unknown)}" + "\n\n" + USAGE)
+    # **在入口处就挡**，不要跑完三分钟分析才拒绝写（写文件处的守卫留作兜底）。
+    _guard(ROOT / ("experiments/dither_pipeline.json" if "--pipeline" in sys.argv
+                   else "experiments/dither_premise.json"))
     if "--pipeline" in sys.argv:
         pipeline_mode()
         return
@@ -213,6 +244,7 @@ def main():
             "share_stripe": sum(r["stripe"] for r in recs) / tot2,
         }
 
+    _guard(ROOT / "experiments/dither_premise.json")
     (ROOT / "experiments/dither_premise.json").write_text(
         json.dumps({"groups": out, "tiles": groups}, ensure_ascii=False, indent=1),
         encoding="utf-8")
