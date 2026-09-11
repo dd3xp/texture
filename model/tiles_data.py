@@ -50,11 +50,52 @@ def canonicalise(idx: np.ndarray, palette: np.ndarray):
     return remap[idx], pal_used[order]
 
 
-def load(size: int = 16, split: str | None = None):
-    """产出 dict(idx, palette, k_used, words, material, pack, split)。"""
+FORK_MIN = 0.10   # 训练包里 ≥10% 瓦片与 val/test 结构相同 → 视为分支/变体包，整包剔除
+
+
+def _struct_key(size, cidx):
+    return (size, np.asarray(cidx, np.uint8).tobytes())
+
+
+def _held_keys(rows):
+    """val/test 瓦片的结构键（亮度序索引网格，忽略配色——换色变体也算同一张）。只取 ≥3 色的。"""
+    keys = set()
+    for s in rows:
+        if s.get("split") != "train" and s["k_used"] >= 3:
+            n = s["size"]
+            raw = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(n, n).astype(np.int64)
+            keys.add(_struct_key(n, canonicalise(raw, np.array(s["palette"], np.uint8))[0]))
+    return keys
+
+
+def load(size: int = 16, split: str | None = None, extra: bool = False, decontam: bool = True):
+    """产出 dict(idx, palette, k_used, words, material, pack, split)。
+
+    extra=True 时再并入 `data/tiles/train_extra.json`（`model/build_extra_train.py`：
+    训练包里被"≥4 包"规则丢掉的瓦片，只有 train，val/test 不受影响）。
+
+    decontam（默认开，只作用于 split="train"）：原数据集按包随机划分，没管分支与作者——
+    测试 16px 的 1265 张里 443 张（35%）在训练集里有结构相同的孪生（refi_textures 的分支、
+    wintercore 变体、baunilha/bauniclonia 等）。训练端剔除：①结构重复率 ≥ FORK_MIN 的训练包整包去掉；
+    ②其余包里与 val/test 结构相同的瓦片逐张去掉。val/test 本身一张不动（评测集出结果前已定死）。"""
     ds = json.loads((ROOT / "data/tiles/dataset_k16.json").read_text())
+    rows = list(ds["samples"])
+    if extra:
+        rows += json.loads((ROOT / "data/tiles/train_extra.json").read_text())["samples"]
+    drop_pack, held = set(), None
+    if decontam and split == "train":
+        held = _held_keys(ds["samples"])
+        tot, dup = {}, {}
+        for s in rows:
+            if s.get("split") == "train":
+                n = s["size"]
+                raw = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(n, n).astype(np.int64)
+                d = _struct_key(n, canonicalise(raw, np.array(s["palette"], np.uint8))[0]) in held
+                tot[s["pack"]] = tot.get(s["pack"], 0) + 1
+                dup[s["pack"]] = dup.get(s["pack"], 0) + int(d)
+        drop_pack = {p for p in tot if dup[p] / tot[p] >= FORK_MIN}
     out = []
-    for s in ds["samples"]:
+    for s in rows:
         if s["size"] != size:
             continue
         if split is not None and s.get("split") != split:
@@ -63,6 +104,8 @@ def load(size: int = 16, split: str | None = None):
         raw = np.frombuffer(bytes.fromhex(s["idx"]), np.uint8).reshape(n, n).astype(np.int64)
         pal = np.array(s["palette"], dtype=np.uint8)
         cid, cpal = canonicalise(raw, pal)
+        if held is not None and (s.get("pack") in drop_pack or _struct_key(n, cid) in held):
+            continue
         out.append({"idx": cid, "palette": cpal, "k_used": int(cpal.shape[0]),
                     "words": clean_name(s["material"]), "material": s["material"],
                     "pack": s.get("pack"), "split": s.get("split")})

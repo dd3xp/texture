@@ -170,6 +170,8 @@ def main():
     ap.add_argument("--p_ref_drop", type=float, default=0.3)
     ap.add_argument("--ema", type=float, default=0.0,
                     help="权重指数滑动平均的衰减（0=关；v3 用 0.999）。存盘与选检查点都用 EMA 权重")
+    ap.add_argument("--extra", action="store_true",
+                    help="并入 data/tiles/train_extra.json（训练包里被'≥4 包'规则丢掉的瓦片；val/test 不变）")
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
@@ -180,9 +182,9 @@ def main():
     torch.manual_seed(0)
     torch.set_num_threads(4)                              # 共享机器：别吃满所有 CPU 核
 
-    train, val = load(16, "train"), load(16, "val")
+    train, val = load(16, "train", extra=a.extra), load(16, "val")
     test = load(16, "test")
-    train32 = load(32, "train") if 32 in a.sizes else []
+    train32 = load(32, "train", extra=a.extra) if 32 in a.sizes else []
     val32 = load(32, "val") if 32 in a.sizes else []
     cb, err = build_codebook(train + train32, a.codes)
     np.save(a.out / "codebook.npy", cb)

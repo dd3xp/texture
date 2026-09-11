@@ -303,3 +303,31 @@ v1→v2 的三处改动是这两个差距的来源。
 
 - 颜色条件下 TRD 的 CLIP（33.75）比无条件（32.5）高，与真人检索持平。
 - B1/B2 的验证集瓦片出完后补进这张表。B5 是真人瓦片检索，当作"真实数据"参照线，不是要打的生成式基线。
+
+## 2026-09-11：发现测试集污染 → 训练端去污染；补训练数据
+
+**问题**：原数据集按包随机划分，没管分支与作者。按"亮度序索引网格相同"（忽略配色，换色变体也算）查：
+**测试 16px 的 1265 张里 443 张（35%）在训练集里有结构相同的孪生**；val 16px 为 0（验证集干净，
+之前在验证集上的选型都有效），val 32px 156 张里 25 张。来源几乎全是分支/变体家族：
+
+| 训练包 | 结构重复率 | 对应的 held-out 包 |
+| --- | --- | --- |
+| MysticTempest__refi_textures | 87%（344/394） | awuuwa__refined_textures（测试，是它的分支） |
+| Winter94__wintercore_ornate / detailed / thra | 62% / 38% / 36% | Winter94__wintercore_dwemer（测试） |
+| Mirtilo__baunilha | 36% | Mirtilo__bauniclonia（测试，同作者移植版） |
+| Warr1024__nc_vanillapack | 10% | Warr1024__nc_regression（验证） |
+| 其余 7 个包 | 1–5%（各 1–2 张） | — |
+
+后果：会背训练数据的方法在测试集上占便宜——B5 检索（测试 KID 9.0）和 TRD v2/v3 都吃到了；SDXL 系基线吃不到。
+**修法（只动训练端，测试/验证集一张不动，定于任何正式测试运行之前）**：`tiles_data.load(split="train")`
+默认 `decontam=True`——结构重复率 ≥10% 的训练包整包剔除，其余与 val/test 结构相同的瓦片逐张剔除。
+B5 检索池同样用去污染后的训练集。**v2/v3 是在污染数据上训的，正式测试必须用去污染数据重训的模型。**
+
+**补数据**：
+1. `model/build_extra_train.py`：原数据集只收"≥4 个包都有"的材质，训练包里其余瓦片被白扔。补回后
+   去污染：16px 训练 3395（污染）→ 2732（去污染）→ **3177（去污染 + 补回）**，32px 517 → 403 → **641**。
+2. `model/fetch_mod_tiles.py`（进行中）：ContentDB 上 3150 个**模组**自带原创方块贴图，原数据集只抓了材质包。
+   同一许可口径（无 NC/ND），Minecraft 系（名字/简介含 minecraft、mcl、mineclon、voxelibre、faithful、
+   pixel perfection）整个跳过，与 val/test 包同作者的跳过；贴图筛选与原数据集相同；与 val/test 的结构去重同一条规则。
+
+**v1/v2/v3 在验证集上的结论不受影响**（val 16px 零重复）。
