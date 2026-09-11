@@ -135,7 +135,34 @@ def model_from_args(a, drop=None):
                heads=int(g("heads", 6)), drop=float(g("drop", 0.1) if drop is None else drop),
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
                bias_hidden=int(g("bias_hidden", 64)),
-               ref_dim=512 if g("refs", None) else 0)
+               ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")))
+
+
+@torch.no_grad()
+def align_scores(samples, clip_path, dev, bs=256):
+    """每张瓦片与其材质名的图文对齐分数（余弦）。用 --align_clip 指定的 CLIP（不是评测用的 B/32），
+    提示词与评测同一模板。瓦片最近邻放大到 224。"""
+    from transformers import CLIPModel, CLIPTokenizer
+    m = CLIPModel.from_pretrained(clip_path).to(dev).eval()
+    tok = CLIPTokenizer.from_pretrained(clip_path)
+    mean = torch.tensor([0.48145466, 0.4578275, 0.40821073], device=dev).view(1, 3, 1, 1)
+    std = torch.tensor([0.26862954, 0.26130258, 0.27577711], device=dev).view(1, 3, 1, 1)
+    words = [" ".join(prompt_words(s["material"])) or s["material"] for s in samples]
+    uniq = sorted(set(words))
+    te = []
+    for i in range(0, len(uniq), bs):
+        t = tok([f"pixel art texture of {w}" for w in uniq[i:i + bs]], padding=True, return_tensors="pt").to(dev)
+        te.append(F.normalize(m.get_text_features(**t).float(), dim=-1))
+    te = torch.cat(te)
+    wi = {w: i for i, w in enumerate(uniq)}
+    out = []
+    for i in range(0, len(samples), bs):
+        x = torch.stack([torch.from_numpy(s["palette"][s["idx"]]).permute(2, 0, 1) for s in samples[i:i + bs]])
+        x = F.interpolate(x.float().to(dev) / 255.0, size=224, mode="nearest")
+        e = F.normalize(m.get_image_features(pixel_values=(x - mean) / std).float(), dim=-1)
+        out.append((e * te[[wi[w] for w in words[i:i + bs]]]).sum(-1))
+    del m
+    return torch.cat(out).cpu().numpy()
 
 
 # ------------------------------------------------------------------ 主流程
@@ -172,6 +199,11 @@ def main():
                     help="权重指数滑动平均的衰减（0=关；v3 用 0.999）。存盘与选检查点都用 EMA 权重")
     ap.add_argument("--extra", action="store_true",
                     help="并入 data/tiles/train_extra.json（训练包里被'≥4 包'规则丢掉的瓦片；val/test 不变）")
+    ap.add_argument("--align_clip", default="",
+                    help="对齐分数条件：用这个 CLIP（本地目录，如 weights/clip-vit-base-patch16）给训练瓦片打图文对齐分")
+    ap.add_argument("--p_align_drop", type=float, default=0.5)
+    ap.add_argument("--save_at", type=int, nargs="*", default=[],
+                    help="在这些步额外存 step_<N>.pt（选检查点看采样指标，不看验证损失）")
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
@@ -214,6 +246,17 @@ def main():
     V = to_tensors(val, cb, a.codes, tindex, temb)
     T32 = to_tensors(train32, cb, a.codes, tindex, temb) if train32 else None
     V32 = to_tensors(val32, cb, a.codes, tindex, temb) if val32 else None
+    if a.align_clip:                                  # 对齐分数 → 训练集分位数（val 用训练集的分布换算）
+        parts_ = [(T, train), (V, val), (T32, train32), (V32, val32)]
+        allsc = align_scores([x for _, smp in parts_ for x in smp], a.align_clip, dev)
+        cuts = np.cumsum([0] + [len(smp) for _, smp in parts_])
+        sc = [allsc[cuts[i]:cuts[i + 1]] for i in range(len(parts_))]
+        ref_sorted = np.sort(np.concatenate([sc[0], sc[2]]))
+        np.save(a.out / "align_ref.npy", ref_sorted)
+        for (Dd, _), v in zip(parts_, sc):
+            if Dd is not None:
+                Dd["align"] = torch.tensor(np.searchsorted(ref_sorted, v) / len(ref_sorted), dtype=torch.float32)
+        print(f"对齐分数（{a.align_clip}）：train 中位 {np.median(sc[0]):.3f}，val 中位 {np.median(sc[1]):.3f}", flush=True)
     if ref_ix is not None:
         for Dd, smp in ((T, train), (V, val), (T32, train32), (V32, val32)):
             if Dd is not None:
@@ -267,13 +310,21 @@ def main():
             c[dc] = model.null_color.detach()
         else:                                             # 评估：丢颜色条件（与基线同等）
             c[:] = model.null_color.detach()
+        al = None
+        if "align" in D:
+            av = D["align"][idx]
+            al = torch.stack([av, torch.ones_like(av)], 1)
+            if train_mode:
+                al = al * (torch.rand(B, device=dev) >= a.p_align_drop)[:, None]
+            else:                                         # 验证损失不给对齐分数，与其他 run 可比
+                al = torch.zeros_like(al)
         if REF is None:
-            return [pal, g, D["k"][idx], t, c]
+            return [pal, g, D["k"][idx], t, c, None, al]
         pick = torch.randint(0, REF.shape[1], (B,), device=dev) if train_mode             else torch.zeros(B, dtype=torch.long, device=dev)
         r = REF[D["ref_ix"][idx], pick]
         if train_mode:
             r = r * (torch.rand(B, device=dev) >= a.p_ref_drop)[:, None]
-        return [pal, g, D["k"][idx], t, c, r]
+        return [pal, g, D["k"][idx], t, c, r, al]
 
     val_parts = [0.0, 0.0]
 
@@ -330,6 +381,8 @@ def main():
             state = {"model": em.state_dict(), "args": cfg, "step": step, "val": vl,
                      "is_ema": ema is not None}
             torch.save(state, a.out / "last.pt")
+            if step in a.save_at:
+                torch.save(state, a.out / f"step_{step}.pt")
             if vl < best:
                 best = vl
                 torch.save(state, a.out / "best.pt")

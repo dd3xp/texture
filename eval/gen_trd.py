@@ -67,6 +67,8 @@ def main():
                     help="retrieve = 检索增强调色板（按文本检索真人调色板，TRD 只生成结构）；"
                          "retrieve_model = TRD 先出一张定颜色，再按 文本+该颜色 检索真人调色板、平移到该颜色、重生成结构")
     ap.add_argument("--ret_topk", type=int, default=5)
+    ap.add_argument("--align", type=float, default=None,
+                    help="对齐分数条件的分位数（模型用 --align_clip 训练时才有效），如 0.9")
     ap.add_argument("--colour_task", action="store_true",
                     help="按 eval/colour_task.py 的目标（每张真人参照瓦片的材质名 + 平均色）出图，颜色条件打开")
     a = ap.parse_args()
@@ -94,6 +96,11 @@ def main():
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
+
+    def AL(n):
+        if a.align is None or model.align_proj is None:
+            return None
+        return torch.tensor([[a.align, 1.0]], device=dev).expand(n, 2)
     mem = None
     if a.pal_mode != "model":
         from palette_memory import PaletteMemory
@@ -119,7 +126,7 @@ def main():
             pal, grid = sample(model, temb[ti[sl]], kb, n=a.size, color=col[sl], steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
                                refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
-                               ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit)
+                               ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit, align=AL(len(kb)))
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, t in enumerate(T[sl]):
                 Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
@@ -137,14 +144,14 @@ def main():
                 cols = None
                 if a.pal_mode == "retrieve_model":      # 第一遍：TRD 自己定颜色（颜色语义来自模型）
                     p0, g0 = sample(model, temb[sl], kb, n=a.size, steps=a.steps, cfg=a.cfg, temp=a.temp,
-                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp)
+                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, align=AL(len(kb)))
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
                 kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk)
             pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
                                choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
                                refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
-                               pal_init=pinit)
+                               pal_init=pinit, align=AL(len(kb)))
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]

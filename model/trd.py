@@ -112,7 +112,7 @@ class TRD(nn.Module):
 
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
-                 bias_hidden: int = 64, ref_dim: int = 0):
+                 bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -132,6 +132,10 @@ class TRD(nn.Module):
         self.ref_proj = (nn.Sequential(nn.Linear(ref_dim, d), nn.SiLU(), nn.Linear(d, d))
                          if ref_dim else None)
         self.ref_dim = ref_dim
+        # 对齐分数条件（同 SDXL 的 aesthetic-score 微条件）：训练瓦片与其材质名的图文对齐分数
+        # （另一个 CLIP 算的分位数）作为 [a, 1] 输入，丢弃时 [0, 0]；推理时设高分位让画面更贴材质名。
+        self.align_proj = (nn.Sequential(nn.Linear(2, d), nn.SiLU(), nn.Linear(d, d))
+                           if align_cond else None)
         self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs)
         # 归一化色阶嵌入：秩 r 在 k 色瓦片里的相对亮度位置 round(15 r/(k-1))。
         # 单纯的秩记号含义随 k 变（k=3 的"秩 2"是最亮，k=16 的"秩 2"很暗），
@@ -145,7 +149,7 @@ class TRD(nn.Module):
         self.head_pal = nn.Linear(d, n_codes)
         self.head_grid = nn.Linear(d, K_MAX)
 
-    def forward(self, pal, grid, k, text, color, ref=None):
+    def forward(self, pal, grid, k, text, color, ref=None, align=None):
         B, N, _ = grid.shape
         xp = self.pal_emb(pal) + self.slot_emb[None]
         xg = self.grid_emb(grid.view(B, -1))
@@ -161,6 +165,10 @@ class TRD(nn.Module):
             if ref is None:
                 ref = torch.zeros(B, self.ref_dim, device=text.device, dtype=text.dtype)
             c = c + self.ref_proj(ref)
+        if self.align_proj is not None:
+            if align is None:
+                align = torch.zeros(B, 2, device=text.device, dtype=text.dtype)
+            c = c + self.align_proj(align)
         # PAD 调色板槽不屏蔽：它是可学的 PAD 记号（"此槽不用"本身就是信息），只是不计损失
         bias = self.bias(N, x.device)
         for blk in self.blocks:
@@ -176,7 +184,7 @@ def mask_ratio(u):
     return torch.cos(0.5 * math.pi * u)
 
 
-def training_loss(model, pal, grid, k, text, color, ref=None, pal_smooth: float = 0.0):
+def training_loss(model, pal, grid, k, text, color, ref=None, align=None, pal_smooth: float = 0.0):
     B, N, _ = grid.shape
     r = mask_ratio(torch.rand(B, device=grid.device))
     valid_pal = pal != model.PAL_PAD
@@ -186,7 +194,7 @@ def training_loss(model, pal, grid, k, text, color, ref=None, pal_smooth: float 
     mg[:, 0, 0] |= ~(mp.any(1) | mg.flatten(1).any(1))
     pal_in = torch.where(mp, torch.full_like(pal, model.PAL_MASK), pal)
     grid_in = torch.where(mg, torch.full_like(grid, model.GRID_MASK), grid)
-    lp, lg = model(pal_in, grid_in, k, text, color, ref)
+    lp, lg = model(pal_in, grid_in, k, text, color, ref, align)
     # 秩必须 < k：屏蔽越界类别
     rank_ok = torch.arange(K_MAX, device=grid.device)[None] < k[:, None]
     lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
@@ -210,7 +218,7 @@ def top_p_filter(logits, p):
 
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
            choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None,
-           refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None):
+           refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None, align=None):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
 
     pal_init：[B,16] 调色板码（前 k 个有效）；给了就当已知条件，不再采样调色板。
@@ -235,9 +243,9 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     total = (pal == model.PAL_MASK).sum(1) + n * n
     rank_ok = torch.arange(K_MAX, device=dev)[None] < k[:, None]
     for s in range(steps):
-        lp, lg = model(pal, grid, k, text, color, ref)
+        lp, lg = model(pal, grid, k, text, color, ref, align)
         if cfg != 1.0:
-            up, ug = model(pal, grid, k, nt, color, None)   # 无条件：文本与参考图都丢
+            up, ug = model(pal, grid, k, nt, color, None)   # 无条件：文本、参考图、对齐分数都丢
             lp, lg = up + cfg * (lp - up), ug + cfg * (lg - ug)
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
         # 分别采样调色板槽与网格格
@@ -267,7 +275,7 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     for _ in range(refine):
         m = torch.rand(B, n, n, device=dev) < refine_frac
         g_in = grid.masked_fill(m, model.GRID_MASK)
-        _, lg = model(pal, g_in, k, text, color, ref)
+        _, lg = model(pal, g_in, k, text, color, ref, align)
         if cfg != 1.0:
             _, ug = model(pal, g_in, k, nt, color, None)
             lg = ug + cfg * (lg - ug)

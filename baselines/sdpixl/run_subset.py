@@ -47,6 +47,10 @@ def run_one(item, gpu, size, work):
         return "skip"
     d = work / slug
     d.mkdir(parents=True, exist_ok=True)
+    lock = d / ".lock"                    # 多个进程（不同 GPU）并行跑同一子集时，别重复做同一张
+    if lock.exists():
+        return "locked (another worker)"
+    lock.write_text(str(gpu))
     pal = d / "palette.hex"
     pal.write_text("\n".join(palette_from_b1(slug, size)) + "\n")
     cfg = d / "config.yaml"
@@ -77,11 +81,14 @@ def main():
     ap.add_argument("--gpus", type=int, nargs="+", required=True)
     ap.add_argument("--size", type=int, default=16)
     ap.add_argument("--work", type=Path, default=ROOT / "experiments/sdpixl_runs")
+    ap.add_argument("--reverse", action="store_true", help="倒序处理（第二个进程从另一头开始）")
     a = ap.parse_args()
     for k in ("SDPIXL_DIR", "SDPIXL_PY"):
         if k not in os.environ:
             raise SystemExit(f"需要环境变量 {k}")
     items = json.loads((ROOT / "eval/sdpixl_subset.json").read_text(encoding="utf-8"))["items"]
+    if a.reverse:
+        items = items[::-1]
     # 按 GPU 轮转分配，每块 GPU 串行（一张图 19.5GB，别和人抢显存）
     from concurrent.futures import ThreadPoolExecutor
     queues = {g: items[i::len(a.gpus)] for i, g in enumerate(a.gpus)}
