@@ -261,9 +261,24 @@ def main():
         print("    gap_HI - gap_LO = %+5.1fpp;  TRD wins HI %d/%d vs LO %d/%d, Fisher p=%.4f  -> %s"
               % (100.0 * gap_diff, a, b, c, d, p_fisher,
                  "SUPPORTED" if ok else "not supported"))
+        # POST-HOC (added after seeing (1) and (2); not part of the pre-registration).
+        # The pre-registered Fisher test asks whether *TRD's own* win rate moves
+        # between the halves. It does not. The gap moves because the *artist*
+        # rate moves, so the paired artist-vs-TRD comparison on the same
+        # materials is the test that matches what the numbers actually show.
+        mcnemar = {}
+        for h in ("HI", "LO"):
+            ms = [m for m in materials if half[m] == h
+                  and arms["REAL"][m] in ("A", "B") and arms[name][m] in ("A", "B")]
+            b = sum(1 for m in ms if arms["REAL"][m] == "A" and arms[name][m] == "B")
+            c = sum(1 for m in ms if arms["REAL"][m] == "B" and arms[name][m] == "A")
+            mcnemar[h] = {"artist_only": b, "trd_only": c, "p": binom_p(b, b + c)}
+            print("    post-hoc %s McNemar: artist-only %d, TRD-only %d, p=%.4f"
+                  % (h, b, c, binom_p(b, b + c)))
         primary[name] = {
             "halves": gaps, "gap_diff": gap_diff, "fisher_p": p_fisher,
             "trd_hi": [a, b], "trd_lo": [c, d], "supported": ok,
+            "posthoc_mcnemar": mcnemar,
         }
 
     out = {
