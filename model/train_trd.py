@@ -233,7 +233,12 @@ def main():
     test = load(16, "test")
     train32 = load(32, "train", extra=ext) if 32 in a.sizes else []
     val32 = load(32, "val") if 32 in a.sizes else []
-    cb, err = build_codebook(train + train32, a.codes)
+    if a.init_from is not None:                       # 接着训：必须沿用源模型的码本，否则调色板码全对不上（v9 第一次启动 val 8.76 即此）
+        cb = np.load(Path(a.init_from).parent / "codebook.npy")
+        err = float(np.sqrt(((np.concatenate([s["palette"] for s in train + train32]).astype(np.float32)[:, None]
+                              - cb[None]) ** 2).sum(-1).min(1)).mean())
+    else:
+        cb, err = build_codebook(train + train32, a.codes)
     np.save(a.out / "codebook.npy", cb)
     print(f"train {len(train)}  val {len(val)}  码本 {a.codes} 色，平均量化误差 {err:.2f}/255", flush=True)
 
