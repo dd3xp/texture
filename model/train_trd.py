@@ -134,7 +134,8 @@ def model_from_args(a, drop=None):
     return TRD(int(g("codes", 512)), d=int(g("d", 384)), depth=int(g("depth", 12)),
                heads=int(g("heads", 6)), drop=float(g("drop", 0.1) if drop is None else drop),
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
-               bias_hidden=int(g("bias_hidden", 64)))
+               bias_hidden=int(g("bias_hidden", 64)),
+               ref_dim=512 if g("refs", None) else 0)
 
 
 # ------------------------------------------------------------------ 主流程
@@ -164,6 +165,9 @@ def main():
     ap.add_argument("--pal_aug", type=float, default=0.0,
                     help="调色板颜色抖动幅度：色相 ±pal_aug*60°、亮度 ±pal_aug*50%%（v1=0）")
     ap.add_argument("--pal_smooth", type=float, default=0.0, help="调色板码标签平滑（v1=0）")
+    ap.add_argument("--refs", type=Path, default=None,
+                    help="v3：参考图嵌入目录（baselines/render_refs.py 的输出，emb_shard*.pt）")
+    ap.add_argument("--p_ref_drop", type=float, default=0.3)
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
@@ -187,11 +191,29 @@ def main():
     temb = clip_text(prompts, dev) if not a.smoke else F.normalize(torch.randn(len(mats), 512), dim=-1)
     tindex = {m: i for i, m in enumerate(mats)}
     torch.save({"materials": mats, "prompts": prompts, "emb": temb}, a.out / "text_emb.pt")
+    REF, ref_ix = None, None
+    if a.refs:
+        ref = {}
+        for f in sorted(Path(a.refs).glob("emb_shard*.pt")):
+            ref.update(torch.load(f))
+        keys = sorted(ref)
+        kmin = min(v.shape[0] for v in ref.values())
+        REF = torch.stack([ref[kk][:kmin] for kk in keys]).to(dev)          # [P, K, 512]
+        pindex = {kk: i for i, kk in enumerate(keys)}
+        miss = [m for m in mats if (" ".join(prompt_words(m)) or m) not in pindex]
+        print(f"参考图嵌入：{len(keys)} 个提示词 × {kmin} 张；缺 {len(miss)} 个材质", flush=True)
+        if miss:
+            raise SystemExit(f"参考图缺材质（先跑 render_refs.py 补齐）：{miss[:5]}")
+        ref_ix = {m: pindex[" ".join(prompt_words(m)) or m] for m in mats}
 
     T = to_tensors(train, cb, a.codes, tindex, temb)
     V = to_tensors(val, cb, a.codes, tindex, temb)
     T32 = to_tensors(train32, cb, a.codes, tindex, temb) if train32 else None
     V32 = to_tensors(val32, cb, a.codes, tindex, temb) if val32 else None
+    if ref_ix is not None:
+        for Dd, smp in ((T, train), (V, val), (T32, train32), (V32, val32)):
+            if Dd is not None:
+                Dd["ref_ix"] = torch.tensor([ref_ix[x["material"]] for x in smp])
     model = model_from_args(a).to(dev)
     cbt = torch.as_tensor(cb, device=dev)
     print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
@@ -241,7 +263,13 @@ def main():
             c[dc] = model.null_color.detach()
         else:                                             # 评估：丢颜色条件（与基线同等）
             c[:] = model.null_color.detach()
-        return [pal, g, D["k"][idx], t, c]
+        if REF is None:
+            return [pal, g, D["k"][idx], t, c]
+        pick = torch.randint(0, REF.shape[1], (B,), device=dev) if train_mode             else torch.zeros(B, dtype=torch.long, device=dev)
+        r = REF[D["ref_ix"][idx], pick]
+        if train_mode:
+            r = r * (torch.rand(B, device=dev) >= a.p_ref_drop)[:, None]
+        return [pal, g, D["k"][idx], t, c, r]
 
     val_parts = [0.0, 0.0]
 

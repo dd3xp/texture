@@ -112,7 +112,7 @@ class TRD(nn.Module):
 
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
-                 bias_hidden: int = 64):
+                 bias_hidden: int = 64, ref_dim: int = 0):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -127,6 +127,11 @@ class TRD(nn.Module):
         # 颜色 = [r,g,b,1]（给出）或全零（丢弃）。第 4 维是标志位：纯黑的平均色也是 (0,0,0)，
         # 不加标志位模型分不清「没给颜色」和「给的是黑色」。
         self.null_color = nn.Parameter(torch.zeros(4), requires_grad=False)
+        # v3：大模型参考图的全局语义嵌入（SDXL 渲染图的 CLIP 图像嵌入），ref_dim=0 表示不用。
+        # 丢弃时用零向量（CLIP 嵌入是单位向量，零向量与之可分）。
+        self.ref_proj = (nn.Sequential(nn.Linear(ref_dim, d), nn.SiLU(), nn.Linear(d, d))
+                         if ref_dim else None)
+        self.ref_dim = ref_dim
         self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs)
         # 归一化色阶嵌入：秩 r 在 k 色瓦片里的相对亮度位置 round(15 r/(k-1))。
         # 单纯的秩记号含义随 k 变（k=3 的"秩 2"是最亮，k=16 的"秩 2"很暗），
@@ -140,7 +145,7 @@ class TRD(nn.Module):
         self.head_pal = nn.Linear(d, n_codes)
         self.head_grid = nn.Linear(d, K_MAX)
 
-    def forward(self, pal, grid, k, text, color):
+    def forward(self, pal, grid, k, text, color, ref=None):
         B, N, _ = grid.shape
         xp = self.pal_emb(pal) + self.slot_emb[None]
         xg = self.grid_emb(grid.view(B, -1))
@@ -152,6 +157,10 @@ class TRD(nn.Module):
             xg = xg + self.level_emb(lvl)
         x = torch.cat([xp, xg], 1)
         c = self.text_proj(text) + self.k_emb(k) + self.color_proj(color)
+        if self.ref_proj is not None:
+            if ref is None:
+                ref = torch.zeros(B, self.ref_dim, device=text.device, dtype=text.dtype)
+            c = c + self.ref_proj(ref)
         # PAD 调色板槽不屏蔽：它是可学的 PAD 记号（"此槽不用"本身就是信息），只是不计损失
         bias = self.bias(N, x.device)
         for blk in self.blocks:
@@ -167,7 +176,7 @@ def mask_ratio(u):
     return torch.cos(0.5 * math.pi * u)
 
 
-def training_loss(model, pal, grid, k, text, color, pal_smooth: float = 0.0):
+def training_loss(model, pal, grid, k, text, color, ref=None, pal_smooth: float = 0.0):
     B, N, _ = grid.shape
     r = mask_ratio(torch.rand(B, device=grid.device))
     valid_pal = pal != model.PAL_PAD
@@ -177,7 +186,7 @@ def training_loss(model, pal, grid, k, text, color, pal_smooth: float = 0.0):
     mg[:, 0, 0] |= ~(mp.any(1) | mg.flatten(1).any(1))
     pal_in = torch.where(mp, torch.full_like(pal, model.PAL_MASK), pal)
     grid_in = torch.where(mg, torch.full_like(grid, model.GRID_MASK), grid)
-    lp, lg = model(pal_in, grid_in, k, text, color)
+    lp, lg = model(pal_in, grid_in, k, text, color, ref)
     # 秩必须 < k：屏蔽越界类别
     rank_ok = torch.arange(K_MAX, device=grid.device)[None] < k[:, None]
     lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
@@ -200,7 +209,7 @@ def top_p_filter(logits, p):
 
 
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
-           choice_temp=4.5, null_text=None, pal_top_p=0.9):
+           choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
 
     pal_top_p：调色板槽的 nucleus 截断。训练时对调色板码用了标签平滑（v2 的 0.1），
@@ -217,9 +226,9 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     total = (pal == model.PAL_MASK).sum(1) + n * n
     rank_ok = torch.arange(K_MAX, device=dev)[None] < k[:, None]
     for s in range(steps):
-        lp, lg = model(pal, grid, k, text, color)
+        lp, lg = model(pal, grid, k, text, color, ref)
         if cfg != 1.0:
-            up, ug = model(pal, grid, k, nt, color)
+            up, ug = model(pal, grid, k, nt, color, None)   # 无条件：文本与参考图都丢
             lp, lg = up + cfg * (lp - up), ug + cfg * (lg - ug)
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
         # 分别采样调色板槽与网格格

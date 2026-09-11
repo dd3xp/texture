@@ -34,6 +34,8 @@ def main():
     ap.add_argument("--pal_top_p", type=float, default=0.9)
     ap.add_argument("--choice_temp", type=float, default=4.5)
     ap.add_argument("--tag", default=None, help="输出目录名（默认由参数拼出）")
+    ap.add_argument("--refs", type=Path, default=ROOT / "experiments/refs",
+                    help="v3 模型的参考图嵌入目录（render_refs.py 输出）；推理用第 0 张渲染")
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
     dev = "cuda"
@@ -48,6 +50,15 @@ def main():
     from prompts import load_set
     prompts, _ = load_set(a.set)
     temb = clip_text([TEXT_TMPL.format(p=e["prompt"]) for e in prompts], dev).to(dev)
+    rembs = None
+    if model.ref_proj is not None:
+        ref = {}
+        for f in sorted(a.refs.glob("emb_shard*.pt")):
+            ref.update(torch.load(f))
+        miss = [e["prompt"] for e in prompts if e["prompt"] not in ref]
+        if miss:
+            raise SystemExit(f"参考图嵌入缺 {len(miss)} 个提示词（先跑 render_refs.py）：{miss[:5]}")
+        rembs = torch.stack([ref[e["prompt"]][0] for e in prompts]).to(dev)
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
@@ -62,7 +73,8 @@ def main():
             sl = slice(i, i + a.bs)
             pal, grid = sample(model, temb[sl], ks[sl], n=a.size, steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
-                               choice_temp=a.choice_temp)
+                               choice_temp=a.choice_temp,
+                               ref=None if rembs is None else rembs[sl])
             imgs = decode(pal, grid, cb)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]
