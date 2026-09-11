@@ -106,13 +106,14 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
 def augment(grid):
     """循环平移（每样本独立）+ 水平翻转。纹理可平铺，任意循环平移都是合法样本。"""
     B, N, _ = grid.shape
-    dy = torch.randint(0, N, (B,))
-    dx = torch.randint(0, N, (B,))
-    ar = torch.arange(N)
+    dv = grid.device
+    dy = torch.randint(0, N, (B,), device=dv)
+    dx = torch.randint(0, N, (B,), device=dv)
+    ar = torch.arange(N, device=dv)
     rows = (ar[None] - dy[:, None]) % N
     cols = (ar[None] - dx[:, None]) % N
-    g = grid[torch.arange(B)[:, None, None], rows[:, :, None], cols[:, None, :]]
-    flip = torch.rand(B) < 0.5
+    g = grid[torch.arange(B, device=dv)[:, None, None], rows[:, :, None], cols[:, None, :]]
+    flip = torch.rand(B, device=dv) < 0.5
     g[flip] = g[flip].flip(-1)
     return g
 
@@ -134,13 +135,6 @@ def model_from_args(a, drop=None):
                heads=int(g("heads", 6)), drop=float(g("drop", 0.1) if drop is None else drop),
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
                bias_hidden=int(g("bias_hidden", 64)))
-
-
-def hue_rotation(theta):
-    """RGB 空间绕灰轴旋转 theta 弧度（Rodrigues），近似色相旋转。"""
-    k = torch.ones(3) / math.sqrt(3.0)
-    K = torch.tensor([[0, -k[2], k[1]], [k[2], 0, -k[0]], [-k[1], k[0], 0]])
-    return torch.eye(3) + math.sin(theta) * K + (1 - math.cos(theta)) * (K @ K)
 
 
 # ------------------------------------------------------------------ 主流程
@@ -178,6 +172,7 @@ def main():
     a.out.mkdir(parents=True, exist_ok=True)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     torch.manual_seed(0)
+    torch.set_num_threads(4)                              # 共享机器：别吃满所有 CPU 核
 
     train, val = load(16, "train"), load(16, "val")
     test = load(16, "test")
@@ -206,35 +201,47 @@ def main():
     cfg = {kk: (str(v) if isinstance(v, Path) else v) for kk, v in vars(a).items()} | {"codebook_err": err}
     json.dump(cfg, open(a.out / "config.json", "w"), indent=1)
 
+    # 数据总共几 MB，整个放 GPU；增广与颜色抖动都在 GPU 上向量化。
+    # （首版在 CPU 上逐样本做色相旋转 + 索引增广，训练进程吃掉 34 个 CPU 核——这是共享机器）
+    for Dd in (T, V, T32, V32):
+        if Dd is not None:
+            for kk in Dd:
+                Dd[kk] = Dd[kk].to(dev)
+    axis = torch.ones(3, device=dev) / math.sqrt(3.0)
+    Kx = torch.tensor([[0, -axis[2], axis[1]], [axis[2], 0, -axis[0]], [-axis[1], axis[0], 0]], device=dev)
+    K2 = Kx @ Kx
+
     def batch_of(D, idx, train_mode):
+        idx = idx.to(dev)
         g = D["grid"][idx]
         if train_mode:
             g = augment(g)
         t = D["text"][idx].clone()
         c = D["color"][idx].clone()
         pal = D["pal"][idx]
+        B = len(idx)
         if train_mode and a.pal_aug > 0:
-            # 颜色抖动：同一材质各包配色本就不同；逼模型学相对配色而不是背训练包的色值
-            B = len(idx)
-            rgb = D["rgb"][idx].clone()
-            th = (torch.rand(B) * 2 - 1) * a.pal_aug * math.pi / 3
-            br = 1 + (torch.rand(B) * 2 - 1) * a.pal_aug * 0.5
-            for j in range(B):
-                rgb[j] = (rgb[j] @ hue_rotation(float(th[j])).T) * br[j]
+            # 颜色抖动：同一材质各包配色本就不同；逼模型学相对配色而不是背训练包的色值。
+            # 色相旋转绕固定灰轴（Rodrigues）：R = I + sinθ·K + (1-cosθ)·K²，逐样本 θ 可一次算完。
+            rgb = D["rgb"][idx]
+            th = (torch.rand(B, device=dev) * 2 - 1) * a.pal_aug * math.pi / 3
+            br = 1 + (torch.rand(B, device=dev) * 2 - 1) * a.pal_aug * 0.5
+            s, cth = th.sin()[:, None, None], (1 - th.cos())[:, None, None]
+            rgb = (rgb + s * (rgb @ Kx.T) + cth * (rgb @ K2.T)) * br[:, None, None]
             rgb = rgb.clamp(0, 255)
             valid = pal != a.codes + 1
-            codes = ((rgb.to(dev)[:, :, None] - cbt[None, None]) ** 2).sum(-1).argmin(-1).cpu()
+            codes = ((rgb[:, :, None] - cbt[None, None]) ** 2).sum(-1).argmin(-1)
             pal = torch.where(valid, codes, pal)
             mean = (D["hist"][idx][:, :, None] * rgb).sum(1) / 255.0
-            c = torch.cat([mean, torch.ones(B, 1)], 1)
+            c = torch.cat([mean, torch.ones(B, 1, device=dev)], 1)
         if train_mode:
-            dt = torch.rand(len(idx)) < a.p_text_drop
-            dc = torch.rand(len(idx)) < a.p_color_drop
-            t[dt] = model.null_text.detach().cpu()
-            c[dc] = model.null_color.detach().cpu()
+            dt = torch.rand(B, device=dev) < a.p_text_drop
+            dc = torch.rand(B, device=dev) < a.p_color_drop
+            t[dt] = model.null_text.detach()
+            c[dc] = model.null_color.detach()
         else:                                             # 评估：丢颜色条件（与基线同等）
-            c[:] = model.null_color.detach().cpu()
-        return [x.to(dev) for x in (pal, g, D["k"][idx], t, c)]
+            c[:] = model.null_color.detach()
+        return [pal, g, D["k"][idx], t, c]
 
     val_parts = [0.0, 0.0]
 
