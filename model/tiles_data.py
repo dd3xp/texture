@@ -80,8 +80,9 @@ def load(size: int = 16, split: str | None = None, extra: bool = False, decontam
     ②其余包里与 val/test 结构相同的瓦片逐张去掉。val/test 本身一张不动（评测集出结果前已定死）。"""
     ds = json.loads((ROOT / "data/tiles/dataset_k16.json").read_text())
     rows = list(ds["samples"])
-    if extra:
-        rows += json.loads((ROOT / "data/tiles/train_extra.json").read_text())["samples"]
+    if extra:                                          # extra=True 用默认文件；给字符串则是 data/tiles/ 下的文件名
+        fn = extra if isinstance(extra, str) else "train_extra.json"
+        rows += json.loads((ROOT / "data/tiles" / fn).read_text())["samples"]
     drop_pack, held = set(), None
     if decontam and split == "train":
         held = _held_keys(ds["samples"])

@@ -208,6 +208,8 @@ def main():
     ap.add_argument("--n_ex", type=int, default=0,
                     help="v7 结构范例数（model/exemplars.py：同材质、其他画师的 16px 真人瓦片）")
     ap.add_argument("--p_ex_drop", type=float, default=0.3)
+    ap.add_argument("--extra_file", default="train_extra.json",
+                    help="--extra 用哪个文件（train_extra_packs_only.json = 不含模组）")
     ap.add_argument("--domain", action="store_true",
                     help="来源条件（材质包 0 / 模组 1）；推理默认 0（材质包画风）")
     ap.add_argument("--save_at", type=int, nargs="*", default=[],
@@ -222,9 +224,10 @@ def main():
     torch.manual_seed(0)
     torch.set_num_threads(4)                              # 共享机器：别吃满所有 CPU 核
 
-    train, val = load(16, "train", extra=a.extra), load(16, "val")
+    ext = a.extra_file if a.extra else False
+    train, val = load(16, "train", extra=ext), load(16, "val")
     test = load(16, "test")
-    train32 = load(32, "train", extra=a.extra) if 32 in a.sizes else []
+    train32 = load(32, "train", extra=ext) if 32 in a.sizes else []
     val32 = load(32, "val") if 32 in a.sizes else []
     cb, err = build_codebook(train + train32, a.codes)
     np.save(a.out / "codebook.npy", cb)

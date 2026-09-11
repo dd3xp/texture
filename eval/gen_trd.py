@@ -106,7 +106,8 @@ def main():
     if getattr(model, "ex_proj", None) is not None and not a.no_ex:     # v7：结构范例（其他画师的同材质瓦片）
         from exemplars import ExemplarBank
         from train_trd import text_prompt
-        pool = load(16, "train", extra=True)
+        cfg_ = ck["args"] if isinstance(ck["args"], dict) else vars(ck["args"])
+        pool = load(16, "train", extra=cfg_.get("extra_file", "train_extra.json"))   # 与该 run 训练时同一个范例库
         pm = sorted({s["material"] for s in pool})
         pe = clip_text([text_prompt(m) for m in pm], dev)
         BANK = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev)
