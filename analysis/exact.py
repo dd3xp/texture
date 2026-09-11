@@ -77,34 +77,42 @@ def fmt_p(k: int, n: int, p: float = 0.5, sig: int = 3) -> str:
     return f"<1e{int(log10p) - 1}"
 
 
+def _betainc_cf(x: float, a: float, b: float) -> float:
+    """正则化不完全 Beta I_x(a,b) 的连分数展开（只在 x < (a+1)/(a+b+2) 时调用）。"""
+    lbeta = lgamma(a) + lgamma(b) - lgamma(a + b)
+    front = exp(a * log(x) + b * log(1 - x) - lbeta) / a
+    f, c, d = 1.0, 1.0, 0.0
+    for i in range(0, 200):
+        m = i // 2
+        if i == 0:
+            num = 1.0
+        elif i % 2 == 0:
+            num = m * (b - m) * x / ((a + 2 * m - 1) * (a + 2 * m))
+        else:
+            num = -(a + m) * (a + b + m) * x / ((a + 2 * m) * (a + 2 * m + 1))
+        d = 1.0 + num * d
+        d = 1e-30 if abs(d) < 1e-30 else d
+        d = 1.0 / d
+        c = 1.0 + num / c
+        c = 1e-30 if abs(c) < 1e-30 else c
+        f *= c * d
+        if abs(1.0 - c * d) < 1e-10:
+            break
+    return front * (f - 1.0)
+
+
 def _beta_ppf(q: float, a: float, b: float, iters: int = 200) -> float:
     """Beta 分位数，二分法。用于 Jeffreys 区间。"""
     def cdf(x):
-        # 正则化不完全 Beta，连分数展开
+        # 正则化不完全 Beta。连分数只在 x < (a+1)/(a+b+2) 时收敛，其余用对称式
+        # I_x(a,b) = 1 - I_{1-x}(b,a)（2026-09-11 修：缺这一步时 39/93 的 Jeffreys 上限算成了 1.0）
         if x <= 0:
             return 0.0
         if x >= 1:
             return 1.0
-        lbeta = lgamma(a) + lgamma(b) - lgamma(a + b)
-        front = exp(a * log(x) + b * log(1 - x) - lbeta) / a
-        f, c, d = 1.0, 1.0, 0.0
-        for i in range(0, 200):
-            m = i // 2
-            if i == 0:
-                num = 1.0
-            elif i % 2 == 0:
-                num = m * (b - m) * x / ((a + 2 * m - 1) * (a + 2 * m))
-            else:
-                num = -(a + m) * (a + b + m) * x / ((a + 2 * m) * (a + 2 * m + 1))
-            d = 1.0 + num * d
-            d = 1e-30 if abs(d) < 1e-30 else d
-            d = 1.0 / d
-            c = 1.0 + num / c
-            c = 1e-30 if abs(c) < 1e-30 else c
-            f *= c * d
-            if abs(1.0 - c * d) < 1e-10:
-                break
-        return front * (f - 1.0)
+        if x > (a + 1) / (a + b + 2):
+            return 1.0 - _betainc_cf(1 - x, b, a)
+        return _betainc_cf(x, a, b)
 
     lo, hi = 0.0, 1.0
     for _ in range(iters):
