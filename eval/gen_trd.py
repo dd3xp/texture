@@ -214,7 +214,8 @@ def main():
             kb, pinit, pals = ks[sl], None, None
             if mem is not None:
                 kb, pinit, pals = retrieve_batch(mem, temb[ti[sl]], kb, rng, cb,
-                                                 colours=[t["rgb"] for t in T[sl]], topk=a.ret_topk)
+                                                 colours=[t["rgb"] for t in T[sl]], topk=a.ret_topk,
+                                                 t16_rows=T16[ti[sl]] if a.xmodal else None)
             if CRITIC is not None and pinit is not None:
                 from trd import sample_critic
                 pal, grid = sample_critic(model, CRITIC, temb[ti[sl]], kb, pinit, n=a.size, color=col[sl],

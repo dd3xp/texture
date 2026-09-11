@@ -109,7 +109,13 @@ class PaletteMemory:
         cand = pool[np.argsort(-sims)[:n_text if colour is not None else topk]]
         if colour is not None:
             de = np.linalg.norm(self.mean_lab[cand] - _lab(np.asarray(colour, float)), axis=1)
-            cand = cand[np.argsort(de)[:topk]]
+            if text16 is not None and self.img16 is not None:
+                # 区域颜色 + 跨模态：先按颜色留最近的 3×topk 个，再按"瓦片 ↔ 材质名"的 B/16 相似度取前 topk
+                near = cand[np.argsort(de)[:3 * topk]]
+                xs = (self.img16[torch.as_tensor(near, device=self.img16.device)] @ text16.float()).cpu().numpy()
+                cand = near[np.argsort(-xs)[:topk]]
+            else:
+                cand = cand[np.argsort(de)[:topk]]
         i = int(cand[rng.integers(len(cand))])
         return self.pal[i], i
 
