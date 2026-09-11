@@ -41,9 +41,9 @@ def load_method(d: Path, slugs):
     return first, groups
 
 
-def retrieval(prompts, n):
+def retrieval(prompts, n, size=16):
     """B5：训练集里与提示词共享词最多的材质，取其真人瓦片（最多 n 张）。"""
-    train = load(16, "train")
+    train = load(size, "train", extra=True)          # 与 TRD 的调色板记忆库同一个数据池
     by_mat = {}
     for s in train:
         by_mat.setdefault(s["material"], []).append(s["palette"][s["idx"]])
@@ -84,7 +84,10 @@ def main():
     rows, cache = {}, None
     for m in a.methods:
         if m == "B5":
-            first, groups = retrieval(prompts, 4)
+            if a.size not in (16, 32):
+                print(f"  B5: 训练集没有 {a.size}px 瓦片，跳过")
+                continue
+            first, groups = retrieval(prompts, 4, a.size)
         else:
             d = a.root / m / str(a.size)
             if not d.exists():

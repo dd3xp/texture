@@ -223,6 +223,14 @@ def tileability(tiles):
 def evaluate(gen_tiles, gen_materials, ref_tiles, groups=None, ref_cache=None):
     """gen_tiles 与 gen_materials 一一对应。返回 dict。ref_cache 可复用参照集特征。"""
     rc = ref_cache if ref_cache is not None else {}
+    if not len(ref_tiles):                          # 24px 没有真人参照：只报不依赖参照的指标
+        ie = clip_image_emb(gen_tiles)
+        te = clip_text_emb([prompt_of(m) for m in gen_materials])
+        out = {"n": len(gen_tiles), "CLIP": (100 * (ie * te).sum(-1).clamp(min=0)).mean().item(),
+               "tile_seam_ratio": tileability(gen_tiles)}
+        if groups:
+            out["LPIPS_div"] = lpips_diversity(groups)
+        return out, rc
     if "inc" not in rc:
         rc["inc"] = inception_feats(ref_tiles)
         rc["dino"] = dino_feats(ref_tiles)
