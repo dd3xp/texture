@@ -27,6 +27,7 @@ class ExemplarBank:
     def __init__(self, pool, mat_emb, dev, C=16, min_diff=0.3, seed=0):
         """pool：16px 训练瓦片（tiles_data.load 的输出）；mat_emb：{材质名: 归一化文本嵌入}。"""
         self.dev, self.C, self.min_diff = dev, C, min_diff
+        pool = [s for s in pool if not str(s.get("pack", "")).endswith("@gen")]    # 范例只取真人画的（不含 SDXL 来源）
         self.lv = torch.tensor(np.stack([levels(s) for s in pool]), device=dev)       # [P,16,16]
         self.mat = [s["material"] for s in pool]
         self.pack = [s.get("pack") for s in pool]

@@ -100,7 +100,10 @@ def main():
     ap.add_argument("--critic", type=Path, default=None,
                     help="Token-Critic 检查点（model/train_critic.py）；给了就用 trd.sample_critic（需检索调色板）")
     ap.add_argument("--critic_noise", type=float, default=1.0)
+    ap.add_argument("--dom_w", type=float, default=0.0, help="来源引导强度（v9：往 SDXL 字面描绘那边推）")
     ap.add_argument("--ex_keep", type=int, default=8, help="--xmodal 时结构范例只在最典型的这么多张里抽")
+    ap.add_argument("--ex_from_dir", type=Path, default=None,
+                    help="结构范例的第 0 个槽换成这个目录里该材质第 0 张瓦片（如 B1 的 16px：SDXL 的布局当一个范例）")
     ap.add_argument("--xquery_img", type=Path, default=None,
                     help="--xmodal 的查询再加上大模型渲染的图像嵌入：给一个方法目录（如 experiments/baselines_val/B1/32），"
                          "取每材质第 0 张的 CLIP-B/16 图像嵌入与文本嵌入相加（SDXL 引导的检索；推理多一次渲染，与 B1/B2 同开销）")
@@ -157,8 +160,31 @@ def main():
             EXC = BANK.rank_xmodal(EXC, clip16_images([s["palette"][s["idx"]] for s in pool], dev),
                                    xquery(prompts, a.xquery_img, dev), keep=a.ex_keep)
 
+    EXT = None
+    if EXC is not None and a.ex_from_dir is not None:        # 大模型瓦片 → 归一化色阶网格（与 exemplars.levels 同一换算）
+        from PIL import Image
+        from tiles_data import canonicalise
+        from exemplars import levels
+        rows_ = []
+        for e in prompts:
+            slug = e["material"].rsplit(".", 1)[0]
+            f = next((a.ex_from_dir / n for n in (f"{slug}_0.png", f"{slug}.png") if (a.ex_from_dir / n).exists()), None)
+            if f is None:
+                rows_.append(np.full((16, 16), -1, np.int64))
+                continue
+            t = np.asarray(Image.open(f).convert("RGB").resize((16, 16), Image.NEAREST))
+            cols, inv = np.unique(t.reshape(-1, 3), axis=0, return_inverse=True)
+            g, p = canonicalise(inv.reshape(16, 16).astype(np.int64), cols.astype(np.uint8))
+            rows_.append(levels({"idx": g, "k_used": len(p)}))
+        EXT = torch.tensor(np.stack(rows_), device=dev)
+
     def EX(rows):
-        return None if EXC is None else BANK.draw(EXC[rows], model.n_ex, False)
+        if EXC is None:
+            return None
+        ex = BANK.draw(EXC[rows], model.n_ex, False)
+        if EXT is not None:
+            ex[:, 0] = EXT[rows]
+        return ex
     CRITIC = None
     if a.critic is not None:
         from train_critic import load_critic
@@ -201,7 +227,7 @@ def main():
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
                                refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
                                ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit, align=AL(len(kb)),
-                               ex=EX(ti[sl]), ex_cfg=a.ex_cfg)
+                               ex=EX(ti[sl]), ex_cfg=a.ex_cfg, dom_w=a.dom_w)
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, t in enumerate(T[sl]):
                 Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
@@ -234,7 +260,7 @@ def main():
                                    choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
                                    refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
                                    pal_init=pinit, align=AL(len(kb)), ex=EX(torch.arange(len(prompts))[sl].to(dev)),
-                                   ex_cfg=a.ex_cfg)
+                                   ex_cfg=a.ex_cfg, dom_w=a.dom_w)
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]

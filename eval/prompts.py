@@ -78,12 +78,30 @@ def build_val():
     print(f"V-all {len(vall)}；V-mat {len(vmat)}（参照 {out['ref_counts']['V_mat']} 张） -> {p.relative_to(ROOT)}")
 
 
+def build_train(extra="train_extra_packs_only.json"):
+    """T_all：训练集（去污染 + 补回，仅材质包）材质的去重提示词——给 SDXL 渲染"第三来源"训练数据用（v9），
+    **只含训练包的材质名**，与评测集无关。"""
+    mats = set()
+    for n in (16, 32):
+        mats |= {s["material"] for s in load(n, "train", extra=extra)}
+    seen, out = set(), []
+    for m in sorted(mats):
+        p = " ".join(prompt_words(m)) or " ".join(clean_name(m))
+        if p not in seen:
+            seen.add(p)
+            out.append({"material": m, "prompt": p})
+    f = ROOT / "eval/prompt_sets_train.json"
+    f.write_text(json.dumps({"T_all": out}, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"T_all {len(out)} 个提示词 -> {f.relative_to(ROOT)}")
+
+
 def load_set(name):
-    """E_* 从 prompt_sets.json、V_* 从 prompt_sets_val.json 读。返回 (提示词列表, 参照 split)。"""
-    f = "prompt_sets_val.json" if name.startswith("V_") else "prompt_sets.json"
-    return json.loads((ROOT / "eval" / f).read_text(encoding="utf-8"))[name],         ("val" if name.startswith("V_") else "test")
+    """E_* 从 prompt_sets.json、V_* 从 prompt_sets_val.json、T_* 从 prompt_sets_train.json 读。返回 (提示词列表, 参照 split)。"""
+    f = {"V": "prompt_sets_val.json", "T": "prompt_sets_train.json"}.get(name[0], "prompt_sets.json")
+    split = {"V": "val", "T": "train"}.get(name[0], "test")
+    return json.loads((ROOT / "eval" / f).read_text(encoding="utf-8"))[name], split
 
 
 if __name__ == "__main__":
     import sys as _s
-    build_val() if "--val" in _s.argv else build()
+    build_val() if "--val" in _s.argv else build_train() if "--train" in _s.argv else build()

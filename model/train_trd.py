@@ -99,7 +99,8 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
         rgb[i, :kk] = s["palette"]
         hist[i, :kk] = np.bincount(s["idx"].reshape(-1), minlength=kk)[:kk] / s["idx"].size
         tix[i] = text_index[s["material"]]
-        dom[i] = int(str(s.get("pack", "")).endswith("@mod"))
+        pk = str(s.get("pack", ""))
+        dom[i] = 2 if pk.endswith("@gen") else 1 if pk.endswith("@mod") else 0      # 材质包 / 模组 / SDXL
     return {"pal": torch.from_numpy(pal), "grid": torch.from_numpy(grid), "k": torch.from_numpy(k),
             "color": torch.from_numpy(col), "text": text_emb[torch.from_numpy(tix)],
             "rgb": torch.from_numpy(rgb), "hist": torch.from_numpy(hist), "dom": torch.from_numpy(dom)}
@@ -138,7 +139,7 @@ def model_from_args(a, drop=None):
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
                bias_hidden=int(g("bias_hidden", 64)),
                ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
-               n_exemplars=int(g("n_ex", 0) or 0), n_domains=2 if g("domain", False) else 0)
+               n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0)
 
 
 @torch.no_grad()
@@ -210,6 +211,7 @@ def main():
     ap.add_argument("--p_ex_drop", type=float, default=0.3)
     ap.add_argument("--extra_file", default="train_extra.json",
                     help="--extra 用哪个文件（train_extra_packs_only.json = 不含模组）")
+    ap.add_argument("--n_domains", type=int, default=2, help="来源数：2 = 材质包/模组；3 = 再加 SDXL（v9）")
     ap.add_argument("--domain", action="store_true",
                     help="来源条件（材质包 0 / 模组 1）；推理默认 0（材质包画风）")
     ap.add_argument("--save_at", type=int, nargs="*", default=[],

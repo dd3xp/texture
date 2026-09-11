@@ -1,0 +1,3836 @@
+{
+ "T_all": [
+  {
+   "material": "adamantita_ore.png",
+   "prompt": "adamantita ore"
+  },
+  {
+   "material": "airlock.png",
+   "prompt": "airlock"
+  },
+  {
+   "material": "animalia_guano.png",
+   "prompt": "animalia guano"
+  },
+  {
+   "material": "atium_atium_ore.png",
+   "prompt": "atium atium ore"
+  },
+  {
+   "material": "automated_storage_craft_front.png",
+   "prompt": "automated storage craft front"
+  },
+  {
+   "material": "automated_storage_craft_side.png",
+   "prompt": "automated storage craft side"
+  },
+  {
+   "material": "automated_storage_craft_top.png",
+   "prompt": "automated storage craft top"
+  },
+  {
+   "material": "automated_storage_front.png",
+   "prompt": "automated storage front"
+  },
+  {
+   "material": "automated_storage_side.png",
+   "prompt": "automated storage side"
+  },
+  {
+   "material": "automated_storage_top.png",
+   "prompt": "automated storage top"
+  },
+  {
+   "material": "baked_clay_black.png",
+   "prompt": "baked clay black"
+  },
+  {
+   "material": "baked_clay_grey.png",
+   "prompt": "baked clay grey"
+  },
+  {
+   "material": "baked_clay_orange.png",
+   "prompt": "baked clay orange"
+  },
+  {
+   "material": "baked_clay_red.png",
+   "prompt": "baked clay red"
+  },
+  {
+   "material": "bale_bale.png",
+   "prompt": "bale bale"
+  },
+  {
+   "material": "bamboo_floor.png",
+   "prompt": "bamboo floor"
+  },
+  {
+   "material": "banana_trunk.png",
+   "prompt": "banana trunk"
+  },
+  {
+   "material": "banana_trunk_top.png",
+   "prompt": "banana trunk top"
+  },
+  {
+   "material": "banana_wood.png",
+   "prompt": "banana wood"
+  },
+  {
+   "material": "basic_machine_battery.png",
+   "prompt": "machine battery"
+  },
+  {
+   "material": "basic_machine_clock_generator.png",
+   "prompt": "machine clock generator"
+  },
+  {
+   "material": "basic_machine_generator.png",
+   "prompt": "machine generator"
+  },
+  {
+   "material": "basic_machine_mover_side.png",
+   "prompt": "machine mover side"
+  },
+  {
+   "material": "basic_machine_outlet.png",
+   "prompt": "machine outlet"
+  },
+  {
+   "material": "basic_machine_side.png",
+   "prompt": "machine side"
+  },
+  {
+   "material": "basic_materials_brass_block.png",
+   "prompt": "brass block"
+  },
+  {
+   "material": "basic_materials_cement_block.png",
+   "prompt": "cement block"
+  },
+  {
+   "material": "basic_materials_chain_brass.png",
+   "prompt": "chain brass"
+  },
+  {
+   "material": "basic_materials_chain_steel.png",
+   "prompt": "chain steel"
+  },
+  {
+   "material": "basic_materials_concrete_block.png",
+   "prompt": "concrete block"
+  },
+  {
+   "material": "bedrock2_bedrock.png",
+   "prompt": "bedrock2 bedrock"
+  },
+  {
+   "material": "bedrock_bedrock.png",
+   "prompt": "bedrock bedrock"
+  },
+  {
+   "material": "bedrock_deepstone.png",
+   "prompt": "bedrock deepstone"
+  },
+  {
+   "material": "beds_bed_top1.png",
+   "prompt": "bed top1"
+  },
+  {
+   "material": "beds_bed_top2 - Copy.png",
+   "prompt": "bed top2 copy"
+  },
+  {
+   "material": "beds_bed_top2.png",
+   "prompt": "bed top2"
+  },
+  {
+   "material": "beds_bed_top_bottom.png",
+   "prompt": "bed top bottom"
+  },
+  {
+   "material": "beds_bed_top_top.png",
+   "prompt": "bed top top"
+  },
+  {
+   "material": "beds_bed_under.png",
+   "prompt": "bed under"
+  },
+  {
+   "material": "block_ilmenite.png",
+   "prompt": "block ilmenite"
+  },
+  {
+   "material": "bones_bottom.png",
+   "prompt": "bones bottom"
+  },
+  {
+   "material": "bones_front.png",
+   "prompt": "bones front"
+  },
+  {
+   "material": "bones_rear.png",
+   "prompt": "bones rear"
+  },
+  {
+   "material": "bones_side.png",
+   "prompt": "bones side"
+  },
+  {
+   "material": "bones_top.png",
+   "prompt": "bones top"
+  },
+  {
+   "material": "brick_ice.png",
+   "prompt": "brick ice"
+  },
+  {
+   "material": "brick_snow.png",
+   "prompt": "brick snow"
+  },
+  {
+   "material": "brickbuild_inset.png",
+   "prompt": "brickbuild inset"
+  },
+  {
+   "material": "building_blocks_canopy.png",
+   "prompt": "building blocks canopy"
+  },
+  {
+   "material": "bunkbed.png",
+   "prompt": "bunkbed"
+  },
+  {
+   "material": "carts_cart.png",
+   "prompt": "cart"
+  },
+  {
+   "material": "carts_cart_front.png",
+   "prompt": "cart front"
+  },
+  {
+   "material": "carts_cart_side.png",
+   "prompt": "cart side"
+  },
+  {
+   "material": "carts_cart_top.png",
+   "prompt": "cart top"
+  },
+  {
+   "material": "castle_dungeon_stone.png",
+   "prompt": "castle dungeon stone"
+  },
+  {
+   "material": "castle_street_light.png",
+   "prompt": "castle street light"
+  },
+  {
+   "material": "chair.png",
+   "prompt": "chair"
+  },
+  {
+   "material": "classic_ground.png",
+   "prompt": "classic ground"
+  },
+  {
+   "material": "classic_wall.png",
+   "prompt": "classic wall"
+  },
+  {
+   "material": "clorofita_mineral.png",
+   "prompt": "clorofita mineral"
+  },
+  {
+   "material": "club_ground.png",
+   "prompt": "club ground"
+  },
+  {
+   "material": "club_light.png",
+   "prompt": "club light"
+  },
+  {
+   "material": "club_walkway.png",
+   "prompt": "club walkway"
+  },
+  {
+   "material": "cobalto_mineral.png",
+   "prompt": "cobalto mineral"
+  },
+  {
+   "material": "compass_top.png",
+   "prompt": "compass top"
+  },
+  {
+   "material": "constructor.png",
+   "prompt": "constructor"
+  },
+  {
+   "material": "coolant_tank.png",
+   "prompt": "coolant tank"
+  },
+  {
+   "material": "cpu.png",
+   "prompt": "cpu"
+  },
+  {
+   "material": "crate.png",
+   "prompt": "crate"
+  },
+  {
+   "material": "crimson_hyphae_wood.png",
+   "prompt": "crimson hyphae wood"
+  },
+  {
+   "material": "crystal_block.png",
+   "prompt": "crystal block"
+  },
+  {
+   "material": "ctf_map_cobble.png",
+   "prompt": "ctf map cobble"
+  },
+  {
+   "material": "ctf_map_damage_cobble.png",
+   "prompt": "ctf map damage cobble"
+  },
+  {
+   "material": "ctf_map_dirt.png",
+   "prompt": "ctf map dirt"
+  },
+  {
+   "material": "ctf_map_reinforced_cobble.png",
+   "prompt": "ctf map reinforced cobble"
+  },
+  {
+   "material": "ctf_map_stone.png",
+   "prompt": "ctf map stone"
+  },
+  {
+   "material": "ctf_map_stone_red.png",
+   "prompt": "ctf map stone red"
+  },
+  {
+   "material": "ctf_ranged_bullet.png",
+   "prompt": "ctf ranged bullet"
+  },
+  {
+   "material": "ctf_ranged_bullethole.png",
+   "prompt": "ctf ranged bullethole"
+  },
+  {
+   "material": "ctf_traps_cobble.png",
+   "prompt": "ctf traps cobble"
+  },
+  {
+   "material": "ctf_traps_damage_cobble.png",
+   "prompt": "ctf traps damage cobble"
+  },
+  {
+   "material": "ctf_traps_dirt.png",
+   "prompt": "ctf traps dirt"
+  },
+  {
+   "material": "ctf_traps_stone.png",
+   "prompt": "ctf traps stone"
+  },
+  {
+   "material": "default_acacia_tree.png",
+   "prompt": "acacia tree"
+  },
+  {
+   "material": "default_acacia_tree_top.png",
+   "prompt": "acacia tree top"
+  },
+  {
+   "material": "default_acacia_wood.png",
+   "prompt": "acacia wood"
+  },
+  {
+   "material": "default_adamantium_block.png",
+   "prompt": "adamantium block"
+  },
+  {
+   "material": "default_aspen_tree .clear.png",
+   "prompt": "aspen tree clear"
+  },
+  {
+   "material": "default_aspen_tree.png",
+   "prompt": "aspen tree"
+  },
+  {
+   "material": "default_aspen_tree_top.png",
+   "prompt": "aspen tree top"
+  },
+  {
+   "material": "default_aspen_wood.png",
+   "prompt": "aspen wood"
+  },
+  {
+   "material": "default_bookshelf.png",
+   "prompt": "bookshelf"
+  },
+  {
+   "material": "default_brick.png",
+   "prompt": "brick"
+  },
+  {
+   "material": "default_brick_second.png",
+   "prompt": "brick second"
+  },
+  {
+   "material": "default_brick_vertical.png",
+   "prompt": "brick vertical"
+  },
+  {
+   "material": "default_bronze_block.png",
+   "prompt": "bronze block"
+  },
+  {
+   "material": "default_cactus_side.png",
+   "prompt": "cactus side"
+  },
+  {
+   "material": "default_cactus_top.png",
+   "prompt": "cactus top"
+  },
+  {
+   "material": "default_clay.old.png",
+   "prompt": "clay old"
+  },
+  {
+   "material": "default_clay.png",
+   "prompt": "clay"
+  },
+  {
+   "material": "default_coal_block.png",
+   "prompt": "coal block"
+  },
+  {
+   "material": "default_cobble.png",
+   "prompt": "cobble"
+  },
+  {
+   "material": "default_coniferous_litter.png",
+   "prompt": "coniferous litter"
+  },
+  {
+   "material": "default_coniferous_litter_side.png",
+   "prompt": "coniferous litter side"
+  },
+  {
+   "material": "default_copper_block.png",
+   "prompt": "copper block"
+  },
+  {
+   "material": "default_coral_brown.png",
+   "prompt": "coral brown"
+  },
+  {
+   "material": "default_coral_orange.png",
+   "prompt": "coral orange"
+  },
+  {
+   "material": "default_coral_skeleton.png",
+   "prompt": "coral skeleton"
+  },
+  {
+   "material": "default_desert_cobble.png",
+   "prompt": "desert cobble"
+  },
+  {
+   "material": "default_desert_cobblestone.png",
+   "prompt": "desert cobblestone"
+  },
+  {
+   "material": "default_desert_sand.png",
+   "prompt": "desert sand"
+  },
+  {
+   "material": "default_desert_sandstone.png",
+   "prompt": "desert sandstone"
+  },
+  {
+   "material": "default_desert_sandstone_block.png",
+   "prompt": "desert sandstone block"
+  },
+  {
+   "material": "default_desert_sandstone_brick.png",
+   "prompt": "desert sandstone brick"
+  },
+  {
+   "material": "default_desert_stone.png",
+   "prompt": "desert stone"
+  },
+  {
+   "material": "default_desert_stone_block.png",
+   "prompt": "desert stone block"
+  },
+  {
+   "material": "default_desert_stone_brick.png",
+   "prompt": "desert stone brick"
+  },
+  {
+   "material": "default_diamond_block.png",
+   "prompt": "diamond block"
+  },
+  {
+   "material": "default_dirt.png",
+   "prompt": "dirt"
+  },
+  {
+   "material": "default_dry_dirt.png",
+   "prompt": "dry dirt"
+  },
+  {
+   "material": "default_dry_grass.png",
+   "prompt": "dry grass"
+  },
+  {
+   "material": "default_dry_grass_side.png",
+   "prompt": "dry grass side"
+  },
+  {
+   "material": "default_fence_acacia_wood.png",
+   "prompt": "fence acacia wood"
+  },
+  {
+   "material": "default_fence_aspen_wood.png",
+   "prompt": "fence aspen wood"
+  },
+  {
+   "material": "default_fence_jungle_wood.png",
+   "prompt": "fence jungle wood"
+  },
+  {
+   "material": "default_fence_junglewood.png",
+   "prompt": "fence junglewood"
+  },
+  {
+   "material": "default_fence_pine_wood.png",
+   "prompt": "fence pine wood"
+  },
+  {
+   "material": "default_fence_wood.png",
+   "prompt": "fence wood"
+  },
+  {
+   "material": "default_furnace_bottom.png",
+   "prompt": "furnace bottom"
+  },
+  {
+   "material": "default_furnace_front.png",
+   "prompt": "furnace front"
+  },
+  {
+   "material": "default_furnace_front_active.png",
+   "prompt": "furnace front active"
+  },
+  {
+   "material": "default_furnace_side.png",
+   "prompt": "furnace side"
+  },
+  {
+   "material": "default_furnace_top.png",
+   "prompt": "furnace top"
+  },
+  {
+   "material": "default_gold_block.png",
+   "prompt": "gold block"
+  },
+  {
+   "material": "default_grass.png",
+   "prompt": "grass"
+  },
+  {
+   "material": "default_grass_footsteps.png",
+   "prompt": "grass footsteps"
+  },
+  {
+   "material": "default_grass_side.png",
+   "prompt": "grass side"
+  },
+  {
+   "material": "default_grass_side_dirt_under.png",
+   "prompt": "grass side dirt under"
+  },
+  {
+   "material": "default_gravel.old.png",
+   "prompt": "gravel old"
+  },
+  {
+   "material": "default_gravel.png",
+   "prompt": "gravel"
+  },
+  {
+   "material": "default_ice.png",
+   "prompt": "ice"
+  },
+  {
+   "material": "default_iron_block.png",
+   "prompt": "iron block"
+  },
+  {
+   "material": "default_jungletree.png",
+   "prompt": "jungletree"
+  },
+  {
+   "material": "default_jungletree_top.png",
+   "prompt": "jungletree top"
+  },
+  {
+   "material": "default_junglewood.png",
+   "prompt": "junglewood"
+  },
+  {
+   "material": "default_lava.png",
+   "prompt": "lava"
+  },
+  {
+   "material": "default_mese_block.png",
+   "prompt": "mese block"
+  },
+  {
+   "material": "default_mese_post_light_top.png",
+   "prompt": "mese post light top"
+  },
+  {
+   "material": "default_meselamp.png",
+   "prompt": "meselamp"
+  },
+  {
+   "material": "default_mineral_coal.png",
+   "prompt": "mineral coal"
+  },
+  {
+   "material": "default_mineral_copper.png",
+   "prompt": "mineral copper"
+  },
+  {
+   "material": "default_mineral_diamond.png",
+   "prompt": "mineral diamond"
+  },
+  {
+   "material": "default_mineral_gold.png",
+   "prompt": "mineral gold"
+  },
+  {
+   "material": "default_mineral_iron.png",
+   "prompt": "mineral iron"
+  },
+  {
+   "material": "default_mineral_mese.png",
+   "prompt": "mineral mese"
+  },
+  {
+   "material": "default_mineral_tin.png",
+   "prompt": "mineral tin"
+  },
+  {
+   "material": "default_moss.png",
+   "prompt": "moss"
+  },
+  {
+   "material": "default_moss_side.png",
+   "prompt": "moss side"
+  },
+  {
+   "material": "default_mossycobble.png",
+   "prompt": "mossycobble"
+  },
+  {
+   "material": "default_nc_back.png",
+   "prompt": "back"
+  },
+  {
+   "material": "default_nc_front.png",
+   "prompt": "front"
+  },
+  {
+   "material": "default_nc_rb.png",
+   "prompt": "rb"
+  },
+  {
+   "material": "default_nc_side.png",
+   "prompt": "side"
+  },
+  {
+   "material": "default_obsidian.png",
+   "prompt": "obsidian"
+  },
+  {
+   "material": "default_obsidian_block.png",
+   "prompt": "obsidian block"
+  },
+  {
+   "material": "default_obsidian_brick.png",
+   "prompt": "obsidian brick"
+  },
+  {
+   "material": "default_permafrost.png",
+   "prompt": "permafrost"
+  },
+  {
+   "material": "default_pine_needles_simple.png",
+   "prompt": "pine needles simple"
+  },
+  {
+   "material": "default_pine_tree.png",
+   "prompt": "pine tree"
+  },
+  {
+   "material": "default_pine_tree_top.png",
+   "prompt": "pine tree top"
+  },
+  {
+   "material": "default_pine_wood.png",
+   "prompt": "pine wood"
+  },
+  {
+   "material": "default_rainforest_litter.png",
+   "prompt": "rainforest litter"
+  },
+  {
+   "material": "default_rainforest_litter_side.png",
+   "prompt": "rainforest litter side"
+  },
+  {
+   "material": "default_sand.png",
+   "prompt": "sand"
+  },
+  {
+   "material": "default_sandstone.png",
+   "prompt": "sandstone"
+  },
+  {
+   "material": "default_sandstone_block.png",
+   "prompt": "sandstone block"
+  },
+  {
+   "material": "default_sandstone_brick.png",
+   "prompt": "sandstone brick"
+  },
+  {
+   "material": "default_silver_sand.png",
+   "prompt": "silver sand"
+  },
+  {
+   "material": "default_silver_sandstone.png",
+   "prompt": "silver sandstone"
+  },
+  {
+   "material": "default_silver_sandstone_block.png",
+   "prompt": "silver sandstone block"
+  },
+  {
+   "material": "default_silver_sandstone_brick.png",
+   "prompt": "silver sandstone brick"
+  },
+  {
+   "material": "default_snow.png",
+   "prompt": "snow"
+  },
+  {
+   "material": "default_snow_side.png",
+   "prompt": "snow side"
+  },
+  {
+   "material": "default_steel_block.png",
+   "prompt": "steel block"
+  },
+  {
+   "material": "default_stone.png",
+   "prompt": "stone"
+  },
+  {
+   "material": "default_stone_block.png",
+   "prompt": "stone block"
+  },
+  {
+   "material": "default_stone_brick.lc.png",
+   "prompt": "stone brick lc"
+  },
+  {
+   "material": "default_stone_brick.png",
+   "prompt": "stone brick"
+  },
+  {
+   "material": "default_stone_brick_mossy.png",
+   "prompt": "stone brick mossy"
+  },
+  {
+   "material": "default_stone_brick_mossy_with_rose.png",
+   "prompt": "stone brick mossy with rose"
+  },
+  {
+   "material": "default_stoneblock.png",
+   "prompt": "stoneblock"
+  },
+  {
+   "material": "default_stoner.png",
+   "prompt": "stoner"
+  },
+  {
+   "material": "default_tin_block.png",
+   "prompt": "tin block"
+  },
+  {
+   "material": "default_tree.png",
+   "prompt": "tree"
+  },
+  {
+   "material": "default_tree_top.png",
+   "prompt": "tree top"
+  },
+  {
+   "material": "default_water.png",
+   "prompt": "water"
+  },
+  {
+   "material": "default_wood.old.png",
+   "prompt": "wood old"
+  },
+  {
+   "material": "default_wood.png",
+   "prompt": "wood"
+  },
+  {
+   "material": "detector.png",
+   "prompt": "detector"
+  },
+  {
+   "material": "diamantemineral.png",
+   "prompt": "diamantemineral"
+  },
+  {
+   "material": "distributor.png",
+   "prompt": "distributor"
+  },
+  {
+   "material": "drill_off.png",
+   "prompt": "drill off"
+  },
+  {
+   "material": "drill_on.png",
+   "prompt": "drill on"
+  },
+  {
+   "material": "duct.png",
+   "prompt": "duct"
+  },
+  {
+   "material": "enviro.png",
+   "prompt": "enviro"
+  },
+  {
+   "material": "epic_actinolite_side.png",
+   "prompt": "epic actinolite side"
+  },
+  {
+   "material": "ethereal_blue_marble.png",
+   "prompt": "blue marble"
+  },
+  {
+   "material": "ethereal_blue_marble_tile.png",
+   "prompt": "blue marble tile"
+  },
+  {
+   "material": "ethereal_frost_tree.png",
+   "prompt": "frost tree"
+  },
+  {
+   "material": "ethereal_frost_tree_top.png",
+   "prompt": "frost tree top"
+  },
+  {
+   "material": "ethereal_frost_wood.png",
+   "prompt": "frost wood"
+  },
+  {
+   "material": "ethereal_glostone.png",
+   "prompt": "glostone"
+  },
+  {
+   "material": "ethereal_grass_bamboo_side.png",
+   "prompt": "grass bamboo side"
+  },
+  {
+   "material": "ethereal_grass_bamboo_top.png",
+   "prompt": "grass bamboo top"
+  },
+  {
+   "material": "ethereal_grass_cold_top.png",
+   "prompt": "grass cold top"
+  },
+  {
+   "material": "ethereal_grass_crystal_side.png",
+   "prompt": "grass crystal side"
+  },
+  {
+   "material": "ethereal_grass_crystal_top.png",
+   "prompt": "grass crystal top"
+  },
+  {
+   "material": "ethereal_grass_fiery_side.png",
+   "prompt": "grass fiery side"
+  },
+  {
+   "material": "ethereal_grass_fiery_top.png",
+   "prompt": "grass fiery top"
+  },
+  {
+   "material": "ethereal_grass_firey_top.png",
+   "prompt": "grass firey top"
+  },
+  {
+   "material": "ethereal_grass_gray_side.png",
+   "prompt": "grass gray side"
+  },
+  {
+   "material": "ethereal_grass_gray_top.png",
+   "prompt": "grass gray top"
+  },
+  {
+   "material": "ethereal_grass_grove_side.png",
+   "prompt": "grass grove side"
+  },
+  {
+   "material": "ethereal_grass_grove_top.png",
+   "prompt": "grass grove top"
+  },
+  {
+   "material": "ethereal_grass_jungle_top.png",
+   "prompt": "grass jungle top"
+  },
+  {
+   "material": "ethereal_grass_mushroom_side.png",
+   "prompt": "grass mushroom side"
+  },
+  {
+   "material": "ethereal_grass_mushroom_top.png",
+   "prompt": "grass mushroom top"
+  },
+  {
+   "material": "ethereal_grass_prairie_side.png",
+   "prompt": "grass prairie side"
+  },
+  {
+   "material": "ethereal_grass_prairie_top.png",
+   "prompt": "grass prairie top"
+  },
+  {
+   "material": "ethereal_mushroom_block.png",
+   "prompt": "mushroom block"
+  },
+  {
+   "material": "ethereal_mushroom_pore.png",
+   "prompt": "mushroom pore"
+  },
+  {
+   "material": "ethereal_mushroom_trunk.png",
+   "prompt": "mushroom trunk"
+  },
+  {
+   "material": "ethereal_mushroom_trunk_top.png",
+   "prompt": "mushroom trunk top"
+  },
+  {
+   "material": "ethereal_olive_trunk.png",
+   "prompt": "olive trunk"
+  },
+  {
+   "material": "ethereal_olive_trunk_top.png",
+   "prompt": "olive trunk top"
+  },
+  {
+   "material": "ethereal_olive_wood.png",
+   "prompt": "olive wood"
+  },
+  {
+   "material": "ethereal_paper_wall.png",
+   "prompt": "paper wall"
+  },
+  {
+   "material": "ethereal_redwood_trunk.png",
+   "prompt": "redwood trunk"
+  },
+  {
+   "material": "ethereal_redwood_trunk_top.png",
+   "prompt": "redwood trunk top"
+  },
+  {
+   "material": "ethereal_redwood_wood.png",
+   "prompt": "redwood wood"
+  },
+  {
+   "material": "ethereal_sakura_trunk.png",
+   "prompt": "sakura trunk"
+  },
+  {
+   "material": "ethereal_sakura_trunk_top.png",
+   "prompt": "sakura trunk top"
+  },
+  {
+   "material": "ethereal_sakura_wood.png",
+   "prompt": "sakura wood"
+  },
+  {
+   "material": "ethereal_scorched_tree.png",
+   "prompt": "scorched tree"
+  },
+  {
+   "material": "ethereal_scorched_tree_top.png",
+   "prompt": "scorched tree top"
+  },
+  {
+   "material": "ethereal_sponge.png",
+   "prompt": "sponge"
+  },
+  {
+   "material": "ethereal_sponge_wet.png",
+   "prompt": "sponge wet"
+  },
+  {
+   "material": "ethereal_willow_trunk.png",
+   "prompt": "willow trunk"
+  },
+  {
+   "material": "ethereal_willow_trunk_top.png",
+   "prompt": "willow trunk top"
+  },
+  {
+   "material": "ethereal_willow_wood.png",
+   "prompt": "willow wood"
+  },
+  {
+   "material": "ethereal_yellow_tree.png",
+   "prompt": "yellow tree"
+  },
+  {
+   "material": "ethereal_yellow_tree_top.png",
+   "prompt": "yellow tree top"
+  },
+  {
+   "material": "ethereal_yellow_wood.png",
+   "prompt": "yellow wood"
+  },
+  {
+   "material": "extractor.png",
+   "prompt": "extractor"
+  },
+  {
+   "material": "farming_banana_leaf.png",
+   "prompt": "banana leaf"
+  },
+  {
+   "material": "farming_chocolate_block.png",
+   "prompt": "chocolate block"
+  },
+  {
+   "material": "farming_desert_sand_soil.png",
+   "prompt": "desert sand soil"
+  },
+  {
+   "material": "farming_desert_sand_soil_wet.png",
+   "prompt": "desert sand soil wet"
+  },
+  {
+   "material": "farming_desert_sand_soil_wet_side.png",
+   "prompt": "desert sand soil wet side"
+  },
+  {
+   "material": "farming_hemp_block.png",
+   "prompt": "hemp block"
+  },
+  {
+   "material": "farming_melon_bottom.png",
+   "prompt": "melon bottom"
+  },
+  {
+   "material": "farming_melon_side.png",
+   "prompt": "melon side"
+  },
+  {
+   "material": "farming_melon_top.png",
+   "prompt": "melon top"
+  },
+  {
+   "material": "farming_pumpkin_bottom.png",
+   "prompt": "pumpkin bottom"
+  },
+  {
+   "material": "farming_pumpkin_side.png",
+   "prompt": "pumpkin side"
+  },
+  {
+   "material": "farming_pumpkin_top.png",
+   "prompt": "pumpkin top"
+  },
+  {
+   "material": "farming_soil.png",
+   "prompt": "soil"
+  },
+  {
+   "material": "farming_soil_wet.png",
+   "prompt": "soil wet"
+  },
+  {
+   "material": "farming_soil_wet_side.png",
+   "prompt": "soil wet side"
+  },
+  {
+   "material": "farming_straw.png",
+   "prompt": "straw"
+  },
+  {
+   "material": "farming_sugar_cube.png",
+   "prompt": "sugar cube"
+  },
+  {
+   "material": "fingore_spawner.png",
+   "prompt": "fingore spawner"
+  },
+  {
+   "material": "floor.png",
+   "prompt": "floor"
+  },
+  {
+   "material": "floor_drain.png",
+   "prompt": "floor drain"
+  },
+  {
+   "material": "food_vending_bottom_front.png",
+   "prompt": "food vending bottom front"
+  },
+  {
+   "material": "food_vending_top_front.png",
+   "prompt": "food vending top front"
+  },
+  {
+   "material": "generator.png",
+   "prompt": "generator"
+  },
+  {
+   "material": "grassy_dirt.png",
+   "prompt": "grassy dirt"
+  },
+  {
+   "material": "grassy_grass.png",
+   "prompt": "grassy grass"
+  },
+  {
+   "material": "grenades_smoke.png",
+   "prompt": "grenades smoke"
+  },
+  {
+   "material": "grinder.png",
+   "prompt": "grinder"
+  },
+  {
+   "material": "hive_layout.png",
+   "prompt": "hive layout"
+  },
+  {
+   "material": "hovercraft.png",
+   "prompt": "hovercraft"
+  },
+  {
+   "material": "hvac_off.png",
+   "prompt": "hvac off"
+  },
+  {
+   "material": "hvac_on.png",
+   "prompt": "hvac on"
+  },
+  {
+   "material": "hvac_prop.png",
+   "prompt": "hvac prop"
+  },
+  {
+   "material": "hyperloop_booking.png",
+   "prompt": "hyperloop booking"
+  },
+  {
+   "material": "hyperloop_booking_front.png",
+   "prompt": "hyperloop booking front"
+  },
+  {
+   "material": "hyperloop_elevator.png",
+   "prompt": "hyperloop elevator"
+  },
+  {
+   "material": "hyperloop_elevator_bottom.png",
+   "prompt": "hyperloop elevator bottom"
+  },
+  {
+   "material": "hyperloop_elevator_dark.png",
+   "prompt": "hyperloop elevator dark"
+  },
+  {
+   "material": "hyperloop_elevator_dark_top.png",
+   "prompt": "hyperloop elevator dark top"
+  },
+  {
+   "material": "hyperloop_elevator_top.png",
+   "prompt": "hyperloop elevator top"
+  },
+  {
+   "material": "hyperloop_junction_top.png",
+   "prompt": "hyperloop junction top"
+  },
+  {
+   "material": "hyperloop_lcd.png",
+   "prompt": "hyperloop lcd"
+  },
+  {
+   "material": "hyperloop_seat-side.png",
+   "prompt": "hyperloop seat side"
+  },
+  {
+   "material": "hyperloop_seat-top.png",
+   "prompt": "hyperloop seat top"
+  },
+  {
+   "material": "hyperloop_skin.png",
+   "prompt": "hyperloop skin"
+  },
+  {
+   "material": "hyperloop_skin2.png",
+   "prompt": "hyperloop skin2"
+  },
+  {
+   "material": "hyperloop_station.png",
+   "prompt": "hyperloop station"
+  },
+  {
+   "material": "hyperloop_station_connection.png",
+   "prompt": "hyperloop station connection"
+  },
+  {
+   "material": "hyperloop_tube.png",
+   "prompt": "hyperloop tube"
+  },
+  {
+   "material": "hyperloop_tube_closed.png",
+   "prompt": "hyperloop tube closed"
+  },
+  {
+   "material": "hyperloop_tube_locked.png",
+   "prompt": "hyperloop tube locked"
+  },
+  {
+   "material": "hyperloop_tube_open.png",
+   "prompt": "hyperloop tube open"
+  },
+  {
+   "material": "hyperloop_tube_wifi.png",
+   "prompt": "hyperloop tube wifi"
+  },
+  {
+   "material": "hyperloop_waypoint.png",
+   "prompt": "hyperloop waypoint"
+  },
+  {
+   "material": "icon.png",
+   "prompt": "icon"
+  },
+  {
+   "material": "ignore.png",
+   "prompt": "ignore"
+  },
+  {
+   "material": "itemframes_frame.png",
+   "prompt": "itemframes frame"
+  },
+  {
+   "material": "itemframes_pedestal.png",
+   "prompt": "itemframes pedestal"
+  },
+  {
+   "material": "itemframes_pedestal_btm.png",
+   "prompt": "itemframes pedestal btm"
+  },
+  {
+   "material": "itemframes_pedestal_top.png",
+   "prompt": "itemframes pedestal top"
+  },
+  {
+   "material": "jeija_commandblock_off.png",
+   "prompt": "commandblock off"
+  },
+  {
+   "material": "jeija_commandblock_on.png",
+   "prompt": "commandblock on"
+  },
+  {
+   "material": "jeija_fpga_sides.png",
+   "prompt": "fpga sides"
+  },
+  {
+   "material": "jeija_fpga_top.png",
+   "prompt": "fpga top"
+  },
+  {
+   "material": "jeija_ghoststone.png",
+   "prompt": "ghoststone"
+  },
+  {
+   "material": "jeija_ghoststone_inv.png",
+   "prompt": "ghoststone inv"
+  },
+  {
+   "material": "jeija_hydro_turbine_sides_off.png",
+   "prompt": "hydro turbine sides off"
+  },
+  {
+   "material": "jeija_hydro_turbine_sides_on.png",
+   "prompt": "hydro turbine sides on"
+  },
+  {
+   "material": "jeija_hydro_turbine_top_bottom.png",
+   "prompt": "hydro turbine top bottom"
+  },
+  {
+   "material": "jeija_insulated_wire_curved_tb_off.png",
+   "prompt": "insulated wire curved tb off"
+  },
+  {
+   "material": "jeija_insulated_wire_curved_tb_on.png",
+   "prompt": "insulated wire curved tb on"
+  },
+  {
+   "material": "jeija_insulated_wire_ends_off.png",
+   "prompt": "insulated wire ends off"
+  },
+  {
+   "material": "jeija_insulated_wire_ends_on.png",
+   "prompt": "insulated wire ends on"
+  },
+  {
+   "material": "jeija_insulated_wire_sides_off.png",
+   "prompt": "insulated wire sides off"
+  },
+  {
+   "material": "jeija_insulated_wire_sides_on.png",
+   "prompt": "insulated wire sides on"
+  },
+  {
+   "material": "jeija_insulated_wire_tjunction_tb_off.png",
+   "prompt": "insulated wire tjunction tb off"
+  },
+  {
+   "material": "jeija_insulated_wire_tjunction_tb_on.png",
+   "prompt": "insulated wire tjunction tb on"
+  },
+  {
+   "material": "jeija_lightstone_blue_off.png",
+   "prompt": "lightstone blue off"
+  },
+  {
+   "material": "jeija_lightstone_blue_on.png",
+   "prompt": "lightstone blue on"
+  },
+  {
+   "material": "jeija_lightstone_darkgray_off.png",
+   "prompt": "lightstone darkgray off"
+  },
+  {
+   "material": "jeija_lightstone_darkgray_on.png",
+   "prompt": "lightstone darkgray on"
+  },
+  {
+   "material": "jeija_lightstone_gray_off.png",
+   "prompt": "lightstone gray off"
+  },
+  {
+   "material": "jeija_lightstone_gray_on.png",
+   "prompt": "lightstone gray on"
+  },
+  {
+   "material": "jeija_lightstone_green_off.png",
+   "prompt": "lightstone green off"
+  },
+  {
+   "material": "jeija_lightstone_green_on.png",
+   "prompt": "lightstone green on"
+  },
+  {
+   "material": "jeija_lightstone_red_off.png",
+   "prompt": "lightstone red off"
+  },
+  {
+   "material": "jeija_lightstone_red_on.png",
+   "prompt": "lightstone red on"
+  },
+  {
+   "material": "jeija_lightstone_yellow_off.png",
+   "prompt": "lightstone yellow off"
+  },
+  {
+   "material": "jeija_lightstone_yellow_on.png",
+   "prompt": "lightstone yellow on"
+  },
+  {
+   "material": "jeija_microcontroller_bottom.png",
+   "prompt": "microcontroller bottom"
+  },
+  {
+   "material": "jeija_microcontroller_sides.png",
+   "prompt": "microcontroller sides"
+  },
+  {
+   "material": "jeija_microcontroller_top.png",
+   "prompt": "microcontroller top"
+  },
+  {
+   "material": "jeija_movestone_side.png",
+   "prompt": "movestone side"
+  },
+  {
+   "material": "jeija_node_detector_off.png",
+   "prompt": "node detector off"
+  },
+  {
+   "material": "jeija_node_detector_on.png",
+   "prompt": "node detector on"
+  },
+  {
+   "material": "jeija_object_detector_off.png",
+   "prompt": "object detector off"
+  },
+  {
+   "material": "jeija_object_detector_on.png",
+   "prompt": "object detector on"
+  },
+  {
+   "material": "jeija_pressure_plate_stone_off.png",
+   "prompt": "pressure plate stone off"
+  },
+  {
+   "material": "jeija_pressure_plate_stone_off_edges.png",
+   "prompt": "pressure plate stone off edges"
+  },
+  {
+   "material": "jeija_pressure_plate_stone_on.png",
+   "prompt": "pressure plate stone on"
+  },
+  {
+   "material": "jeija_pressure_plate_stone_on_edges.png",
+   "prompt": "pressure plate stone on edges"
+  },
+  {
+   "material": "jeija_pressure_plate_wood_off.png",
+   "prompt": "pressure plate wood off"
+  },
+  {
+   "material": "jeija_pressure_plate_wood_off_edges.png",
+   "prompt": "pressure plate wood off edges"
+  },
+  {
+   "material": "jeija_pressure_plate_wood_on.png",
+   "prompt": "pressure plate wood on"
+  },
+  {
+   "material": "jeija_pressure_plate_wood_on_edges.png",
+   "prompt": "pressure plate wood on edges"
+  },
+  {
+   "material": "jeija_removestone.png",
+   "prompt": "removestone"
+  },
+  {
+   "material": "jeija_removestone_inv.png",
+   "prompt": "removestone inv"
+  },
+  {
+   "material": "jeija_solar_panel.png",
+   "prompt": "solar panel"
+  },
+  {
+   "material": "jeija_sticky_movestone.png",
+   "prompt": "sticky movestone"
+  },
+  {
+   "material": "jeija_wall_lever_back_edges.png",
+   "prompt": "wall lever back edges"
+  },
+  {
+   "material": "jeija_wall_lever_front.png",
+   "prompt": "wall lever front"
+  },
+  {
+   "material": "jeija_wall_lever_front_bump.png",
+   "prompt": "wall lever front bump"
+  },
+  {
+   "material": "jeija_wall_lever_lever_light_off.png",
+   "prompt": "wall lever lever light off"
+  },
+  {
+   "material": "jeija_wall_lever_lever_light_on.png",
+   "prompt": "wall lever lever light on"
+  },
+  {
+   "material": "keypad.png",
+   "prompt": "keypad"
+  },
+  {
+   "material": "lavastuff_block.png",
+   "prompt": "lavastuff block"
+  },
+  {
+   "material": "light.png",
+   "prompt": "light"
+  },
+  {
+   "material": "light_off.png",
+   "prompt": "light off"
+  },
+  {
+   "material": "livingdesert_coldsteppe_ground2_side.png",
+   "prompt": "livingdesert coldsteppe ground2 side"
+  },
+  {
+   "material": "livingdesert_coldsteppe_ground3_side.png",
+   "prompt": "livingdesert coldsteppe ground3 side"
+  },
+  {
+   "material": "livingdesert_coldsteppe_ground4_side.png",
+   "prompt": "livingdesert coldsteppe ground4 side"
+  },
+  {
+   "material": "livingdesert_coldsteppe_ground_side.png",
+   "prompt": "livingdesert coldsteppe ground side"
+  },
+  {
+   "material": "livingfloatlands_giantforest_litter_side.png",
+   "prompt": "livingfloatlands giantforest litter side"
+  },
+  {
+   "material": "livingfloatlands_paleojungle_litter_side.png",
+   "prompt": "livingfloatlands paleojungle litter side"
+  },
+  {
+   "material": "livingjungle_jungleground_side.png",
+   "prompt": "livingjungle jungleground side"
+  },
+  {
+   "material": "livingjungle_rainforest_litter_side.png",
+   "prompt": "livingjungle rainforest litter side"
+  },
+  {
+   "material": "lord_gems_blue_block.png",
+   "prompt": "lord gems blue block"
+  },
+  {
+   "material": "lord_gems_purple_block.png",
+   "prompt": "lord gems purple block"
+  },
+  {
+   "material": "lord_gems_red_block.png",
+   "prompt": "lord gems red block"
+  },
+  {
+   "material": "lord_gems_white_block.png",
+   "prompt": "lord gems white block"
+  },
+  {
+   "material": "lord_ground_dirt_dunland.png",
+   "prompt": "lord ground dirt dunland"
+  },
+  {
+   "material": "lord_ground_dirt_dunland_side.png",
+   "prompt": "lord ground dirt dunland side"
+  },
+  {
+   "material": "lord_ground_dirt_fangorn.png",
+   "prompt": "lord ground dirt fangorn"
+  },
+  {
+   "material": "lord_ground_dirt_fangorn_side.png",
+   "prompt": "lord ground dirt fangorn side"
+  },
+  {
+   "material": "lord_ground_dirt_gondor.png",
+   "prompt": "lord ground dirt gondor"
+  },
+  {
+   "material": "lord_ground_dirt_gondor_side.png",
+   "prompt": "lord ground dirt gondor side"
+  },
+  {
+   "material": "lord_ground_dirt_iron_hills.png",
+   "prompt": "lord ground dirt iron hills"
+  },
+  {
+   "material": "lord_ground_dirt_iron_hills_side.png",
+   "prompt": "lord ground dirt iron hills side"
+  },
+  {
+   "material": "lord_ground_dirt_ithilien.png",
+   "prompt": "lord ground dirt ithilien"
+  },
+  {
+   "material": "lord_ground_dirt_ithilien_side.png",
+   "prompt": "lord ground dirt ithilien side"
+  },
+  {
+   "material": "lord_ground_dirt_lorien.png",
+   "prompt": "lord ground dirt lorien"
+  },
+  {
+   "material": "lord_ground_dirt_lorien_side.png",
+   "prompt": "lord ground dirt lorien side"
+  },
+  {
+   "material": "lord_ground_dirt_mirkwood.png",
+   "prompt": "lord ground dirt mirkwood"
+  },
+  {
+   "material": "lord_ground_dirt_mirkwood_side.png",
+   "prompt": "lord ground dirt mirkwood side"
+  },
+  {
+   "material": "lord_ground_dirt_rohan.png",
+   "prompt": "lord ground dirt rohan"
+  },
+  {
+   "material": "lord_ground_dirt_rohan_side.png",
+   "prompt": "lord ground dirt rohan side"
+  },
+  {
+   "material": "lord_ground_dirt_shire.png",
+   "prompt": "lord ground dirt shire"
+  },
+  {
+   "material": "lord_ground_dirt_shire_side.png",
+   "prompt": "lord ground dirt shire side"
+  },
+  {
+   "material": "lottblocks_marble_brick.png",
+   "prompt": "lottblocks marble brick"
+  },
+  {
+   "material": "lottblocks_palantir.png",
+   "prompt": "lottblocks palantir"
+  },
+  {
+   "material": "lottblocks_snowycobble.png",
+   "prompt": "lottblocks snowycobble"
+  },
+  {
+   "material": "lottplants_birchtree.png",
+   "prompt": "lottplants birchtree"
+  },
+  {
+   "material": "lottplants_fir_wood.png",
+   "prompt": "lottplants fir wood"
+  },
+  {
+   "material": "luscious_grass_palette.png",
+   "prompt": "luscious grass palette"
+  },
+  {
+   "material": "machine_top.png",
+   "prompt": "machine top"
+  },
+  {
+   "material": "mcl_blackstone_gilded.png",
+   "prompt": "blackstone gilded"
+  },
+  {
+   "material": "mcl_cherry_blossom_planks.png",
+   "prompt": "cherry blossom planks"
+  },
+  {
+   "material": "mcl_core_andesite.png",
+   "prompt": "andesite"
+  },
+  {
+   "material": "mcl_core_bedrock.png",
+   "prompt": "bedrock"
+  },
+  {
+   "material": "mcl_core_coal_ore.png",
+   "prompt": "coal ore"
+  },
+  {
+   "material": "mcl_core_diamond_ore.png",
+   "prompt": "diamond ore"
+  },
+  {
+   "material": "mcl_core_diorite.png",
+   "prompt": "diorite"
+  },
+  {
+   "material": "mcl_core_dirt_podzol_side.png",
+   "prompt": "dirt podzol side"
+  },
+  {
+   "material": "mcl_core_dirt_podzol_top.png",
+   "prompt": "dirt podzol top"
+  },
+  {
+   "material": "mcl_core_emerald_block.png",
+   "prompt": "emerald block"
+  },
+  {
+   "material": "mcl_core_emerald_ore.png",
+   "prompt": "emerald ore"
+  },
+  {
+   "material": "mcl_core_gold_ore.png",
+   "prompt": "gold ore"
+  },
+  {
+   "material": "mcl_core_granite.png",
+   "prompt": "granite"
+  },
+  {
+   "material": "mcl_core_granite_smooth.png",
+   "prompt": "granite smooth"
+  },
+  {
+   "material": "mcl_core_grass_block_top.png",
+   "prompt": "grass block top"
+  },
+  {
+   "material": "mcl_core_grass_path_top.png",
+   "prompt": "grass path top"
+  },
+  {
+   "material": "mcl_core_grass_side_snowed.png",
+   "prompt": "grass side snowed"
+  },
+  {
+   "material": "mcl_core_iron_ore.png",
+   "prompt": "iron ore"
+  },
+  {
+   "material": "mcl_core_lapis_ore.png",
+   "prompt": "lapis ore"
+  },
+  {
+   "material": "mcl_core_mycelium_side.png",
+   "prompt": "mycelium side"
+  },
+  {
+   "material": "mcl_core_planks_big_oak.png",
+   "prompt": "planks big oak"
+  },
+  {
+   "material": "mcl_core_planks_birch.png",
+   "prompt": "planks birch"
+  },
+  {
+   "material": "mcl_core_planks_spruce.png",
+   "prompt": "planks spruce"
+  },
+  {
+   "material": "mcl_core_red_sand.png",
+   "prompt": "red sand"
+  },
+  {
+   "material": "mcl_core_red_sandstone_bottom.png",
+   "prompt": "red sandstone bottom"
+  },
+  {
+   "material": "mcl_core_red_sandstone_carved.png",
+   "prompt": "red sandstone carved"
+  },
+  {
+   "material": "mcl_core_red_sandstone_normal.png",
+   "prompt": "red sandstone normal"
+  },
+  {
+   "material": "mcl_core_red_sandstone_smooth.png",
+   "prompt": "red sandstone smooth"
+  },
+  {
+   "material": "mcl_core_red_sandstone_top.png",
+   "prompt": "red sandstone top"
+  },
+  {
+   "material": "mcl_core_redstone_ore.png",
+   "prompt": "redstone ore"
+  },
+  {
+   "material": "mcl_core_sandstone_bottom.png",
+   "prompt": "sandstone bottom"
+  },
+  {
+   "material": "mcl_core_sandstone_normal.png",
+   "prompt": "sandstone normal"
+  },
+  {
+   "material": "mcl_core_sandstone_smooth.png",
+   "prompt": "sandstone smooth"
+  },
+  {
+   "material": "mcl_core_sandstone_top.png",
+   "prompt": "sandstone top"
+  },
+  {
+   "material": "mcl_core_stonebrick_carved.png",
+   "prompt": "stonebrick carved"
+  },
+  {
+   "material": "mcl_core_stonebrick_mossy.png",
+   "prompt": "stonebrick mossy"
+  },
+  {
+   "material": "mcl_crimson_crimson_fence.png",
+   "prompt": "crimson crimson fence"
+  },
+  {
+   "material": "mcl_crimson_warped_fence.png",
+   "prompt": "crimson warped fence"
+  },
+  {
+   "material": "mcl_deepslate_coal_ore.png",
+   "prompt": "deepslate coal ore"
+  },
+  {
+   "material": "mcl_deepslate_copper_ore.png",
+   "prompt": "deepslate copper ore"
+  },
+  {
+   "material": "mcl_deepslate_diamond_ore.png",
+   "prompt": "deepslate diamond ore"
+  },
+  {
+   "material": "mcl_deepslate_emerald_ore.png",
+   "prompt": "deepslate emerald ore"
+  },
+  {
+   "material": "mcl_deepslate_gold_ore.png",
+   "prompt": "deepslate gold ore"
+  },
+  {
+   "material": "mcl_deepslate_iron_ore.png",
+   "prompt": "deepslate iron ore"
+  },
+  {
+   "material": "mcl_deepslate_lapis_ore.png",
+   "prompt": "deepslate lapis ore"
+  },
+  {
+   "material": "mcl_deepslate_redstone_ore.png",
+   "prompt": "deepslate redstone ore"
+  },
+  {
+   "material": "mcl_dispensers_dispenser_front_horizontal.png",
+   "prompt": "dispensers dispenser front horizontal"
+  },
+  {
+   "material": "mcl_dispensers_dispenser_front_vertical.png",
+   "prompt": "dispensers dispenser front vertical"
+  },
+  {
+   "material": "mcl_droppers_dropper_front_horizontal.png",
+   "prompt": "droppers dropper front horizontal"
+  },
+  {
+   "material": "mcl_droppers_dropper_front_vertical.png",
+   "prompt": "droppers dropper front vertical"
+  },
+  {
+   "material": "mcl_end_end_stone.png",
+   "prompt": "end end stone"
+  },
+  {
+   "material": "mcl_end_endframe_top.png",
+   "prompt": "end endframe top"
+  },
+  {
+   "material": "mcl_farming_farmland_dry.png",
+   "prompt": "farmland dry"
+  },
+  {
+   "material": "mcl_farming_farmland_wet.png",
+   "prompt": "farmland wet"
+  },
+  {
+   "material": "mcl_mangrove_fence.png",
+   "prompt": "mangrove fence"
+  },
+  {
+   "material": "mcl_mangrove_fence_gate.png",
+   "prompt": "mangrove fence gate"
+  },
+  {
+   "material": "mcl_mangrove_planks.png",
+   "prompt": "mangrove planks"
+  },
+  {
+   "material": "mcl_mushrooms_mushroom_block_skin_red.png",
+   "prompt": "mushrooms mushroom block skin red"
+  },
+  {
+   "material": "mcl_nether_ancient_debris_side.png",
+   "prompt": "nether ancient debris side"
+  },
+  {
+   "material": "mcl_nether_ancient_debris_top.png",
+   "prompt": "nether ancient debris top"
+  },
+  {
+   "material": "mcl_nether_glowstone.png",
+   "prompt": "nether glowstone"
+  },
+  {
+   "material": "mcl_nether_gold_ore.png",
+   "prompt": "nether gold ore"
+  },
+  {
+   "material": "mcl_nether_nether_brick.png",
+   "prompt": "nether nether brick"
+  },
+  {
+   "material": "mcl_nether_netherrack.png",
+   "prompt": "nether netherrack"
+  },
+  {
+   "material": "mcl_nether_quartz_ore.png",
+   "prompt": "nether quartz ore"
+  },
+  {
+   "material": "mcl_nether_soul_sand.png",
+   "prompt": "nether soul sand"
+  },
+  {
+   "material": "mcl_observers_observer_back.png",
+   "prompt": "observers observer back"
+  },
+  {
+   "material": "mcl_observers_observer_back_lit.png",
+   "prompt": "observers observer back lit"
+  },
+  {
+   "material": "mcl_observers_observer_front.png",
+   "prompt": "observers observer front"
+  },
+  {
+   "material": "mcl_observers_observer_side.png",
+   "prompt": "observers observer side"
+  },
+  {
+   "material": "mcl_observers_observer_top.png",
+   "prompt": "observers observer top"
+  },
+  {
+   "material": "mcl_stairs_gold_block_slab.png",
+   "prompt": "gold block slab"
+  },
+  {
+   "material": "mcl_walls_cobble_mossy_wall_side.png",
+   "prompt": "cobble mossy wall side"
+  },
+  {
+   "material": "mcl_walls_cobble_wall_side.png",
+   "prompt": "cobble wall side"
+  },
+  {
+   "material": "mesecons_delayer_bottom.png",
+   "prompt": "delayer bottom"
+  },
+  {
+   "material": "mesecons_noteblock.png",
+   "prompt": "noteblock"
+  },
+  {
+   "material": "mesecons_piston_back.png",
+   "prompt": "piston back"
+  },
+  {
+   "material": "mesecons_piston_bottom.png",
+   "prompt": "piston bottom"
+  },
+  {
+   "material": "mesecons_piston_left.png",
+   "prompt": "piston left"
+  },
+  {
+   "material": "mesecons_piston_on_front.png",
+   "prompt": "piston on front"
+  },
+  {
+   "material": "mesecons_piston_pusher_back.png",
+   "prompt": "piston pusher back"
+  },
+  {
+   "material": "mesecons_piston_pusher_bottom.png",
+   "prompt": "piston pusher bottom"
+  },
+  {
+   "material": "mesecons_piston_pusher_front.png",
+   "prompt": "piston pusher front"
+  },
+  {
+   "material": "mesecons_piston_pusher_front_sticky.png",
+   "prompt": "piston pusher front sticky"
+  },
+  {
+   "material": "mesecons_piston_pusher_left.png",
+   "prompt": "piston pusher left"
+  },
+  {
+   "material": "mesecons_piston_pusher_right.png",
+   "prompt": "piston pusher right"
+  },
+  {
+   "material": "mesecons_piston_pusher_top.png",
+   "prompt": "piston pusher top"
+  },
+  {
+   "material": "mesecons_piston_right.png",
+   "prompt": "piston right"
+  },
+  {
+   "material": "mesecons_piston_top.png",
+   "prompt": "piston top"
+  },
+  {
+   "material": "mesecons_switch_off.png",
+   "prompt": "switch off"
+  },
+  {
+   "material": "mesecons_switch_on.png",
+   "prompt": "switch on"
+  },
+  {
+   "material": "mesecons_switch_side.png",
+   "prompt": "switch side"
+  },
+  {
+   "material": "mesecons_wire_off.png",
+   "prompt": "wire off"
+  },
+  {
+   "material": "mesecons_wire_on.png",
+   "prompt": "wire on"
+  },
+  {
+   "material": "metallicum_titanium_ore.png",
+   "prompt": "metallicum titanium ore"
+  },
+  {
+   "material": "mobs_bunny_brown.png",
+   "prompt": "mobs bunny brown"
+  },
+  {
+   "material": "mobs_bunny_evil.png",
+   "prompt": "mobs bunny evil"
+  },
+  {
+   "material": "mobs_bunny_grey.png",
+   "prompt": "mobs bunny grey"
+  },
+  {
+   "material": "mobs_bunny_white.png",
+   "prompt": "mobs bunny white"
+  },
+  {
+   "material": "mobs_cheeseblock.png",
+   "prompt": "mobs cheeseblock"
+  },
+  {
+   "material": "mobs_honey_block.png",
+   "prompt": "mobs honey block"
+  },
+  {
+   "material": "mobs_meat_raw_top.png",
+   "prompt": "mobs meat raw top"
+  },
+  {
+   "material": "mobs_meat_top.png",
+   "prompt": "mobs meat top"
+  },
+  {
+   "material": "mobs_obsidian_flan.png",
+   "prompt": "mobs obsidian flan"
+  },
+  {
+   "material": "mobs_rat.png",
+   "prompt": "mobs rat"
+  },
+  {
+   "material": "mobs_rat2.png",
+   "prompt": "mobs rat2"
+  },
+  {
+   "material": "moognu_back.png",
+   "prompt": "moognu back"
+  },
+  {
+   "material": "moognu_front.png",
+   "prompt": "moognu front"
+  },
+  {
+   "material": "moognu_side.png",
+   "prompt": "moognu side"
+  },
+  {
+   "material": "moon_rock.png",
+   "prompt": "moon rock"
+  },
+  {
+   "material": "moon_surface.png",
+   "prompt": "moon surface"
+  },
+  {
+   "material": "moreblocks_cactus_brick.png",
+   "prompt": "cactus brick"
+  },
+  {
+   "material": "moreblocks_cactus_checker.png",
+   "prompt": "cactus checker"
+  },
+  {
+   "material": "moreblocks_checker_stone_tile.png",
+   "prompt": "checker stone tile"
+  },
+  {
+   "material": "moreblocks_circle_stone_bricks.png",
+   "prompt": "circle stone bricks"
+  },
+  {
+   "material": "moreblocks_circular_saw_bottom.png",
+   "prompt": "circular saw bottom"
+  },
+  {
+   "material": "moreblocks_circular_saw_side.png",
+   "prompt": "circular saw side"
+  },
+  {
+   "material": "moreblocks_circular_saw_top.png",
+   "prompt": "circular saw top"
+  },
+  {
+   "material": "moreblocks_coal_checker.png",
+   "prompt": "coal checker"
+  },
+  {
+   "material": "moreblocks_coal_stone.png",
+   "prompt": "coal stone"
+  },
+  {
+   "material": "moreblocks_coal_stone_bricks.png",
+   "prompt": "coal stone bricks"
+  },
+  {
+   "material": "moreblocks_cobble_compressed.png",
+   "prompt": "cobble compressed"
+  },
+  {
+   "material": "moreblocks_empty_bookshelf.png",
+   "prompt": "empty bookshelf"
+  },
+  {
+   "material": "moreblocks_grey_bricks.png",
+   "prompt": "grey bricks"
+  },
+  {
+   "material": "moreblocks_iron_checker.png",
+   "prompt": "iron checker"
+  },
+  {
+   "material": "moreblocks_iron_stone.png",
+   "prompt": "iron stone"
+  },
+  {
+   "material": "moreblocks_iron_stone_bricks.png",
+   "prompt": "iron stone bricks"
+  },
+  {
+   "material": "moreblocks_plankstone.png",
+   "prompt": "plankstone"
+  },
+  {
+   "material": "moreblocks_split_stone_tile.png",
+   "prompt": "split stone tile"
+  },
+  {
+   "material": "moreblocks_split_stone_tile_alt.png",
+   "prompt": "split stone tile alt"
+  },
+  {
+   "material": "moreblocks_split_stone_tile_top.png",
+   "prompt": "split stone tile top"
+  },
+  {
+   "material": "moreblocks_stone_tile.png",
+   "prompt": "stone tile"
+  },
+  {
+   "material": "moreblocks_tar.png",
+   "prompt": "tar"
+  },
+  {
+   "material": "moreblocks_trap_stone.png",
+   "prompt": "trap stone"
+  },
+  {
+   "material": "moreblocks_tree_stairsplus.png",
+   "prompt": "tree stairsplus"
+  },
+  {
+   "material": "moreblocks_wood_tile_full.png",
+   "prompt": "wood tile full"
+  },
+  {
+   "material": "moreores_mithril_block.png",
+   "prompt": "mithril block"
+  },
+  {
+   "material": "moreores_silver_block.png",
+   "prompt": "silver block"
+  },
+  {
+   "material": "moretrees_apple_tree_trunk.png",
+   "prompt": "moretrees apple tree trunk"
+  },
+  {
+   "material": "moretrees_apple_tree_trunk_top.png",
+   "prompt": "moretrees apple tree trunk top"
+  },
+  {
+   "material": "moretrees_apple_tree_wood.png",
+   "prompt": "moretrees apple tree wood"
+  },
+  {
+   "material": "moretrees_beech_trunk.png",
+   "prompt": "moretrees beech trunk"
+  },
+  {
+   "material": "moretrees_beech_trunk_top.png",
+   "prompt": "moretrees beech trunk top"
+  },
+  {
+   "material": "moretrees_beech_wood.png",
+   "prompt": "moretrees beech wood"
+  },
+  {
+   "material": "moretrees_birch_trunk.png",
+   "prompt": "moretrees birch trunk"
+  },
+  {
+   "material": "moretrees_birch_trunk_top.png",
+   "prompt": "moretrees birch trunk top"
+  },
+  {
+   "material": "moretrees_birch_wood.png",
+   "prompt": "moretrees birch wood"
+  },
+  {
+   "material": "moretrees_fir_trunk.png",
+   "prompt": "moretrees fir trunk"
+  },
+  {
+   "material": "moretrees_fir_trunk_top.png",
+   "prompt": "moretrees fir trunk top"
+  },
+  {
+   "material": "moretrees_fir_wood.png",
+   "prompt": "moretrees fir wood"
+  },
+  {
+   "material": "moretrees_oak_trunk.png",
+   "prompt": "moretrees oak trunk"
+  },
+  {
+   "material": "moretrees_oak_trunk_top.png",
+   "prompt": "moretrees oak trunk top"
+  },
+  {
+   "material": "moretrees_oak_wood.png",
+   "prompt": "moretrees oak wood"
+  },
+  {
+   "material": "moretrees_palm_trunk.png",
+   "prompt": "moretrees palm trunk"
+  },
+  {
+   "material": "moretrees_palm_trunk_top.png",
+   "prompt": "moretrees palm trunk top"
+  },
+  {
+   "material": "moretrees_palm_wood.png",
+   "prompt": "moretrees palm wood"
+  },
+  {
+   "material": "moretrees_sequoia_trunk.png",
+   "prompt": "moretrees sequoia trunk"
+  },
+  {
+   "material": "moretrees_sequoia_trunk_top.png",
+   "prompt": "moretrees sequoia trunk top"
+  },
+  {
+   "material": "moretrees_sequoia_wood.png",
+   "prompt": "moretrees sequoia wood"
+  },
+  {
+   "material": "moretrees_spruce_trunk.png",
+   "prompt": "moretrees spruce trunk"
+  },
+  {
+   "material": "moretrees_spruce_trunk_top.png",
+   "prompt": "moretrees spruce trunk top"
+  },
+  {
+   "material": "moretrees_spruce_wood.png",
+   "prompt": "moretrees spruce wood"
+  },
+  {
+   "material": "moretrees_willow_trunk.png",
+   "prompt": "moretrees willow trunk"
+  },
+  {
+   "material": "moretrees_willow_trunk_top.png",
+   "prompt": "moretrees willow trunk top"
+  },
+  {
+   "material": "moretrees_willow_wood.png",
+   "prompt": "moretrees willow wood"
+  },
+  {
+   "material": "mtg_plus_hard_snow_brick.png",
+   "prompt": "mtg plus hard snow brick"
+  },
+  {
+   "material": "mtg_plus_ice_snow_brick.png",
+   "prompt": "mtg plus ice snow brick"
+  },
+  {
+   "material": "mtg_plus_snow_brick.png",
+   "prompt": "mtg plus snow brick"
+  },
+  {
+   "material": "mtgdefault_snow.png",
+   "prompt": "mtgdefault snow"
+  },
+  {
+   "material": "naturalbiomes_alderswamp_litter_side.png",
+   "prompt": "naturalbiomes alderswamp litter side"
+  },
+  {
+   "material": "naturalbiomes_alpine_litter_side.png",
+   "prompt": "naturalbiomes alpine litter side"
+  },
+  {
+   "material": "naturalbiomes_bambooforest_litter_side.png",
+   "prompt": "naturalbiomes bambooforest litter side"
+  },
+  {
+   "material": "naturalbiomes_heath_litter2_side.png",
+   "prompt": "naturalbiomes heath litter2 side"
+  },
+  {
+   "material": "naturalbiomes_heath_litter3_side.png",
+   "prompt": "naturalbiomes heath litter3 side"
+  },
+  {
+   "material": "naturalbiomes_heath_litter_side.png",
+   "prompt": "naturalbiomes heath litter side"
+  },
+  {
+   "material": "naturalbiomes_mediterran_litter_side.png",
+   "prompt": "naturalbiomes mediterran litter side"
+  },
+  {
+   "material": "naturalbiomes_outbacklitter_side.png",
+   "prompt": "naturalbiomes outbacklitter side"
+  },
+  {
+   "material": "naturalbiomes_savannalitter_side.png",
+   "prompt": "naturalbiomes savannalitter side"
+  },
+  {
+   "material": "nc_concrete_adobe.png",
+   "prompt": "concrete adobe"
+  },
+  {
+   "material": "nc_concrete_cloudstone.png",
+   "prompt": "concrete cloudstone"
+  },
+  {
+   "material": "nc_concrete_etched.png",
+   "prompt": "concrete etched"
+  },
+  {
+   "material": "nc_concrete_sandstone.png",
+   "prompt": "concrete sandstone"
+  },
+  {
+   "material": "nc_exmachina_core.png",
+   "prompt": "exmachina"
+  },
+  {
+   "material": "nc_exmachina_frame.png",
+   "prompt": "exmachina frame"
+  },
+  {
+   "material": "nc_fire_ash.png",
+   "prompt": "ash"
+  },
+  {
+   "material": "nc_fire_coal_4.png",
+   "prompt": "coal"
+  },
+  {
+   "material": "nc_flora_flower_color.png",
+   "prompt": "flora flower color"
+  },
+  {
+   "material": "nc_flora_flower_color_dry.png",
+   "prompt": "flora flower color dry"
+  },
+  {
+   "material": "nc_flora_sedge_color.png",
+   "prompt": "flora sedge color"
+  },
+  {
+   "material": "nc_flora_thatch.png",
+   "prompt": "flora thatch"
+  },
+  {
+   "material": "nc_igneous_amalgam.png",
+   "prompt": "igneous amalgam"
+  },
+  {
+   "material": "nc_igneous_pumice.png",
+   "prompt": "igneous pumice"
+  },
+  {
+   "material": "nc_lode_annealed.png",
+   "prompt": "lode annealed"
+  },
+  {
+   "material": "nc_lode_cobble.png",
+   "prompt": "lode cobble"
+  },
+  {
+   "material": "nc_lode_cobble_hot.png",
+   "prompt": "lode cobble hot"
+  },
+  {
+   "material": "nc_lode_hot.png",
+   "prompt": "lode hot"
+  },
+  {
+   "material": "nc_lode_ore.png",
+   "prompt": "lode ore"
+  },
+  {
+   "material": "nc_lode_tempered.png",
+   "prompt": "lode tempered"
+  },
+  {
+   "material": "nc_nature_decayed_log_side.png",
+   "prompt": "nature decayed log side"
+  },
+  {
+   "material": "nc_nature_decayed_log_top.png",
+   "prompt": "nature decayed log top"
+  },
+  {
+   "material": "nc_nature_mossy_cobble.png",
+   "prompt": "nature mossy cobble"
+  },
+  {
+   "material": "nc_nature_mossy_dirt.png",
+   "prompt": "nature mossy dirt"
+  },
+  {
+   "material": "nc_nature_mossy_stone.png",
+   "prompt": "nature mossy stone"
+  },
+  {
+   "material": "nc_nature_mossy_stonebrick.png",
+   "prompt": "nature mossy stonebrick"
+  },
+  {
+   "material": "nc_nature_mossy_thatch.png",
+   "prompt": "nature mossy thatch"
+  },
+  {
+   "material": "nc_nature_mossy_tree_side.png",
+   "prompt": "nature mossy tree side"
+  },
+  {
+   "material": "nc_nature_thatch.png",
+   "prompt": "nature thatch"
+  },
+  {
+   "material": "nc_optics_glass_frost.png",
+   "prompt": "optics glass frost"
+  },
+  {
+   "material": "nc_optics_glass_frost_OLD.png",
+   "prompt": "optics glass frost old"
+  },
+  {
+   "material": "nc_terrain_cobble.png",
+   "prompt": "terrain cobble"
+  },
+  {
+   "material": "nc_terrain_dirt.png",
+   "prompt": "terrain dirt"
+  },
+  {
+   "material": "nc_terrain_grass_top.png",
+   "prompt": "terrain grass top"
+  },
+  {
+   "material": "nc_terrain_gravel.png",
+   "prompt": "terrain gravel"
+  },
+  {
+   "material": "nc_terrain_sand.png",
+   "prompt": "terrain sand"
+  },
+  {
+   "material": "nc_terrain_stone.png",
+   "prompt": "terrain stone"
+  },
+  {
+   "material": "nc_terrain_stone_hard.png",
+   "prompt": "terrain stone hard"
+  },
+  {
+   "material": "nc_tote_fill.png",
+   "prompt": "tote fill"
+  },
+  {
+   "material": "nc_tree_bud_side.png",
+   "prompt": "tree bud side"
+  },
+  {
+   "material": "nc_tree_bud_top.png",
+   "prompt": "tree bud top"
+  },
+  {
+   "material": "nc_tree_humus.png",
+   "prompt": "tree humus"
+  },
+  {
+   "material": "nc_tree_tree_side.png",
+   "prompt": "tree tree side"
+  },
+  {
+   "material": "nc_tree_tree_top.png",
+   "prompt": "tree tree top"
+  },
+  {
+   "material": "nc_woodwork_frame.png",
+   "prompt": "woodwork frame"
+  },
+  {
+   "material": "nc_woodwork_plank.png",
+   "prompt": "woodwork plank"
+  },
+  {
+   "material": "nc_woodwork_plank_raw.png",
+   "prompt": "woodwork plank raw"
+  },
+  {
+   "material": "nether_basalt.png",
+   "prompt": "nether basalt"
+  },
+  {
+   "material": "nether_basalt_chiselled_side.png",
+   "prompt": "nether basalt chiselled side"
+  },
+  {
+   "material": "nether_basalt_chiselled_top.png",
+   "prompt": "nether basalt chiselled top"
+  },
+  {
+   "material": "nether_basalt_hewn.png",
+   "prompt": "nether basalt hewn"
+  },
+  {
+   "material": "nether_basalt_side.png",
+   "prompt": "nether basalt side"
+  },
+  {
+   "material": "nether_brick.png",
+   "prompt": "nether brick"
+  },
+  {
+   "material": "nether_brick_compressed.png",
+   "prompt": "nether brick compressed"
+  },
+  {
+   "material": "nether_geode_glass.png",
+   "prompt": "nether geode glass"
+  },
+  {
+   "material": "nether_glowstone_deep.png",
+   "prompt": "nether glowstone deep"
+  },
+  {
+   "material": "nether_rack.png",
+   "prompt": "nether rack"
+  },
+  {
+   "material": "nether_rack_deep.png",
+   "prompt": "nether rack deep"
+  },
+  {
+   "material": "nether_sand.png",
+   "prompt": "nether sand"
+  },
+  {
+   "material": "nextgen_bedrock.png",
+   "prompt": "nextgen bedrock"
+  },
+  {
+   "material": "no_texture.png",
+   "prompt": "no texture"
+  },
+  {
+   "material": "nyan_cat_rimbol.png",
+   "prompt": "nyan cat rimbol"
+  },
+  {
+   "material": "nyan_cat_side.png",
+   "prompt": "nyan cat side"
+  },
+  {
+   "material": "nyancat_back.png",
+   "prompt": "nyancat back"
+  },
+  {
+   "material": "nyancat_front.png",
+   "prompt": "nyancat front"
+  },
+  {
+   "material": "nyancat_rainbow.png",
+   "prompt": "nyancat rainbow"
+  },
+  {
+   "material": "nyancat_side.png",
+   "prompt": "nyancat side"
+  },
+  {
+   "material": "ore.png",
+   "prompt": "ore"
+  },
+  {
+   "material": "ore_abismal.png",
+   "prompt": "ore abismal"
+  },
+  {
+   "material": "oxygen_generator_off.png",
+   "prompt": "oxygen generator off"
+  },
+  {
+   "material": "oxygen_generator_on.png",
+   "prompt": "oxygen generator on"
+  },
+  {
+   "material": "paleotest_metasequoia_tree.png",
+   "prompt": "paleotest metasequoia tree"
+  },
+  {
+   "material": "paleotest_metasequoia_tree_top.png",
+   "prompt": "paleotest metasequoia tree top"
+  },
+  {
+   "material": "paleotest_metasequoia_wood.png",
+   "prompt": "paleotest metasequoia wood"
+  },
+  {
+   "material": "paleotest_suspicious_permafrost.png",
+   "prompt": "paleotest suspicious permafrost"
+  },
+  {
+   "material": "pbj_pup_back.png",
+   "prompt": "pbj pup back"
+  },
+  {
+   "material": "pbj_pup_front.png",
+   "prompt": "pbj pup front"
+  },
+  {
+   "material": "pbj_pup_jelly.png",
+   "prompt": "pbj pup jelly"
+  },
+  {
+   "material": "pbj_pup_sides.png",
+   "prompt": "pbj pup sides"
+  },
+  {
+   "material": "pigiron_iron_block.png",
+   "prompt": "pigiron iron block"
+  },
+  {
+   "material": "pigiron_rusted_iron_block.png",
+   "prompt": "pigiron rusted iron block"
+  },
+  {
+   "material": "pipe.png",
+   "prompt": "pipe"
+  },
+  {
+   "material": "pipeworks_autocrafter.png",
+   "prompt": "pipeworks autocrafter"
+  },
+  {
+   "material": "powder_snow.png",
+   "prompt": "powder snow"
+  },
+  {
+   "material": "pump_off.png",
+   "prompt": "pump off"
+  },
+  {
+   "material": "pump_on.png",
+   "prompt": "pump on"
+  },
+  {
+   "material": "quartz_block.png",
+   "prompt": "quartz block"
+  },
+  {
+   "material": "quartz_brick.png",
+   "prompt": "quartz brick"
+  },
+  {
+   "material": "rainbow_ore_block.png",
+   "prompt": "rainbow ore block"
+  },
+  {
+   "material": "recycler.png",
+   "prompt": "recycler"
+  },
+  {
+   "material": "relay.png",
+   "prompt": "relay"
+  },
+  {
+   "material": "research_probe.png",
+   "prompt": "research probe"
+  },
+  {
+   "material": "research_station.png",
+   "prompt": "research station"
+  },
+  {
+   "material": "respawn_anchor_bottom.png",
+   "prompt": "respawn anchor bottom"
+  },
+  {
+   "material": "respawn_anchor_side0.png",
+   "prompt": "respawn anchor side0"
+  },
+  {
+   "material": "respawn_anchor_side1.png",
+   "prompt": "respawn anchor side1"
+  },
+  {
+   "material": "respawn_anchor_side2.png",
+   "prompt": "respawn anchor side2"
+  },
+  {
+   "material": "respawn_anchor_side3.png",
+   "prompt": "respawn anchor side3"
+  },
+  {
+   "material": "respawn_anchor_side4.png",
+   "prompt": "respawn anchor side4"
+  },
+  {
+   "material": "respawn_anchor_top_off.png",
+   "prompt": "respawn anchor top off"
+  },
+  {
+   "material": "rocket.png",
+   "prompt": "rocket"
+  },
+  {
+   "material": "schemedit_creator.png",
+   "prompt": "schemedit creator"
+  },
+  {
+   "material": "schemedit_creator_bottom.png",
+   "prompt": "schemedit creator bottom"
+  },
+  {
+   "material": "schemedit_creator_top.png",
+   "prompt": "schemedit creator top"
+  },
+  {
+   "material": "sensor.png",
+   "prompt": "sensor"
+  },
+  {
+   "material": "shared_front.png",
+   "prompt": "shared front"
+  },
+  {
+   "material": "shared_side.png",
+   "prompt": "shared side"
+  },
+  {
+   "material": "shared_top.png",
+   "prompt": "shared top"
+  },
+  {
+   "material": "shields_inv_shield_crystal.png",
+   "prompt": "shields inv shield crystal"
+  },
+  {
+   "material": "shop_back.png",
+   "prompt": "shop back"
+  },
+  {
+   "material": "shop_front.png",
+   "prompt": "shop front"
+  },
+  {
+   "material": "shop_shop_front.png",
+   "prompt": "shop shop front"
+  },
+  {
+   "material": "shop_shop_side.png",
+   "prompt": "shop shop side"
+  },
+  {
+   "material": "shop_shop_topbottom.png",
+   "prompt": "shop shop topbottom"
+  },
+  {
+   "material": "shop_side.png",
+   "prompt": "shop side"
+  },
+  {
+   "material": "shop_top.png",
+   "prompt": "shop top"
+  },
+  {
+   "material": "sofa.png",
+   "prompt": "sofa"
+  },
+  {
+   "material": "sun.png",
+   "prompt": "sun"
+  },
+  {
+   "material": "table.png",
+   "prompt": "table"
+  },
+  {
+   "material": "techage_appl_cooler.png",
+   "prompt": "techage appl cooler"
+  },
+  {
+   "material": "techage_appl_grinder.png",
+   "prompt": "techage appl grinder"
+  },
+  {
+   "material": "techage_appl_pumpjack.png",
+   "prompt": "techage appl pumpjack"
+  },
+  {
+   "material": "techage_appl_pusher.png",
+   "prompt": "techage appl pusher"
+  },
+  {
+   "material": "techage_appl_switch_inv.png",
+   "prompt": "techage appl switch inv"
+  },
+  {
+   "material": "techage_ash.png",
+   "prompt": "techage ash"
+  },
+  {
+   "material": "techage_boiler.png",
+   "prompt": "techage boiler"
+  },
+  {
+   "material": "techage_boiler2.png",
+   "prompt": "techage boiler2"
+  },
+  {
+   "material": "techage_cable_palette.png",
+   "prompt": "techage cable palette"
+  },
+  {
+   "material": "techage_charcoal.png",
+   "prompt": "techage charcoal"
+  },
+  {
+   "material": "techage_charcoal_burn.png",
+   "prompt": "techage charcoal burn"
+  },
+  {
+   "material": "techage_coal_boiler_mesh_base.png",
+   "prompt": "techage coal boiler mesh base"
+  },
+  {
+   "material": "techage_coal_boiler_mesh_top.png",
+   "prompt": "techage coal boiler mesh top"
+  },
+  {
+   "material": "techage_collider_magnet.png",
+   "prompt": "techage collider magnet"
+  },
+  {
+   "material": "techage_collider_tube.png",
+   "prompt": "techage collider tube"
+  },
+  {
+   "material": "techage_compressed_gravel.png",
+   "prompt": "techage compressed gravel"
+  },
+  {
+   "material": "techage_filling_metal.png",
+   "prompt": "techage filling metal"
+  },
+  {
+   "material": "techage_filling_ta2.png",
+   "prompt": "techage filling ta2"
+  },
+  {
+   "material": "techage_filling_ta3.png",
+   "prompt": "techage filling ta3"
+  },
+  {
+   "material": "techage_filling_ta4.png",
+   "prompt": "techage filling ta4"
+  },
+  {
+   "material": "techage_firebox.png",
+   "prompt": "techage firebox"
+  },
+  {
+   "material": "techage_gasflare.png",
+   "prompt": "techage gasflare"
+  },
+  {
+   "material": "techage_gate.png",
+   "prompt": "techage gate"
+  },
+  {
+   "material": "techage_growlight_on.png",
+   "prompt": "techage growlight on"
+  },
+  {
+   "material": "techage_hole_ta4.png",
+   "prompt": "techage hole ta4"
+  },
+  {
+   "material": "techage_industlight4_on.png",
+   "prompt": "techage industlight4 on"
+  },
+  {
+   "material": "techage_lighter.png",
+   "prompt": "techage lighter"
+  },
+  {
+   "material": "techage_lighter_burn.png",
+   "prompt": "techage lighter burn"
+  },
+  {
+   "material": "techage_mill_base.png",
+   "prompt": "techage mill base"
+  },
+  {
+   "material": "techage_power_terminal_front.png",
+   "prompt": "techage power terminal front"
+  },
+  {
+   "material": "techage_power_terminal_side.png",
+   "prompt": "techage power terminal side"
+  },
+  {
+   "material": "techage_reactor_filler_top.png",
+   "prompt": "techage reactor filler top"
+  },
+  {
+   "material": "techage_reactor_plan.png",
+   "prompt": "techage reactor plan"
+  },
+  {
+   "material": "techage_reactor_shell.png",
+   "prompt": "techage reactor shell"
+  },
+  {
+   "material": "techage_reactor_stand_bottom.png",
+   "prompt": "techage reactor stand bottom"
+  },
+  {
+   "material": "techage_reactor_stand_top.png",
+   "prompt": "techage reactor stand top"
+  },
+  {
+   "material": "techage_rotor.png",
+   "prompt": "techage rotor"
+  },
+  {
+   "material": "techage_sieve_gravel_ta1.png",
+   "prompt": "techage sieve gravel ta1"
+  },
+  {
+   "material": "techage_sieve_top_ta1.png",
+   "prompt": "techage sieve top ta1"
+  },
+  {
+   "material": "techage_smartline.png",
+   "prompt": "techage smartline"
+  },
+  {
+   "material": "techage_solar_cell_mini_bottom.png",
+   "prompt": "techage solar cell mini bottom"
+  },
+  {
+   "material": "techage_solar_cell_mini_side.png",
+   "prompt": "techage solar cell mini side"
+  },
+  {
+   "material": "techage_solar_cell_mini_top.png",
+   "prompt": "techage solar cell mini top"
+  },
+  {
+   "material": "techage_solar_module_top.png",
+   "prompt": "techage solar module top"
+  },
+  {
+   "material": "techage_steel_tiles.png",
+   "prompt": "techage steel tiles"
+  },
+  {
+   "material": "techage_tank_cart_bottom.png",
+   "prompt": "techage tank cart bottom"
+  },
+  {
+   "material": "techage_tank_cart_top.png",
+   "prompt": "techage tank cart top"
+  },
+  {
+   "material": "techage_top_ta4.png",
+   "prompt": "techage top ta4"
+  },
+  {
+   "material": "techage_trafficlight_pole.png",
+   "prompt": "techage trafficlight pole"
+  },
+  {
+   "material": "technic_alloy_furnace_front.png",
+   "prompt": "alloy furnace front"
+  },
+  {
+   "material": "technic_alloy_furnace_front_active.png",
+   "prompt": "alloy furnace front active"
+  },
+  {
+   "material": "technic_alloy_furnace_side.png",
+   "prompt": "alloy furnace side"
+  },
+  {
+   "material": "technic_alloy_furnace_top.png",
+   "prompt": "alloy furnace top"
+  },
+  {
+   "material": "technic_carbon_steel_block.png",
+   "prompt": "carbon steel block"
+  },
+  {
+   "material": "technic_cast_iron_block.png",
+   "prompt": "cast iron block"
+  },
+  {
+   "material": "technic_chromium_block.png",
+   "prompt": "chromium block"
+  },
+  {
+   "material": "technic_constructor_back.png",
+   "prompt": "constructor back"
+  },
+  {
+   "material": "technic_constructor_front_off.png",
+   "prompt": "constructor front off"
+  },
+  {
+   "material": "technic_constructor_front_on.png",
+   "prompt": "constructor front on"
+  },
+  {
+   "material": "technic_constructor_mk1_bottom_off.png",
+   "prompt": "constructor mk1 bottom off"
+  },
+  {
+   "material": "technic_constructor_mk1_bottom_on.png",
+   "prompt": "constructor mk1 bottom on"
+  },
+  {
+   "material": "technic_constructor_mk1_side1_off.png",
+   "prompt": "constructor mk1 side1 off"
+  },
+  {
+   "material": "technic_constructor_mk1_side1_on.png",
+   "prompt": "constructor mk1 side1 on"
+  },
+  {
+   "material": "technic_constructor_mk1_side2_off.png",
+   "prompt": "constructor mk1 side2 off"
+  },
+  {
+   "material": "technic_constructor_mk1_side2_on.png",
+   "prompt": "constructor mk1 side2 on"
+  },
+  {
+   "material": "technic_constructor_mk1_top_off.png",
+   "prompt": "constructor mk1 top off"
+  },
+  {
+   "material": "technic_constructor_mk1_top_on.png",
+   "prompt": "constructor mk1 top on"
+  },
+  {
+   "material": "technic_constructor_mk2_bottom_off.png",
+   "prompt": "constructor mk2 bottom off"
+  },
+  {
+   "material": "technic_constructor_mk2_bottom_on.png",
+   "prompt": "constructor mk2 bottom on"
+  },
+  {
+   "material": "technic_constructor_mk2_side1_off.png",
+   "prompt": "constructor mk2 side1 off"
+  },
+  {
+   "material": "technic_constructor_mk2_side1_on.png",
+   "prompt": "constructor mk2 side1 on"
+  },
+  {
+   "material": "technic_constructor_mk2_side2_off.png",
+   "prompt": "constructor mk2 side2 off"
+  },
+  {
+   "material": "technic_constructor_mk2_side2_on.png",
+   "prompt": "constructor mk2 side2 on"
+  },
+  {
+   "material": "technic_constructor_mk2_top_off.png",
+   "prompt": "constructor mk2 top off"
+  },
+  {
+   "material": "technic_constructor_mk2_top_on.png",
+   "prompt": "constructor mk2 top on"
+  },
+  {
+   "material": "technic_constructor_mk3_bottom_off.png",
+   "prompt": "constructor mk3 bottom off"
+  },
+  {
+   "material": "technic_constructor_mk3_bottom_on.png",
+   "prompt": "constructor mk3 bottom on"
+  },
+  {
+   "material": "technic_constructor_mk3_side1_off.png",
+   "prompt": "constructor mk3 side1 off"
+  },
+  {
+   "material": "technic_constructor_mk3_side1_on.png",
+   "prompt": "constructor mk3 side1 on"
+  },
+  {
+   "material": "technic_constructor_mk3_side2_off.png",
+   "prompt": "constructor mk3 side2 off"
+  },
+  {
+   "material": "technic_constructor_mk3_side2_on.png",
+   "prompt": "constructor mk3 side2 on"
+  },
+  {
+   "material": "technic_constructor_mk3_top_off.png",
+   "prompt": "constructor mk3 top off"
+  },
+  {
+   "material": "technic_constructor_mk3_top_on.png",
+   "prompt": "constructor mk3 top on"
+  },
+  {
+   "material": "technic_electric_furnace_bottom.png",
+   "prompt": "electric furnace bottom"
+  },
+  {
+   "material": "technic_electric_furnace_front.png",
+   "prompt": "electric furnace front"
+  },
+  {
+   "material": "technic_electric_furnace_front_active.png",
+   "prompt": "electric furnace front active"
+  },
+  {
+   "material": "technic_electric_furnace_side.png",
+   "prompt": "electric furnace side"
+  },
+  {
+   "material": "technic_electric_furnace_top.png",
+   "prompt": "electric furnace top"
+  },
+  {
+   "material": "technic_generator_front.png",
+   "prompt": "generator front"
+  },
+  {
+   "material": "technic_generator_front_active.png",
+   "prompt": "generator front active"
+  },
+  {
+   "material": "technic_generator_side.png",
+   "prompt": "generator side"
+  },
+  {
+   "material": "technic_generator_top.png",
+   "prompt": "generator top"
+  },
+  {
+   "material": "technic_geothermal_side.png",
+   "prompt": "geothermal side"
+  },
+  {
+   "material": "technic_geothermal_top.png",
+   "prompt": "geothermal top"
+  },
+  {
+   "material": "technic_geothermal_top_active.png",
+   "prompt": "geothermal top active"
+  },
+  {
+   "material": "technic_hv_grinder_bottom.png",
+   "prompt": "hv grinder bottom"
+  },
+  {
+   "material": "technic_hv_grinder_front.png",
+   "prompt": "hv grinder front"
+  },
+  {
+   "material": "technic_hv_grinder_front_active.png",
+   "prompt": "hv grinder front active"
+  },
+  {
+   "material": "technic_hv_grinder_side.png",
+   "prompt": "hv grinder side"
+  },
+  {
+   "material": "technic_hv_grinder_side_tube.png",
+   "prompt": "hv grinder side tube"
+  },
+  {
+   "material": "technic_hv_grinder_top.png",
+   "prompt": "hv grinder top"
+  },
+  {
+   "material": "technic_hv_nuclear_reactor_core.png",
+   "prompt": "hv nuclear reactor"
+  },
+  {
+   "material": "technic_hv_solar_array_bottom.png",
+   "prompt": "hv solar array bottom"
+  },
+  {
+   "material": "technic_hv_solar_array_side.png",
+   "prompt": "hv solar array side"
+  },
+  {
+   "material": "technic_injector_bottom.png",
+   "prompt": "injector bottom"
+  },
+  {
+   "material": "technic_injector_side.png",
+   "prompt": "injector side"
+  },
+  {
+   "material": "technic_injector_top.png",
+   "prompt": "injector top"
+  },
+  {
+   "material": "technic_lead_block.png",
+   "prompt": "lead block"
+  },
+  {
+   "material": "technic_machine_bottom.png",
+   "prompt": "machine bottom"
+  },
+  {
+   "material": "technic_music_player_bottom.png",
+   "prompt": "music player bottom"
+  },
+  {
+   "material": "technic_mv_alloy_furnace_bottom.png",
+   "prompt": "mv alloy furnace bottom"
+  },
+  {
+   "material": "technic_mv_alloy_furnace_front.png",
+   "prompt": "mv alloy furnace front"
+  },
+  {
+   "material": "technic_mv_alloy_furnace_front_active.png",
+   "prompt": "mv alloy furnace front active"
+  },
+  {
+   "material": "technic_mv_alloy_furnace_side.png",
+   "prompt": "mv alloy furnace side"
+  },
+  {
+   "material": "technic_mv_alloy_furnace_side_tube.png",
+   "prompt": "mv alloy furnace side tube"
+  },
+  {
+   "material": "technic_mv_alloy_furnace_top.png",
+   "prompt": "mv alloy furnace top"
+  },
+  {
+   "material": "technic_mv_electric_furnace_bottom.png",
+   "prompt": "mv electric furnace bottom"
+  },
+  {
+   "material": "technic_mv_electric_furnace_front.png",
+   "prompt": "mv electric furnace front"
+  },
+  {
+   "material": "technic_mv_electric_furnace_front_active.png",
+   "prompt": "mv electric furnace front active"
+  },
+  {
+   "material": "technic_mv_electric_furnace_side.png",
+   "prompt": "mv electric furnace side"
+  },
+  {
+   "material": "technic_mv_electric_furnace_side_tube.png",
+   "prompt": "mv electric furnace side tube"
+  },
+  {
+   "material": "technic_mv_electric_furnace_top.png",
+   "prompt": "mv electric furnace top"
+  },
+  {
+   "material": "technic_mv_freezer_bottom.png",
+   "prompt": "mv freezer bottom"
+  },
+  {
+   "material": "technic_mv_freezer_front.png",
+   "prompt": "mv freezer front"
+  },
+  {
+   "material": "technic_mv_freezer_front_active.png",
+   "prompt": "mv freezer front active"
+  },
+  {
+   "material": "technic_mv_freezer_side.png",
+   "prompt": "mv freezer side"
+  },
+  {
+   "material": "technic_mv_freezer_top.png",
+   "prompt": "mv freezer top"
+  },
+  {
+   "material": "technic_mv_grinder_bottom.png",
+   "prompt": "mv grinder bottom"
+  },
+  {
+   "material": "technic_mv_grinder_front.png",
+   "prompt": "mv grinder front"
+  },
+  {
+   "material": "technic_mv_grinder_front_active.png",
+   "prompt": "mv grinder front active"
+  },
+  {
+   "material": "technic_mv_grinder_side.png",
+   "prompt": "mv grinder side"
+  },
+  {
+   "material": "technic_mv_grinder_side_tube.png",
+   "prompt": "mv grinder side tube"
+  },
+  {
+   "material": "technic_mv_grinder_top.png",
+   "prompt": "mv grinder top"
+  },
+  {
+   "material": "technic_mv_solar_array_bottom.png",
+   "prompt": "mv solar array bottom"
+  },
+  {
+   "material": "technic_mv_solar_array_side.png",
+   "prompt": "mv solar array side"
+  },
+  {
+   "material": "technic_nodebreaker_back.png",
+   "prompt": "nodebreaker back"
+  },
+  {
+   "material": "technic_nodebreaker_bottom.png",
+   "prompt": "nodebreaker bottom"
+  },
+  {
+   "material": "technic_nodebreaker_bottom_off.png",
+   "prompt": "nodebreaker bottom off"
+  },
+  {
+   "material": "technic_nodebreaker_bottom_on.png",
+   "prompt": "nodebreaker bottom on"
+  },
+  {
+   "material": "technic_nodebreaker_front_off.png",
+   "prompt": "nodebreaker front off"
+  },
+  {
+   "material": "technic_nodebreaker_front_on.png",
+   "prompt": "nodebreaker front on"
+  },
+  {
+   "material": "technic_nodebreaker_side1.png",
+   "prompt": "nodebreaker side1"
+  },
+  {
+   "material": "technic_nodebreaker_side1_off.png",
+   "prompt": "nodebreaker side1 off"
+  },
+  {
+   "material": "technic_nodebreaker_side1_on.png",
+   "prompt": "nodebreaker side1 on"
+  },
+  {
+   "material": "technic_nodebreaker_side2.png",
+   "prompt": "nodebreaker side2"
+  },
+  {
+   "material": "technic_nodebreaker_side2_off.png",
+   "prompt": "nodebreaker side2 off"
+  },
+  {
+   "material": "technic_nodebreaker_side2_on.png",
+   "prompt": "nodebreaker side2 on"
+  },
+  {
+   "material": "technic_nodebreaker_top.png",
+   "prompt": "nodebreaker top"
+  },
+  {
+   "material": "technic_nodebreaker_top_off.png",
+   "prompt": "nodebreaker top off"
+  },
+  {
+   "material": "technic_nodebreaker_top_on.png",
+   "prompt": "nodebreaker top on"
+  },
+  {
+   "material": "technic_rubber_tree_empty.png",
+   "prompt": "rubber tree empty"
+  },
+  {
+   "material": "technic_rubber_tree_full.png",
+   "prompt": "rubber tree full"
+  },
+  {
+   "material": "technic_solar_panel_bottom.png",
+   "prompt": "solar panel bottom"
+  },
+  {
+   "material": "technic_solar_panel_side.png",
+   "prompt": "solar panel side"
+  },
+  {
+   "material": "technic_uranium_block.png",
+   "prompt": "uranium block"
+  },
+  {
+   "material": "technic_workshop_bottom.png",
+   "prompt": "workshop bottom"
+  },
+  {
+   "material": "technic_workshop_side.png",
+   "prompt": "workshop side"
+  },
+  {
+   "material": "technic_workshop_top.png",
+   "prompt": "workshop top"
+  },
+  {
+   "material": "technic_wrought_iron_block.png",
+   "prompt": "wrought iron block"
+  },
+  {
+   "material": "teleporter.png",
+   "prompt": "teleporter"
+  },
+  {
+   "material": "terraformer_off.png",
+   "prompt": "terraformer off"
+  },
+  {
+   "material": "terraformer_on.png",
+   "prompt": "terraformer on"
+  },
+  {
+   "material": "tnt_blast.png",
+   "prompt": "blast"
+  },
+  {
+   "material": "tnt_bottom.png",
+   "prompt": "bottom"
+  },
+  {
+   "material": "tnt_top.png",
+   "prompt": "top"
+  },
+  {
+   "material": "tnt_top_burning.png",
+   "prompt": "top burning"
+  },
+  {
+   "material": "tnt_top_burning_animated.png",
+   "prompt": "top burning animated"
+  },
+  {
+   "material": "toilet.png",
+   "prompt": "toilet"
+  },
+  {
+   "material": "ui_home_icon.png",
+   "prompt": "ui home icon"
+  },
+  {
+   "material": "ui_moon_icon.png",
+   "prompt": "ui moon icon"
+  },
+  {
+   "material": "ui_sethome_icon.png",
+   "prompt": "ui sethome icon"
+  },
+  {
+   "material": "ui_sun_icon.png",
+   "prompt": "ui sun icon"
+  },
+  {
+   "material": "unifiedbricks_brickblock.png",
+   "prompt": "unifiedbricks brickblock"
+  },
+  {
+   "material": "unknown_node.png",
+   "prompt": "unknown node"
+  },
+  {
+   "material": "unknown_object.png",
+   "prompt": "unknown object"
+  },
+  {
+   "material": "vent.png",
+   "prompt": "vent"
+  },
+  {
+   "material": "vessels_shelf.png",
+   "prompt": "shelf"
+  },
+  {
+   "material": "wall.png",
+   "prompt": "wall"
+  },
+  {
+   "material": "warped_hyphae_wood.png",
+   "prompt": "warped hyphae wood"
+  },
+  {
+   "material": "wc_adamant.png",
+   "prompt": "wc adamant"
+  },
+  {
+   "material": "wc_naturae_bamboo.png",
+   "prompt": "wc naturae bamboo"
+  },
+  {
+   "material": "wc_naturae_bamboo_dead.png",
+   "prompt": "wc naturae bamboo dead"
+  },
+  {
+   "material": "wc_naturae_decayed_log_side.png",
+   "prompt": "wc naturae decayed log side"
+  },
+  {
+   "material": "wc_naturae_decayed_log_top.png",
+   "prompt": "wc naturae decayed log top"
+  },
+  {
+   "material": "wc_pottery_ceramic.png",
+   "prompt": "wc pottery ceramic"
+  },
+  {
+   "material": "wool_black.png",
+   "prompt": "wool black"
+  },
+  {
+   "material": "wool_blue.png",
+   "prompt": "wool blue"
+  },
+  {
+   "material": "wool_brown.png",
+   "prompt": "wool brown"
+  },
+  {
+   "material": "wool_cyan.png",
+   "prompt": "wool cyan"
+  },
+  {
+   "material": "wool_dark_green.png",
+   "prompt": "wool dark green"
+  },
+  {
+   "material": "wool_dark_grey.png",
+   "prompt": "wool dark grey"
+  },
+  {
+   "material": "wool_green.png",
+   "prompt": "wool green"
+  },
+  {
+   "material": "wool_grey.png",
+   "prompt": "wool grey"
+  },
+  {
+   "material": "wool_magenta.png",
+   "prompt": "wool magenta"
+  },
+  {
+   "material": "wool_orange.png",
+   "prompt": "wool orange"
+  },
+  {
+   "material": "wool_pink.png",
+   "prompt": "wool pink"
+  },
+  {
+   "material": "wool_red.png",
+   "prompt": "wool red"
+  },
+  {
+   "material": "wool_violet.png",
+   "prompt": "wool violet"
+  },
+  {
+   "material": "wool_white.png",
+   "prompt": "wool white"
+  },
+  {
+   "material": "wool_yellow.png",
+   "prompt": "wool yellow"
+  },
+  {
+   "material": "xcopper_oxidized_block.png",
+   "prompt": "xcopper oxidized block"
+  },
+  {
+   "material": "xdecor_barrel_sides.png",
+   "prompt": "barrel sides"
+  },
+  {
+   "material": "xdecor_cabinet_front.png",
+   "prompt": "cabinet front"
+  },
+  {
+   "material": "xdecor_cauldron_sides.png",
+   "prompt": "cauldron sides"
+  },
+  {
+   "material": "xdecor_cauldron_top_empty.png",
+   "prompt": "cauldron top empty"
+  },
+  {
+   "material": "xdecor_cauldron_top_idle.png",
+   "prompt": "cauldron top idle"
+  },
+  {
+   "material": "xdecor_coalstone_tile.png",
+   "prompt": "coalstone tile"
+  },
+  {
+   "material": "xdecor_cushion.png",
+   "prompt": "cushion"
+  },
+  {
+   "material": "xdecor_desertstone_tile.png",
+   "prompt": "desertstone tile"
+  },
+  {
+   "material": "xdecor_enchantment_side.png",
+   "prompt": "enchantment side"
+  },
+  {
+   "material": "xdecor_enchantment_top.png",
+   "prompt": "enchantment top"
+  },
+  {
+   "material": "xdecor_hard_clay.png",
+   "prompt": "hard clay"
+  },
+  {
+   "material": "xdecor_hive_front.png",
+   "prompt": "hive front"
+  },
+  {
+   "material": "xdecor_hive_side.png",
+   "prompt": "hive side"
+  },
+  {
+   "material": "xdecor_hive_top.png",
+   "prompt": "hive top"
+  },
+  {
+   "material": "xdecor_iron_lightbox.png",
+   "prompt": "iron lightbox"
+  },
+  {
+   "material": "xdecor_mailbox.png",
+   "prompt": "mailbox"
+  },
+  {
+   "material": "xdecor_mailbox_side.png",
+   "prompt": "mailbox side"
+  },
+  {
+   "material": "xdecor_moonbrick.png",
+   "prompt": "moonbrick"
+  },
+  {
+   "material": "xdecor_packed_ice.png",
+   "prompt": "packed ice"
+  },
+  {
+   "material": "xdecor_pressure_stone.png",
+   "prompt": "pressure stone"
+  },
+  {
+   "material": "xdecor_pressure_wood.png",
+   "prompt": "pressure wood"
+  },
+  {
+   "material": "xdecor_radio_back.png",
+   "prompt": "radio back"
+  },
+  {
+   "material": "xdecor_radio_front.png",
+   "prompt": "radio front"
+  },
+  {
+   "material": "xdecor_radio_top.png",
+   "prompt": "radio top"
+  },
+  {
+   "material": "xdecor_speaker_back.png",
+   "prompt": "speaker back"
+  },
+  {
+   "material": "xdecor_speaker_front.png",
+   "prompt": "speaker front"
+  },
+  {
+   "material": "xdecor_tatami.png",
+   "prompt": "tatami"
+  },
+  {
+   "material": "xdecor_television_back.png",
+   "prompt": "television back"
+  },
+  {
+   "material": "xdecor_workbench_front.png",
+   "prompt": "workbench front"
+  },
+  {
+   "material": "xdecor_workbench_sides.png",
+   "prompt": "workbench sides"
+  },
+  {
+   "material": "xdecor_workbench_top.png",
+   "prompt": "workbench top"
+  },
+  {
+   "material": "xocean_brick.png",
+   "prompt": "xocean brick"
+  },
+  {
+   "material": "xocean_carved.png",
+   "prompt": "xocean carved"
+  },
+  {
+   "material": "xocean_circular.png",
+   "prompt": "xocean circular"
+  },
+  {
+   "material": "xocean_cobble.png",
+   "prompt": "xocean cobble"
+  },
+  {
+   "material": "xocean_coral_brain.png",
+   "prompt": "xocean coral brain"
+  },
+  {
+   "material": "xocean_coral_brain_skeleton.png",
+   "prompt": "xocean coral brain skeleton"
+  },
+  {
+   "material": "xocean_coral_fire.png",
+   "prompt": "xocean coral"
+  },
+  {
+   "material": "xocean_coral_fire_skeleton.png",
+   "prompt": "xocean coral skeleton"
+  },
+  {
+   "material": "xocean_coral_horn.png",
+   "prompt": "xocean coral horn"
+  },
+  {
+   "material": "xocean_coral_horn_skeleton.png",
+   "prompt": "xocean coral horn skeleton"
+  },
+  {
+   "material": "xocean_coral_tube.png",
+   "prompt": "xocean coral tube"
+  },
+  {
+   "material": "xocean_coral_tube_skeleton.png",
+   "prompt": "xocean coral tube skeleton"
+  },
+  {
+   "material": "xocean_kelp_block.png",
+   "prompt": "xocean kelp block"
+  },
+  {
+   "material": "xocean_lantern.png",
+   "prompt": "xocean lantern"
+  },
+  {
+   "material": "xocean_pillar.png",
+   "prompt": "xocean pillar"
+  },
+  {
+   "material": "xocean_stone.png",
+   "prompt": "xocean stone"
+  },
+  {
+   "material": "xpanes_bar_top.png",
+   "prompt": "bar top"
+  },
+  {
+   "material": "xpanes_edge.png",
+   "prompt": "edge"
+  },
+  {
+   "material": "xpanes_edge_obsidian.png",
+   "prompt": "edge obsidian"
+  },
+  {
+   "material": "zmobs_lava_flan.png",
+   "prompt": "zmobs lava flan"
+  },
+  {
+   "material": "zmobs_lava_flan3.png",
+   "prompt": "zmobs lava flan3"
+  }
+ ]
+}

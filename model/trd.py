@@ -255,11 +255,12 @@ def top_p_filter(logits, p):
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
            choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None,
            refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None, align=None, grid_init=None, ex=None,
-           ex_cfg=None):
+           ex_cfg=None, dom_w=0.0, dom_target=2):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
 
     pal_init：[B,16] 调色板码（前 k 个有效）；给了就当已知条件，不再采样调色板。
     grid_init：[B,n,n] 秩网格，GRID_MASK 处生成、其余保留（MaskGIT 天然支持部分已知）。
+    dom_w：来源引导（v9）：条件分支 l = l_材质包 + dom_w·(l_来源dom_target − l_材质包)；0 = 纯画师画风。
     ex_cfg：结构范例单独的引导强度（同 InstructPix2Pix 的双重引导）：
       l = u + cfg·(l_无范例 − u) + ex_cfg·(l_全 − l_无范例)；ex_cfg = cfg 时退回普通 CFG（默认）。
 
@@ -286,6 +287,9 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     rank_ok = torch.arange(K_MAX, device=dev)[None] < k[:, None]
     for s in range(steps):
         lp, lg = model(pal, grid, k, text, color, ref, align, ex)
+        if dom_w:
+            lp2, lg2 = model(pal, grid, k, text, color, ref, align, ex, torch.full_like(k, dom_target))
+            lp, lg = lp + dom_w * (lp2 - lp), lg + dom_w * (lg2 - lg)
         if ex is not None and ex_cfg is not None and ex_cfg != cfg:
             up, ug = model(pal, grid, k, nt, color, None)
             tp, tg = model(pal, grid, k, text, color, ref, align, None)       # 有文本、无范例
