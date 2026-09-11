@@ -111,6 +111,8 @@ def main():
     ap.add_argument("--xquery_img", type=Path, default=None,
                     help="--xmodal 的查询再加上大模型渲染的图像嵌入：给一个方法目录（如 experiments/baselines_val/B1/32），"
                          "取每材质第 0 张的 CLIP-B/16 图像嵌入与文本嵌入相加（SDXL 引导的检索；推理多一次渲染，与 B1/B2 同开销）")
+    ap.add_argument("--xmodal_what", choices=["both", "ex", "pal"], default="both",
+                    help="--xmodal 作用在哪：both = 调色板与结构范例都按图文相似度挑；ex = 只范例；pal = 只调色板")
     ap.add_argument("--xmodal", action="store_true",
                     help="跨模态检索：调色板与结构范例按'真人瓦片 ↔ 材质名'的 CLIP-B/16 图文相似度挑最典型的（评测用 B/32）")
     ap.add_argument("--align", type=float, default=None,
@@ -142,6 +144,7 @@ def main():
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
+    XPAL = a.xmodal and a.xmodal_what in ("both", "pal")
     global FREE_K, N_NAME
     FREE_K = a.ret_k == "free"
     N_NAME = a.ret_nname
@@ -158,9 +161,10 @@ def main():
         pool = load(16, "train", extra=cfg_.get("extra_file", "train_extra.json"))   # 与该 run 训练时同一个范例库
         pm = sorted({s["material"] for s in pool})
         pe = clip_text([text_prompt(m) for m in pm], dev)
-        BANK = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev, C=64 if a.xmodal else 16)
+        XEX = a.xmodal and a.xmodal_what in ("both", "ex")
+        BANK = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev, C=64 if XEX else 16)
         EXC = BANK.candidates([{"material": e["material"]} for e in prompts], emb=temb)
-        if a.xmodal:
+        if XEX:
             from palette_memory import clip16_images, clip16_texts
             EXC = BANK.rank_xmodal(EXC, clip16_images([s["palette"][s["idx"]] for s in pool], dev),
                                    xquery(prompts, a.xquery_img, dev), keep=a.ex_keep)
@@ -220,7 +224,7 @@ def main():
             if mem is not None:
                 kb, pinit, pals = retrieve_batch(mem, temb[ti[sl]], kb, rng, cb,
                                                  colours=[t["rgb"] for t in T[sl]], topk=a.ret_topk,
-                                                 t16_rows=T16[ti[sl]] if a.xmodal else None)
+                                                 t16_rows=T16[ti[sl]] if XPAL else None)
             if CRITIC is not None and pinit is not None:
                 from trd import sample_critic
                 pal, grid = sample_critic(model, CRITIC, temb[ti[sl]], kb, pinit, n=a.size, color=col[sl],
@@ -255,7 +259,7 @@ def main():
                                     ex=EX(torch.arange(len(prompts))[sl].to(dev)))
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
                 kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk,
-                                                 t16_rows=T16[sl] if a.xmodal else None)
+                                                 t16_rows=T16[sl] if XPAL else None)
             gi = None
             if a.cascade is not None and a.size != 16:          # 由粗到细：16px 结构 → 放大 → 部分保留
                 exs = EX(torch.arange(len(prompts))[sl].to(dev))
