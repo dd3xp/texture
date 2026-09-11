@@ -5,7 +5,8 @@
       接缝对齐裁剪 → 盒式降采样 → 量化                    （每材质 1 张，n=4 即 best-of-4）
   B4  SDXL + 像素画 LoRA（nerijs/pixel-art-xl）→ 盒式降采样 → 量化   （`--lora pixelart`）
 
-提示词集来自 `eval/prompt_sets.json`（已在出结果前定死）。模板与本仓库一贯的一致。
+提示词集来自 `eval/prompt_sets.json`（已在出结果前定死）；`--set V_mat` 在验证集上出基线
+（配 `--out experiments/baselines_val`，给新架构调参时对照 B2，不碰测试集）。模板与本仓库一贯的一致。
 种子 = seed + 材质序号 + 1000*样本号（与 batch_pack 同式），所有基线可复现。
 只存瓦片（16/24/32 PNG）与清单，不存 1024 渲染（服务器磁盘紧张）。
 """
@@ -46,7 +47,9 @@ def main():
     ap.add_argument("--out", type=Path, default=ROOT / "experiments/baselines")
     a = ap.parse_args()
 
-    prompts = json.loads((ROOT / "eval/prompt_sets.json").read_text(encoding="utf-8"))[a.set]
+    sys.path.insert(0, str(ROOT / "eval"))
+    from prompts import load_set                  # E_* 测试集 / V_* 验证集（验证集只用于调参）
+    prompts, _ = load_set(a.set)
     if a.limit:
         prompts = prompts[:a.limit]
 
