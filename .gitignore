@@ -138,3 +138,9 @@ experiments/pack53_out/base/
 
 # supplementary 产物不入库（可由 scripts/make_supplementary.py 随时重建）
 paper/supplementary.zip
+
+# 判官在验证集上的逐条判定（新架构阶段）：三条臂打的是同一批 125 个材质，
+# 是 analysis/arch/judge_structure_split.py 的唯一输入。~10KB/份，零 API 即可复算。
+!experiments/judge_full_REALval_vs_B2val_16_V_mat.json
+!experiments/judge_full_v2_retm4_rr4_vs_B2val_16_V_mat.json
+!experiments/judge_full_v2_retmM_c1.5_vs_B2val_16_V_mat.json
