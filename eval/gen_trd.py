@@ -19,6 +19,7 @@ from train_trd import decode, clip_text, TEXT_TMPL, model_from_args   # noqa: E4
 from tiles_data import load                      # noqa: E402
 
 
+N_NAME = 30
 FREE_K = True      # 检索调色板时不限色数（见 palette_memory.PaletteMemory.query）；--ret_k sample 改回旧做法
 
 
@@ -30,7 +31,7 @@ def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5, t16_rows=N
     for i in range(len(ks)):
         c = None if colours is None else colours[i]
         p, idx = mem.query(text_rows[i], None if FREE_K else int(ks[i]), rng, colour=c, topk=topk,
-                           text16=None if t16_rows is None else t16_rows[i])
+                           text16=None if t16_rows is None else t16_rows[i], n_name=N_NAME)
         if c is not None:
             p = mem.shifted(idx, c)
         pals.append(p)
@@ -103,6 +104,7 @@ def main():
     ap.add_argument("--cascade", type=float, default=None,
                     help="24/32px 由粗到细：先按同样条件生成 16px，最近邻放大到目标尺寸，保留这个比例的格子，其余由 TRD 在目标尺寸上补")
     ap.add_argument("--dom_w", type=float, default=0.0, help="来源引导强度（v9：往 SDXL 字面描绘那边推）")
+    ap.add_argument("--ret_nname", type=int, default=30, help="--xmodal：先按名字取这么多条，再按图文相似度挑")
     ap.add_argument("--ex_keep", type=int, default=8, help="--xmodal 时结构范例只在最典型的这么多张里抽")
     ap.add_argument("--ex_from_dir", type=Path, default=None,
                     help="结构范例的第 0 个槽换成这个目录里该材质第 0 张瓦片（如 B1 的 16px：SDXL 的布局当一个范例）")
@@ -140,8 +142,9 @@ def main():
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
-    global FREE_K
+    global FREE_K, N_NAME
     FREE_K = a.ret_k == "free"
+    N_NAME = a.ret_nname
 
     def AL(n):
         if a.align is None or model.align_proj is None:
