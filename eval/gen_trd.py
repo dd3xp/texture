@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "model"))
 sys.path.insert(0, str(ROOT / "eval"))
 from trd import TRD, sample                      # noqa: E402
-from train_trd import decode, clip_text, TEXT_TMPL   # noqa: E402
+from train_trd import decode, clip_text, TEXT_TMPL, model_from_args   # noqa: E402
 from tiles_data import load                      # noqa: E402
 
 
@@ -37,8 +37,7 @@ def main():
     ck = torch.load(a.run / a.ckpt, map_location=dev)
     args = ck["args"]
     cb = np.load(a.run / "codebook.npy")
-    model = TRD(int(args["codes"]), d=int(args["d"]), depth=int(args["depth"]),
-                heads=int(args["heads"]), drop=0.0).to(dev)
+    model = model_from_args(args, drop=0.0).to(dev)
     model.load_state_dict(ck["model"])
     model.eval()
 

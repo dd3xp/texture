@@ -25,13 +25,12 @@ sys.path.insert(0, str(ROOT / "eval"))
 from paint_region import dominant_color, region_mask, tile_over, auto_scale   # noqa: E402
 from make_texture import recolor_to                                         # noqa: E402
 from trd import TRD, sample                                                 # noqa: E402
-from train_trd import decode, clip_text, TEXT_TMPL                           # noqa: E402
+from train_trd import decode, clip_text, TEXT_TMPL, model_from_args          # noqa: E402
 
 
 def load_trd(run: Path, ckpt: str, dev: str):
     ck = torch.load(run / ckpt, map_location=dev)
-    a = ck["args"]
-    m = TRD(int(a["codes"]), d=int(a["d"]), depth=int(a["depth"]), heads=int(a["heads"]), drop=0.0)
+    m = model_from_args(ck["args"], drop=0.0)
     m.load_state_dict(ck["model"])
     return m.to(dev).eval(), np.load(run / "codebook.npy")
 

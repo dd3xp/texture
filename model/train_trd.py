@@ -86,6 +86,8 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
     k = np.zeros(B, np.int64)
     col = np.zeros((B, 4), np.float32)
     tix = np.zeros(B, np.int64)
+    rgb = np.zeros((B, K_MAX, 3), np.float32)
+    hist = np.zeros((B, K_MAX), np.float32)
     for i, s in enumerate(samples):
         kk = s["k_used"]
         pal[i, :kk] = encode_palette(s["palette"], cb)
@@ -93,9 +95,12 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
         k[i] = kk
         col[i, :3] = (s["palette"][s["idx"]].reshape(-1, 3).mean(0) / 255.0).astype(np.float32)
         col[i, 3] = 1.0                                   # 标志位：颜色已给出
+        rgb[i, :kk] = s["palette"]
+        hist[i, :kk] = np.bincount(s["idx"].reshape(-1), minlength=kk)[:kk] / s["idx"].size
         tix[i] = text_index[s["material"]]
     return {"pal": torch.from_numpy(pal), "grid": torch.from_numpy(grid), "k": torch.from_numpy(k),
-            "color": torch.from_numpy(col), "text": text_emb[torch.from_numpy(tix)]}
+            "color": torch.from_numpy(col), "text": text_emb[torch.from_numpy(tix)],
+            "rgb": torch.from_numpy(rgb), "hist": torch.from_numpy(hist)}
 
 
 def augment(grid):
@@ -122,6 +127,22 @@ def decode(pal_codes, ranks, cb):
     return img.view(*r.shape, 3).round().clamp(0, 255).byte().numpy()
 
 
+def model_from_args(a, drop=None):
+    """从检查点里存的参数建模型（v1 检查点没有 v2 字段，按 v1 默认值补）。"""
+    g = (lambda k, d: a.get(k, d)) if isinstance(a, dict) else (lambda k, d: getattr(a, k, d))
+    return TRD(int(g("codes", 512)), d=int(g("d", 384)), depth=int(g("depth", 12)),
+               heads=int(g("heads", 6)), drop=float(g("drop", 0.1) if drop is None else drop),
+               bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
+               bias_hidden=int(g("bias_hidden", 64)))
+
+
+def hue_rotation(theta):
+    """RGB 空间绕灰轴旋转 theta 弧度（Rodrigues），近似色相旋转。"""
+    k = torch.ones(3) / math.sqrt(3.0)
+    K = torch.tensor([[0, -k[2], k[1]], [k[2], 0, -k[0]], [-k[1], k[0], 0]])
+    return torch.eye(3) + math.sin(theta) * K + (1 - math.cos(theta)) * (K @ K)
+
+
 # ------------------------------------------------------------------ 主流程
 def main():
     ap = argparse.ArgumentParser()
@@ -143,6 +164,12 @@ def main():
                     help="训练用的分辨率。32px 真人数据只有 517 张，与 16 混训；选检查点只看 16px val")
     ap.add_argument("--p32", type=float, default=0.3, help="每步取 32px 批次的概率")
     ap.add_argument("--batch32", type=int, default=64, help="32px 序列长 4 倍，批次相应缩小")
+    ap.add_argument("--bias_freqs", type=int, default=1, help="v1=1；v2=8（见 trd.ToroidalBias）")
+    ap.add_argument("--bias_hidden", type=int, default=64)
+    ap.add_argument("--level_emb", action="store_true", help="v2：秩的归一化色阶嵌入")
+    ap.add_argument("--pal_aug", type=float, default=0.0,
+                    help="调色板颜色抖动幅度：色相 ±pal_aug*60°、亮度 ±pal_aug*50%%（v1=0）")
+    ap.add_argument("--pal_smooth", type=float, default=0.0, help="调色板码标签平滑（v1=0）")
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
@@ -170,7 +197,8 @@ def main():
     V = to_tensors(val, cb, a.codes, tindex, temb)
     T32 = to_tensors(train32, cb, a.codes, tindex, temb) if train32 else None
     V32 = to_tensors(val32, cb, a.codes, tindex, temb) if val32 else None
-    model = TRD(a.codes, d=a.d, depth=a.depth, heads=a.heads, drop=a.drop).to(dev)
+    model = model_from_args(a).to(dev)
+    cbt = torch.as_tensor(cb, device=dev)
     print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.99))
     sched = torch.optim.lr_scheduler.LambdaLR(
@@ -184,6 +212,21 @@ def main():
             g = augment(g)
         t = D["text"][idx].clone()
         c = D["color"][idx].clone()
+        pal = D["pal"][idx]
+        if train_mode and a.pal_aug > 0:
+            # 颜色抖动：同一材质各包配色本就不同；逼模型学相对配色而不是背训练包的色值
+            B = len(idx)
+            rgb = D["rgb"][idx].clone()
+            th = (torch.rand(B) * 2 - 1) * a.pal_aug * math.pi / 3
+            br = 1 + (torch.rand(B) * 2 - 1) * a.pal_aug * 0.5
+            for j in range(B):
+                rgb[j] = (rgb[j] @ hue_rotation(float(th[j])).T) * br[j]
+            rgb = rgb.clamp(0, 255)
+            valid = pal != a.codes + 1
+            codes = ((rgb.to(dev)[:, :, None] - cbt[None, None]) ** 2).sum(-1).argmin(-1).cpu()
+            pal = torch.where(valid, codes, pal)
+            mean = (D["hist"][idx][:, :, None] * rgb).sum(1) / 255.0
+            c = torch.cat([mean, torch.ones(B, 1)], 1)
         if train_mode:
             dt = torch.rand(len(idx)) < a.p_text_drop
             dc = torch.rand(len(idx)) < a.p_color_drop
@@ -191,7 +234,7 @@ def main():
             c[dc] = model.null_color.detach().cpu()
         else:                                             # 评估：丢颜色条件（与基线同等）
             c[:] = model.null_color.detach().cpu()
-        return [x.to(dev) for x in (D["pal"][idx], g, D["k"][idx], t, c)]
+        return [x.to(dev) for x in (pal, g, D["k"][idx], t, c)]
 
     val_parts = [0.0, 0.0]
 
@@ -222,7 +265,7 @@ def main():
         D, nD, bs = (T32, len(train32), a.batch32) if use32 else (T, n, a.batch)
         idx = torch.randint(0, nD, (bs,))
         with torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
-            loss, parts = training_loss(model, *batch_of(D, idx, True))
+            loss, parts = training_loss(model, *batch_of(D, idx, True), pal_smooth=a.pal_smooth)
         opt.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
