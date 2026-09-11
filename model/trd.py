@@ -113,7 +113,7 @@ class TRD(nn.Module):
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
                  bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
-                 n_domains: int = 0):
+                 n_domains: int = 0, critic: bool = False):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -161,7 +161,9 @@ class TRD(nn.Module):
         nn.init.zeros_(self.ada_f[1].weight)
         nn.init.zeros_(self.ada_f[1].bias)
         self.head_pal = nn.Linear(d, n_codes)
-        self.head_grid = nn.Linear(d, K_MAX)
+        # critic=True：Token-Critic（Lezama et al., ECCV 2022）——同一主干，每格输出一个"是被采样替换的"logit
+        self.critic = critic
+        self.head_grid = nn.Linear(d, 1 if critic else K_MAX)
 
     def encode_ex(self, ex):
         """ex [B,E,16,16] 色阶（-1 = 该范例丢弃）→ [B, E*16, d]。"""
@@ -206,6 +208,8 @@ class TRD(nn.Module):
             x = blk(x, c, bias)
         sh, sc = self.ada_f(c).chunk(2, -1)
         x = modulate(self.nf(x), sh, sc)
+        if self.critic:
+            return None, self.head_grid(x[:, K_MAX:L0]).view(B, N, N)
         return self.head_pal(x[:, :K_MAX]), self.head_grid(x[:, K_MAX:L0]).view(B, N, N, K_MAX)
 
 
@@ -325,4 +329,44 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
         sg = torch.multinomial(F.softmax(lg / refine_temp, -1).view(-1, K_MAX), 1).view(B, n, n)
         grid = torch.where(m, sg, grid)
+    return pal, grid
+
+
+@torch.no_grad()
+def sample_critic(model, critic, text, k, pal_init, n=16, color=None, steps=24, temp=1.0, cfg=1.5,
+                  noise=1.0, ex=None, null_text=None):
+    """Token-Critic 采样（Lezama et al., ECCV 2022），调色板已知（检索增强）时用。
+
+    普通 MaskGIT 的格子一旦定下就不再改；这里每一步：生成器把所有被掩的格子采满 → 判别网络（critic）给**全部**格子打
+    "像被采样替换的"分数 → 按日程把最不像真人画的那些重新掩上（包括之前已定下的），下一步再采。最后一步不再掩。
+    noise：给 critic 分数加的 Gumbel 噪声强度（随进度衰减），与 MaskGIT 的 choice_temp 同一作用。
+    """
+    B = text.shape[0]
+    dev = text.device
+    pal = torch.full((B, K_MAX), model.PAL_PAD, dtype=torch.long, device=dev)
+    pal = torch.where(torch.arange(K_MAX, device=dev)[None] < k[:, None], pal_init.to(dev), pal)
+    grid = torch.full((B, n, n), model.GRID_MASK, dtype=torch.long, device=dev)
+    color = color if color is not None else model.null_color[None].expand(B, -1)
+    nt = model.null_text[None].expand(B, -1) if null_text is None else null_text
+    rank_ok = torch.arange(K_MAX, device=dev)[None] < k[:, None]
+    N2 = n * n
+    for s in range(steps):
+        _, lg = model(pal, grid, k, text, color, None, None, ex)
+        if cfg != 1.0:
+            _, ug = model(pal, grid, k, nt, color, None)
+            lg = ug + cfg * (lg - ug)
+        lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
+        sg = torch.multinomial(F.softmax(lg / temp, -1).view(-1, K_MAX), 1).view(B, n, n)
+        full = torch.where(grid == model.GRID_MASK, sg, grid)
+        if s == steps - 1:
+            return pal, full
+        _, fake = critic(pal, full, k, text, color, None, None, ex)          # [B,n,n] 越大越像被替换的
+        g = -torch.log(-torch.log(torch.rand_like(fake).clamp(1e-9, 1)))
+        score = -fake.float() + noise * (1 - (s + 1) / steps) * g
+        n_mask = int(round(N2 * float(mask_ratio(torch.tensor((s + 1) / steps)))))
+        if n_mask == 0:
+            grid = full
+            continue
+        thr = score.view(B, -1).kthvalue(n_mask, dim=1).values                 # 分数最低的 n_mask 个重新掩上
+        grid = torch.where(score <= thr[:, None, None], torch.full_like(full, model.GRID_MASK), full)
     return pal, grid

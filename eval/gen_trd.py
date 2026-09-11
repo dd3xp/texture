@@ -77,6 +77,9 @@ def main():
                     help="free = 色数跟检索到的真人调色板走；sample = 旧做法（先从全局分布抽 k 再限定 k 色）")
     ap.add_argument("--no_ex", action="store_true", help="v7 模型不给结构范例（消融）")
     ap.add_argument("--ex_cfg", type=float, default=None, help="结构范例单独的引导强度（trd.sample）")
+    ap.add_argument("--critic", type=Path, default=None,
+                    help="Token-Critic 检查点（model/train_critic.py）；给了就用 trd.sample_critic（需检索调色板）")
+    ap.add_argument("--critic_noise", type=float, default=1.0)
     ap.add_argument("--align", type=float, default=None,
                     help="对齐分数条件的分位数（模型用 --align_clip 训练时才有效），如 0.9")
     ap.add_argument("--colour_task", action="store_true",
@@ -126,6 +129,10 @@ def main():
 
     def EX(rows):
         return None if EXC is None else BANK.draw(EXC[rows], model.n_ex, False)
+    CRITIC = None
+    if a.critic is not None:
+        from train_critic import load_critic
+        CRITIC = load_critic(a.critic, dev)
     mem = None
     if a.pal_mode != "model":
         from palette_memory import PaletteMemory
@@ -148,6 +155,14 @@ def main():
             if mem is not None:
                 kb, pinit, pals = retrieve_batch(mem, temb[ti[sl]], kb, rng, cb,
                                                  colours=[t["rgb"] for t in T[sl]], topk=a.ret_topk)
+            if CRITIC is not None and pinit is not None:
+                from trd import sample_critic
+                pal, grid = sample_critic(model, CRITIC, temb[ti[sl]], kb, pinit, n=a.size, color=col[sl],
+                                          steps=a.steps, temp=a.temp, cfg=a.cfg, noise=a.critic_noise, ex=EX(ti[sl]))
+                imgs = render(pals, grid)
+                for j, t in enumerate(T[sl]):
+                    Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
+                continue
             pal, grid = sample(model, temb[ti[sl]], kb, n=a.size, color=col[sl], steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
                                refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
@@ -174,12 +189,17 @@ def main():
                                     ex=EX(torch.arange(len(prompts))[sl].to(dev)))
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
                 kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk)
-            pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
-                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
-                               choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
-                               refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
-                               pal_init=pinit, align=AL(len(kb)), ex=EX(torch.arange(len(prompts))[sl].to(dev)),
-                               ex_cfg=a.ex_cfg)
+            if CRITIC is not None and pinit is not None:
+                from trd import sample_critic
+                pal, grid = sample_critic(model, CRITIC, temb[sl], kb, pinit, n=a.size, steps=a.steps, temp=a.temp,
+                                          cfg=a.cfg, noise=a.critic_noise, ex=EX(torch.arange(len(prompts))[sl].to(dev)))
+            else:
+                pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
+                                   cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
+                                   choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
+                                   refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
+                                   pal_init=pinit, align=AL(len(kb)), ex=EX(torch.arange(len(prompts))[sl].to(dev)),
+                                   ex_cfg=a.ex_cfg)
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]
