@@ -19,6 +19,29 @@ from train_trd import decode, clip_text, TEXT_TMPL, model_from_args   # noqa: E4
 from tiles_data import load                      # noqa: E402
 
 
+def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5):
+    """检索增强调色板（model/palette_memory.py）：每行取一张真人调色板，返回 (ks, pal_init 码, 精确调色板)。"""
+    from train_trd import encode_palette
+    from trd import K_MAX
+    pals, codes, knew = [], [], []
+    for i in range(len(ks)):
+        c = None if colours is None else colours[i]
+        p, idx = mem.query(text_rows[i], int(ks[i]), rng, colour=c, topk=topk)
+        if c is not None:
+            p = mem.shifted(idx, c)
+        pals.append(p)
+        knew.append(len(p))
+        row = np.full(K_MAX, len(cb) + 1, np.int64)           # PAD
+        row[:len(p)] = encode_palette(p, cb)
+        codes.append(row)
+    return (torch.tensor(knew, device=ks.device), torch.tensor(np.stack(codes), device=ks.device), pals)
+
+
+def render(pals, grid):
+    g = grid.cpu().numpy()
+    return [np.asarray(p, np.uint8)[np.clip(g[j], 0, len(p) - 1)] for j, p in enumerate(pals)]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", type=Path, required=True)
@@ -40,6 +63,10 @@ def main():
     ap.add_argument("--refs", type=Path, default=ROOT / "experiments/refs",
                     help="v3 模型的参考图嵌入目录（render_refs.py 输出）；推理用第 0 张渲染")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--pal_mode", choices=["model", "retrieve", "retrieve_model"], default="model",
+                    help="retrieve = 检索增强调色板（按文本检索真人调色板，TRD 只生成结构）；"
+                         "retrieve_model = TRD 先出一张定颜色，再按 文本+该颜色 检索真人调色板、平移到该颜色、重生成结构")
+    ap.add_argument("--ret_topk", type=int, default=5)
     ap.add_argument("--colour_task", action="store_true",
                     help="按 eval/colour_task.py 的目标（每张真人参照瓦片的材质名 + 平均色）出图，颜色条件打开")
     a = ap.parse_args()
@@ -67,6 +94,10 @@ def main():
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
+    mem = None
+    if a.pal_mode != "model":
+        from palette_memory import PaletteMemory
+        mem = PaletteMemory(dev)
 
     tag = a.tag or f"TRD_{a.run.name}_cfg{a.cfg}_t{a.temp}_p{a.pal_top_p}_{a.set}"
     if a.colour_task:                               # 任务本身：区域颜色 + 材质名（eval/colour_task.py）
@@ -81,10 +112,15 @@ def main():
         col = torch.tensor([[*(np.array(t["rgb"]) / 255.0), 1.0] for t in T], dtype=torch.float32, device=dev)
         for i in range(0, len(T), a.bs):
             sl = slice(i, i + a.bs)
-            pal, grid = sample(model, temb[ti[sl]], ks[sl], n=a.size, color=col[sl], steps=a.steps,
-                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
-                               ref=None if rembs is None else rembs[ti[sl]])
-            imgs = decode(pal, grid, cb)
+            kb, pinit, pals = ks[sl], None, None
+            if mem is not None:
+                kb, pinit, pals = retrieve_batch(mem, temb[ti[sl]], kb, rng, cb,
+                                                 colours=[t["rgb"] for t in T[sl]], topk=a.ret_topk)
+            pal, grid = sample(model, temb[ti[sl]], kb, n=a.size, color=col[sl], steps=a.steps,
+                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
+                               refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
+                               ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit)
+            imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, t in enumerate(T[sl]):
                 Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
         print("->", out, len(T))
@@ -96,11 +132,20 @@ def main():
         ks = torch.tensor(rng.choice(17, len(prompts), p=kdist), device=dev)
         for i in range(0, len(prompts), a.bs):
             sl = slice(i, i + a.bs)
-            pal, grid = sample(model, temb[sl], ks[sl], n=a.size, steps=a.steps,
+            kb, pinit, pals = ks[sl], None, None
+            if mem is not None:
+                cols = None
+                if a.pal_mode == "retrieve_model":      # 第一遍：TRD 自己定颜色（颜色语义来自模型）
+                    p0, g0 = sample(model, temb[sl], kb, n=a.size, steps=a.steps, cfg=a.cfg, temp=a.temp,
+                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp)
+                    cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
+                kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk)
+            pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
-                               choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
-                               ref=None if rembs is None else rembs[sl])
-            imgs = decode(pal, grid, cb)
+                               choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
+                               refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
+                               pal_init=pinit)
+            imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]
                 Image.fromarray(imgs[j]).save(out / f"{slug}_{kk}.png")

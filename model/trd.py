@@ -210,8 +210,10 @@ def top_p_filter(logits, p):
 
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
            choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None,
-           refine=0, refine_frac=0.25, refine_temp=0.7):
+           refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
+
+    pal_init：[B,16] 调色板码（前 k 个有效）；给了就当已知条件，不再采样调色板。
 
     refine：解码完后再做几轮"块 Gibbs"精修——每轮随机掩掉 refine_frac 的格子、调色板不动，
     在 refine_temp 下按上下文重采。MaskGIT 一旦定下的格子就不再改，早期定错的孤立噪点
@@ -225,6 +227,8 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     dev = text.device
     pal = torch.full((B, K_MAX), model.PAL_MASK, dtype=torch.long, device=dev)
     pal[torch.arange(K_MAX, device=dev)[None] >= k[:, None]] = model.PAL_PAD
+    if pal_init is not None:            # 调色板已知（检索增强，model/palette_memory.py）：只生成网格
+        pal = torch.where(pal == model.PAL_MASK, pal_init.to(dev), pal)
     grid = torch.full((B, n, n), model.GRID_MASK, dtype=torch.long, device=dev)
     color = color if color is not None else model.null_color[None].expand(B, -1)
     nt = model.null_text[None].expand(B, -1) if null_text is None else null_text
