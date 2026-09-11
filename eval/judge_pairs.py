@@ -89,8 +89,10 @@ def main():
     if not base or not key:
         raise SystemExit("需要环境变量 VLM_BASE_URL 与 VLM_API_KEY")
 
+    sys.path.insert(0, str(ROOT / "eval"))
+    from prompts import load_set                  # E_* 测试集 / V_* 验证集
     items = (json.loads(a.subset.read_text(encoding="utf-8"))["items"] if a.subset
-             else json.loads((ROOT / "eval/prompt_sets.json").read_text(encoding="utf-8"))[a.set])
+             else load_set(a.set)[0])
     da, db = a.root / a.a / str(a.size), a.root / a.b / str(a.size)
     pairs = []
     for e in items:
@@ -98,7 +100,8 @@ def main():
         ta, tb = first_tile(da, slug), first_tile(db, slug)
         if ta is not None and tb is not None:
             pairs.append((e["prompt"], ta, tb))
-    tag = f"{a.a}_vs_{a.b}_{a.size}" + (f"_{a.subset.stem}" if a.subset else "")
+    tag = (f"{a.a}_vs_{a.b}_{a.size}" + (f"_{a.subset.stem}" if a.subset else "")
+           + ("" if a.set == "E_mat" else f"_{a.set}"))
     print(f"{a.a} vs {a.b}：可比对 {len(pairs)}")
 
     if a.cmd == "pilot":
@@ -121,7 +124,7 @@ def main():
         null = [r for r in recs if r["kind"] == "null" and r["answered"]]
         rr = np.mean([r["resolved"] for r in real]) if real else float("nan")
         nr = np.mean([r["resolved"] for r in null]) if null else float("nan")
-        ok = bool(real) and rr >= a.min_rate and (not null or rr > nr)
+        ok = bool(bool(real) and rr >= a.min_rate and (not null or rr > nr))   # np.bool_ 进不了 JSON
         out = {"tag": tag, "real_resolved": float(rr), "null_resolved": float(nr),
                "n_real": len(real), "n_null": len(null), "min_rate": a.min_rate, "pass": ok,
                "records": recs}
