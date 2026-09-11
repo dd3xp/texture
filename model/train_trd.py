@@ -86,6 +86,7 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
     k = np.zeros(B, np.int64)
     col = np.zeros((B, 4), np.float32)
     tix = np.zeros(B, np.int64)
+    dom = np.zeros(B, np.int64)
     rgb = np.zeros((B, K_MAX, 3), np.float32)
     hist = np.zeros((B, K_MAX), np.float32)
     for i, s in enumerate(samples):
@@ -98,9 +99,10 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
         rgb[i, :kk] = s["palette"]
         hist[i, :kk] = np.bincount(s["idx"].reshape(-1), minlength=kk)[:kk] / s["idx"].size
         tix[i] = text_index[s["material"]]
+        dom[i] = int(str(s.get("pack", "")).endswith("@mod"))
     return {"pal": torch.from_numpy(pal), "grid": torch.from_numpy(grid), "k": torch.from_numpy(k),
             "color": torch.from_numpy(col), "text": text_emb[torch.from_numpy(tix)],
-            "rgb": torch.from_numpy(rgb), "hist": torch.from_numpy(hist)}
+            "rgb": torch.from_numpy(rgb), "hist": torch.from_numpy(hist), "dom": torch.from_numpy(dom)}
 
 
 def augment(grid):
@@ -136,7 +138,7 @@ def model_from_args(a, drop=None):
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
                bias_hidden=int(g("bias_hidden", 64)),
                ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
-               n_exemplars=int(g("n_ex", 0) or 0))
+               n_exemplars=int(g("n_ex", 0) or 0), n_domains=2 if g("domain", False) else 0)
 
 
 @torch.no_grad()
@@ -206,6 +208,8 @@ def main():
     ap.add_argument("--n_ex", type=int, default=0,
                     help="v7 结构范例数（model/exemplars.py：同材质、其他画师的 16px 真人瓦片）")
     ap.add_argument("--p_ex_drop", type=float, default=0.3)
+    ap.add_argument("--domain", action="store_true",
+                    help="来源条件（材质包 0 / 模组 1）；推理默认 0（材质包画风）")
     ap.add_argument("--save_at", type=int, nargs="*", default=[],
                     help="在这些步额外存 step_<N>.pt（选检查点看采样指标，不看验证损失）")
     ap.add_argument("--smoke", action="store_true")
@@ -333,13 +337,14 @@ def main():
             else:                                         # 验证损失不给对齐分数，与其他 run 可比
                 al = torch.zeros_like(al)
         ex = BANK.draw(D["ex_cand"][idx], a.n_ex, train_mode, a.p_ex_drop) if "ex_cand" in D else None
+        dm = D["dom"][idx] if a.domain else None
         if REF is None:
-            return [pal, g, D["k"][idx], t, c, None, al, ex]
+            return [pal, g, D["k"][idx], t, c, None, al, ex, dm]
         pick = torch.randint(0, REF.shape[1], (B,), device=dev) if train_mode             else torch.zeros(B, dtype=torch.long, device=dev)
         r = REF[D["ref_ix"][idx], pick]
         if train_mode:
             r = r * (torch.rand(B, device=dev) >= a.p_ref_drop)[:, None]
-        return [pal, g, D["k"][idx], t, c, r, al, ex]
+        return [pal, g, D["k"][idx], t, c, r, al, ex, dm]
 
     val_parts = [0.0, 0.0]
 

@@ -112,7 +112,8 @@ class TRD(nn.Module):
 
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
-                 bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0):
+                 bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
+                 n_domains: int = 0):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -139,6 +140,9 @@ class TRD(nn.Module):
         # v7 结构范例（检索增强，model/exemplars.py）：E 张同材质、**其他画师**的 16px 真人瓦片，
         # 归一化色阶 0..15；每张切成 4×4 块，每块 16 格 × 16 级 one-hot → d，作为附加 token 拼进序列
         # （只被看、不被预测）。解决的是"只凭材质名学不到该材质的结构"（判官 35% 输给 B2 的原因）。
+        # 数据来源（0 = 材质包，1 = 模组）：模组贴图里有大量机器面板/装饰块，混训会把结构先验拉偏
+        # （v5 第 14000 步样本里满是带边框的面板）。带着来源训练、推理时设 0 = 对齐材质包画风。
+        self.dom_emb = nn.Embedding(n_domains, d) if n_domains else None
         self.n_ex = n_exemplars
         if n_exemplars:
             self.ex_proj = nn.Linear(16 * 16, d)
@@ -167,7 +171,7 @@ class TRD(nn.Module):
         tok = self.ex_proj(oh.to(self.ex_proj.weight.dtype)) + self.ex_pos[None, None] + self.ex_slot[None, :, None]
         return tok.reshape(B, E * 16, -1)
 
-    def forward(self, pal, grid, k, text, color, ref=None, align=None, ex=None):
+    def forward(self, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None):
         B, N, _ = grid.shape
         xp = self.pal_emb(pal) + self.slot_emb[None]
         xg = self.grid_emb(grid.view(B, -1))
@@ -188,6 +192,8 @@ class TRD(nn.Module):
             if ref is None:
                 ref = torch.zeros(B, self.ref_dim, device=text.device, dtype=text.dtype)
             c = c + self.ref_proj(ref)
+        if self.dom_emb is not None:
+            c = c + self.dom_emb(dom if dom is not None else torch.zeros_like(k))
         if self.align_proj is not None:
             if align is None:
                 align = torch.zeros(B, 2, device=text.device, dtype=text.dtype)
@@ -209,7 +215,8 @@ def mask_ratio(u):
     return torch.cos(0.5 * math.pi * u)
 
 
-def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=None, pal_smooth: float = 0.0):
+def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None,
+                  pal_smooth: float = 0.0):
     B, N, _ = grid.shape
     r = mask_ratio(torch.rand(B, device=grid.device))
     valid_pal = pal != model.PAL_PAD
@@ -219,7 +226,7 @@ def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=Non
     mg[:, 0, 0] |= ~(mp.any(1) | mg.flatten(1).any(1))
     pal_in = torch.where(mp, torch.full_like(pal, model.PAL_MASK), pal)
     grid_in = torch.where(mg, torch.full_like(grid, model.GRID_MASK), grid)
-    lp, lg = model(pal_in, grid_in, k, text, color, ref, align, ex)
+    lp, lg = model(pal_in, grid_in, k, text, color, ref, align, ex, dom)
     # 秩必须 < k：屏蔽越界类别
     rank_ok = torch.arange(K_MAX, device=grid.device)[None] < k[:, None]
     lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
