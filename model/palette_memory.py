@@ -84,7 +84,8 @@ class PaletteMemory:
         """跨模态检索：给记忆库每张真人瓦片算 CLIP-B/16 图像嵌入（query 时按"瓦片 ↔ 材质名"的图文相似度重排）。"""
         self.img16 = clip16_images(self.tiles, dev)
 
-    def query(self, text_emb, k, rng, colour=None, topk=5, n_text=50, text16=None, n_name=30):
+    def query(self, text_emb, k, rng, colour=None, topk=5, n_text=50, text16=None, n_name=30,
+              xpal_temp=None):
         """返回 (调色板 uint8 [k,3], 条目下标)。k=None：不限色数，色数跟检索到的调色板走（推荐）；
         给 k 时只在恰好 k 色的条目里找（k 不存在时退到最近的 k）。
 
@@ -103,8 +104,14 @@ class PaletteMemory:
             # （同名材质里挑画得最典型的那几张的配色；KNN-Diffusion 的检索方式）
             near = pool[np.argsort(-sims)[:n_name]]
             xs = (self.img16[torch.as_tensor(near, device=self.img16.device)] @ text16.float()).cpu().numpy()
-            cand = near[np.argsort(-xs)[:topk]]
-            i = int(cand[rng.integers(len(cand))])
+            if xpal_temp:
+                # 软典型度：在 n_name 个候选上按 softmax(图文相似度 / 温度) 抽一个，而不是硬取前 topk。
+                # 温度 →0 等于取最典型的一张；温度很大等于名字检索（不看典型度）。
+                w = np.exp((xs - xs.max()) / xpal_temp)
+                i = int(near[rng.choice(len(near), p=w / w.sum())])
+            else:
+                cand = near[np.argsort(-xs)[:topk]]
+                i = int(cand[rng.integers(len(cand))])
             return self.pal[i], i
         cand = pool[np.argsort(-sims)[:n_text if colour is not None else topk]]
         if colour is not None:

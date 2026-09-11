@@ -23,7 +23,7 @@ N_NAME = 30
 FREE_K = True      # 检索调色板时不限色数（见 palette_memory.PaletteMemory.query）；--ret_k sample 改回旧做法
 
 
-def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5, t16_rows=None):
+def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5, t16_rows=None, xpal_temp=None):
     """检索增强调色板（model/palette_memory.py）：每行取一张真人调色板，返回 (ks, pal_init 码, 精确调色板)。"""
     from train_trd import encode_palette
     from trd import K_MAX
@@ -31,7 +31,8 @@ def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5, t16_rows=N
     for i in range(len(ks)):
         c = None if colours is None else colours[i]
         p, idx = mem.query(text_rows[i], None if FREE_K else int(ks[i]), rng, colour=c, topk=topk,
-                           text16=None if t16_rows is None else t16_rows[i], n_name=N_NAME)
+                           text16=None if t16_rows is None else t16_rows[i], n_name=N_NAME,
+                           xpal_temp=xpal_temp)
         if c is not None:
             p = mem.shifted(idx, c)
         pals.append(p)
@@ -106,6 +107,9 @@ def main():
     ap.add_argument("--dom_w", type=float, default=0.0, help="来源引导强度（v9：往 SDXL 字面描绘那边推）")
     ap.add_argument("--ret_nname", type=int, default=30, help="--xmodal：先按名字取这么多条，再按图文相似度挑")
     ap.add_argument("--ex_keep", type=int, default=8, help="--xmodal 时结构范例只在最典型的这么多张里抽")
+    ap.add_argument("--xpal_temp", type=float, default=None,
+                    help="--xmodal 调色板改用软典型度：在 ret_nname 个候选上按 softmax(图文相似度/温度) 抽，"
+                         "而不是硬取前 ret_topk。不给 = 原来的硬取")
     ap.add_argument("--ex_from_dir", type=Path, default=None,
                     help="结构范例的第 0 个槽换成这个目录里该材质第 0 张瓦片（如 B1 的 16px：SDXL 的布局当一个范例）")
     ap.add_argument("--xquery_img", type=Path, default=None,
@@ -224,7 +228,8 @@ def main():
             if mem is not None:
                 kb, pinit, pals = retrieve_batch(mem, temb[ti[sl]], kb, rng, cb,
                                                  colours=[t["rgb"] for t in T[sl]], topk=a.ret_topk,
-                                                 t16_rows=T16[ti[sl]] if XPAL else None)
+                                                 t16_rows=T16[ti[sl]] if XPAL else None,
+                                                 xpal_temp=a.xpal_temp)
             if CRITIC is not None and pinit is not None:
                 from trd import sample_critic
                 pal, grid = sample_critic(model, CRITIC, temb[ti[sl]], kb, pinit, n=a.size, color=col[sl],
@@ -259,7 +264,7 @@ def main():
                                     ex=EX(torch.arange(len(prompts))[sl].to(dev)))
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
                 kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk,
-                                                 t16_rows=T16[sl] if XPAL else None)
+                                                 t16_rows=T16[sl] if XPAL else None, xpal_temp=a.xpal_temp)
             gi = None
             if a.cascade is not None and a.size != 16:          # 由粗到细：16px 结构 → 放大 → 部分保留
                 exs = EX(torch.arange(len(prompts))[sl].to(dev))
