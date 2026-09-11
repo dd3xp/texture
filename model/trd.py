@@ -250,11 +250,14 @@ def top_p_filter(logits, p):
 
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
            choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None,
-           refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None, align=None, grid_init=None, ex=None):
+           refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None, align=None, grid_init=None, ex=None,
+           ex_cfg=None):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
 
     pal_init：[B,16] 调色板码（前 k 个有效）；给了就当已知条件，不再采样调色板。
     grid_init：[B,n,n] 秩网格，GRID_MASK 处生成、其余保留（MaskGIT 天然支持部分已知）。
+    ex_cfg：结构范例单独的引导强度（同 InstructPix2Pix 的双重引导）：
+      l = u + cfg·(l_无范例 − u) + ex_cfg·(l_全 − l_无范例)；ex_cfg = cfg 时退回普通 CFG（默认）。
 
     refine：解码完后再做几轮"块 Gibbs"精修——每轮随机掩掉 refine_frac 的格子、调色板不动，
     在 refine_temp 下按上下文重采。MaskGIT 一旦定下的格子就不再改，早期定错的孤立噪点
@@ -279,7 +282,12 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     rank_ok = torch.arange(K_MAX, device=dev)[None] < k[:, None]
     for s in range(steps):
         lp, lg = model(pal, grid, k, text, color, ref, align, ex)
-        if cfg != 1.0:
+        if ex is not None and ex_cfg is not None and ex_cfg != cfg:
+            up, ug = model(pal, grid, k, nt, color, None)
+            tp, tg = model(pal, grid, k, text, color, ref, align, None)       # 有文本、无范例
+            lp = up + cfg * (tp - up) + ex_cfg * (lp - tp)
+            lg = ug + cfg * (tg - ug) + ex_cfg * (lg - tg)
+        elif cfg != 1.0:
             up, ug = model(pal, grid, k, nt, color, None)   # 无条件：文本、参考图、对齐分数、范例都丢
             lp, lg = up + cfg * (lp - up), ug + cfg * (lg - ug)
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))

@@ -71,6 +71,7 @@ def main():
                          "retrieve_model = TRD 先出一张定颜色，再按 文本+该颜色 检索真人调色板、平移到该颜色、重生成结构")
     ap.add_argument("--ret_topk", type=int, default=5)
     ap.add_argument("--no_ex", action="store_true", help="v7 模型不给结构范例（消融）")
+    ap.add_argument("--ex_cfg", type=float, default=None, help="结构范例单独的引导强度（trd.sample）")
     ap.add_argument("--align", type=float, default=None,
                     help="对齐分数条件的分位数（模型用 --align_clip 训练时才有效），如 0.9")
     ap.add_argument("--colour_task", action="store_true",
@@ -144,7 +145,7 @@ def main():
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
                                refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
                                ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit, align=AL(len(kb)),
-                               ex=EX(ti[sl]))
+                               ex=EX(ti[sl]), ex_cfg=a.ex_cfg)
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, t in enumerate(T[sl]):
                 Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
@@ -170,7 +171,8 @@ def main():
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
                                choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
                                refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
-                               pal_init=pinit, align=AL(len(kb)), ex=EX(torch.arange(len(prompts))[sl].to(dev)))
+                               pal_init=pinit, align=AL(len(kb)), ex=EX(torch.arange(len(prompts))[sl].to(dev)),
+                               ex_cfg=a.ex_cfg)
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]
