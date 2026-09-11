@@ -135,7 +135,8 @@ def model_from_args(a, drop=None):
                heads=int(g("heads", 6)), drop=float(g("drop", 0.1) if drop is None else drop),
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
                bias_hidden=int(g("bias_hidden", 64)),
-               ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")))
+               ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
+               n_exemplars=int(g("n_ex", 0) or 0))
 
 
 @torch.no_grad()
@@ -202,6 +203,9 @@ def main():
     ap.add_argument("--align_clip", default="",
                     help="对齐分数条件：用这个 CLIP（本地目录，如 weights/clip-vit-base-patch16）给训练瓦片打图文对齐分")
     ap.add_argument("--p_align_drop", type=float, default=0.5)
+    ap.add_argument("--n_ex", type=int, default=0,
+                    help="v7 结构范例数（model/exemplars.py：同材质、其他画师的 16px 真人瓦片）")
+    ap.add_argument("--p_ex_drop", type=float, default=0.3)
     ap.add_argument("--save_at", type=int, nargs="*", default=[],
                     help="在这些步额外存 step_<N>.pt（选检查点看采样指标，不看验证损失）")
     ap.add_argument("--smoke", action="store_true")
@@ -246,6 +250,16 @@ def main():
     V = to_tensors(val, cb, a.codes, tindex, temb)
     T32 = to_tensors(train32, cb, a.codes, tindex, temb) if train32 else None
     V32 = to_tensors(val32, cb, a.codes, tindex, temb) if val32 else None
+    BANK = None
+    if a.n_ex:                                        # v7 结构范例：候选表按样本预先算好，取样在 GPU 上
+        from exemplars import ExemplarBank
+        BANK = ExemplarBank(train, {m: temb[tindex[m]] for m in mats}, dev)
+        for Dd, smp in ((T, train), (V, val), (T32, train32), (V32, val32)):
+            if Dd is not None:
+                Dd["ex_cand"] = BANK.candidates(smp)
+        nc = (T["ex_cand"] >= 0).sum(1).float()
+        print(f"结构范例：库 {len(train)} 张；训练样本候选数 中位 {nc.median().item():.0f}，"
+              f"无候选 {(nc == 0).float().mean().item():.1%}", flush=True)
     if a.align_clip:                                  # 对齐分数 → 训练集分位数（val 用训练集的分布换算）
         parts_ = [(T, train), (V, val), (T32, train32), (V32, val32)]
         allsc = align_scores([x for _, smp in parts_ for x in smp], a.align_clip, dev)
@@ -318,13 +332,14 @@ def main():
                 al = al * (torch.rand(B, device=dev) >= a.p_align_drop)[:, None]
             else:                                         # 验证损失不给对齐分数，与其他 run 可比
                 al = torch.zeros_like(al)
+        ex = BANK.draw(D["ex_cand"][idx], a.n_ex, train_mode, a.p_ex_drop) if "ex_cand" in D else None
         if REF is None:
-            return [pal, g, D["k"][idx], t, c, None, al]
+            return [pal, g, D["k"][idx], t, c, None, al, ex]
         pick = torch.randint(0, REF.shape[1], (B,), device=dev) if train_mode             else torch.zeros(B, dtype=torch.long, device=dev)
         r = REF[D["ref_ix"][idx], pick]
         if train_mode:
             r = r * (torch.rand(B, device=dev) >= a.p_ref_drop)[:, None]
-        return [pal, g, D["k"][idx], t, c, r, al]
+        return [pal, g, D["k"][idx], t, c, r, al, ex]
 
     val_parts = [0.0, 0.0]
 

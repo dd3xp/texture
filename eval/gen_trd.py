@@ -67,6 +67,7 @@ def main():
                     help="retrieve = 检索增强调色板（按文本检索真人调色板，TRD 只生成结构）；"
                          "retrieve_model = TRD 先出一张定颜色，再按 文本+该颜色 检索真人调色板、平移到该颜色、重生成结构")
     ap.add_argument("--ret_topk", type=int, default=5)
+    ap.add_argument("--no_ex", action="store_true", help="v7 模型不给结构范例（消融）")
     ap.add_argument("--align", type=float, default=None,
                     help="对齐分数条件的分位数（模型用 --align_clip 训练时才有效），如 0.9")
     ap.add_argument("--colour_task", action="store_true",
@@ -101,6 +102,18 @@ def main():
         if a.align is None or model.align_proj is None:
             return None
         return torch.tensor([[a.align, 1.0]], device=dev).expand(n, 2)
+    EXC, BANK = None, None
+    if getattr(model, "ex_proj", None) is not None and not a.no_ex:     # v7：结构范例（其他画师的同材质瓦片）
+        from exemplars import ExemplarBank
+        from train_trd import text_prompt
+        pool = load(16, "train", extra=True)
+        pm = sorted({s["material"] for s in pool})
+        pe = clip_text([text_prompt(m) for m in pm], dev)
+        BANK = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev)
+        EXC = BANK.candidates([{"material": e["material"]} for e in prompts], emb=temb)
+
+    def EX(rows):
+        return None if EXC is None else BANK.draw(EXC[rows], model.n_ex, False)
     mem = None
     if a.pal_mode != "model":
         from palette_memory import PaletteMemory
@@ -126,7 +139,8 @@ def main():
             pal, grid = sample(model, temb[ti[sl]], kb, n=a.size, color=col[sl], steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
                                refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
-                               ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit, align=AL(len(kb)))
+                               ref=None if rembs is None else rembs[ti[sl]], pal_init=pinit, align=AL(len(kb)),
+                               ex=EX(ti[sl]))
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, t in enumerate(T[sl]):
                 Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
@@ -144,14 +158,15 @@ def main():
                 cols = None
                 if a.pal_mode == "retrieve_model":      # 第一遍：TRD 自己定颜色（颜色语义来自模型）
                     p0, g0 = sample(model, temb[sl], kb, n=a.size, steps=a.steps, cfg=a.cfg, temp=a.temp,
-                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, align=AL(len(kb)))
+                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, align=AL(len(kb)),
+                                    ex=EX(torch.arange(len(prompts))[sl].to(dev)))
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
                 kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk)
             pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
                                choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac,
                                refine_temp=a.refine_temp, ref=None if rembs is None else rembs[sl],
-                               pal_init=pinit, align=AL(len(kb)))
+                               pal_init=pinit, align=AL(len(kb)), ex=EX(torch.arange(len(prompts))[sl].to(dev)))
             imgs = decode(pal, grid, cb) if pals is None else render(pals, grid)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]
