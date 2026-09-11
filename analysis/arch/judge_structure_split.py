@@ -100,9 +100,16 @@ def fisher_2x2(a, b, c, d):
     return min(1.0, sum(prob(x) for x in range(lo, hi + 1) if prob(x) <= obs + 1e-12))
 
 
-def structure_score(idx, side=16):
-    """Excess periodic agreement of one luminance-rank grid (see module docstring)."""
-    grid = [[int(idx[y * side + x], 36) for x in range(side)] for y in range(side)]
+def structure_score(grid):
+    """Excess periodic agreement of one luminance-rank grid (see module docstring).
+
+    grid: side x side list/array of ints.  (Fixed 2026-09-11: this used to take the
+    dataset's hex string and read it one character per cell, but the string is two hex
+    characters per cell -- so it scored only the first half of each tile with a fake 0
+    inserted in every other column, i.e. an artificial period-2 pattern.  The selftest
+    fed the same wrong one-char-per-cell format, so it could not catch it.)"""
+    side = len(grid)
+    grid = [[int(v) for v in row] for row in grid]
     counts = collections.Counter(c for row in grid for c in row)
     n = float(side * side)
     chance = sum((v / n) ** 2 for v in counts.values())
@@ -121,6 +128,13 @@ def structure_score(idx, side=16):
     return best - chance
 
 
+def decode_idx(hexstr, side=16):
+    """dataset_k16.json stores idx as bytes.hex(): two hex characters per cell."""
+    vals = bytes.fromhex(hexstr)
+    assert len(vals) == side * side, len(vals)
+    return [[vals[y * side + x] for x in range(side)] for y in range(side)]
+
+
 def load_scores(prompt_sets):
     data = json.load(open(DATASET, encoding="utf-8"))
     by_material = collections.defaultdict(list)
@@ -132,7 +146,7 @@ def load_scores(prompt_sets):
         tiles = by_material.get(entry["material"], [])
         if not tiles:
             continue
-        scores[entry["prompt"]] = statistics.mean(structure_score(t) for t in tiles)
+        scores[entry["prompt"]] = statistics.mean(structure_score(decode_idx(t)) for t in tiles)
     return scores
 
 
@@ -146,19 +160,22 @@ def rate_line(name, wins, dec):
 
 def selftest():
     side = 16
-    flat = "0" * 256
+    flat = [[0] * side for _ in range(side)]
     assert abs(structure_score(flat)) < 1e-9, structure_score(flat)
 
     motif = [[(y // 2 + x // 4) % 3 for x in range(side)] for y in range(side)]
-    tiled = "".join(str(motif[y][x]) for y in range(side) for x in range(side))
-    s_tiled = structure_score(tiled)
+    s_tiled = structure_score(motif)
     assert s_tiled > 0.4, s_tiled
+    # the real storage format must round-trip (this is the check that was missing)
+    hexstr = bytes(v for row in motif for v in row).hex()
+    assert decode_idx(hexstr) == motif
+    assert abs(structure_score(decode_idx(hexstr)) - s_tiled) < 1e-12
 
     import random
     rng = random.Random(0)
-    cells = list(tiled)
+    cells = [v for row in motif for v in row]
     rng.shuffle(cells)
-    s_shuf = structure_score("".join(cells))
+    s_shuf = structure_score([cells[y * side:(y + 1) * side] for y in range(side)])
     assert s_shuf < 0.15, s_shuf
     assert s_tiled - s_shuf > 0.3, (s_tiled, s_shuf)
 
