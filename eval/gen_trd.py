@@ -41,6 +41,25 @@ def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5, t16_rows=N
     return (torch.tensor(knew, device=ks.device), torch.tensor(np.stack(codes), device=ks.device), pals)
 
 
+def xquery(prompts, img_dir, dev):
+    """跨模态检索的查询向量：材质名的 CLIP-B/16 文本嵌入；给了 img_dir 再加上该材质大模型渲染图的 B/16 图像嵌入。"""
+    import torch.nn.functional as F
+    from palette_memory import clip16, clip16_images, clip16_texts
+    m, tok = clip16(dev)
+    q = clip16_texts([e["prompt"] for e in prompts], dev, m, tok)
+    if img_dir is not None:
+        from PIL import Image
+        ims = []
+        for e in prompts:
+            slug = e["material"].rsplit(".", 1)[0]
+            f = next((img_dir / n for n in (f"{slug}_0.png", f"{slug}.png") if (img_dir / n).exists()), None)
+            ims.append(np.asarray(Image.open(f).convert("RGB")) if f else None)
+        have = [i for i, t in enumerate(ims) if t is not None]
+        emb = clip16_images([ims[i] for i in have], dev, m)
+        q[have] = F.normalize(q[have] + emb, dim=-1)
+    return q
+
+
 def render(pals, grid):
     g = grid.cpu().numpy()
     return [np.asarray(p, np.uint8)[np.clip(g[j], 0, len(p) - 1)] for j, p in enumerate(pals)]
@@ -81,6 +100,10 @@ def main():
     ap.add_argument("--critic", type=Path, default=None,
                     help="Token-Critic 检查点（model/train_critic.py）；给了就用 trd.sample_critic（需检索调色板）")
     ap.add_argument("--critic_noise", type=float, default=1.0)
+    ap.add_argument("--ex_keep", type=int, default=8, help="--xmodal 时结构范例只在最典型的这么多张里抽")
+    ap.add_argument("--xquery_img", type=Path, default=None,
+                    help="--xmodal 的查询再加上大模型渲染的图像嵌入：给一个方法目录（如 experiments/baselines_val/B1/32），"
+                         "取每材质第 0 张的 CLIP-B/16 图像嵌入与文本嵌入相加（SDXL 引导的检索；推理多一次渲染，与 B1/B2 同开销）")
     ap.add_argument("--xmodal", action="store_true",
                     help="跨模态检索：调色板与结构范例按'真人瓦片 ↔ 材质名'的 CLIP-B/16 图文相似度挑最典型的（评测用 B/32）")
     ap.add_argument("--align", type=float, default=None,
@@ -132,7 +155,7 @@ def main():
         if a.xmodal:
             from palette_memory import clip16_images, clip16_texts
             EXC = BANK.rank_xmodal(EXC, clip16_images([s["palette"][s["idx"]] for s in pool], dev),
-                                   clip16_texts([e["prompt"] for e in prompts], dev))
+                                   xquery(prompts, a.xquery_img, dev), keep=a.ex_keep)
 
     def EX(rows):
         return None if EXC is None else BANK.draw(EXC[rows], model.n_ex, False)
@@ -147,7 +170,7 @@ def main():
         if a.xmodal:
             from palette_memory import clip16_texts
             mem.enable_xmodal(dev)
-            T16 = clip16_texts([e["prompt"] for e in prompts], dev)
+            T16 = xquery(prompts, a.xquery_img, dev)
 
     tag = a.tag or f"TRD_{a.run.name}_cfg{a.cfg}_t{a.temp}_p{a.pal_top_p}_{a.set}"
     if a.colour_task:                               # 任务本身：区域颜色 + 材质名（eval/colour_task.py）
