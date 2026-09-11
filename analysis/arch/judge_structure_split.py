@@ -51,6 +51,32 @@ else (contrast, palette, single-tile polish).
 Selftest (--selftest): shuffling a tile's cells must drive S to ~0, a tiled 4x4
 motif must score high, a flat tile must score 0, and the per-arm totals
 recomputed from the records must reproduce the published 59/89, 42/90, 34/98.
+
+------------------------------------------------- 2026-09-11: arms are now CLI
+The split (S, median cut) is frozen; --arms points the same ruler at new judge
+runs and --compare A,B adds a paired arm-vs-arm test inside each half.
+
+Second pre-registration, written and committed before running it on v7.  The
+totals (v7@20k+exemplars 34/99, v4+choice_temp20 26/98) were already known;
+*where* that difference sits was not.  Question: do structure exemplars close
+the deficit that the first run located entirely on the HI half?
+
+  CT20  = v4 (clean pack data) + retrieval palette + choice_temp 20, 1 sample
+  V7EX  = v7@20k (mod data + domain cond + 4 structure exemplars), 1 sample
+
+  The two arms differ by more than the exemplars (training run and training
+  data differ too); v8 = clean data + exemplars is what isolates the factor.
+  Read the result as "does the v7 package help on structured materials".
+
+  (3) DECIDABILITY, read first: every (arm, half) cell must resolve >= 60% of
+      its pairs, otherwise that cell measures the judge, not the model.
+  (1) PRIMARY: on HI materials decided in *both* arms, V7EX beats CT20 and the
+      exact McNemar on the discordant HI pairs reaches p < 0.05.
+  (2) SECONDARY: the same on LO, plus each arm's artist-minus-arm gap per half.
+
+  A null on (1) together with a positive (2) would mean the v7 package helps on
+  the half where nothing was missing -- that closes the exemplar route instead
+  of extending it.
 """
 
 import argparse
@@ -204,6 +230,11 @@ def main():
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--prompt-sets", default=os.path.join(ROOT, "eval", "prompt_sets_val.json"))
     ap.add_argument("--out", default=os.path.join(ROOT, "experiments", "judge_structure_split.json"))
+    ap.add_argument("--arms", default=None,
+                    help="comma-separated NAME=judge_full_file.json; replaces the "
+                         "non-REAL arms (REAL is always kept, it defines the split)")
+    ap.add_argument("--compare", default=None,
+                    help="NAME_A,NAME_B: paired McNemar of A against B inside each half")
     args = ap.parse_args()
 
     if args.selftest:
@@ -213,8 +244,16 @@ def main():
     prompt_sets = json.load(open(args.prompt_sets, encoding="utf-8"))
     scores = load_scores(prompt_sets)
 
+    arm_files = [(n, f) for n, f, _ in ARMS]
+    if args.arms:
+        arm_files = [(n, f) for n, f, _ in ARMS if n == "REAL"]
+        for spec in args.arms.split(","):
+            name, _, fname = spec.partition("=")
+            assert fname, "expected NAME=file.json, got %r" % spec
+            arm_files.append((name, fname))
+
     arms = {}
-    for name, fname, _ in ARMS:
+    for name, fname in arm_files:
         path = os.path.join(ROOT, "experiments", fname)
         if not os.path.exists(path):
             print("missing judge file: %s" % path)
@@ -236,8 +275,10 @@ def main():
         for h in ("HI", "LO"):
             ms = [m for m in materials if half[m] == h]
             dec = sum(1 for m in ms if arms[name][m] in ("A", "B"))
-            print("  %-7s %s  %3d/%-3d = %4.1f%% resolvable"
-                  % (name, h, dec, len(ms), 100.0 * dec / len(ms)))
+            rate = dec / len(ms)
+            print("  %-7s %s  %3d/%-3d = %4.1f%% resolvable   %s"
+                  % (name, h, dec, len(ms), 100.0 * rate,
+                     "ok" if rate >= 0.60 else "BELOW 60% -- cell not interpretable"))
 
     print("\n(2) WIN RATE vs B2, per half")
     per_half = {}
@@ -251,7 +292,7 @@ def main():
 
     print("\n(1) PRIMARY -- artist-minus-TRD gap, paired materials")
     primary = {}
-    for name in ("RR4", "SINGLE"):
+    for name in [n for n, _ in arm_files if n != "REAL"]:
         gaps = {}
         for h in ("HI", "LO"):
             ms = [m for m in materials if half[m] == h
@@ -298,8 +339,36 @@ def main():
             "posthoc_mcnemar": mcnemar,
         }
 
+    compare = None
+    if args.compare:
+        na, nb = args.compare.split(",")
+        print("\nPAIRED %s vs %s, materials decided in both arms" % (na, nb))
+        compare = {}
+        for h in ("HI", "LO"):
+            ms = [m for m in materials if half[m] == h
+                  and arms[na][m] in ("A", "B") and arms[nb][m] in ("A", "B")]
+            wa = sum(1 for m in ms if arms[na][m] == "A")
+            wb = sum(1 for m in ms if arms[nb][m] == "A")
+            only_a = sum(1 for m in ms if arms[na][m] == "A" and arms[nb][m] == "B")
+            only_b = sum(1 for m in ms if arms[na][m] == "B" and arms[nb][m] == "A")
+            p = binom_p(only_a, only_a + only_b)
+            compare[h] = {"n": len(ms), "wins_a": wa, "wins_b": wb,
+                          "only_a": only_a, "only_b": only_b, "mcnemar_p": p}
+            print("  %s  n=%2d  %s %4.1f%%  %s %4.1f%%  diff %+5.1fpp   "
+                  "discordant %d:%d  McNemar p=%.4f"
+                  % (h, len(ms), na, 100.0 * wa / len(ms) if ms else 0.0,
+                     nb, 100.0 * wb / len(ms) if ms else 0.0,
+                     100.0 * (wa - wb) / len(ms) if ms else 0.0,
+                     only_a, only_b, p))
+        hi = compare["HI"]
+        ok = hi["wins_a"] > hi["wins_b"] and hi["mcnemar_p"] < 0.05
+        compare["primary_supported"] = ok
+        print("  (1) PRIMARY on HI -> %s" % ("SUPPORTED" if ok else "not supported"))
+
     out = {
         "cut": cut,
+        "arms_used": dict(arm_files),
+        "compare": compare,
         "n_materials": len(materials),
         "scores": {m: scores[m] for m in materials},
         "half": half,
