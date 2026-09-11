@@ -62,5 +62,28 @@ def build():
     print("被排除样例:", [e["prompt"] for e in eall if not is_material(e["material"])][:12])
 
 
+def build_val():
+    """验证集版本（V-all / V-mat），**只用于调参**（CFG、采样温度、选检查点）。
+    与 E 集同一套规则；单独存文件，E 集（`prompt_sets.json`，出结果前已定死）不动。"""
+    val = load(16, "val")
+    mats = sorted({s["material"] for s in val})
+    vall = [{"material": m, "prompt": " ".join(prompt_words(m)) or " ".join(clean_name(m))}
+            for m in mats]
+    vmat = [e for e in vall if is_material(e["material"])]
+    out = {"V_all": vall, "V_mat": vmat,
+           "ref_counts": {"V_all": len(val), "V_mat": sum(1 for s in val if is_material(s["material"]))},
+           "rule": "split=val; same rule as E sets; for tuning only"}
+    p = ROOT / "eval/prompt_sets_val.json"
+    p.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"V-all {len(vall)}；V-mat {len(vmat)}（参照 {out['ref_counts']['V_mat']} 张） -> {p.relative_to(ROOT)}")
+
+
+def load_set(name):
+    """E_* 从 prompt_sets.json、V_* 从 prompt_sets_val.json 读。返回 (提示词列表, 参照 split)。"""
+    f = "prompt_sets_val.json" if name.startswith("V_") else "prompt_sets.json"
+    return json.loads((ROOT / "eval" / f).read_text(encoding="utf-8"))[name],         ("val" if name.startswith("V_") else "test")
+
+
 if __name__ == "__main__":
-    build()
+    import sys as _s
+    build_val() if "--val" in _s.argv else build()

@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "eval"))
 sys.path.insert(0, str(ROOT / "model"))
 from metrics import evaluate, lpips_diversity           # noqa: E402
-from prompts import is_material, prompt_words           # noqa: E402
+from prompts import is_material, prompt_words, load_set  # noqa: E402
 from tiles_data import load                             # noqa: E402
 
 
@@ -71,11 +71,11 @@ def main():
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
 
-    prompts = json.loads((ROOT / "eval/prompt_sets.json").read_text(encoding="utf-8"))[a.set]
+    prompts, ref_split = load_set(a.set)            # E_* -> test 参照；V_* -> val 参照（仅调参用）
     slugs = [e["material"].rsplit(".", 1)[0] for e in prompts]
-    test = load(a.size, "test")
+    test = load(a.size, ref_split)
     ref = [s["palette"][s["idx"]] for s in test
-           if a.set == "E_all" or is_material(s["material"])]
+           if a.set.endswith("_all") or is_material(s["material"])]
     print(f"{a.set}: {len(prompts)} 个材质；参照 {len(ref)} 张真人 {a.size}px", flush=True)
 
     rows, cache = {}, None

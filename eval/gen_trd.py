@@ -31,6 +31,9 @@ def main():
     ap.add_argument("--temp", type=float, default=1.0)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--bs", type=int, default=32, help="采样批次（CFG 要两次前向，共享卡上别开太大）")
+    ap.add_argument("--pal_top_p", type=float, default=0.9)
+    ap.add_argument("--choice_temp", type=float, default=4.5)
+    ap.add_argument("--tag", default=None, help="输出目录名（默认由参数拼出）")
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
     dev = "cuda"
@@ -42,13 +45,14 @@ def main():
     model.load_state_dict(ck["model"])
     model.eval()
 
-    prompts = json.loads((ROOT / "eval/prompt_sets.json").read_text(encoding="utf-8"))[a.set]
+    from prompts import load_set
+    prompts, _ = load_set(a.set)
     temb = clip_text([TEXT_TMPL.format(p=e["prompt"]) for e in prompts], dev).to(dev)
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
 
-    tag = f"TRD_{a.run.name}_cfg{a.cfg}_t{a.temp}"
+    tag = a.tag or f"TRD_{a.run.name}_cfg{a.cfg}_t{a.temp}_p{a.pal_top_p}_{a.set}"
     out = (a.out or ROOT / "experiments/baselines") / tag / str(a.size)
     out.mkdir(parents=True, exist_ok=True)
     from PIL import Image
@@ -57,7 +61,8 @@ def main():
         for i in range(0, len(prompts), a.bs):
             sl = slice(i, i + a.bs)
             pal, grid = sample(model, temb[sl], ks[sl], n=a.size, steps=a.steps,
-                               cfg=a.cfg, temp=a.temp)
+                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
+                               choice_temp=a.choice_temp)
             imgs = decode(pal, grid, cb)
             for j, e in enumerate(prompts[sl]):
                 slug = e["material"].rsplit(".", 1)[0]
