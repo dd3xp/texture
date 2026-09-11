@@ -1,7 +1,8 @@
 """B3：SD-piXL（Binninger & Sorkine-Hornung, SIGGRAPH Asia 2024）在固定子集上出图。
 
-SD-piXL 是分数蒸馏优化，实测每张 16×16 约 3 小时 22 分（1 万步，1.2 s/步，19.5GB）。
-全量 272 个材质要 ~900 GPU 小时，做不到，所以只跑 `eval/sdpixl_subset.json` 里
+SD-piXL 是分数蒸馏优化，1 万步、19.5GB。独占卡上 1.2 s/步（约 3h22m/张），但在**共享卡**上
+实测是 **7.24 h / 7.77 h 一张**（2026-09-11，两张都跑完了）——排期按 7.5 h/张算。
+全量 272 个材质要 2000+ GPU 小时，做不到，所以只跑 `eval/sdpixl_subset.json` 里
 **固定种子（2026）预先选定**的 12 个材质。**用默认步数，不降**——降步数对它不公平。
 
 - 纯文本模式（`configs/texture_text.yaml`：无输入图，关 ControlNet；SD-piXL 先用 SDXL
@@ -40,6 +41,22 @@ def palette_from_b1(slug, size=16):
     return ["%02x%02x%02x" % tuple(int(v) for v in c) for c in cols]
 
 
+def lock_is_live(lock):
+    """锁里记着写锁进程的 pid；那个进程没了就是死锁（被 kill / 断电留下的）。
+
+    一张图要七八个小时，中途被 kill 是常态；旧版本只写不删，留下的 .lock 会让
+    这张图**此后每一轮都被静默跳过**（2026-09-11 实测 moreblocks_circle_stone_bricks
+    就这样卡住）。没有 /proc 的系统（本机 Windows）一律当成活着，宁可不做也不抢。
+    """
+    try:
+        pid = int(lock.read_text().split()[-1])
+    except (OSError, ValueError, IndexError):
+        return True                       # 认不出来的旧格式锁，保守当活的
+    if not Path("/proc").is_dir():
+        return True
+    return Path(f"/proc/{pid}").exists()
+
+
 def run_one(item, gpu, size, work):
     slug = item["material"].rsplit(".", 1)[0]
     dst = ROOT / f"experiments/baselines/B3/{size}/{slug}_0.png"
@@ -48,9 +65,9 @@ def run_one(item, gpu, size, work):
     d = work / slug
     d.mkdir(parents=True, exist_ok=True)
     lock = d / ".lock"                    # 多个进程（不同 GPU）并行跑同一子集时，别重复做同一张
-    if lock.exists():
+    if lock.exists() and lock_is_live(lock):
         return "locked (another worker)"
-    lock.write_text(str(gpu))
+    lock.write_text(f"{gpu} {os.getpid()}")
     pal = d / "palette.hex"
     pal.write_text("\n".join(palette_from_b1(slug, size)) + "\n")
     cfg = d / "config.yaml"
@@ -65,15 +82,19 @@ def run_one(item, gpu, size, work):
            "--prompt", TMPL.format(p=item["prompt"]), "--palette", str(pal),
            "--size", f"{size},{size}"]
     t0 = time.time()
-    with open(d / "run.log", "w") as log:
-        rc = subprocess.call(cmd, cwd=os.environ["SDPIXL_DIR"], env=env, stdout=log, stderr=log)
-    outs = sorted(d.glob("**/final_argmax.png"), key=lambda p: p.stat().st_mtime)
-    if rc != 0 or not outs:
-        return f"FAILED rc={rc} (see {d / 'run.log'})"
-    im = Image.open(outs[-1]).convert("RGB").resize((size, size), Image.NEAREST)
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    im.save(dst)
-    return f"ok {(time.time() - t0) / 3600:.2f} h"
+    try:
+        with open(d / "run.log", "w") as log:
+            rc = subprocess.call(cmd, cwd=os.environ["SDPIXL_DIR"], env=env, stdout=log, stderr=log)
+        outs = sorted(d.glob("**/final_argmax.png"), key=lambda p: p.stat().st_mtime)
+        if rc != 0 or not outs:
+            return f"FAILED rc={rc} (see {d / 'run.log'})"
+        im = Image.open(outs[-1]).convert("RGB").resize((size, size), Image.NEAREST)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        im.save(dst)
+        return f"ok {(time.time() - t0) / 3600:.2f} h"
+    finally:
+        if not dst.exists():              # 没出图就把锁还回去，否则这张图以后再也没人做
+            lock.unlink(missing_ok=True)
 
 
 def main():
