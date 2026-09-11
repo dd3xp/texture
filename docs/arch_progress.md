@@ -838,3 +838,13 @@ KID 18.9 / 8.2 / 69.2（v7 原样 10.4），CLIP 32.52 / 33.27 / 31.54（v7 33.6
 KID 22.2 / FID 79.3 / FD 112.9（仍全部优于 B2 的 24.8 / 86.2 / 197.8）。TRD 采 16 张的计算量远小于 B2 的 4 次 SDXL 1024 渲染。
 这是 CLIP ↔ 分布指标的一个取舍旋钮，**不是干净的全面领先**。
 SDXL 瓦片直接当范例（`--ex_from_dir`）：CLIP 34.71–34.74，无效。
+
+## 2026-09-11：v9 计划——把 SDXL 的"字面描绘"作为第三来源蒸馏进 TRD
+
+CLIP 卡在 34.7 的原因是"字面 vs 材质"（见上）；推理期的检索、引导、挑图都已试过。v9 在**训练里**引入新信息：
+- `eval/prompts.py --train` → `T_all`：训练包材质名去重 958 个（与评测集无关）；
+- `baselines/sdxl_baselines.py --set T_all --n 1 --sizes 16 32 --out experiments/sdxl_train`：每名 1 张 SDXL，走 B2 同一条管线出像素瓦片（进行中，~6 s/张）；
+- `model/build_sdxl_train.py` → `data/tiles/train_sdxl.json`（pack = `sdxl@gen`，来源 2）；范例库只取真人画的（不含 SDXL）；
+- `trd.sample(dom_w=…)` **来源引导**：条件分支 l = l_材质包 + w·(l_SDXL − l_材质包)，推理时在画师画风与字面描绘之间调；**推理不需要 SDXL**；
+- `train_trd.py --init_from runs/trd_v7/last.pt --n_domains 3`：从 v7 接着训 10000 步（来源嵌入按行扩展，新行用"材质包"行初始化；实测所有权重对上、验证损失与 v7 一致）。
+排在渲染完成后自动启动（tmux `arch_trd_v9`）。
