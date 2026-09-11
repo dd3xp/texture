@@ -13,11 +13,13 @@ export HF_HUB_OFFLINE=1 CUDA_VISIBLE_DEVICES=${GPU:-7} PYTORCH_CUDA_ALLOC_CONF=e
 TAG=v4ct20x32
 $P eval/gen_trd.py --run runs/trd_v4 --ckpt last.pt --set V_mat --size 16 --bs 16 --n 32 \
    --cfg 1.5 --pal_mode retrieve --choice_temp 20 --tag $TAG || exit 1
-for N in 4 8 16 32; do $P eval/rerank.py --src $TAG --set V_mat --n $N || exit 1; done
-$P eval/run_eval.py --set V_mat --methods B2val v4_ret_ct20 ${TAG}_rr4 ${TAG}_rr8 ${TAG}_rr16 ${TAG}_rr32 \
+# n=1（就是第 0 张）必须自己跑一遍：已公布的单张 29% / 四选一 60% 是**旧检索**下量的，
+# 而这一批用的是现在的默认（色数跟检索走），两端必须在同一条件下才连得成一条曲线。
+for N in 1 4 8 16 32; do $P eval/rerank.py --src $TAG --set V_mat --n $N || exit 1; done
+$P eval/run_eval.py --set V_mat --methods B2val v4_ret_ct20 ${TAG}_rr1 ${TAG}_rr4 ${TAG}_rr8 ${TAG}_rr16 ${TAG}_rr32 \
    --out experiments/eval_coverage_Vmat.json
 $P eval/periodicity.py --methods REALval v4_ret_ct20 ${TAG}_rr4 ${TAG}_rr32
-for A in ${TAG}_rr32 ${TAG}_rr8; do
+for A in ${TAG}_rr32 ${TAG}_rr8 ${TAG}_rr1; do
   $P eval/judge_pairs.py pilot --a $A --b B2val --set V_mat || continue
   $P eval/judge_pairs.py full --a $A --b B2val --set V_mat
 done
