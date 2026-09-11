@@ -55,7 +55,10 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--bs", type=int, default=32, help="采样批次（CFG 要两次前向，共享卡上别开太大）")
     ap.add_argument("--pal_top_p", type=float, default=0.9)
-    ap.add_argument("--choice_temp", type=float, default=4.5)
+    ap.add_argument("--choice_temp", type=float, default=20.0,
+                    help="解码顺序的 Gumbel 噪声强度。原默认 4.5（MaskGIT 惯例）在验证集上是错的：按置信度先定死"
+                         "最有把握的格子，会把横条纹式周期结构套到所有材质上；20 时 KID 12.8→5.5、CLIP +0.4"
+                         "（experiments/eval_v4ct*_Vmat_first.json）")
     ap.add_argument("--refine", type=int, default=0, help="解码后块 Gibbs 精修轮数（trd.sample）")
     ap.add_argument("--refine_frac", type=float, default=0.25)
     ap.add_argument("--refine_temp", type=float, default=0.7)
