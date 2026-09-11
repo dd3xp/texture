@@ -297,6 +297,8 @@ def main():
                 w[v.shape[0]:] = v[0]
                 sd[kk] = w
         missing, unexpected = model.load_state_dict(sd, strict=False)
+        if "dom_emb.weight" in missing:              # 源检查点没有来源嵌入：置零，来源 0 的行为与源模型完全一致
+            torch.nn.init.zeros_(model.dom_emb.weight)
         print(f"从 {a.init_from} 初始化；缺 {missing}，多 {unexpected}", flush=True)
     cbt = torch.as_tensor(cb, device=dev)
     print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
