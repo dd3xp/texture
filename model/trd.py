@@ -209,8 +209,13 @@ def top_p_filter(logits, p):
 
 
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
-           choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None):
+           choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None,
+           refine=0, refine_frac=0.25, refine_temp=0.7):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
+
+    refine：解码完后再做几轮"块 Gibbs"精修——每轮随机掩掉 refine_frac 的格子、调色板不动，
+    在 refine_temp 下按上下文重采。MaskGIT 一旦定下的格子就不再改，早期定错的孤立噪点
+    （v2 样本里的零星离群色、细碎斑点）会一直留着；精修给了改错的机会。
 
     pal_top_p：调色板槽的 nucleus 截断。训练时对调色板码用了标签平滑（v2 的 0.1），
     它把 10% 概率均匀摊到 512 个颜色上——直接按模型分布采样，每个槽约有 10% 机会抽到
@@ -255,4 +260,14 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
         newg = torch.where(grid_m, sg, grid)
         pal = torch.where(remask[:, :K_MAX] & pal_m, pal, newp)
         grid = torch.where(remask[:, K_MAX:].view(B, n, n) & grid_m, grid, newg)
+    for _ in range(refine):
+        m = torch.rand(B, n, n, device=dev) < refine_frac
+        g_in = grid.masked_fill(m, model.GRID_MASK)
+        _, lg = model(pal, g_in, k, text, color, ref)
+        if cfg != 1.0:
+            _, ug = model(pal, g_in, k, nt, color, None)
+            lg = ug + cfg * (lg - ug)
+        lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
+        sg = torch.multinomial(F.softmax(lg / refine_temp, -1).view(-1, K_MAX), 1).view(B, n, n)
+        grid = torch.where(m, sg, grid)
     return pal, grid

@@ -33,6 +33,9 @@ def main():
     ap.add_argument("--bs", type=int, default=32, help="采样批次（CFG 要两次前向，共享卡上别开太大）")
     ap.add_argument("--pal_top_p", type=float, default=0.9)
     ap.add_argument("--choice_temp", type=float, default=4.5)
+    ap.add_argument("--refine", type=int, default=0, help="解码后块 Gibbs 精修轮数（trd.sample）")
+    ap.add_argument("--refine_frac", type=float, default=0.25)
+    ap.add_argument("--refine_temp", type=float, default=0.7)
     ap.add_argument("--tag", default=None, help="输出目录名（默认由参数拼出）")
     ap.add_argument("--refs", type=Path, default=ROOT / "experiments/refs",
                     help="v3 模型的参考图嵌入目录（render_refs.py 输出）；推理用第 0 张渲染")
@@ -79,7 +82,7 @@ def main():
         for i in range(0, len(T), a.bs):
             sl = slice(i, i + a.bs)
             pal, grid = sample(model, temb[ti[sl]], ks[sl], n=a.size, color=col[sl], steps=a.steps,
-                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
+                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
                                ref=None if rembs is None else rembs[ti[sl]])
             imgs = decode(pal, grid, cb)
             for j, t in enumerate(T[sl]):
@@ -95,7 +98,7 @@ def main():
             sl = slice(i, i + a.bs)
             pal, grid = sample(model, temb[sl], ks[sl], n=a.size, steps=a.steps,
                                cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
-                               choice_temp=a.choice_temp,
+                               choice_temp=a.choice_temp, refine=a.refine, refine_frac=a.refine_frac, refine_temp=a.refine_temp,
                                ref=None if rembs is None else rembs[sl])
             imgs = decode(pal, grid, cb)
             for j, e in enumerate(prompts[sl]):
