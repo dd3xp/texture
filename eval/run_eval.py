@@ -69,6 +69,9 @@ def main():
     ap.add_argument("--methods", nargs="+", default=["B1", "B2", "B4", "B5"])
     ap.add_argument("--root", type=Path, default=ROOT / "experiments/baselines")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--all_samples", action="store_true",
+                    help="分布指标用每材质全部样本（只用于验证集调参降方差；正式测试表不用，"
+                         "因为 B2 每材质只有 1 张，n 不同 FID 不可比）")
     a = ap.parse_args()
 
     prompts, ref_split = load_set(a.set)            # E_* -> test 参照；V_* -> val 参照（仅调参用）
@@ -93,8 +96,12 @@ def main():
             print(f"  {m}: 只有 {len(ok)}/{len(prompts)} 个材质有图（仍在生成？）")
         if len(ok) < 50:
             continue
-        r, cache = evaluate([first[i] for i in ok], [prompts[i]["prompt"] for i in ok], ref,
-                            ref_cache=cache)
+        if a.all_samples:
+            tiles = [t for i in ok for t in groups[i]]
+            mats = [prompts[i]["prompt"] for i in ok for _ in groups[i]]
+        else:
+            tiles, mats = [first[i] for i in ok], [prompts[i]["prompt"] for i in ok]
+        r, cache = evaluate(tiles, mats, ref, ref_cache=cache)
         g = [groups[i] for i in ok if len(groups[i]) >= 2]
         r["LPIPS_div"] = lpips_diversity(g) if g else float("nan")
         r["materials"] = len(ok)
