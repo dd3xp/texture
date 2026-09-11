@@ -13,6 +13,8 @@ TRD 网格配真人调色板 KID 4.5（真人对真人地板 3.8），真人网�
 - 生成：检索到的调色板作为**已知 token** 喂给 TRD（训练时的随机掩码本就包含"调色板已知、网格被掩"），
   TRD 只生成网格——结构是新生成的，不是拷贝的。
 """
+from pathlib import Path
+
 import numpy as np
 import torch
 
@@ -25,6 +27,39 @@ def _lab(rgb):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "eval"))
     from colour_task import rgb_to_lab
     return rgb_to_lab(rgb)
+
+
+CLIP16 = Path(__file__).resolve().parents[1] / "weights/clip-vit-base-patch16"
+
+
+@torch.no_grad()
+def clip16(dev):
+    from transformers import CLIPModel, CLIPTokenizer
+    return CLIPModel.from_pretrained(str(CLIP16)).to(dev).eval(), CLIPTokenizer.from_pretrained(str(CLIP16))
+
+
+@torch.no_grad()
+def clip16_images(tiles, dev, model=None, bs=256):
+    """瓦片（任意边长）最近邻放大到 224 → CLIP-B/16 图像嵌入（归一化）。跨模态检索用；评测用的是 B/32。"""
+    import torch.nn.functional as F
+    m = model or clip16(dev)[0]
+    mean = torch.tensor([0.48145466, 0.4578275, 0.40821073], device=dev).view(1, 3, 1, 1)
+    std = torch.tensor([0.26862954, 0.26130258, 0.27577711], device=dev).view(1, 3, 1, 1)
+    out = []
+    for i in range(0, len(tiles), bs):
+        x = torch.cat([F.interpolate(torch.from_numpy(np.asarray(t)).permute(2, 0, 1)[None].float().to(dev),
+                                     size=224, mode="nearest") for t in tiles[i:i + bs]]) / 255.0
+        out.append(F.normalize(m.get_image_features(pixel_values=(x - mean) / std).float(), dim=-1))
+    return torch.cat(out)
+
+
+@torch.no_grad()
+def clip16_texts(prompts, dev, model=None, tok=None):
+    import torch.nn.functional as F
+    if model is None:
+        model, tok = clip16(dev)
+    t = tok([f"pixel art texture of {p}" for p in prompts], padding=True, return_tensors="pt").to(dev)
+    return F.normalize(model.get_text_features(**t).float(), dim=-1)
 
 
 class PaletteMemory:
@@ -42,8 +77,14 @@ class PaletteMemory:
         ix = {m: i for i, m in enumerate(mats)}
         self.emb = emb[torch.tensor([ix[s["material"]] for s in rows])].to(dev)     # [M, D]
         self.material = [s["material"] for s in rows]
+        self.tiles = [s["palette"][s["idx"]] for s in rows]
+        self.img16 = None
 
-    def query(self, text_emb, k, rng, colour=None, topk=5, n_text=50):
+    def enable_xmodal(self, dev):
+        """跨模态检索：给记忆库每张真人瓦片算 CLIP-B/16 图像嵌入（query 时按"瓦片 ↔ 材质名"的图文相似度重排）。"""
+        self.img16 = clip16_images(self.tiles, dev)
+
+    def query(self, text_emb, k, rng, colour=None, topk=5, n_text=50, text16=None, n_name=30):
         """返回 (调色板 uint8 [k,3], 条目下标)。k=None：不限色数，色数跟检索到的调色板走（推荐）；
         给 k 时只在恰好 k 色的条目里找（k 不存在时退到最近的 k）。
 
@@ -57,6 +98,14 @@ class PaletteMemory:
             pool = np.nonzero(self.k == kk)[0]
         sims = (self.emb[torch.as_tensor(pool, device=self.emb.device)] @ text_emb.float()).cpu().numpy()
         sims = sims + 1e-6 * rng.random(len(sims))       # 同名材质相似度完全相同：随机打破平局，否则总取同样几张（多样性掉）
+        if colour is None and text16 is not None and self.img16 is not None:
+            # 跨模态：先按名字取 n_name 个同/近名条目，再按"这张真人瓦片 ↔ 材质名"的 B/16 图文相似度取前 topk
+            # （同名材质里挑画得最典型的那几张的配色；KNN-Diffusion 的检索方式）
+            near = pool[np.argsort(-sims)[:n_name]]
+            xs = (self.img16[torch.as_tensor(near, device=self.img16.device)] @ text16.float()).cpu().numpy()
+            cand = near[np.argsort(-xs)[:topk]]
+            i = int(cand[rng.integers(len(cand))])
+            return self.pal[i], i
         cand = pool[np.argsort(-sims)[:n_text if colour is not None else topk]]
         if colour is not None:
             de = np.linalg.norm(self.mean_lab[cand] - _lab(np.asarray(colour, float)), axis=1)

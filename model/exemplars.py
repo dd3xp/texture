@@ -44,6 +44,17 @@ class ExemplarBank:
         order = [self.mats[i] for i in np.argsort(-sims)]
         return [m for m in order if m != material][:n]
 
+    def rank_xmodal(self, cand, img16, text16, keep=8):
+        """推理时：候选按"范例瓦片 ↔ 材质名"的 CLIP-B/16 相似度排序，只留前 keep 张（最典型的画法）。"""
+        out = torch.full_like(cand, -1)
+        for i in range(cand.shape[0]):
+            c = cand[i][cand[i] >= 0]
+            if len(c) == 0:
+                continue
+            order = torch.argsort(-(img16[c] @ text16[i].float()))[:keep]
+            out[i, :len(order)] = c[order]
+        return out
+
     def candidates(self, samples, emb=None):
         """每个目标的候选范例下标 → LongTensor [N, C]（-1 填充）。emb：可选 [N,D] 文本嵌入（库外材质名用）。"""
         out = np.full((len(samples), self.C), -1, np.int64)

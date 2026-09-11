@@ -22,14 +22,15 @@ from tiles_data import load                      # noqa: E402
 FREE_K = True      # 检索调色板时不限色数（见 palette_memory.PaletteMemory.query）；--ret_k sample 改回旧做法
 
 
-def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5):
+def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5, t16_rows=None):
     """检索增强调色板（model/palette_memory.py）：每行取一张真人调色板，返回 (ks, pal_init 码, 精确调色板)。"""
     from train_trd import encode_palette
     from trd import K_MAX
     pals, codes, knew = [], [], []
     for i in range(len(ks)):
         c = None if colours is None else colours[i]
-        p, idx = mem.query(text_rows[i], None if FREE_K else int(ks[i]), rng, colour=c, topk=topk)
+        p, idx = mem.query(text_rows[i], None if FREE_K else int(ks[i]), rng, colour=c, topk=topk,
+                           text16=None if t16_rows is None else t16_rows[i])
         if c is not None:
             p = mem.shifted(idx, c)
         pals.append(p)
@@ -80,6 +81,8 @@ def main():
     ap.add_argument("--critic", type=Path, default=None,
                     help="Token-Critic 检查点（model/train_critic.py）；给了就用 trd.sample_critic（需检索调色板）")
     ap.add_argument("--critic_noise", type=float, default=1.0)
+    ap.add_argument("--xmodal", action="store_true",
+                    help="跨模态检索：调色板与结构范例按'真人瓦片 ↔ 材质名'的 CLIP-B/16 图文相似度挑最典型的（评测用 B/32）")
     ap.add_argument("--align", type=float, default=None,
                     help="对齐分数条件的分位数（模型用 --align_clip 训练时才有效），如 0.9")
     ap.add_argument("--colour_task", action="store_true",
@@ -124,8 +127,12 @@ def main():
         pool = load(16, "train", extra=cfg_.get("extra_file", "train_extra.json"))   # 与该 run 训练时同一个范例库
         pm = sorted({s["material"] for s in pool})
         pe = clip_text([text_prompt(m) for m in pm], dev)
-        BANK = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev)
+        BANK = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev, C=64 if a.xmodal else 16)
         EXC = BANK.candidates([{"material": e["material"]} for e in prompts], emb=temb)
+        if a.xmodal:
+            from palette_memory import clip16_images, clip16_texts
+            EXC = BANK.rank_xmodal(EXC, clip16_images([s["palette"][s["idx"]] for s in pool], dev),
+                                   clip16_texts([e["prompt"] for e in prompts], dev))
 
     def EX(rows):
         return None if EXC is None else BANK.draw(EXC[rows], model.n_ex, False)
@@ -137,6 +144,10 @@ def main():
     if a.pal_mode != "model":
         from palette_memory import PaletteMemory
         mem = PaletteMemory(dev)
+        if a.xmodal:
+            from palette_memory import clip16_texts
+            mem.enable_xmodal(dev)
+            T16 = clip16_texts([e["prompt"] for e in prompts], dev)
 
     tag = a.tag or f"TRD_{a.run.name}_cfg{a.cfg}_t{a.temp}_p{a.pal_top_p}_{a.set}"
     if a.colour_task:                               # 任务本身：区域颜色 + 材质名（eval/colour_task.py）
@@ -188,7 +199,8 @@ def main():
                                     pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, align=AL(len(kb)),
                                     ex=EX(torch.arange(len(prompts))[sl].to(dev)))
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
-                kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk)
+                kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk,
+                                                 t16_rows=T16[sl] if a.xmodal else None)
             if CRITIC is not None and pinit is not None:
                 from trd import sample_critic
                 pal, grid = sample_critic(model, CRITIC, temb[sl], kb, pinit, n=a.size, steps=a.steps, temp=a.temp,
