@@ -100,6 +100,8 @@ def main():
     ap.add_argument("--critic", type=Path, default=None,
                     help="Token-Critic 检查点（model/train_critic.py）；给了就用 trd.sample_critic（需检索调色板）")
     ap.add_argument("--critic_noise", type=float, default=1.0)
+    ap.add_argument("--cascade", type=float, default=None,
+                    help="24/32px 由粗到细：先按同样条件生成 16px，最近邻放大到目标尺寸，保留这个比例的格子，其余由 TRD 在目标尺寸上补")
     ap.add_argument("--dom_w", type=float, default=0.0, help="来源引导强度（v9：往 SDXL 字面描绘那边推）")
     ap.add_argument("--ex_keep", type=int, default=8, help="--xmodal 时结构范例只在最典型的这么多张里抽")
     ap.add_argument("--ex_from_dir", type=Path, default=None,
@@ -251,10 +253,25 @@ def main():
                     cols = [im.reshape(-1, 3).mean(0) for im in decode(p0, g0, cb)]
                 kb, pinit, pals = retrieve_batch(mem, temb[sl], kb, rng, cb, colours=cols, topk=a.ret_topk,
                                                  t16_rows=T16[sl] if a.xmodal else None)
+            gi = None
+            if a.cascade is not None and a.size != 16:          # 由粗到细：16px 结构 → 放大 → 部分保留
+                exs = EX(torch.arange(len(prompts))[sl].to(dev))
+                pal16, g16 = sample(model, temb[sl], kb, n=16, steps=a.steps, cfg=a.cfg, temp=a.temp,
+                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, pal_init=pinit,
+                                    align=AL(len(kb)), ex=exs, ex_cfg=a.ex_cfg, dom_w=a.dom_w)
+                if pinit is None:
+                    pinit = pal16
+                ix = (torch.arange(a.size, device=dev) * 16) // a.size
+                gi = g16[:, ix][:, :, ix].clone()
+                gi[torch.rand(gi.shape, device=dev) >= a.cascade] = model.GRID_MASK
             if CRITIC is not None and pinit is not None:
                 from trd import sample_critic
                 pal, grid = sample_critic(model, CRITIC, temb[sl], kb, pinit, n=a.size, steps=a.steps, temp=a.temp,
                                           cfg=a.cfg, noise=a.critic_noise, ex=EX(torch.arange(len(prompts))[sl].to(dev)))
+            elif gi is not None:
+                pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps, cfg=a.cfg, temp=a.temp,
+                                   pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, pal_init=pinit, grid_init=gi,
+                                   align=AL(len(kb)), ex=exs, ex_cfg=a.ex_cfg, dom_w=a.dom_w)
             else:
                 pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
                                    cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,
