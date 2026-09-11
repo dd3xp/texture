@@ -1192,3 +1192,15 @@ B7 学的是画师分布（FD/KID 低），B2 比画师更"典型"（CLIP 高）
 
 测试集判官比较对象：TRD16 vs B2 / vs B7、TRD16c vs B2、颜色任务 TRD vs B2 / vs B7、24px 与 32px vs B2（先试点、过门槛才全量）。
 B3（SD-piXL）按固定 12 材质子集另报（仍在跑，完成后单独做子集对比与判官）。
+
+## 2026-09-12 23:07 UTC（定时轮次）：主会话在跑正式测试，本轮让路，只记账
+
+开工探测：项目 jsonl `89deec92…` 在我起手前 **45 秒**（23:07:14 UTC）还在写（快照的正是 `eval/final_test.sh`）
+→ 主会话活着。远程 `ps` 里 `bash eval/final_test.sh > experiments/final_test.txt && bash eval/final_judge.sh`
+已跑 **23 分钟**，就是上一条预注册的那次正式测试（测试集 272 材质）。
+**按互斥规则本轮不动任何代码、不起任何实验**，只做只读探测。
+
+只读记下的现场（不是结论，正式数字以主会话跑完后入账的为准）：
+- 正式测试已出到 24px / 32px 表；两档参照真人瓦片都不足 50 张 → 按脚本判据**只报 CLIP / 平铺 / 多样性**，FID/KID/FD 为 nan（预期行为，不是失败）。
+- **B3（SD-piXL）5/12**，两条 driver 仍在跑（`farming_desert_sand_soil` 2h39m、`mcl_stairs_stone_slab_top` 2h34m）。
+- 算力/磁盘：0/1/4/5 卡被别人占满，`/mnt/data` **只剩 6.2G**（比上轮 8.7G 又少）——B3 跑完前别再下模型。
