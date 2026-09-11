@@ -168,6 +168,8 @@ def main():
     ap.add_argument("--refs", type=Path, default=None,
                     help="v3：参考图嵌入目录（baselines/render_refs.py 的输出，emb_shard*.pt）")
     ap.add_argument("--p_ref_drop", type=float, default=0.3)
+    ap.add_argument("--ema", type=float, default=0.0,
+                    help="权重指数滑动平均的衰减（0=关；v3 用 0.999）。存盘与选检查点都用 EMA 权重")
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
@@ -273,7 +275,7 @@ def main():
 
     val_parts = [0.0, 0.0]
 
-    def val_loss(Vd, nval):
+    def val_loss(Vd, nval, net=None):
         """固定掩码随机性让各次验证损失可比；fork_rng 隔离，不污染训练的随机序列。"""
         tot, tg, tp, cnt = 0.0, 0.0, 0.0, 0
         devs = [torch.cuda.current_device()] if dev == "cuda" else []
@@ -282,7 +284,7 @@ def main():
             torch.manual_seed(123)
             for i in range(0, nval, 256):
                 idx = torch.arange(i, min(i + 256, nval))
-                l, parts = training_loss(model, *batch_of(Vd, idx, False))
+                l, parts = training_loss(net if net is not None else model, *batch_of(Vd, idx, False))
                 tot += l.item() * len(idx)
                 tg += parts["loss_grid"] * len(idx)
                 tp += parts["loss_pal"] * len(idx)
@@ -291,6 +293,8 @@ def main():
         val_parts[:] = [tg / cnt, tp / cnt]
         return tot / cnt
 
+    import copy
+    ema = copy.deepcopy(model).eval().requires_grad_(False) if a.ema > 0 else None
     best, log = float("inf"), []
     t0 = time.time()
     n = len(train)
@@ -306,22 +310,27 @@ def main():
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         sched.step()
+        if ema is not None:
+            with torch.no_grad():
+                for pe, pm in zip(ema.parameters(), model.parameters()):
+                    pe.mul_(a.ema).add_(pm.detach(), alpha=1 - a.ema)
         if step % a.eval_every == 0:
             model.eval()
-            vl = val_loss(V, len(val))                       # 选检查点只看 16px val
+            em = ema if ema is not None else model           # 采样用 EMA 权重，就用它来选检查点
+            vl = val_loss(V, len(val), em)                   # 选检查点只看 16px val
             vg, vp = val_parts
-            v32 = val_loss(V32, len(val32)) if V32 is not None else None
+            v32 = val_loss(V32, len(val32), em) if V32 is not None else None
             rec = {"step": step, "train": loss.item(), **parts, "val": vl, "val_grid": vg, "val_pal": vp, "val32": v32,
                    "lr": sched.get_last_lr()[0], "min": (time.time() - t0) / 60}
             log.append(rec)
             print(json.dumps(rec), flush=True)
             json.dump(log, open(a.out / "log.json", "w"), indent=0)
-            torch.save({"model": model.state_dict(), "args": cfg,
-                        "step": step, "val": vl}, a.out / "last.pt")
+            state = {"model": em.state_dict(), "args": cfg, "step": step, "val": vl,
+                     "is_ema": ema is not None}
+            torch.save(state, a.out / "last.pt")
             if vl < best:
                 best = vl
-                torch.save({"model": model.state_dict(), "args": cfg,
-                            "step": step, "val": vl}, a.out / "best.pt")
+                torch.save(state, a.out / "best.pt")
 
     # 训练末：用最佳检查点给 val 材质各采一张，存图便于目视
     ck = torch.load(a.out / "best.pt", map_location=dev)
