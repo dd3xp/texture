@@ -36,10 +36,27 @@ def load_trd(run: Path, ckpt: str, dev: str):
     return m.to(dev).eval(), np.load(run / "codebook.npy")
 
 
-def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=1.5, pal_mode="retrieve"):
+def exemplars_for(model, prompt, text, n_cand, dev, extra="train_extra.json"):
+    """v7+ 模型：同材质（按文本最近）、其他画师的结构范例。"""
+    if getattr(model, "ex_proj", None) is None:
+        return None
+    from exemplars import ExemplarBank
+    from tiles_data import load
+    from train_trd import text_prompt
+    pool = load(16, "train", extra=extra)
+    pm = sorted({s["material"] for s in pool})
+    pe = clip_text([text_prompt(m) for m in pm], dev)
+    bank = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev)
+    cand = bank.candidates([{"material": prompt}], emb=text[:1])
+    return bank.draw(cand.expand(n_cand, -1), model.n_ex, False)
+
+
+def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=1.5, pal_mode="retrieve",
+                  choice_temp=20.0, extra="train_extra.json"):
     """出 n_cand 张候选，取平均色最接近区域颜色的一张。"""
     torch.manual_seed(seed)
     text = clip_text([TEXT_TMPL.format(p=prompt)], dev).to(dev).expand(n_cand, -1)
+    ex = exemplars_for(model, prompt, text, n_cand, dev, extra)
     col = torch.tensor([*(np.array(color) / 255.0), 1.0], dtype=torch.float32, device=dev)
     col = col[None].expand(n_cand, -1)
     ks = torch.full((n_cand,), k, device=dev)
@@ -56,12 +73,12 @@ def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=1.5,
             pals.append(p)
             codes.append(row)
         ks = torch.tensor([len(p) for p in pals], device=dev)
-        _, grid = sample(model, text, ks, n=size, color=col, cfg=cfg,
+        _, grid = sample(model, text, ks, n=size, color=col, cfg=cfg, choice_temp=choice_temp, ex=ex,
                          pal_init=torch.tensor(np.stack(codes), device=dev))
         g = grid.cpu().numpy()
         tiles = [p[np.clip(g[j], 0, len(p) - 1)] for j, p in enumerate(pals)]
     else:
-        pal, grid = sample(model, text, ks, n=size, color=col, cfg=cfg)
+        pal, grid = sample(model, text, ks, n=size, color=col, cfg=cfg, choice_temp=choice_temp, ex=ex)
         tiles = decode(pal, grid, cb)
     err = [np.abs(t.reshape(-1, 3).mean(0) - np.array(color)).sum() for t in tiles]
     return tiles[int(np.argmin(err))]
@@ -75,6 +92,7 @@ def main():
     ap.add_argument("--ckpt", default="last.pt")
     ap.add_argument("--pal_mode", choices=["retrieve", "model"], default="retrieve")
     ap.add_argument("--cfg", type=float, default=1.5)
+    ap.add_argument("--choice_temp", type=float, default=20.0, help="见 eval/gen_trd.py 同名参数")
     ap.add_argument("--size", type=int, default=16, choices=[16, 24, 32])
     ap.add_argument("--k", type=int, default=8, help="色阶数（2-16）")
     ap.add_argument("--color", help="区域颜色 RRGGBB；默认自动判定")
@@ -92,8 +110,10 @@ def main():
     mask = region_mask(img, color, a.tol)
     print(f"区域颜色 #{color[0]:02x}{color[1]:02x}{color[2]:02x}，覆盖 {mask.mean():.1%}")
     model, cb = load_trd(a.run, a.ckpt, dev)
+    ck_args = torch.load(a.run / a.ckpt, map_location="cpu")["args"]
+    extra = (ck_args if isinstance(ck_args, dict) else vars(ck_args)).get("extra_file", "train_extra.json")
     tile = generate_tile(model, cb, a.prompt, color, a.size, a.k, a.cand, a.seed, dev,
-                         cfg=a.cfg, pal_mode=a.pal_mode)
+                         cfg=a.cfg, pal_mode=a.pal_mode, choice_temp=a.choice_temp, extra=extra)
     if a.recolor:                                   # recolor_to 作用在调色板上，不是整张瓦片
         cols, inv = np.unique(tile.reshape(-1, 3), axis=0, return_inverse=True)
         newpal = np.asarray(recolor_to(cols, "%02x%02x%02x" % tuple(color)))
