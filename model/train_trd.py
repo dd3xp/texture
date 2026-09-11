@@ -81,7 +81,8 @@ def clip_text(prompts, dev):
 def to_tensors(samples, cb, n_codes, text_index, text_emb):
     B = len(samples)
     pal = np.full((B, K_MAX), n_codes + 1, np.int64)          # PAD
-    grid = np.zeros((B, 16, 16), np.int64)
+    N = samples[0]["idx"].shape[0]
+    grid = np.zeros((B, N, N), np.int64)
     k = np.zeros(B, np.int64)
     col = np.zeros((B, 4), np.float32)
     tix = np.zeros(B, np.int64)
@@ -138,6 +139,10 @@ def main():
     ap.add_argument("--p_text_drop", type=float, default=0.1)
     ap.add_argument("--p_color_drop", type=float, default=0.5)
     ap.add_argument("--eval_every", type=int, default=1000)
+    ap.add_argument("--sizes", type=int, nargs="+", default=[16],
+                    help="训练用的分辨率。32px 真人数据只有 517 张，与 16 混训；选检查点只看 16px val")
+    ap.add_argument("--p32", type=float, default=0.3, help="每步取 32px 批次的概率")
+    ap.add_argument("--batch32", type=int, default=64, help="32px 序列长 4 倍，批次相应缩小")
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
@@ -149,11 +154,13 @@ def main():
 
     train, val = load(16, "train"), load(16, "val")
     test = load(16, "test")
-    cb, err = build_codebook(train, a.codes)
+    train32 = load(32, "train") if 32 in a.sizes else []
+    val32 = load(32, "val") if 32 in a.sizes else []
+    cb, err = build_codebook(train + train32, a.codes)
     np.save(a.out / "codebook.npy", cb)
     print(f"train {len(train)}  val {len(val)}  码本 {a.codes} 色，平均量化误差 {err:.2f}/255", flush=True)
 
-    mats = sorted({s["material"] for s in train + val + test})
+    mats = sorted({s["material"] for s in train + val + test + train32 + val32})
     prompts = [text_prompt(m) for m in mats]
     temb = clip_text(prompts, dev) if not a.smoke else F.normalize(torch.randn(len(mats), 512), dim=-1)
     tindex = {m: i for i, m in enumerate(mats)}
@@ -161,6 +168,8 @@ def main():
 
     T = to_tensors(train, cb, a.codes, tindex, temb)
     V = to_tensors(val, cb, a.codes, tindex, temb)
+    T32 = to_tensors(train32, cb, a.codes, tindex, temb) if train32 else None
+    V32 = to_tensors(val32, cb, a.codes, tindex, temb) if val32 else None
     model = TRD(a.codes, d=a.d, depth=a.depth, heads=a.heads, drop=a.drop).to(dev)
     print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.99))
@@ -184,14 +193,30 @@ def main():
             c[:] = model.null_color.detach().cpu()
         return [x.to(dev) for x in (D["pal"][idx], g, D["k"][idx], t, c)]
 
+    def val_loss(Vd, nval):
+        """固定掩码随机性让各次验证损失可比；fork_rng 隔离，不污染训练的随机序列。"""
+        tot, cnt = 0.0, 0
+        devs = [torch.cuda.current_device()] if dev == "cuda" else []
+        with torch.random.fork_rng(devices=devs), torch.no_grad(), \
+                torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
+            torch.manual_seed(123)
+            for i in range(0, nval, 256):
+                idx = torch.arange(i, min(i + 256, nval))
+                l, _ = training_loss(model, *batch_of(Vd, idx, False))
+                tot += l.item() * len(idx)
+                cnt += len(idx)
+        return tot / cnt
+
     best, log = float("inf"), []
     t0 = time.time()
     n = len(train)
     for step in range(a.steps + 1):
         model.train()
-        idx = torch.randint(0, n, (a.batch,))
+        use32 = T32 is not None and torch.rand(()).item() < a.p32
+        D, nD, bs = (T32, len(train32), a.batch32) if use32 else (T, n, a.batch)
+        idx = torch.randint(0, nD, (bs,))
         with torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
-            loss, parts = training_loss(model, *batch_of(T, idx, True))
+            loss, parts = training_loss(model, *batch_of(D, idx, True))
         opt.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -199,18 +224,9 @@ def main():
         sched.step()
         if step % a.eval_every == 0:
             model.eval()
-            vl, vn = 0.0, 0
-            # 固定掩码随机性让各次验证损失可比；fork_rng 隔离，不污染训练的随机序列
-            with torch.random.fork_rng(devices=[torch.cuda.current_device()] if dev == "cuda" else []), \
-                    torch.no_grad(), torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
-                torch.manual_seed(123)
-                for i in range(0, len(val), 256):
-                    idx = torch.arange(i, min(i + 256, len(val)))
-                    l, _ = training_loss(model, *batch_of(V, idx, False))
-                    vl += l.item() * len(idx)
-                    vn += len(idx)
-            vl /= vn
-            rec = {"step": step, "train": loss.item(), **parts, "val": vl,
+            vl = val_loss(V, len(val))                       # 选检查点只看 16px val
+            v32 = val_loss(V32, len(val32)) if V32 is not None else None
+            rec = {"step": step, "train": loss.item(), **parts, "val": vl, "val32": v32,
                    "lr": sched.get_last_lr()[0], "min": (time.time() - t0) / 60}
             log.append(rec)
             print(json.dumps(rec), flush=True)
@@ -227,14 +243,21 @@ def main():
     model.load_state_dict(ck["model"])
     model.eval()
     from PIL import Image
-    sv = val[:64]
-    V2 = to_tensors(sv, cb, a.codes, tindex, temb)
-    pal, grid = sample(model, V2["text"].to(dev), V2["k"].to(dev), n=16,
-                       steps=24 if not a.smoke else 4)
-    imgs = decode(pal, grid, cb)
-    sheet = np.concatenate([np.concatenate(list(imgs[r * 8:(r + 1) * 8]), 1) for r in range(len(imgs) // 8)], 0)
-    Image.fromarray(sheet).resize((sheet.shape[1] * 4, sheet.shape[0] * 4), Image.NEAREST).save(a.out / "val_samples.png")
-    print(f"最佳 val {best:.4f} @ step {ck['step']}；样例 -> {a.out / 'val_samples.png'}", flush=True)
+    for size, pool in ((16, val), (32, val32)):
+        if not pool:
+            continue
+        sv = pool[:64]
+        V2 = to_tensors(sv, cb, a.codes, tindex, temb)
+        pal, grid = sample(model, V2["text"].to(dev), V2["k"].to(dev), n=size,
+                           steps=24 if not a.smoke else 4)
+        imgs = decode(pal, grid, cb)
+        rows = len(imgs) // 8
+        sheet = np.concatenate([np.concatenate(list(imgs[r * 8:(r + 1) * 8]), 1) for r in range(rows)], 0)
+        up = 64 // size
+        name = "val_samples.png" if size == 16 else f"val_samples_{size}.png"
+        Image.fromarray(sheet).resize((sheet.shape[1] * up, sheet.shape[0] * up),
+                                      Image.NEAREST).save(a.out / name)
+    print(f"最佳 val {best:.4f} @ step {ck['step']}；样例 -> {a.out}", flush=True)
 
 
 if __name__ == "__main__":
