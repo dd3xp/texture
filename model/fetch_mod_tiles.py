@@ -47,7 +47,7 @@ def get(url, timeout=60):
 
 
 def held_authors():
-    ds = json.loads((ROOT / "data/tiles/dataset_k16.json").read_text())
+    ds = json.loads((ROOT / "data/tiles/dataset_k16.json").read_text(encoding="utf-8"))
     return {s["pack"].split("__")[0].lower() for s in ds["samples"] if s["split"] != "train"}
 
 
@@ -104,7 +104,7 @@ def main():
     a.out.mkdir(parents=True, exist_ok=True)
     cat_path = a.out / "catalogue.json"
     if cat_path.exists():
-        cat = json.loads(cat_path.read_text())
+        cat = json.loads(cat_path.read_text(encoding="utf-8"))
     else:
         lst = json.loads(get(API + "?type=mod"))
         print(f"模组 {len(lst)} 个，拉详情…", flush=True)
@@ -113,7 +113,7 @@ def main():
         cat = [{"author": p["author"], "name": p["name"], "title": d.get("title", ""),
                 "short": d.get("short_description", ""), "media_license": d.get("media_license") or "",
                 "downloads": d.get("downloads", 0), "error": d.get("error")} for p, d in zip(lst, dets)]
-        cat_path.write_text(json.dumps(cat, ensure_ascii=False, indent=0))
+        cat_path.write_text(json.dumps(cat, ensure_ascii=False, indent=0), encoding="utf-8")
     ha = held_authors()
     ok, why = [], {"licence": 0, "minecraft": 0, "held_author": 0, "error": 0}
     for d in cat:
@@ -140,7 +140,7 @@ def main():
             if i % 100 == 0:
                 print(f"[{i}/{len(ok)}] 累计贴图 {sum(v['kept'] for v in res.values() if isinstance(v['kept'], int))}",
                       flush=True)
-    (a.out / "manifest.json").write_text(json.dumps(res, ensure_ascii=False, indent=0))
+    (a.out / "manifest.json").write_text(json.dumps(res, ensure_ascii=False, indent=0), encoding="utf-8")
     n = sum(v["kept"] for v in res.values() if isinstance(v["kept"], int))
     print(f"完成：{sum(1 for v in res.values() if isinstance(v['kept'], int) and v['kept'])} 个模组贡献 {n} 张贴图")
 

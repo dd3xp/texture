@@ -34,10 +34,14 @@ def tile_key(idx: np.ndarray, pal: np.ndarray) -> bytes:
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--mods", type=Path, default=None, help="fetch_mod_tiles.py 的输出目录（可选）")
+    args = ap.parse_args()
     ds = json.loads((ROOT / "data/tiles/dataset_k16.json").read_text())
     samples = ds["samples"]
     split_of = {s["pack"]: s["split"] for s in samples}
-    held_authors = {p.split("__")[0] for p, sp in split_of.items() if sp != "train"}
+    held_authors = {p.split("__")[0].lower() for p, sp in split_of.items() if sp != "train"}
     have = {(s["pack"], s["material"], s["size"]) for s in samples}
     held_keys = set()
     for s in samples:
@@ -48,51 +52,54 @@ def main():
 
     out, drop = [], Counter()
     raw = ROOT / "data/tiles_raw/unpacked"
-    for group in sorted(raw.iterdir()):
-        for pack in sorted(group.iterdir()):
-            if not pack.is_dir():
+    dirs = [(pk, pk.name) for group in sorted(raw.iterdir()) for pk in sorted(group.iterdir())]
+    if args.mods:                                   # fetch_mod_tiles.py 的输出：<作者>__<模组名>/*.png
+        dirs += [(m, m.name + "@mod") for m in sorted(args.mods.iterdir())]
+    for pack, pname in dirs:
+        if not pack.is_dir():
+            continue
+        sp = split_of.get(pname)
+        if sp is None and pname.split("__")[0].lower() in held_authors:
+            drop["同作者包"] += 1
+            continue
+        if sp not in (None, "train"):
+            continue
+        seen = set()
+        for f in sorted(pack.rglob("*.png")):
+            if DENY.search(f.name):
                 continue
-            sp = split_of.get(pack.name)
-            if sp is None and pack.name.split("__")[0] in held_authors:
-                drop["同作者包"] += 1
+            try:
+                im = Image.open(f)
+                w, h = im.size
+            except Exception:
                 continue
-            if sp not in (None, "train"):
+            if w != h or w not in (16, 32, 64):
                 continue
-            seen = set()
-            for f in sorted(pack.rglob("*.png")):
-                if DENY.search(f.name):
+            if (pname, f.name, w) in have or (f.name, w) in seen:
+                drop["已有/包内重名"] += 1
+                continue
+            if im.mode in ("RGBA", "LA") or "transparency" in im.info:
+                if (np.asarray(im.convert("RGBA"))[..., 3] < 255).mean() > 0.02:
+                    drop["透明"] += 1
                     continue
-                try:
-                    im = Image.open(f)
-                    w, h = im.size
-                except Exception:
-                    continue
-                if w != h or w not in (16, 32, 64):
-                    continue
-                if (pack.name, f.name, w) in have or (f.name, w) in seen:
-                    drop["已有/包内重名"] += 1
-                    continue
-                if im.mode in ("RGBA", "LA") or "transparency" in im.info:
-                    if (np.asarray(im.convert("RGBA"))[..., 3] < 255).mean() > 0.02:
-                        drop["透明"] += 1
-                        continue
-                a = np.asarray(im.convert("RGB"))
-                native = len(np.unique(a.reshape(-1, 3), axis=0))
-                if native < MIN_COLORS:
-                    drop["少于3色"] += 1
-                    continue
-                ind, pal = quantize(a, 16)
-                if tile_key(ind, pal) in held_keys:
-                    drop["与val/test逐像素相同"] += 1
-                    continue
-                seen.add((f.name, w))
-                out.append({"material": f.name, "pack": pack.name, "size": w, "split": "train",
-                            "native_colors": native, "k_used": int(len(pal)),
-                            "idx": ind.astype(np.uint8).tobytes().hex(), "palette": pal.tolist(),
-                            "extra": True})
+            a = np.asarray(im.convert("RGB"))
+            native = len(np.unique(a.reshape(-1, 3), axis=0))
+            if native < MIN_COLORS:
+                drop["少于3色"] += 1
+                continue
+            ind, pal = quantize(a, 16)
+            if tile_key(ind, pal) in held_keys:
+                drop["与val/test逐像素相同"] += 1
+                continue
+            seen.add((f.name, w))
+            out.append({"material": f.name, "pack": pname, "size": w, "split": "train",
+                        "native_colors": native, "k_used": int(len(pal)),
+                        "idx": ind.astype(np.uint8).tobytes().hex(), "palette": pal.tolist(),
+                        "extra": True})
     by = Counter(s["size"] for s in out)
     print(f"新增训练瓦片 {len(out)}（" + "  ".join(f"{k}px:{v}" for k, v in sorted(by.items())) + "）")
-    print(f"新增包 {len({s['pack'] for s in out} - set(split_of))}，材质 {len({s['material'] for s in out})}")
+    print(f"新增包 {len({s['pack'] for s in out} - set(split_of))}（其中模组 "
+          f"{len({s['pack'] for s in out if s['pack'].endswith('@mod')})}），材质 {len({s['material'] for s in out})}")
     print("丢弃:", dict(drop))
     p = ROOT / "data/tiles/train_extra.json"
     p.write_text(json.dumps({"k": 16, "samples": out}))
