@@ -33,6 +33,8 @@ class PaletteMemory:
         rows = [s for n in sizes for s in load(n, "train", extra=True)]
         self.pal = [np.asarray(s["palette"], np.uint8) for s in rows]
         self.k = np.array([s["k_used"] for s in rows])
+        self.hist = [np.bincount(s["idx"].reshape(-1), minlength=s["k_used"])[:s["k_used"]] / s["idx"].size
+                     for s in rows]                    # 各秩的像素占比（离散 SDEdit 做直方图匹配用）
         self.mean = np.stack([s["palette"][s["idx"]].reshape(-1, 3).mean(0) for s in rows])
         self.mean_lab = _lab(self.mean)
         mats = sorted({s["material"] for s in rows})
