@@ -33,6 +33,17 @@ if ($since) {
     }
 }
 
+# 与交互会话互斥（二）：提交间隔拦不住"主会话在跑长实验、20 分钟没提交"——2026-09-12 就因此撞了同名的 v11。
+# 主会话每次调工具都会写它的会话日志（jsonl）；最近 15 分钟有写入 = 主会话还活着，这一轮让路。
+$proj = Join-Path $env:USERPROFILE '.claude\projects\c--Codes-texture'
+$fresh = Get-ChildItem $proj -Filter *.jsonl -ErrorAction SilentlyContinue |
+         Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-15) } | Select-Object -First 1
+if ($fresh) {
+    $m = [int]((Get-Date) - $fresh.LastWriteTime).TotalMinutes
+    Add-Content -Encoding utf8 $log ("[{0}] interactive session active (log written {1} min ago), skip" -f (Get-Date -f 'MM-dd HH:mm'), $m)
+    exit 0
+}
+
 Set-Content -Encoding utf8 $lock (Get-Date -f 'o')
 
 try {

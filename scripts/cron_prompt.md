@@ -43,6 +43,14 @@
 - 需要新的 Python 包：**不许往共享 conda 环境装**。优先在仓库里自己实现；
   需要预训练权重时，**在本机（能联网）下载，scp 到服务器自己的目录**。
 
+## 起实验前（2026-09-12 两个会话往同一个 `runs/trd_v11` 写了两个不同实验，互相覆盖检查点）
+
+- **实验名带描述 + 时间戳**：`--out runs/trd_<改动>_<MMDDHHmm>`，日志、生成标签、评测 JSON 名都跟着这个名字走；
+  **不要**用 "v12" 这种按轮次递增的名字（并行会话必然撞名）。
+- 开跑前 `ssh emnlp "ps -eo pid,args | grep train_trd"` 看有没有别人的训练；`train_trd.py` 自带 `.trainlock`，
+  被拦住就说明目录有主，**换名字，不许删锁**。
+- 分辨检查点只能靠 `ckpt["args"]`（`init_from` / `extra_file` / 各开关），不能靠目录名。
+
 ## 硬性约束
 
 - **GPU 只用 emnlp**（`ssh emnlp` = a100-node03），路径 `/mnt/data/kw/RoundSquisheen/texture`。
