@@ -56,6 +56,7 @@ class PaletteMemory:
             kk = k if k in ks else ks[np.abs(ks - k).argmin()]
             pool = np.nonzero(self.k == kk)[0]
         sims = (self.emb[torch.as_tensor(pool, device=self.emb.device)] @ text_emb.float()).cpu().numpy()
+        sims = sims + 1e-6 * rng.random(len(sims))       # 同名材质相似度完全相同：随机打破平局，否则总取同样几张（多样性掉）
         cand = pool[np.argsort(-sims)[:n_text if colour is not None else topk]]
         if colour is not None:
             de = np.linalg.norm(self.mean_lab[cand] - _lab(np.asarray(colour, float)), axis=1)
