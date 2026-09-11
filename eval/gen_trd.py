@@ -37,6 +37,8 @@ def main():
     ap.add_argument("--refs", type=Path, default=ROOT / "experiments/refs",
                     help="v3 模型的参考图嵌入目录（render_refs.py 输出）；推理用第 0 张渲染")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--colour_task", action="store_true",
+                    help="按 eval/colour_task.py 的目标（每张真人参照瓦片的材质名 + 平均色）出图，颜色条件打开")
     a = ap.parse_args()
     dev = "cuda"
     torch.manual_seed(a.seed)
@@ -64,6 +66,26 @@ def main():
     rng = np.random.default_rng(a.seed)
 
     tag = a.tag or f"TRD_{a.run.name}_cfg{a.cfg}_t{a.temp}_p{a.pal_top_p}_{a.set}"
+    if a.colour_task:                               # 任务本身：区域颜色 + 材质名（eval/colour_task.py）
+        from colour_task import targets
+        from PIL import Image
+        T = targets(a.set, a.size if a.size in (16, 32) else 16)
+        pidx = {e["prompt"]: i for i, e in enumerate(prompts)}
+        out = ROOT / "experiments/colour" / tag / str(a.size)
+        out.mkdir(parents=True, exist_ok=True)
+        ks = torch.tensor(rng.choice(17, len(T), p=kdist), device=dev)
+        ti = torch.tensor([pidx[t["prompt"]] for t in T], device=dev)
+        col = torch.tensor([[*(np.array(t["rgb"]) / 255.0), 1.0] for t in T], dtype=torch.float32, device=dev)
+        for i in range(0, len(T), a.bs):
+            sl = slice(i, i + a.bs)
+            pal, grid = sample(model, temb[ti[sl]], ks[sl], n=a.size, color=col[sl], steps=a.steps,
+                               cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p, choice_temp=a.choice_temp,
+                               ref=None if rembs is None else rembs[ti[sl]])
+            imgs = decode(pal, grid, cb)
+            for j, t in enumerate(T[sl]):
+                Image.fromarray(imgs[j]).save(out / f"{t['slug']}_{t['j']}.png")
+        print("->", out, len(T))
+        return
     out = (a.out or ROOT / "experiments/baselines") / tag / str(a.size)
     out.mkdir(parents=True, exist_ok=True)
     from PIL import Image
