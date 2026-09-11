@@ -113,7 +113,7 @@ class TRD(nn.Module):
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
                  bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
-                 n_domains: int = 0, critic: bool = False):
+                 n_domains: int = 0, critic: bool = False, coarse: bool = False):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -143,6 +143,9 @@ class TRD(nn.Module):
         # 数据来源（0 = 材质包，1 = 模组）：模组贴图里有大量机器面板/装饰块，混训会把结构先验拉偏
         # （v5 第 14000 步样本里满是带边框的面板）。带着来源训练、推理时设 0 = 对齐材质包画风。
         self.dom_emb = nn.Embedding(n_domains, d) if n_domains else None
+        # 粗网格条件（v10，由粗到细级联的"超分"输入）：每格加上低一档分辨率版本在该处的归一化色阶（0..15，16 = 不给）。
+        # 训练时用真人瓦片自己的 2× 下采样再放大；位置偏置按相对比例算，8→16 学到的细化能迁移到 16→32。
+        self.coarse_emb = nn.Embedding(K_MAX + 1, d) if coarse else None
         self.n_ex = n_exemplars
         if n_exemplars:
             self.ex_proj = nn.Linear(16 * 16, d)
@@ -173,7 +176,7 @@ class TRD(nn.Module):
         tok = self.ex_proj(oh.to(self.ex_proj.weight.dtype)) + self.ex_pos[None, None] + self.ex_slot[None, :, None]
         return tok.reshape(B, E * 16, -1)
 
-    def forward(self, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None):
+    def forward(self, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None, coarse=None):
         B, N, _ = grid.shape
         xp = self.pal_emb(pal) + self.slot_emb[None]
         xg = self.grid_emb(grid.view(B, -1))
@@ -183,6 +186,9 @@ class TRD(nn.Module):
                               / (k[:, None].float() - 1).clamp(min=1)).long().clamp(0, 15)
             lvl = torch.where(g == self.GRID_MASK, torch.full_like(lvl, K_MAX), lvl)
             xg = xg + self.level_emb(lvl)
+        if self.coarse_emb is not None:
+            cz = coarse if coarse is not None else torch.full_like(grid, K_MAX)
+            xg = xg + self.coarse_emb(cz.view(B, -1))
         x = torch.cat([xp, xg], 1)
         L0 = x.shape[1]
         if self.ex_proj is not None:
@@ -219,7 +225,7 @@ def mask_ratio(u):
     return torch.cos(0.5 * math.pi * u)
 
 
-def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None,
+def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None, coarse=None,
                   pal_smooth: float = 0.0):
     B, N, _ = grid.shape
     r = mask_ratio(torch.rand(B, device=grid.device))
@@ -230,7 +236,7 @@ def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=Non
     mg[:, 0, 0] |= ~(mp.any(1) | mg.flatten(1).any(1))
     pal_in = torch.where(mp, torch.full_like(pal, model.PAL_MASK), pal)
     grid_in = torch.where(mg, torch.full_like(grid, model.GRID_MASK), grid)
-    lp, lg = model(pal_in, grid_in, k, text, color, ref, align, ex, dom)
+    lp, lg = model(pal_in, grid_in, k, text, color, ref, align, ex, dom, coarse)
     # 秩必须 < k：屏蔽越界类别
     rank_ok = torch.arange(K_MAX, device=grid.device)[None] < k[:, None]
     lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
@@ -255,7 +261,7 @@ def top_p_filter(logits, p):
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
            choice_temp=4.5, null_text=None, pal_top_p=0.9, ref=None,
            refine=0, refine_frac=0.25, refine_temp=0.7, pal_init=None, align=None, grid_init=None, ex=None,
-           ex_cfg=None, dom_w=0.0, dom_target=2):
+           ex_cfg=None, dom_w=0.0, dom_target=2, coarse=None):
     """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
 
     pal_init：[B,16] 调色板码（前 k 个有效）；给了就当已知条件，不再采样调色板。
@@ -286,17 +292,17 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     total = (pal == model.PAL_MASK).sum(1) + (grid == model.GRID_MASK).view(B, -1).sum(1)
     rank_ok = torch.arange(K_MAX, device=dev)[None] < k[:, None]
     for s in range(steps):
-        lp, lg = model(pal, grid, k, text, color, ref, align, ex)
+        lp, lg = model(pal, grid, k, text, color, ref, align, ex, None, coarse)
         if dom_w:
-            lp2, lg2 = model(pal, grid, k, text, color, ref, align, ex, torch.full_like(k, dom_target))
+            lp2, lg2 = model(pal, grid, k, text, color, ref, align, ex, torch.full_like(k, dom_target), coarse)
             lp, lg = lp + dom_w * (lp2 - lp), lg + dom_w * (lg2 - lg)
         if ex is not None and ex_cfg is not None and ex_cfg != cfg:
-            up, ug = model(pal, grid, k, nt, color, None)
-            tp, tg = model(pal, grid, k, text, color, ref, align, None)       # 有文本、无范例
+            up, ug = model(pal, grid, k, nt, color, None, None, None, None, coarse)
+            tp, tg = model(pal, grid, k, text, color, ref, align, None, None, coarse)       # 有文本、无范例
             lp = up + cfg * (tp - up) + ex_cfg * (lp - tp)
             lg = ug + cfg * (tg - ug) + ex_cfg * (lg - tg)
         elif cfg != 1.0:
-            up, ug = model(pal, grid, k, nt, color, None)   # 无条件：文本、参考图、对齐分数、范例都丢
+            up, ug = model(pal, grid, k, nt, color, None, None, None, None, coarse)   # 无条件：文本、参考图、对齐分数、范例都丢
             lp, lg = up + cfg * (lp - up), ug + cfg * (lg - ug)
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
         # 分别采样调色板槽与网格格
@@ -326,9 +332,9 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
     for _ in range(refine):
         m = torch.rand(B, n, n, device=dev) < refine_frac
         g_in = grid.masked_fill(m, model.GRID_MASK)
-        _, lg = model(pal, g_in, k, text, color, ref, align, ex)
+        _, lg = model(pal, g_in, k, text, color, ref, align, ex, None, coarse)
         if cfg != 1.0:
-            _, ug = model(pal, g_in, k, nt, color, None)
+            _, ug = model(pal, g_in, k, nt, color, None, None, None, None, coarse)
             lg = ug + cfg * (lg - ug)
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
         sg = torch.multinomial(F.softmax(lg / refine_temp, -1).view(-1, K_MAX), 1).view(B, n, n)

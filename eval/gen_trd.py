@@ -262,8 +262,14 @@ def main():
                 if pinit is None:
                     pinit = pal16
                 ix = (torch.arange(a.size, device=dev) * 16) // a.size
-                gi = g16[:, ix][:, :, ix].clone()
-                gi[torch.rand(gi.shape, device=dev) >= a.cascade] = model.GRID_MASK
+                if getattr(model, "coarse_emb", None) is not None:  # v10：16px 结果当"粗网格"条件，目标尺寸从头生成
+                    lvl = torch.round(15.0 * g16.float() / (kb[:, None, None].float() - 1).clamp(min=1)).long().clamp(0, 15)
+                    CZ = lvl[:, ix][:, :, ix].contiguous()
+                    gi = torch.full_like(CZ, model.GRID_MASK)
+                else:
+                    CZ = None
+                    gi = g16[:, ix][:, :, ix].clone()
+                    gi[torch.rand(gi.shape, device=dev) >= a.cascade] = model.GRID_MASK
             if CRITIC is not None and pinit is not None:
                 from trd import sample_critic
                 pal, grid = sample_critic(model, CRITIC, temb[sl], kb, pinit, n=a.size, steps=a.steps, temp=a.temp,
@@ -271,7 +277,7 @@ def main():
             elif gi is not None:
                 pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps, cfg=a.cfg, temp=a.temp,
                                    pal_top_p=a.pal_top_p, choice_temp=a.choice_temp, pal_init=pinit, grid_init=gi,
-                                   align=AL(len(kb)), ex=exs, ex_cfg=a.ex_cfg, dom_w=a.dom_w)
+                                   align=AL(len(kb)), ex=exs, ex_cfg=a.ex_cfg, dom_w=a.dom_w, coarse=CZ)
             else:
                 pal, grid = sample(model, temb[sl], kb, n=a.size, steps=a.steps,
                                    cfg=a.cfg, temp=a.temp, pal_top_p=a.pal_top_p,

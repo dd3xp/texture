@@ -139,7 +139,8 @@ def model_from_args(a, drop=None):
                bias_freqs=int(g("bias_freqs", 1)), level_emb=bool(g("level_emb", False)),
                bias_hidden=int(g("bias_hidden", 64)),
                ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
-               n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0)
+               n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0,
+               coarse=bool(g("coarse", False)))
 
 
 @torch.no_grad()
@@ -212,6 +213,9 @@ def main():
     ap.add_argument("--extra_file", default="train_extra.json",
                     help="--extra 用哪个文件（train_extra_packs_only.json = 不含模组）")
     ap.add_argument("--n_domains", type=int, default=2, help="来源数：2 = 材质包/模组；3 = 再加 SDXL（v9）")
+    ap.add_argument("--coarse", action="store_true",
+                    help="v10 粗网格条件：训练时给瓦片自己的 2× 下采样再放大（p_coarse 概率），推理时由粗到细级联用")
+    ap.add_argument("--p_coarse", type=float, default=0.5)
     ap.add_argument("--init_from", type=Path, default=None,
                     help="从已有检查点初始化（形状不同的来源嵌入按行拷贝，多出的行用第 0 行＝材质包初始化）")
     ap.add_argument("--domain", action="store_true",
@@ -302,8 +306,9 @@ def main():
                 w[v.shape[0]:] = v[0]
                 sd[kk] = w
         missing, unexpected = model.load_state_dict(sd, strict=False)
-        if "dom_emb.weight" in missing:              # 源检查点没有来源嵌入：置零，来源 0 的行为与源模型完全一致
-            torch.nn.init.zeros_(model.dom_emb.weight)
+        for name in ("dom_emb", "coarse_emb"):         # 源检查点没有的新嵌入：置零，起点行为与源模型完全一致
+            if f"{name}.weight" in missing:
+                torch.nn.init.zeros_(getattr(model, name).weight)
         print(f"从 {a.init_from} 初始化；缺 {missing}，多 {unexpected}", flush=True)
     cbt = torch.as_tensor(cb, device=dev)
     print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
@@ -363,13 +368,21 @@ def main():
                 al = torch.zeros_like(al)
         ex = BANK.draw(D["ex_cand"][idx], a.n_ex, train_mode, a.p_ex_drop) if "ex_cand" in D else None
         dm = D["dom"][idx] if a.domain else None
+        cz = None
+        if a.coarse and train_mode:                       # 2× 点采样下采样（随机相位）→ 最近邻放大 → 每 2×2 块一个色阶
+            kk = D["k"][idx]
+            lvl = torch.round(15.0 * g.float() / (kk[:, None, None].float() - 1).clamp(min=1)).long().clamp(0, 15)
+            oy, ox = torch.randint(0, 2, (2,)).tolist()
+            N_ = g.shape[1]
+            cz = lvl[:, oy::2, ox::2].repeat_interleave(2, 1).repeat_interleave(2, 2)[:, :N_, :N_].contiguous()
+            cz[torch.rand(B, device=dev) >= a.p_coarse] = K_MAX
         if REF is None:
-            return [pal, g, D["k"][idx], t, c, None, al, ex, dm]
+            return [pal, g, D["k"][idx], t, c, None, al, ex, dm, cz]
         pick = torch.randint(0, REF.shape[1], (B,), device=dev) if train_mode             else torch.zeros(B, dtype=torch.long, device=dev)
         r = REF[D["ref_ix"][idx], pick]
         if train_mode:
             r = r * (torch.rand(B, device=dev) >= a.p_ref_drop)[:, None]
-        return [pal, g, D["k"][idx], t, c, r, al, ex, dm]
+        return [pal, g, D["k"][idx], t, c, r, al, ex, dm, cz]
 
     val_parts = [0.0, 0.0]
 
