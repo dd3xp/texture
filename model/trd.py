@@ -188,9 +188,25 @@ def training_loss(model, pal, grid, k, text, color, pal_smooth: float = 0.0):
 
 # ------------------------------------------------------------------ 采样
 @torch.no_grad()
+def top_p_filter(logits, p):
+    """nucleus 截断：只保留累计概率达到 p 的最高那些类别。"""
+    if p >= 1.0:
+        return logits
+    sl, si = logits.sort(-1, descending=True)
+    cum = F.softmax(sl, -1).cumsum(-1)
+    drop = cum - F.softmax(sl, -1) > p          # 第一个越过 p 的类别本身保留
+    sl = sl.masked_fill(drop, float("-inf"))
+    return torch.full_like(logits, float("-inf")).scatter(-1, si, sl)
+
+
 def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
-           choice_temp=4.5, null_text=None):
-    """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。"""
+           choice_temp=4.5, null_text=None, pal_top_p=0.9):
+    """MaskGIT 式迭代解码 + CFG。返回 (pal_codes [B,16], ranks [B,n,n])。
+
+    pal_top_p：调色板槽的 nucleus 截断。训练时对调色板码用了标签平滑（v2 的 0.1），
+    它把 10% 概率均匀摊到 512 个颜色上——直接按模型分布采样，每个槽约有 10% 机会抽到
+    一个完全随机的颜色（v2 第 3000 步诊断图里红底上的青黄线即此）。截掉尾部即可。
+    """
     B = text.shape[0]
     dev = text.device
     pal = torch.full((B, K_MAX), model.PAL_MASK, dtype=torch.long, device=dev)
@@ -207,7 +223,7 @@ def sample(model, text, k, n=16, color=None, steps=24, temp=1.0, cfg=2.0,
             lp, lg = up + cfg * (lp - up), ug + cfg * (lg - ug)
         lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
         # 分别采样调色板槽与网格格
-        pp = F.softmax(lp / temp, -1)
+        pp = F.softmax(top_p_filter(lp / temp, pal_top_p), -1)
         sp = torch.multinomial(pp.view(-1, pp.shape[-1]), 1).view(B, K_MAX)
         cp = torch.gather(pp, -1, sp[..., None]).squeeze(-1).log()
         pg = F.softmax(lg / temp, -1)

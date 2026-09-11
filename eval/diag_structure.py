@@ -45,6 +45,7 @@ def main():
     ap.add_argument("--cfg", type=float, default=2.0)
     ap.add_argument("--choice_temp", type=float, default=4.5)
     ap.add_argument("--steps", type=int, default=24)
+    ap.add_argument("--pal_top_p", type=float, default=0.9)
     a = ap.parse_args()
     dev = "cuda"
     ck = torch.load(a.run / a.ckpt, map_location=dev)
@@ -80,18 +81,19 @@ def main():
     rows, fires = [], []
     for rep in range(a.n):
         ks = torch.tensor([a.k] * len(STRUCT) if a.k else rng.choice(17, len(STRUCT), p=kdist), device=dev)
-        pal, grid = sample(model, temb, ks, n=16, cfg=a.cfg, choice_temp=a.choice_temp, steps=a.steps)
+        pal, grid = sample(model, temb, ks, n=16, cfg=a.cfg, choice_temp=a.choice_temp, steps=a.steps,
+                           pal_top_p=a.pal_top_p)
         imgs = decode(pal, grid, cb)
         fires += [gated(t) for t in imgs]
         rows.append(np.concatenate(list(imgs), 1))
     sheet = np.concatenate(rows, 0)
-    tag = f"{a.run.name}_{a.ckpt[:-3]}_ct{a.choice_temp}_s{a.steps}"
+    tag = f"{a.run.name}_{a.ckpt[:-3]}_ct{a.choice_temp}_s{a.steps}_p{a.pal_top_p}"
     out = ROOT / f"experiments/diag_struct_{tag}.png"
     Image.fromarray(sheet).resize((sheet.shape[1] * 6, sheet.shape[0] * 6), Image.NEAREST).save(out)
     res = {"run": str(a.run), "ckpt": a.ckpt, "step": ck["step"], "val_grid": tg / len(val),
            "val_pal": tp / len(val), "struct_rate": float(np.mean(fires)),
            "artist_struct_rate": ref_rate, "n_samples": len(fires), "n_artist": len(ref),
-           "choice_temp": a.choice_temp, "steps": a.steps, "cfg": a.cfg}
+           "choice_temp": a.choice_temp, "steps": a.steps, "cfg": a.cfg, "pal_top_p": a.pal_top_p}
     print(json.dumps(res, ensure_ascii=False))
     print("列:", STRUCT, "->", out)
     with open(ROOT / "experiments/diag_struct.jsonl", "a", encoding="utf-8") as f:

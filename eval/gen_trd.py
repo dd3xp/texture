@@ -30,6 +30,7 @@ def main():
     ap.add_argument("--cfg", type=float, default=2.0)
     ap.add_argument("--temp", type=float, default=1.0)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--bs", type=int, default=32, help="采样批次（CFG 要两次前向，共享卡上别开太大）")
     ap.add_argument("--out", type=Path, default=None)
     a = ap.parse_args()
     dev = "cuda"
@@ -53,8 +54,8 @@ def main():
     from PIL import Image
     for kk in range(a.n):
         ks = torch.tensor(rng.choice(17, len(prompts), p=kdist), device=dev)
-        for i in range(0, len(prompts), 128):
-            sl = slice(i, i + 128)
+        for i in range(0, len(prompts), a.bs):
+            sl = slice(i, i + a.bs)
             pal, grid = sample(model, temb[sl], ks[sl], n=a.size, steps=a.steps,
                                cfg=a.cfg, temp=a.temp)
             imgs = decode(pal, grid, cb)
