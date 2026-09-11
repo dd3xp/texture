@@ -193,18 +193,24 @@ def main():
             c[:] = model.null_color.detach().cpu()
         return [x.to(dev) for x in (D["pal"][idx], g, D["k"][idx], t, c)]
 
+    val_parts = [0.0, 0.0]
+
     def val_loss(Vd, nval):
         """固定掩码随机性让各次验证损失可比；fork_rng 隔离，不污染训练的随机序列。"""
-        tot, cnt = 0.0, 0
+        tot, tg, tp, cnt = 0.0, 0.0, 0.0, 0
         devs = [torch.cuda.current_device()] if dev == "cuda" else []
         with torch.random.fork_rng(devices=devs), torch.no_grad(), \
                 torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
             torch.manual_seed(123)
             for i in range(0, nval, 256):
                 idx = torch.arange(i, min(i + 256, nval))
-                l, _ = training_loss(model, *batch_of(Vd, idx, False))
+                l, parts = training_loss(model, *batch_of(Vd, idx, False))
                 tot += l.item() * len(idx)
+                tg += parts["loss_grid"] * len(idx)
+                tp += parts["loss_pal"] * len(idx)
                 cnt += len(idx)
+        # 分开报结构与调色板：两者过拟合的原因不同，混在一起看不出是哪边在涨
+        val_parts[:] = [tg / cnt, tp / cnt]
         return tot / cnt
 
     best, log = float("inf"), []
@@ -225,8 +231,9 @@ def main():
         if step % a.eval_every == 0:
             model.eval()
             vl = val_loss(V, len(val))                       # 选检查点只看 16px val
+            vg, vp = val_parts
             v32 = val_loss(V32, len(val32)) if V32 is not None else None
-            rec = {"step": step, "train": loss.item(), **parts, "val": vl, "val32": v32,
+            rec = {"step": step, "train": loss.item(), **parts, "val": vl, "val_grid": vg, "val_pal": vp, "val32": v32,
                    "lr": sched.get_last_lr()[0], "min": (time.time() - t0) / 60}
             log.append(rec)
             print(json.dumps(rec), flush=True)
