@@ -80,6 +80,9 @@ def main():
     ref = [s["palette"][s["idx"]] for s in test
            if a.set.endswith("_all") or is_material(s["material"])]
     print(f"{a.set}: {len(prompts)} 个材质；参照 {len(ref)} 张真人 {a.size}px", flush=True)
+    if 0 < len(ref) < 50:                               # 测试集 32px 只有 2 张：分布指标无意义，只报无参照指标
+        print(f"  参照少于 50 张，不算 FID/KID/FD（只报 CLIP / 平铺 / 多样性）", flush=True)
+        ref = []
 
     rows, cache = {}, None
     for m in a.methods:
