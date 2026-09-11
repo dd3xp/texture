@@ -36,8 +36,8 @@ def load_trd(run: Path, ckpt: str, dev: str):
     return m.to(dev).eval(), np.load(run / "codebook.npy")
 
 
-def exemplars_for(model, prompt, text, n_cand, dev, extra="train_extra.json"):
-    """v7+ 模型：同材质（按文本最近）、其他画师的结构范例。"""
+def exemplars_for(model, prompt, text, n_cand, dev, extra="train_extra.json", t16=None):
+    """v7+ 模型：同材质（按文本最近）、其他画师的结构范例；给了 t16 就按跨模态相似度只留最典型的 8 张。"""
     if getattr(model, "ex_proj", None) is None:
         return None
     from exemplars import ExemplarBank
@@ -46,8 +46,12 @@ def exemplars_for(model, prompt, text, n_cand, dev, extra="train_extra.json"):
     pool = load(16, "train", extra=extra)
     pm = sorted({s["material"] for s in pool})
     pe = clip_text([text_prompt(m) for m in pm], dev)
-    bank = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev)
+    bank = ExemplarBank(pool, {m: pe[i] for i, m in enumerate(pm)}, dev, C=64 if t16 is not None else 16)
     cand = bank.candidates([{"material": prompt}], emb=text[:1])
+    if t16 is not None:
+        from palette_memory import clip16_images
+        pool_art = [s for s in pool if not str(s.get("pack", "")).endswith("@gen")]
+        cand = bank.rank_xmodal(cand, clip16_images([s["palette"][s["idx"]] for s in pool_art], dev), t16)
     return bank.draw(cand.expand(n_cand, -1), model.n_ex, False)
 
 
@@ -56,7 +60,9 @@ def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=1.5,
     """出 n_cand 张候选，取平均色最接近区域颜色的一张。"""
     torch.manual_seed(seed)
     text = clip_text([TEXT_TMPL.format(p=prompt)], dev).to(dev).expand(n_cand, -1)
-    ex = exemplars_for(model, prompt, text, n_cand, dev, extra)
+    from palette_memory import clip16_texts
+    t16 = clip16_texts([prompt], dev)                     # 跨模态检索（调色板与范例都挑该材质最典型的画法）
+    ex = exemplars_for(model, prompt, text, n_cand, dev, extra, t16)
     col = torch.tensor([*(np.array(color) / 255.0), 1.0], dtype=torch.float32, device=dev)
     col = col[None].expand(n_cand, -1)
     ks = torch.full((n_cand,), k, device=dev)
@@ -64,9 +70,10 @@ def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=1.5,
         from palette_memory import PaletteMemory
         from trd import K_MAX
         mem, rng = PaletteMemory(dev), np.random.default_rng(seed)
+        mem.enable_xmodal(dev)
         pals, codes = [], []
         for _ in range(n_cand):
-            _, i = mem.query(text[0], k, rng, colour=color)
+            _, i = mem.query(text[0], None, rng, colour=color, text16=t16[0])
             p = mem.shifted(i, color)
             row = np.full(K_MAX, len(cb) + 1, np.int64)
             row[:len(p)] = encode_palette(p, cb)
@@ -88,7 +95,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("image", type=Path)
     ap.add_argument("prompt")
-    ap.add_argument("--run", type=Path, default=ROOT / "runs/trd_v2")
+    ap.add_argument("--run", type=Path, default=ROOT / "runs/trd_v8")
     ap.add_argument("--ckpt", default="last.pt")
     ap.add_argument("--pal_mode", choices=["retrieve", "model"], default="retrieve")
     ap.add_argument("--cfg", type=float, default=1.5)
