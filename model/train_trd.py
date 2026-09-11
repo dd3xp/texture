@@ -6,8 +6,10 @@
     python model/train_trd.py --smoke        （极小配置跑几十步 + 采样一次）
 """
 import argparse
+import atexit
 import json
 import math
+import os
 import sys
 import time
 from pathlib import Path
@@ -24,6 +26,25 @@ from trd import TRD, K_MAX, training_loss, sample       # noqa: E402
 from prompts import prompt_words                        # noqa: E402
 
 TEXT_TMPL = "pixel art texture of {p}"
+
+
+def claim_out_dir(out: Path):
+    """一个 --out 目录只许一个活着的训练进程写。
+
+    2026-09-12 撞过一次：两个会话各自启了一个 "v11"，都写 runs/trd_v11 →
+    last.pt / best.pt / step_6000.pt / log.json 互相覆盖，谁的权重都说不清。
+    锁里记 pid，死进程留下的锁自动作废；没有 /proc 的机器（本机 Windows）一律当活的，
+    宁可拦住也不抢——真要接着用就手删这个文件。
+    """
+    lk = out / ".trainlock"
+    if lk.exists():
+        head = lk.read_text().split()
+        pid = int(head[0]) if head and head[0].isdigit() else -1
+        alive = Path(f"/proc/{pid}").exists() if Path("/proc").exists() else True
+        if alive:
+            raise SystemExit(f"{out} 正被 pid {pid} 写着（{lk}）；换一个 --out，别覆盖它的检查点")
+    lk.write_text(f"{os.getpid()} {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+    atexit.register(lambda: lk.unlink(missing_ok=True))
 
 
 # ------------------------------------------------------------------ 颜色码本
@@ -216,6 +237,10 @@ def main():
     ap.add_argument("--coarse", action="store_true",
                     help="v10 粗网格条件：训练时给瓦片自己的 2× 下采样再放大（p_coarse 概率），推理时由粗到细级联用")
     ap.add_argument("--p_coarse", type=float, default=0.5)
+    ap.add_argument("--coarse_phase", choices=["rand", "fixed"], default="rand",
+                    help="粗网格取样相位：rand = v10（模型不知道块里哪一格是真的）；fixed = v11，相位 (0,0)，与推理端对齐")
+    ap.add_argument("--probe_coarse", type=Path, default=None,
+                    help="只诊断不训练：载入这个检查点，量 val 损失在 不给/给真/给别人的 粗网格三种条件下的差")
     ap.add_argument("--init_from", type=Path, default=None,
                     help="从已有检查点初始化（形状不同的来源嵌入按行拷贝，多出的行用第 0 行＝材质包初始化）")
     ap.add_argument("--domain", action="store_true",
@@ -228,6 +253,7 @@ def main():
         a.steps, a.batch, a.d, a.depth, a.heads, a.codes, a.eval_every = 40, 16, 64, 2, 2, 64, 20
         a.out = ROOT / "runs/trd_smoke"
     a.out.mkdir(parents=True, exist_ok=True)
+    claim_out_dir(a.out)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
     torch.manual_seed(0)
     torch.set_num_threads(4)                              # 共享机器：别吃满所有 CPU 核
@@ -328,7 +354,7 @@ def main():
     Kx = torch.tensor([[0, -axis[2], axis[1]], [axis[2], 0, -axis[0]], [-axis[1], axis[0], 0]], device=dev)
     K2 = Kx @ Kx
 
-    def batch_of(D, idx, train_mode):
+    def batch_of(D, idx, train_mode, coarse_mode=None):
         idx = idx.to(dev)
         g = D["grid"][idx]
         if train_mode:
@@ -369,13 +395,23 @@ def main():
         ex = BANK.draw(D["ex_cand"][idx], a.n_ex, train_mode, a.p_ex_drop) if "ex_cand" in D else None
         dm = D["dom"][idx] if a.domain else None
         cz = None
-        if a.coarse and train_mode:                       # 2× 点采样下采样（随机相位）→ 最近邻放大 → 每 2×2 块一个色阶
+        # off = 一格都不给（K_MAX 空条件）；rand = 训练口径，按 p_coarse 随机给；
+        # on = 全给真粗网格；shuffle = 全给，但来自批内别的瓦片（探针用：能分辨"真在读粗网格"还是"只是多了个常数"）
+        cmode = coarse_mode if coarse_mode is not None else ("rand" if train_mode else "off")
+        if a.coarse and cmode != "off":                   # 2× 点采样下采样（随机相位）→ 最近邻放大 → 每 2×2 块一个色阶
             kk = D["k"][idx]
             lvl = torch.round(15.0 * g.float() / (kk[:, None, None].float() - 1).clamp(min=1)).long().clamp(0, 15)
-            oy, ox = torch.randint(0, 2, (2,)).tolist()
+            # 相位：v10 用随机相位，于是模型只知道"这 2×2 块里有一格是这个色阶"，四选一的歧义把条件冲淡了
+            # （探针：给真粗网格只把 val32 的结构交叉熵从 2.133 降到 1.842）。v11 固定相位 (0,0)，
+            # 与推理端 gen_trd 的 ix=[0,0,1,1,…] 完全对齐 → 粗网格变成"偶数格就是这个色阶"的硬约束。
+            oy, ox = torch.randint(0, 2, (2,)).tolist() \
+                if (cmode == "rand" and a.coarse_phase == "rand") else (0, 0)
             N_ = g.shape[1]
             cz = lvl[:, oy::2, ox::2].repeat_interleave(2, 1).repeat_interleave(2, 2)[:, :N_, :N_].contiguous()
-            cz[torch.rand(B, device=dev) >= a.p_coarse] = K_MAX
+            if cmode == "rand":
+                cz[torch.rand(B, device=dev) >= a.p_coarse] = K_MAX
+            elif cmode == "shuffle":
+                cz = cz[torch.randperm(B, device=dev)].contiguous()
         if REF is None:
             return [pal, g, D["k"][idx], t, c, None, al, ex, dm, cz]
         pick = torch.randint(0, REF.shape[1], (B,), device=dev) if train_mode             else torch.zeros(B, dtype=torch.long, device=dev)
@@ -386,7 +422,7 @@ def main():
 
     val_parts = [0.0, 0.0]
 
-    def val_loss(Vd, nval, net=None):
+    def val_loss(Vd, nval, net=None, coarse_mode=None):
         """固定掩码随机性让各次验证损失可比；fork_rng 隔离，不污染训练的随机序列。"""
         tot, tg, tp, cnt = 0.0, 0.0, 0.0, 0
         devs = [torch.cuda.current_device()] if dev == "cuda" else []
@@ -395,7 +431,8 @@ def main():
             torch.manual_seed(123)
             for i in range(0, nval, 256):
                 idx = torch.arange(i, min(i + 256, nval))
-                l, parts = training_loss(net if net is not None else model, *batch_of(Vd, idx, False))
+                l, parts = training_loss(net if net is not None else model,
+                                         *batch_of(Vd, idx, False, coarse_mode))
                 tot += l.item() * len(idx)
                 tg += parts["loss_grid"] * len(idx)
                 tp += parts["loss_pal"] * len(idx)
@@ -403,6 +440,25 @@ def main():
         # 分开报结构与调色板：两者过拟合的原因不同，混在一起看不出是哪边在涨
         val_parts[:] = [tg / cnt, tp / cnt]
         return tot / cnt
+
+    if a.probe_coarse:
+        # 探针：验证损失从来不给粗网格（batch_of 里那一行原本写死 train_mode），
+        # 所以 v10 的 val32 曲线对"粗网格条件有没有学会"完全没有信息量。这里直接量。
+        if model.coarse_emb is None:
+            raise SystemExit("这个 run 没有粗网格条件（缺 --coarse）")
+        model.load_state_dict(torch.load(a.probe_coarse, map_location=dev)["model"])
+        model.eval()
+        rows = []
+        for tag, Vd, nval in (("val16", V, len(val)), ("val32", V32, len(val32) if val32 else 0)):
+            if not nval:
+                continue
+            for cmode in ("off", "on", "shuffle"):
+                vl = val_loss(Vd, nval, coarse_mode=cmode)
+                rows.append({"set": tag, "coarse": cmode, "val": vl,
+                             "val_grid": val_parts[0], "val_pal": val_parts[1]})
+                print(json.dumps(rows[-1]), flush=True)
+        json.dump(rows, open(a.out / "probe_coarse.json", "w"), indent=1)
+        raise SystemExit(0)
 
     import copy
     ema = copy.deepcopy(model).eval().requires_grad_(False) if a.ema > 0 else None

@@ -1003,3 +1003,55 @@ KID 20.6 / 20.2 / 20.1 / 23.7、CLIP 34.28 / 34.14 / 34.05 / 34.08（直接 1.0�
 **24px 判官**：v10 直接 24px vs B2 → 38/86 = 44%，p=0.33，[34%, 55%]（试点 80% vs 0%）——打平。
 
 判官现状（验证集，vs B2）：16px 区域颜色任务 **67% 显著胜**；16px 名字 54%（平）；24px 44%（平）；32px 分不出（真人亦然）。
+
+## 2026-09-12（定时轮次）：两个会话各起了一个 "v11"、都写同一个 `runs/trd_v11` —— 已拆开并加锁
+
+**本轮没有新指标，做的是止损**：开工时 `ps` 里有**两个** `train_trd.py --out runs/trd_v11`，
+是两个已经结束的并行会话各自启的、**内容完全不同的**实验：
+
+| 叫法 | 出处 | `--init_from` | 改动 | 当时进度 |
+| --- | --- | --- | --- | --- |
+| **v11-相位**（保留在 `runs/trd_v11`） | `scripts/v11_launch_tmp.sh`，tmux `arch_v11`，16:48 UTC 起 | v8 | `--coarse_phase fixed`、p32 0.5 | 第 8000/12000 步 |
+| **v11-数据**（已搬到 `runs/trd_v11d`） | tmux `arch_trd_v11`，17:10 UTC 起 | v10 | +`train_64to32.json`、p32 0.7 | 第 4000/12000 步 |
+
+两个进程每 1000 步各写一次 `last.pt`/`best.pt`/`log.json`，`step_6000.pt`、`config.json`、
+`text_emb.pt`、`experiments/trd_v11.txt`（两边都 `>` 同一个文件）也都在互相覆盖，
+**而且两条后续评测链（`v11_launch_tmp.sh` 与远程 `scripts/v11eval_tmp.sh`）都要拿 `runs/trd_v11/last.pt`
+生成同名标签 `v11x`、写同三个 `experiments/eval_v11_Vmat_*.json`** —— 再过一小时出来的数字属于谁都说不清。
+
+**实际损伤（逐个查过 `ckpt["args"]`，不是推测）**：
+- 码本安全：`--init_from` 沿用源模型码本，v8/v10/v11 三份 `codebook.npy` **md5 相同**，权重没有对不上调色板码。
+- `best.pt` **确实被换成了对方的权重**（step 1000、val 6.326、`init runs/trd_v10`、`p32 0.7`）。
+  而 v11-相位自己的 val 是 6.70→6.83 **一路上升**，它**永远不会再刷新这个数**
+  → 训练末尾 `torch.load(best.pt)` 出的样图、以及任何用 best.pt 的评测，都会是另一个模型的。
+  已用它自己的 `step_6000.pt`（val 6.702）覆盖回去。
+- **不可恢复的损失**：v11-相位真正的早期 best（第 1000–4000 步那段）已被对方覆盖，
+  它的 stdout 那段也被对方的 `>` 截断成了文件空洞。它现在只剩 step_6000 / last / step_12000 可用。
+
+**处置**：杀掉起步晚的 v11-数据（少扔 4000 步）与还在 `sleep` 等待的 `v11eval_tmp.sh`，
+用 `scripts/v11d_train_eval.sh` 原配方重启到 `runs/trd_v11d`（tmux `arch_v11d`，7 号卡，
+独立日志 `experiments/trd_v11d.txt`、独立标签 `v11dx*`、独立 JSON `eval_v11d_Vmat_*.json`）。
+第 0 步 val 6.868950 对上原来的 6.868775 → 配方复现无误。v11-相位原样继续跑，现在是 `runs/trd_v11` 的唯一写者。
+
+**根因修掉了，不只是这次绕开**：`train_trd.py` 加 `claim_out_dir()` —— `--out` 目录下写 `.trainlock`
+（记 pid，`atexit` 释放；死 pid 的锁自动作废；没有 `/proc` 的机器一律当活的，宁可拦住也不抢）。
+Linux 上三分支实测：占用中拦住 / 死 pid 放行 / 正常启动。已给还在跑的 v11-相位补了一份手写锁。
+
+**教训**：`--out`、日志文件、生成标签、评测 JSON 名**要跟着实验名走**，
+用 "v11" 这种按轮次递增的名字时，并行会话必然撞同一个名字；
+`ps` 里两条命令行看着都叫 v11，**分辨它们只能靠 `--init_from`/`--extra_file`，
+分辨落盘的检查点只能靠 `ckpt["args"]`**。
+
+**顺手记下 v10 粗网格探针的结论**（上一个会话跑的 `runs/probe_v10b/probe_coarse.json`，之前没入账）：
+v10 **确实在读**粗网格——val16 结构交叉熵 off 2.236 → 给真的 1.998 → 给别的瓦片的 2.359（变差）；
+val32 2.144 → 1.938 → 2.308。但"给真的"只赚 0.2 nats，因为 v10 训练用**随机相位**，
+"这 2×2 块里有一格是这个色阶"是四选一的歧义；v11-相位就是把训练相位固定成 (0,0)、与 `gen_trd` 的推理端对齐。
+
+**B3（SD-piXL）**：12 张里已出 3 张（`baked_clay_green`、`ctf_map_damage_cobble`、`nc_fire_coal_4`），
+两条 driver 在跑 `moreblocks_circle_stone_bricks`（6h06m）与 `default_desert_stone_block`（2h13m）。
+**哪张归谁看 `.lock`**：有锁的是 `arch_b3rev`（gpu3，新代码），没锁的是 `arch_b3`（gpu6，老代码）
+→ 现在无锁的 `default_desert_stone_block` 就是 gpu6 在跑。
+**零浪费的重启时刻＝`experiments/baselines/B3/16/default_desert_stone_block_0.png` 一出现就重启 `arch_b3`**
+（此刻重启要白扔 2.2 GPU 小时，故本轮仍不动）。
+
+**算力仍是瓶颈**：8 张卡 0–5 全被别人占满（75GB/卡），7 号卡跑我们的两个训练，`/mnt/data` 剩 8.7G。
