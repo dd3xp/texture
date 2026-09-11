@@ -2,13 +2,14 @@
 
 用新架构 TRD 生成瓦片：
 - 材质名 → CLIP 文本条件（开放词表）；
-- **区域颜色 → 平均色条件**（训练时学过，`[r,g,b,1]`），所以配色由模型原生跟随区域，
-  不靠事后挪色；需要时 `--recolor` 再用 `recolor_to` 对齐一次；
+- **区域颜色 → 检索增强调色板**（默认 `--pal_mode retrieve`，`model/palette_memory.py`）：
+  按 材质名 + 区域颜色 从真人调色板记忆库里取一张，Lab 平移到区域颜色，作为已知条件；
+  TRD 只生成结构（像素排布）。`--pal_mode model` = 旧做法（模型自己出调色板，平均色作条件）；
 - 环面相对位置 → 生成的瓦片**首尾天然接得上**，平铺进区域没有接缝。
 
 区域判定、平铺相位沿用 `tools/paint_region.py` 的做法（背景 = 占据边框的颜色）。
 
-    HF_HUB_OFFLINE=1 python tools/paint_region_trd.py in.png "oak planks" --run runs/trd_v1 -o out.png
+    HF_HUB_OFFLINE=1 python tools/paint_region_trd.py in.png "oak planks" --run runs/<run> -o out.png
 """
 import argparse
 import sys
@@ -25,7 +26,7 @@ sys.path.insert(0, str(ROOT / "eval"))
 from paint_region import dominant_color, region_mask, tile_over, auto_scale   # noqa: E402
 from make_texture import recolor_to                                         # noqa: E402
 from trd import TRD, sample                                                 # noqa: E402
-from train_trd import decode, clip_text, TEXT_TMPL, model_from_args          # noqa: E402
+from train_trd import decode, clip_text, TEXT_TMPL, model_from_args, encode_palette   # noqa: E402
 
 
 def load_trd(run: Path, ckpt: str, dev: str):
@@ -35,15 +36,33 @@ def load_trd(run: Path, ckpt: str, dev: str):
     return m.to(dev).eval(), np.load(run / "codebook.npy")
 
 
-def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=2.0):
+def generate_tile(model, cb, prompt, color, size, k, n_cand, seed, dev, cfg=1.5, pal_mode="retrieve"):
     """出 n_cand 张候选，取平均色最接近区域颜色的一张。"""
     torch.manual_seed(seed)
     text = clip_text([TEXT_TMPL.format(p=prompt)], dev).to(dev).expand(n_cand, -1)
     col = torch.tensor([*(np.array(color) / 255.0), 1.0], dtype=torch.float32, device=dev)
     col = col[None].expand(n_cand, -1)
     ks = torch.full((n_cand,), k, device=dev)
-    pal, grid = sample(model, text, ks, n=size, color=col, cfg=cfg)
-    tiles = decode(pal, grid, cb)
+    if pal_mode == "retrieve":
+        from palette_memory import PaletteMemory
+        from trd import K_MAX
+        mem, rng = PaletteMemory(dev), np.random.default_rng(seed)
+        pals, codes = [], []
+        for _ in range(n_cand):
+            _, i = mem.query(text[0], k, rng, colour=color)
+            p = mem.shifted(i, color)
+            row = np.full(K_MAX, len(cb) + 1, np.int64)
+            row[:len(p)] = encode_palette(p, cb)
+            pals.append(p)
+            codes.append(row)
+        ks = torch.tensor([len(p) for p in pals], device=dev)
+        _, grid = sample(model, text, ks, n=size, color=col, cfg=cfg,
+                         pal_init=torch.tensor(np.stack(codes), device=dev))
+        g = grid.cpu().numpy()
+        tiles = [p[np.clip(g[j], 0, len(p) - 1)] for j, p in enumerate(pals)]
+    else:
+        pal, grid = sample(model, text, ks, n=size, color=col, cfg=cfg)
+        tiles = decode(pal, grid, cb)
     err = [np.abs(t.reshape(-1, 3).mean(0) - np.array(color)).sum() for t in tiles]
     return tiles[int(np.argmin(err))]
 
@@ -52,8 +71,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("image", type=Path)
     ap.add_argument("prompt")
-    ap.add_argument("--run", type=Path, default=ROOT / "runs/trd_v1")
-    ap.add_argument("--ckpt", default="best.pt")
+    ap.add_argument("--run", type=Path, default=ROOT / "runs/trd_v2")
+    ap.add_argument("--ckpt", default="last.pt")
+    ap.add_argument("--pal_mode", choices=["retrieve", "model"], default="retrieve")
+    ap.add_argument("--cfg", type=float, default=1.5)
     ap.add_argument("--size", type=int, default=16, choices=[16, 24, 32])
     ap.add_argument("--k", type=int, default=8, help="色阶数（2-16）")
     ap.add_argument("--color", help="区域颜色 RRGGBB；默认自动判定")
@@ -71,7 +92,8 @@ def main():
     mask = region_mask(img, color, a.tol)
     print(f"区域颜色 #{color[0]:02x}{color[1]:02x}{color[2]:02x}，覆盖 {mask.mean():.1%}")
     model, cb = load_trd(a.run, a.ckpt, dev)
-    tile = generate_tile(model, cb, a.prompt, color, a.size, a.k, a.cand, a.seed, dev)
+    tile = generate_tile(model, cb, a.prompt, color, a.size, a.k, a.cand, a.seed, dev,
+                         cfg=a.cfg, pal_mode=a.pal_mode)
     if a.recolor:                                   # recolor_to 作用在调色板上，不是整张瓦片
         cols, inv = np.unique(tile.reshape(-1, 3), axis=0, return_inverse=True)
         newpal = np.asarray(recolor_to(cols, "%02x%02x%02x" % tuple(color)))

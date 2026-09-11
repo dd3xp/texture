@@ -157,8 +157,8 @@ def align_scores(samples, clip_path, dev, bs=256):
     wi = {w: i for i, w in enumerate(uniq)}
     out = []
     for i in range(0, len(samples), bs):
-        x = torch.stack([torch.from_numpy(s["palette"][s["idx"]]).permute(2, 0, 1) for s in samples[i:i + bs]])
-        x = F.interpolate(x.float().to(dev) / 255.0, size=224, mode="nearest")
+        x = torch.cat([F.interpolate(torch.from_numpy(s["palette"][s["idx"]]).permute(2, 0, 1)[None].float().to(dev),
+                                     size=224, mode="nearest") for s in samples[i:i + bs]]) / 255.0   # 16/32 混批
         e = F.normalize(m.get_image_features(pixel_values=(x - mean) / std).float(), dim=-1)
         out.append((e * te[[wi[w] for w in words[i:i + bs]]]).sum(-1))
     del m
@@ -392,13 +392,19 @@ def main():
     model.load_state_dict(ck["model"])
     model.eval()
     from PIL import Image
+    del T, V, T32, V32, opt
+    torch.cuda.empty_cache()
     for size, pool in ((16, val), (32, val32)):
         if not pool:
             continue
-        sv = pool[:64]
+        sv = pool[:32]                                    # 共享卡：别在收尾时 OOM（v3/v4 都栽过）
         V2 = to_tensors(sv, cb, a.codes, tindex, temb)
-        pal, grid = sample(model, V2["text"].to(dev), V2["k"].to(dev), n=size,
-                           steps=24 if not a.smoke else 4)
+        try:
+            pal, grid = sample(model, V2["text"].to(dev), V2["k"].to(dev), n=size,
+                               steps=24 if not a.smoke else 4)
+        except torch.OutOfMemoryError:
+            print(f"样例图 {size}px 显存不足，跳过（检查点已存）", flush=True)
+            continue
         imgs = decode(pal, grid, cb)
         rows = len(imgs) // 8
         sheet = np.concatenate([np.concatenate(list(imgs[r * 8:(r + 1) * 8]), 1) for r in range(rows)], 0)
