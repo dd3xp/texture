@@ -19,6 +19,9 @@ from train_trd import decode, clip_text, TEXT_TMPL, model_from_args   # noqa: E4
 from tiles_data import load                      # noqa: E402
 
 
+FREE_K = True      # 检索调色板时不限色数（见 palette_memory.PaletteMemory.query）；--ret_k sample 改回旧做法
+
+
 def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5):
     """检索增强调色板（model/palette_memory.py）：每行取一张真人调色板，返回 (ks, pal_init 码, 精确调色板)。"""
     from train_trd import encode_palette
@@ -26,7 +29,7 @@ def retrieve_batch(mem, text_rows, ks, rng, cb, colours=None, topk=5):
     pals, codes, knew = [], [], []
     for i in range(len(ks)):
         c = None if colours is None else colours[i]
-        p, idx = mem.query(text_rows[i], int(ks[i]), rng, colour=c, topk=topk)
+        p, idx = mem.query(text_rows[i], None if FREE_K else int(ks[i]), rng, colour=c, topk=topk)
         if c is not None:
             p = mem.shifted(idx, c)
         pals.append(p)
@@ -70,6 +73,8 @@ def main():
                     help="retrieve = 检索增强调色板（按文本检索真人调色板，TRD 只生成结构）；"
                          "retrieve_model = TRD 先出一张定颜色，再按 文本+该颜色 检索真人调色板、平移到该颜色、重生成结构")
     ap.add_argument("--ret_topk", type=int, default=5)
+    ap.add_argument("--ret_k", choices=["free", "sample"], default="free",
+                    help="free = 色数跟检索到的真人调色板走；sample = 旧做法（先从全局分布抽 k 再限定 k 色）")
     ap.add_argument("--no_ex", action="store_true", help="v7 模型不给结构范例（消融）")
     ap.add_argument("--ex_cfg", type=float, default=None, help="结构范例单独的引导强度（trd.sample）")
     ap.add_argument("--align", type=float, default=None,
@@ -101,6 +106,8 @@ def main():
     kdist = np.bincount([s["k_used"] for s in load(16, "train")], minlength=17).astype(float)
     kdist /= kdist.sum()
     rng = np.random.default_rng(a.seed)
+    global FREE_K
+    FREE_K = a.ret_k == "free"
 
     def AL(n):
         if a.align is None or model.align_proj is None:

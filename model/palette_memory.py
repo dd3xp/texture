@@ -44,10 +44,17 @@ class PaletteMemory:
         self.material = [s["material"] for s in rows]
 
     def query(self, text_emb, k, rng, colour=None, topk=5, n_text=50):
-        """返回 (调色板 uint8 [k,3], 条目下标)。k 不存在时退到最近的 k。"""
-        ks = np.unique(self.k)
-        kk = k if k in ks else ks[np.abs(ks - k).argmin()]
-        pool = np.nonzero(self.k == kk)[0]
+        """返回 (调色板 uint8 [k,3], 条目下标)。k=None：不限色数，色数跟检索到的调色板走（推荐）；
+        给 k 时只在恰好 k 色的条目里找（k 不存在时退到最近的 k）。
+
+        为什么推荐 None：先从全局分布里抽 k 再限定 k 色，训练集里该材质若没有这个色数的版本，
+        就会退到名字相近但颜色完全不同的材质（验证集判官输掉的对里："coal block" 绿、"snow" 深灰、"diamond block" 黄绿）。"""
+        if k is None:
+            pool = np.arange(len(self.k))
+        else:
+            ks = np.unique(self.k)
+            kk = k if k in ks else ks[np.abs(ks - k).argmin()]
+            pool = np.nonzero(self.k == kk)[0]
         sims = (self.emb[torch.as_tensor(pool, device=self.emb.device)] @ text_emb.float()).cpu().numpy()
         cand = pool[np.argsort(-sims)[:n_text if colour is not None else topk]]
         if colour is not None:
