@@ -212,6 +212,8 @@ def main():
     ap.add_argument("--extra_file", default="train_extra.json",
                     help="--extra 用哪个文件（train_extra_packs_only.json = 不含模组）")
     ap.add_argument("--n_domains", type=int, default=2, help="来源数：2 = 材质包/模组；3 = 再加 SDXL（v9）")
+    ap.add_argument("--init_from", type=Path, default=None,
+                    help="从已有检查点初始化（形状不同的来源嵌入按行拷贝，多出的行用第 0 行＝材质包初始化）")
     ap.add_argument("--domain", action="store_true",
                     help="来源条件（材质包 0 / 模组 1）；推理默认 0（材质包画风）")
     ap.add_argument("--save_at", type=int, nargs="*", default=[],
@@ -285,6 +287,17 @@ def main():
             if Dd is not None:
                 Dd["ref_ix"] = torch.tensor([ref_ix[x["material"]] for x in smp])
     model = model_from_args(a).to(dev)
+    if a.init_from is not None:
+        sd = torch.load(a.init_from, map_location=dev)["model"]
+        own = model.state_dict()
+        for kk, v in sd.items():
+            if kk in own and own[kk].shape != v.shape and kk == "dom_emb.weight":
+                w = own[kk].clone()
+                w[:v.shape[0]] = v
+                w[v.shape[0]:] = v[0]
+                sd[kk] = w
+        missing, unexpected = model.load_state_dict(sd, strict=False)
+        print(f"从 {a.init_from} 初始化；缺 {missing}，多 {unexpected}", flush=True)
     cbt = torch.as_tensor(cb, device=dev)
     print(f"参数 {sum(p.numel() for p in model.parameters())/1e6:.1f}M", flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=a.wd, betas=(0.9, 0.99))
