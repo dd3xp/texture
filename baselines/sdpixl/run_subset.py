@@ -36,7 +36,8 @@ TMPL = ("pixel art, {p}, top-down seamless tileable game texture, "
 def palette_from_b1(slug, size=16):
     t = np.asarray(Image.open(ROOT / f"experiments/baselines/B1/{size}/{slug}_0.png").convert("RGB"))
     cols = np.unique(t.reshape(-1, 3), axis=0)
-    return ["#%02x%02x%02x" % tuple(int(v) for v in c) for c in cols]
+    # SD-piXL 的 load_hex 读 "rrggbb"（不带 #），与仓库原有的 assets/*.hex 同格式
+    return ["%02x%02x%02x" % tuple(int(v) for v in c) for c in cols]
 
 
 def run_one(item, gpu, size, work):
@@ -50,8 +51,12 @@ def run_one(item, gpu, size, work):
     pal.write_text("\n".join(palette_from_b1(slug, size)) + "\n")
     cfg = d / "config.yaml"
     shutil.copy(ROOT / "baselines/sdpixl/configs/texture_text.yaml", cfg)
+    # PYTHONNOUSERSITE=1：共享账号的用户级 site-packages（~/.local）里有另一套 torch，
+    # 会遮住 SD-piXL 环境自己的 torch 2.4 / torchvision 0.19，导致
+    # "operator torchvision::nms does not exist"（2026-09-11 实测 12/12 秒挂）。
+    # 只让本进程忽略它，不改动任何共享的东西。
     env = dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu), HF_HUB_OFFLINE="1",
-               TRANSFORMERS_OFFLINE="1", DIFFUSERS_OFFLINE="1")
+               TRANSFORMERS_OFFLINE="1", DIFFUSERS_OFFLINE="1", PYTHONNOUSERSITE="1")
     cmd = [os.environ["SDPIXL_PY"], "main.py", "-c", str(cfg),
            "--prompt", TMPL.format(p=item["prompt"]), "--palette", str(pal),
            "--size", f"{size},{size}"]
