@@ -151,3 +151,7 @@ paper/supplementary.zip
 # 它的产出（分层胜率与逐材质得分，20KB）
 !experiments/judge_structure_split.json
 !experiments/judge_structure_split_v7.json
+
+# 验证集指标的噪声下限（eval/noise_floor.py，9KB）：之后每一轮比配置都要引用这两个数
+!experiments/noise_floor_Vmat.json
+!experiments/noise_floor_rr_Vmat.json
