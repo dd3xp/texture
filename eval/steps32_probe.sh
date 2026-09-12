@@ -29,12 +29,17 @@ set -u
 P=/mnt/data/kw/anaconda3/envs/jzs_train/bin/python
 cd /mnt/data/kw/RoundSquisheen/texture
 export HF_HUB_OFFLINE=1 CUDA_VISIBLE_DEVICES=3 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+# deepspeed 在 atexit 里往 ~/.triton 写自动调优表（matmul_ext.py:103），盘满时**活干完了才崩**，
+# 退出码非零会把整个循环带掉（250 张图都出好了，脚本却 exit 1）。缓存目录挪到 /tmp。
+export TRITON_CACHE_DIR=/tmp/triton_cache
 OUT=/tmp/steps32
-mkdir -p $OUT
+mkdir -p $OUT $TRITON_CACHE_DIR
 
 # 与 scripts/v11d_train_eval.sh:25 逐字相同，只加 --steps / --out
 G="$P eval/gen_trd.py --run runs/trd_v11d --ckpt last.pt --set V_mat --bs 8 --n 2 --cfg 1.5 --pal_mode retrieve --xmodal --size 32 --out $OUT"
 for S in 24 96 192; do
+  # 幂等：已经出满 250 张（125 材质 x 2）的臂不重跑
+  if [ "$(ls $OUT/s$S/32 2>/dev/null | wc -l)" = "250" ]; then echo "skip s$S (done)"; continue; fi
   $G --steps $S --tag s$S || exit 1
 done
 echo STEPS32_DONE
