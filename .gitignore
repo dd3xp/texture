@@ -173,3 +173,9 @@ paper/supplementary.zip
 
 # 32px 结构诊断（analysis/arch/scale_diag.py，零 GPU 零 API 可复算）
 !experiments/scale_diag_32.json
+!experiments/scale_diag_ckpt32.json
+
+# 32px 的三条判官臂（预注册 cebc506 / ae7f65e）：温度与代次各自单独拆开，同材质直接对判。
+# 结论"结构门在温度轴上与判官反向"就靠这些逐对记录，零 API 可复算（recheck_judge.py）。
+!experiments/judge_full_v1*_vs_v11dx_direct_32_V_mat.json
+!experiments/judge_pilot_v1*_vs_v11dx_direct_32_V_mat.json

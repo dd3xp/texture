@@ -32,6 +32,10 @@ EXPECT = {
     "judge_full_nf8_xpal_vs_B7val_c1.5_16_V_mat.json":     (56,  92, 33, 0),
     # 验证集：配对的那一比（预注册 919d8a7）
     "judge_full_nf8_name_rr4_vs_nf8_name_16_rr4_diff_V_mat.json": (49, 68, 24, 0),
+    # 验证集 32px：温度与代次各自单独拆开（预注册 cebc506 / ae7f65e），全部同材质直接对判
+    "judge_full_v10x32_t60_vs_v11dx_direct_32_V_mat.json":  (32, 74, 51, 0),
+    "judge_full_v11dx_t60_vs_v11dx_direct_32_V_mat.json":   (21, 80, 45, 0),
+    "judge_full_v10x_direct_vs_v11dx_direct_32_V_mat.json": (46, 75, 50, 0),
 }
 
 
