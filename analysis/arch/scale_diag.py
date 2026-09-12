@@ -133,24 +133,25 @@ def main():
               f"{row['median_period_gated']:>9.2f} {row['median_units_gated']:>7.2f} "
               f"{row['median_aniso_all']:>8.3f} {row['median_ncolours']:>5.0f}")
 
-    def ratio(src):
-        k16, k32 = f"{src}/16", f"{src}/32"
+    # 跨分辨率的配对：同一条线的 16px 组与 32px 组（名字不同，显式列出）
+    PAIRS = [("REALval", "REALval/16", "REALval/32"),
+             ("B2val", "B2val/16", "B2val/32"),
+             ("TRD(val)", "nf8_xpal/16", "v11dx_direct/32"),
+             ("TRD(test)", "TRD16/16", "TRD32_rr4/32")]
+
+    print("\n跨分辨率的周期比（判据 2：TRD < 1.3 且 真人 >= 1.5 才算尺度漂移）")
+    out["scale_ratio"] = {}
+    for src, k16, k32 in PAIRS:
         if k16 not in out["groups"] or k32 not in out["groups"]:
-            return None
+            continue
         p16 = out["groups"][k16]["median_period_gated"]
         p32 = out["groups"][k32]["median_period_gated"]
         _, p = mannwhitney_u_p(out["groups"][k32]["periods_gated"],
                                out["groups"][k16]["periods_gated"])
-        return {"period16": p16, "period32": p32, "ratio": p32 / p16, "mw_p": p}
-
-    print("\n跨分辨率的周期比（判据 2：TRD < 1.3 且 真人 >= 1.5 才算尺度漂移）")
-    out["scale_ratio"] = {}
-    for src in sorted({k.split("/")[0] for k in out["groups"]}):
-        r = ratio(src)
-        if r:
-            out["scale_ratio"][src] = r
-            print(f"  {src:<16} 16px {r['period16']:.2f} -> 32px {r['period32']:.2f}  "
-                  f"比值 {r['ratio']:.2f}  MW p={r['mw_p']:.3g}")
+        out["scale_ratio"][src] = {"period16": p16, "period32": p32,
+                                   "ratio": p32 / p16, "mw_p": p}
+        print(f"  {src:<10} {k16:<14} {p16:.2f} -> {k32:<18} {p32:.2f}  "
+              f"比值 {p32 / p16:.2f}  MW p={p:.3g}")
 
     print("\n32px 上三条线互比（周期，MW 双侧）")
     out["cross32"] = {}
@@ -161,6 +162,56 @@ def main():
                                    out["groups"][kb]["periods_gated"])
             out["cross32"][f"{ka} vs {kb}"] = p
             print(f"  {ka:<20} vs {kb:<20} p={p:.3g}")
+
+    # ---- 材质配对（必需的对照）----------------------------------------------
+    # REALval/32 只有 67 个材质，是 125 个验证材质的一个子集。若那 67 个恰好来自
+    # 结构性更强的包，上面 32px 的横比就全是选材质选出来的。所以把每条线都**限制到
+    # 同一批材质**再比一次；并且把真人自己的 16px 也限制到这 67 个，检验
+    # "真人在大画布上确实画得更有结构" 是不是同一批材质内部的事实。
+    base = sorted({r["material"] for r in groups["REALval/32"]})
+    print(f"\n限制到 REALval/32 的 {len(base)} 个材质（同材质对照）")
+    print(f"{'组':<22} {'n':>4} {'过门':>6} {'各向异性中位':>12} {'周期(px)':>9}")
+    out["matched"] = {"materials": base, "rows": {}}
+    for name in ["REALval/16", "REALval/32", "B2val/16", "B2val/32",
+                 "nf8_xpal/16", "v11dx_direct/32"]:
+        if name not in groups:
+            continue
+        sub = [r for r in groups[name] if r["material"] in base]
+        if not sub:
+            continue
+        g = [r for r in sub if r["gated"]]
+        row = {"n": len(sub), "n_gated": len(g), "gate_rate": len(g) / len(sub),
+               "median_aniso": med([r["aniso"] for r in sub]),
+               "median_period_gated": med([r["period"] for r in g]),
+               "anisos": [r["aniso"] for r in sub]}
+        out["matched"]["rows"][name] = row
+        print(f"{name:<22} {row['n']:>4} {row['gate_rate']:>6.0%} "
+              f"{row['median_aniso']:>12.3f} {row['median_period_gated']:>9.2f}")
+
+    def two_prop(k1, n1, k2, n2):
+        """两比例差的双侧正态近似 p（无 scipy）。"""
+        p1, p2 = k1 / n1, k2 / n2
+        p = (k1 + k2) / (n1 + n2)
+        se = math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2))
+        if se <= 0:
+            return 1.0
+        return min(1.0, math.erfc(abs(p1 - p2) / se / math.sqrt(2)))
+
+    print("\n同材质下的关键对比")
+    out["matched"]["tests"] = {}
+    R = out["matched"]["rows"]
+    for lab, ka, kb in [("真人 32px vs 真人 16px（画布变大，真人更有结构？）", "REALval/32", "REALval/16"),
+                        ("TRD 32px vs 真人 32px", "v11dx_direct/32", "REALval/32"),
+                        ("TRD 32px vs B2 32px", "v11dx_direct/32", "B2val/32"),
+                        ("TRD 16px vs 真人 16px", "nf8_xpal/16", "REALval/16")]:
+        if ka not in R or kb not in R:
+            continue
+        pg = two_prop(R[ka]["n_gated"], R[ka]["n"], R[kb]["n_gated"], R[kb]["n"])
+        _, pa = mannwhitney_u_p(R[ka]["anisos"], R[kb]["anisos"])
+        out["matched"]["tests"][f"{ka} vs {kb}"] = {"gate_p": pg, "aniso_p": pa}
+        print(f"  {lab}")
+        print(f"    过门 {R[ka]['gate_rate']:.0%} vs {R[kb]['gate_rate']:.0%}  p={pg:.3g}   "
+              f"各向异性 {R[ka]['median_aniso']:.3f} vs {R[kb]['median_aniso']:.3f}  MW p={pa:.3g}")
 
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(out, indent=1), encoding="utf-8")

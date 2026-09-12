@@ -170,3 +170,6 @@ paper/supplementary.zip
 !experiments/judge_pilot_nf8_*.json
 !experiments/val_judge_curve.txt
 !experiments/val_judge_rr.txt
+
+# 32px 结构诊断（analysis/arch/scale_diag.py，零 GPU 零 API 可复算）
+!experiments/scale_diag_32.json
