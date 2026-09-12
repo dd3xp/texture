@@ -172,8 +172,9 @@ def main():
     print(f"\n限制到 REALval/32 的 {len(base)} 个材质（同材质对照）")
     print(f"{'组':<22} {'n':>4} {'过门':>6} {'各向异性中位':>12} {'周期(px)':>9}")
     out["matched"] = {"materials": base, "rows": {}}
-    for name in ["REALval/16", "REALval/32", "B2val/16", "B2val/32",
-                 "nf8_xpal/16", "v11dx_direct/32"]:
+    order = ["REALval/16", "REALval/32", "B2val/16", "B2val/32",
+             "nf8_xpal/16", "v11dx_direct/32"]
+    for name in order + [k for k in groups if k not in order]:
         if name not in groups:
             continue
         sub = [r for r in groups[name] if r["material"] in base]
@@ -200,10 +201,22 @@ def main():
     print("\n同材质下的关键对比")
     out["matched"]["tests"] = {}
     R = out["matched"]["rows"]
-    for lab, ka, kb in [("真人 32px vs 真人 16px（画布变大，真人更有结构？）", "REALval/32", "REALval/16"),
-                        ("TRD 32px vs 真人 32px", "v11dx_direct/32", "REALval/32"),
-                        ("TRD 32px vs B2 32px", "v11dx_direct/32", "B2val/32"),
-                        ("TRD 16px vs 真人 16px", "nf8_xpal/16", "REALval/16")]:
+    tests = [("真人 32px vs 真人 16px（画布变大，真人更有结构？）", "REALval/32", "REALval/16"),
+             ("TRD 32px vs 真人 32px", "v11dx_direct/32", "REALval/32"),
+             ("TRD 32px vs B2 32px", "v11dx_direct/32", "B2val/32"),
+             ("TRD 16px vs 真人 16px", "nf8_xpal/16", "REALval/16")]
+    # 步数探针（eval/steps32_probe.sh）：主判据 ② 是各臂对 s24 的结构门差
+    probe = sorted(k for k in R if k.startswith("s") and k.endswith("/32") and k != "s24/32")
+    for k in probe:
+        tests.append((f"步数探针 {k} vs s24/32（主判据：门 +>=10pp 且 p<0.05）", k, "s24/32"))
+        tests.append((f"步数探针 {k} vs 真人 32px", k, "REALval/32"))
+    # 已生成的 32px 配置横扫（零 GPU）：采样温度、以及 v8/v10/v11d 三代模型
+    tests += [("采样温度 0.6 vs 1.0（v10 一代）", "v10x32_t60/32", "v10x_direct/32"),
+              ("采样温度 0.6 vs 1.0（v11d 一代）", "v11dx_t60/32", "v11dx_direct/32"),
+              ("v8 一代（放大法）vs v11d 一代（补了 32px 数据）", "v8x32_up/32", "v11dx_direct/32"),
+              ("v10 一代 vs v11d 一代（同为 direct）", "v10x_direct/32", "v11dx_direct/32"),
+              ("4 选 1 重排 vs 不重排（v11d，32px）", "v11dx100_rr4/32", "v11dx_direct/32")]
+    for lab, ka, kb in tests:
         if ka not in R or kb not in R:
             continue
         pg = two_prop(R[ka]["n_gated"], R[ka]["n"], R[kb]["n_gated"], R[kb]["n"])
