@@ -155,3 +155,18 @@ paper/supplementary.zip
 # 验证集指标的噪声下限（eval/noise_floor.py，9KB）：之后每一轮比配置都要引用这两个数
 !experiments/noise_floor_Vmat.json
 !experiments/noise_floor_rr_Vmat.json
+
+# 正式测试的判官逐条判定（E-mat 272 材质，预注册 56f1801 的 7 条臂，约 190KB）：
+# 这是项目当前的头条结论（16px 胜 / 24px 平 / 32px 输），逐对记录入库后**零 API 即可复算**
+# 胜率、二项 p、Jeffreys 区间、弃样数。重出要上百次 API 调用，别删。
+!experiments/judge_full_TRD*.json
+!experiments/judge_pilot_TRD*.json
+!experiments/judge_full_C_TRD*.json
+!experiments/judge_pilot_C_TRD*.json
+!experiments/final_judge.txt
+
+# 验证集上沿 CLIP-FD 汇率曲线的四个操作点 + 配对的那一比（预注册 e600f21 / 919d8a7）
+!experiments/judge_full_nf8_*.json
+!experiments/judge_pilot_nf8_*.json
+!experiments/val_judge_curve.txt
+!experiments/val_judge_rr.txt

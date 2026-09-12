@@ -1,0 +1,151 @@
+{
+ "tag": "nf8_name_rr4_vs_nf8_name_16_rr4_diff_V_mat",
+ "real_resolved": 0.8,
+ "null_resolved": 0.2,
+ "n_real": 15,
+ "n_null": 5,
+ "min_rate": 0.65,
+ "pass": true,
+ "records": [
+  {
+   "pair": 27,
+   "kind": "real",
+   "material": "mineral copper",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 20,
+   "kind": "real",
+   "material": "fence pine wood",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 13,
+   "kind": "real",
+   "material": "coral orange",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 70,
+   "kind": "real",
+   "material": "copper block",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 5,
+   "kind": "real",
+   "material": "bronze block",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 75,
+   "kind": "real",
+   "material": "granite",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 68,
+   "kind": "real",
+   "material": "cherry blossom log",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 83,
+   "kind": "real",
+   "material": "redstone redstone block",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 86,
+   "kind": "real",
+   "material": "wool dark grey",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 25,
+   "kind": "real",
+   "material": "gravel",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 16,
+   "kind": "real",
+   "material": "desert stone brick",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 11,
+   "kind": "real",
+   "material": "copper block",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 10,
+   "kind": "real",
+   "material": "cobble",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 19,
+   "kind": "real",
+   "material": "dry grass side",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 8,
+   "kind": "real",
+   "material": "clay",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 27,
+   "kind": "null",
+   "material": "mineral copper",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 20,
+   "kind": "null",
+   "material": "fence pine wood",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 13,
+   "kind": "null",
+   "material": "coral orange",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 70,
+   "kind": "null",
+   "material": "copper block",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 5,
+   "kind": "null",
+   "material": "bronze block",
+   "answered": true,
+   "resolved": false
+  }
+ ]
+}

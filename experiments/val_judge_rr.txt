@@ -1,0 +1,6 @@
+重排换了样本的材质 92 个；逐像素相同 33 个（挑中第 0 张）；缺图 0 -> eval/rr4_diff.json
+nf8_name_rr4 vs nf8_name：可比对 92
+可解率：真题 80%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+nf8_name_rr4 vs nf8_name：可比对 92
+nf8_name_rr4 胜 49/68 = 72%  p=0.000358  [61%,82%]   （两序不一致弃 24，API 失败 0；有效 n / 总 n = 68/92）
+VAL_JUDGE_RR_DONE

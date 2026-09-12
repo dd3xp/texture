@@ -1,0 +1,151 @@
+{
+ "tag": "nf8_xpal_vs_B7val_c1.5_16_V_mat",
+ "real_resolved": 0.8,
+ "null_resolved": 0.2,
+ "n_real": 15,
+ "n_null": 5,
+ "min_rate": 0.65,
+ "pass": true,
+ "records": [
+  {
+   "pair": 68,
+   "kind": "real",
+   "material": "soil",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 122,
+   "kind": "real",
+   "material": "wool white",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 36,
+   "kind": "real",
+   "material": "mineral diamond",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 55,
+   "kind": "real",
+   "material": "stone brick",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 96,
+   "kind": "real",
+   "material": "granite",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 13,
+   "kind": "real",
+   "material": "copper block",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 1,
+   "kind": "real",
+   "material": "acacia tree top",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 75,
+   "kind": "real",
+   "material": "hardened clay stained cyan",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 11,
+   "kind": "real",
+   "material": "coal block",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 37,
+   "kind": "real",
+   "material": "mineral gold",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 16,
+   "kind": "real",
+   "material": "desert cobble",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 118,
+   "kind": "real",
+   "material": "wool orange",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 5,
+   "kind": "real",
+   "material": "aspen wood",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 23,
+   "kind": "real",
+   "material": "dry grass side",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 50,
+   "kind": "real",
+   "material": "snow",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 68,
+   "kind": "null",
+   "material": "soil",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 122,
+   "kind": "null",
+   "material": "wool white",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 36,
+   "kind": "null",
+   "material": "mineral diamond",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 55,
+   "kind": "null",
+   "material": "stone brick",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 96,
+   "kind": "null",
+   "material": "granite",
+   "answered": true,
+   "resolved": false
+  }
+ ]
+}

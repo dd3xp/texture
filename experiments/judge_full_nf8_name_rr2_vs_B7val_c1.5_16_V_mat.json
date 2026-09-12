@@ -1,0 +1,640 @@
+{
+ "tag": "nf8_name_rr2_vs_B7val_c1.5_16_V_mat",
+ "a_wins": 55,
+ "decided": 96,
+ "inconsistent": 29,
+ "api_fail": 0,
+ "rate": 0.5729166666666666,
+ "p": 0.18428587288036752,
+ "jeffreys": [
+  0.4730231511583918,
+  0.6684868712136465
+ ],
+ "records": [
+  {
+   "pair": 0,
+   "material": "acacia tree",
+   "verdict": "A"
+  },
+  {
+   "pair": 1,
+   "material": "acacia tree top",
+   "verdict": "A"
+  },
+  {
+   "pair": 2,
+   "material": "acacia wood",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 3,
+   "material": "aspen tree",
+   "verdict": "A"
+  },
+  {
+   "pair": 4,
+   "material": "aspen tree top",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 5,
+   "material": "aspen wood",
+   "verdict": "A"
+  },
+  {
+   "pair": 6,
+   "material": "brick",
+   "verdict": "B"
+  },
+  {
+   "pair": 7,
+   "material": "bronze block",
+   "verdict": "B"
+  },
+  {
+   "pair": 8,
+   "material": "cactus side",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 9,
+   "material": "cactus top",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 10,
+   "material": "clay",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 11,
+   "material": "coal block",
+   "verdict": "A"
+  },
+  {
+   "pair": 12,
+   "material": "cobble",
+   "verdict": "B"
+  },
+  {
+   "pair": 13,
+   "material": "copper block",
+   "verdict": "A"
+  },
+  {
+   "pair": 14,
+   "material": "coral brown",
+   "verdict": "A"
+  },
+  {
+   "pair": 15,
+   "material": "coral orange",
+   "verdict": "A"
+  },
+  {
+   "pair": 16,
+   "material": "desert cobble",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 17,
+   "material": "desert sand",
+   "verdict": "B"
+  },
+  {
+   "pair": 18,
+   "material": "desert stone",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 19,
+   "material": "desert stone brick",
+   "verdict": "B"
+  },
+  {
+   "pair": 20,
+   "material": "diamond block",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 21,
+   "material": "dirt",
+   "verdict": "A"
+  },
+  {
+   "pair": 22,
+   "material": "dry grass",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 23,
+   "material": "dry grass side",
+   "verdict": "B"
+  },
+  {
+   "pair": 24,
+   "material": "fence acacia wood",
+   "verdict": "B"
+  },
+  {
+   "pair": 25,
+   "material": "fence aspen wood",
+   "verdict": "A"
+  },
+  {
+   "pair": 26,
+   "material": "fence pine wood",
+   "verdict": "B"
+  },
+  {
+   "pair": 27,
+   "material": "fence wood",
+   "verdict": "B"
+  },
+  {
+   "pair": 28,
+   "material": "gold block",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 29,
+   "material": "grass",
+   "verdict": "B"
+  },
+  {
+   "pair": 30,
+   "material": "grass side",
+   "verdict": "B"
+  },
+  {
+   "pair": 31,
+   "material": "gravel",
+   "verdict": "B"
+  },
+  {
+   "pair": 32,
+   "material": "lava",
+   "verdict": "A"
+  },
+  {
+   "pair": 33,
+   "material": "mese block",
+   "verdict": "A"
+  },
+  {
+   "pair": 34,
+   "material": "mineral coal",
+   "verdict": "A"
+  },
+  {
+   "pair": 35,
+   "material": "mineral copper",
+   "verdict": "A"
+  },
+  {
+   "pair": 36,
+   "material": "mineral diamond",
+   "verdict": "B"
+  },
+  {
+   "pair": 37,
+   "material": "mineral gold",
+   "verdict": "A"
+  },
+  {
+   "pair": 38,
+   "material": "mineral iron",
+   "verdict": "A"
+  },
+  {
+   "pair": 39,
+   "material": "mineral mese",
+   "verdict": "A"
+  },
+  {
+   "pair": 40,
+   "material": "mineral tin",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 41,
+   "material": "obsidian",
+   "verdict": "A"
+  },
+  {
+   "pair": 42,
+   "material": "obsidian brick",
+   "verdict": "B"
+  },
+  {
+   "pair": 43,
+   "material": "pine tree",
+   "verdict": "B"
+  },
+  {
+   "pair": 44,
+   "material": "pine tree top",
+   "verdict": "B"
+  },
+  {
+   "pair": 45,
+   "material": "pine wood",
+   "verdict": "B"
+  },
+  {
+   "pair": 46,
+   "material": "sand",
+   "verdict": "B"
+  },
+  {
+   "pair": 47,
+   "material": "sandstone",
+   "verdict": "A"
+  },
+  {
+   "pair": 48,
+   "material": "sandstone block",
+   "verdict": "A"
+  },
+  {
+   "pair": 49,
+   "material": "sandstone brick",
+   "verdict": "B"
+  },
+  {
+   "pair": 50,
+   "material": "snow",
+   "verdict": "A"
+  },
+  {
+   "pair": 51,
+   "material": "snow side",
+   "verdict": "A"
+  },
+  {
+   "pair": 52,
+   "material": "steel block",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 53,
+   "material": "stone",
+   "verdict": "A"
+  },
+  {
+   "pair": 54,
+   "material": "stone block",
+   "verdict": "B"
+  },
+  {
+   "pair": 55,
+   "material": "stone brick",
+   "verdict": "B"
+  },
+  {
+   "pair": 56,
+   "material": "tin block",
+   "verdict": "B"
+  },
+  {
+   "pair": 57,
+   "material": "tree",
+   "verdict": "A"
+  },
+  {
+   "pair": 58,
+   "material": "tree top",
+   "verdict": "B"
+  },
+  {
+   "pair": 59,
+   "material": "wood",
+   "verdict": "A"
+  },
+  {
+   "pair": 60,
+   "material": "grass bamboo top",
+   "verdict": "A"
+  },
+  {
+   "pair": 61,
+   "material": "grass crystal top",
+   "verdict": "B"
+  },
+  {
+   "pair": 62,
+   "material": "grass fiery top",
+   "verdict": "B"
+  },
+  {
+   "pair": 63,
+   "material": "grass gray top",
+   "verdict": "B"
+  },
+  {
+   "pair": 64,
+   "material": "grass grove top",
+   "verdict": "A"
+  },
+  {
+   "pair": 65,
+   "material": "grass jungle top",
+   "verdict": "A"
+  },
+  {
+   "pair": 66,
+   "material": "grass mushroom top",
+   "verdict": "A"
+  },
+  {
+   "pair": 67,
+   "material": "grass prairie top",
+   "verdict": "B"
+  },
+  {
+   "pair": 68,
+   "material": "soil",
+   "verdict": "A"
+  },
+  {
+   "pair": 69,
+   "material": "soil wet",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 70,
+   "material": "straw",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 71,
+   "material": "hardened clay",
+   "verdict": "A"
+  },
+  {
+   "pair": 72,
+   "material": "hardened clay stained black",
+   "verdict": "B"
+  },
+  {
+   "pair": 73,
+   "material": "hardened clay stained blue",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 74,
+   "material": "hardened clay stained brown",
+   "verdict": "B"
+  },
+  {
+   "pair": 75,
+   "material": "hardened clay stained cyan",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 76,
+   "material": "hardened clay stained green",
+   "verdict": "B"
+  },
+  {
+   "pair": 77,
+   "material": "hardened clay stained grey",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 78,
+   "material": "hardened clay stained light blue",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 79,
+   "material": "hardened clay stained lime",
+   "verdict": "B"
+  },
+  {
+   "pair": 80,
+   "material": "hardened clay stained magenta",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 81,
+   "material": "hardened clay stained orange",
+   "verdict": "B"
+  },
+  {
+   "pair": 82,
+   "material": "hardened clay stained pink",
+   "verdict": "A"
+  },
+  {
+   "pair": 83,
+   "material": "hardened clay stained purple",
+   "verdict": "A"
+  },
+  {
+   "pair": 84,
+   "material": "hardened clay stained red",
+   "verdict": "A"
+  },
+  {
+   "pair": 85,
+   "material": "hardened clay stained silver",
+   "verdict": "B"
+  },
+  {
+   "pair": 86,
+   "material": "hardened clay stained white",
+   "verdict": "A"
+  },
+  {
+   "pair": 87,
+   "material": "hardened clay stained yellow",
+   "verdict": "A"
+  },
+  {
+   "pair": 88,
+   "material": "cherry blossom log",
+   "verdict": "A"
+  },
+  {
+   "pair": 89,
+   "material": "cherry blossom log top",
+   "verdict": "B"
+  },
+  {
+   "pair": 90,
+   "material": "cherry blossom planks",
+   "verdict": "A"
+  },
+  {
+   "pair": 91,
+   "material": "copper block",
+   "verdict": "A"
+  },
+  {
+   "pair": 92,
+   "material": "copper exposed",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 93,
+   "material": "copper oxidized",
+   "verdict": "A"
+  },
+  {
+   "pair": 94,
+   "material": "copper weathered",
+   "verdict": "A"
+  },
+  {
+   "pair": 95,
+   "material": "bone block side",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 96,
+   "material": "granite",
+   "verdict": "A"
+  },
+  {
+   "pair": 97,
+   "material": "grass side snowed",
+   "verdict": "B"
+  },
+  {
+   "pair": 98,
+   "material": "red sand",
+   "verdict": "B"
+  },
+  {
+   "pair": 99,
+   "material": "sandstone normal",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 100,
+   "material": "sandstone top",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 101,
+   "material": "deepslate cobbled",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 102,
+   "material": "mangrove log",
+   "verdict": "B"
+  },
+  {
+   "pair": 103,
+   "material": "mangrove log top",
+   "verdict": "B"
+  },
+  {
+   "pair": 104,
+   "material": "mangrove planks",
+   "verdict": "A"
+  },
+  {
+   "pair": 105,
+   "material": "wool light blue",
+   "verdict": "A"
+  },
+  {
+   "pair": 106,
+   "material": "wool lime",
+   "verdict": "A"
+  },
+  {
+   "pair": 107,
+   "material": "nether brick",
+   "verdict": "B"
+  },
+  {
+   "pair": 108,
+   "material": "redstone redstone block",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 109,
+   "material": "wool black",
+   "verdict": "A"
+  },
+  {
+   "pair": 110,
+   "material": "wool blue",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 111,
+   "material": "wool brown",
+   "verdict": "A"
+  },
+  {
+   "pair": 112,
+   "material": "wool cyan",
+   "verdict": "A"
+  },
+  {
+   "pair": 113,
+   "material": "wool dark green",
+   "verdict": "A"
+  },
+  {
+   "pair": 114,
+   "material": "wool dark grey",
+   "verdict": "A"
+  },
+  {
+   "pair": 115,
+   "material": "wool green",
+   "verdict": "A"
+  },
+  {
+   "pair": 116,
+   "material": "wool grey",
+   "verdict": "B"
+  },
+  {
+   "pair": 117,
+   "material": "wool magenta",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 118,
+   "material": "wool orange",
+   "verdict": "B"
+  },
+  {
+   "pair": 119,
+   "material": "wool pink",
+   "verdict": "A"
+  },
+  {
+   "pair": 120,
+   "material": "wool red",
+   "verdict": "A"
+  },
+  {
+   "pair": 121,
+   "material": "wool violet",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 122,
+   "material": "wool white",
+   "verdict": "A"
+  },
+  {
+   "pair": 123,
+   "material": "wool yellow",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 124,
+   "material": "hard clay",
+   "verdict": "A"
+  }
+ ]
+}

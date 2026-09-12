@@ -1,0 +1,32 @@
+C_TRD16_E_mat: 272 个材质 -> /mnt/data/kw/RoundSquisheen/texture/experiments/baselines/C_TRD16_E_mat/16
+C_B7_E_mat: 272 个材质 -> /mnt/data/kw/RoundSquisheen/texture/experiments/baselines/C_B7_E_mat/16
+C_B2_E_mat: 272 个材质 -> /mnt/data/kw/RoundSquisheen/texture/experiments/baselines/C_B2_E_mat/16
+TRD16 vs B2：可比对 272
+可解率：真题 73%（n=15）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+TRD16 vs B2：可比对 272
+TRD16 胜 90/190 = 47%  p=0.514  [40%,54%]   （两序不一致弃 82，API 失败 0；有效 n / 总 n = 190/272）
+TRD16 vs B7：可比对 272
+可解率：真题 67%（n=15）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+TRD16 vs B7：可比对 272
+TRD16 胜 131/208 = 63%  p=0.000221  [56%,69%]   （两序不一致弃 64，API 失败 0；有效 n / 总 n = 208/272）
+TRD16c_rr4 vs B2：可比对 272
+可解率：真题 73%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+TRD16c_rr4 vs B2：可比对 272
+TRD16c_rr4 胜 114/199 = 57%  p=0.0469  [50%,64%]   （两序不一致弃 73，API 失败 0；有效 n / 总 n = 199/272）
+C_TRD16_E_mat vs C_B2_E_mat：可比对 272
+可解率：真题 87%（n=15）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+C_TRD16_E_mat vs C_B2_E_mat：可比对 272
+C_TRD16_E_mat 胜 114/189 = 60%  p=0.00557  [53%,67%]   （两序不一致弃 83，API 失败 0；有效 n / 总 n = 189/272）
+C_TRD16_E_mat vs C_B7_E_mat：可比对 272
+可解率：真题 80%（n=15）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+C_TRD16_E_mat vs C_B7_E_mat：可比对 272
+C_TRD16_E_mat 胜 117/193 = 61%  p=0.00387  [54%,67%]   （两序不一致弃 79，API 失败 0；有效 n / 总 n = 193/272）
+TRD24_rr4 vs B2：可比对 272
+可解率：真题 73%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+TRD24_rr4 vs B2：可比对 272
+TRD24_rr4 胜 94/188 = 50%  p=1  [43%,57%]   （两序不一致弃 84，API 失败 0；有效 n / 总 n = 188/272）
+TRD32_rr4 vs B2：可比对 272
+可解率：真题 73%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+TRD32_rr4 vs B2：可比对 272
+TRD32_rr4 胜 83/202 = 41%  p=0.0136  [34%,48%]   （两序不一致弃 70，API 失败 0；有效 n / 总 n = 202/272）
+FINAL_JUDGE_DONE

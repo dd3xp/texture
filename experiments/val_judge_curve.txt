@@ -1,0 +1,28 @@
+[wait] final_judge.sh 还在跑，60s 后再看
+[wait] final_judge.sh 还在跑，60s 后再看
+[wait] final_judge.sh 还在跑，60s 后再看
+[wait] final_judge.sh 还在跑，60s 后再看
+[wait] final_judge.sh 还在跑，60s 后再看
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [54, 71] -> /mnt/data/kw/RoundSquisheen/texture/experiments/baselines/nf8_name_rr2/16
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [33, 35, 29, 28] -> /mnt/data/kw/RoundSquisheen/texture/experiments/baselines/nf8_name_rr4/16
+nf8_name vs B7val_c1.5：可比对 125
+可解率：真题 80%（n=15）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+nf8_name vs B7val_c1.5：可比对 125
+nf8_name 胜 47/100 = 47%  p=0.617  [37%,57%]   （两序不一致弃 25，API 失败 0；有效 n / 总 n = 100/125）
+nf8_name_rr2 vs B7val_c1.5：可比对 125
+可解率：真题 73%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+nf8_name_rr2 vs B7val_c1.5：可比对 125
+nf8_name_rr2 胜 55/96 = 57%  p=0.184  [47%,67%]   （两序不一致弃 29，API 失败 0；有效 n / 总 n = 96/125）
+nf8_name_rr4 vs B7val_c1.5：可比对 125
+可解率：真题 73%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+nf8_name_rr4 vs B7val_c1.5：可比对 125
+nf8_name_rr4 胜 59/93 = 63%  p=0.0124  [53%,73%]   （两序不一致弃 32，API 失败 0；有效 n / 总 n = 93/125）
+nf8_xpal vs B7val_c1.5：可比对 125
+可解率：真题 80%（n=15）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+nf8_xpal vs B7val_c1.5：可比对 125
+nf8_xpal 胜 56/92 = 61%  p=0.047  [51%,70%]   （两序不一致弃 33，API 失败 0；有效 n / 总 n = 92/125）
+VAL_JUDGE_CURVE_DONE

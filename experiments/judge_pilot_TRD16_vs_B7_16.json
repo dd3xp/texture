@@ -1,0 +1,151 @@
+{
+ "tag": "TRD16_vs_B7_16",
+ "real_resolved": 0.6666666666666666,
+ "null_resolved": 0.0,
+ "n_real": 15,
+ "n_null": 5,
+ "min_rate": 0.65,
+ "pass": true,
+ "records": [
+  {
+   "pair": 70,
+   "kind": "real",
+   "material": "obsidian brick",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 258,
+   "kind": "real",
+   "material": "wool dark grey",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 202,
+   "kind": "real",
+   "material": "mushrooms mushroom block skin stem",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 5,
+   "kind": "real",
+   "material": "baked clay dark grey",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 264,
+   "kind": "real",
+   "material": "wool red",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 218,
+   "kind": "real",
+   "material": "cobble wall side",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 84,
+   "kind": "real",
+   "material": "snow",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 179,
+   "kind": "real",
+   "material": "sandstone bottom",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 109,
+   "kind": "real",
+   "material": "hardened clay stained grey",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 132,
+   "kind": "real",
+   "material": "copper block raw",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 144,
+   "kind": "real",
+   "material": "crying obsidian",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 31,
+   "kind": "real",
+   "material": "cactus side",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 195,
+   "kind": "real",
+   "material": "end end stone",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 194,
+   "kind": "real",
+   "material": "end end bricks",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 106,
+   "kind": "real",
+   "material": "hardened clay stained brown",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 70,
+   "kind": "null",
+   "material": "obsidian brick",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 258,
+   "kind": "null",
+   "material": "wool dark grey",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 202,
+   "kind": "null",
+   "material": "mushrooms mushroom block skin stem",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 5,
+   "kind": "null",
+   "material": "baked clay dark grey",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 264,
+   "kind": "null",
+   "material": "wool red",
+   "answered": true,
+   "resolved": false
+  }
+ ]
+}
