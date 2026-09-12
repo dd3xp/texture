@@ -216,6 +216,13 @@ def main():
               ("v8 一代（放大法）vs v11d 一代（补了 32px 数据）", "v8x32_up/32", "v11dx_direct/32"),
               ("v10 一代 vs v11d 一代（同为 direct）", "v10x_direct/32", "v11dx_direct/32"),
               ("4 选 1 重排 vs 不重排（v11d，32px）", "v11dx100_rr4/32", "v11dx_direct/32")]
+    # 检查点探针（eval/ckpt32_probe.sh）：库里所有 32px 瓦片都出自 last.pt，而两支的
+    # 最佳 val 分别在 step 2000 / 1000。主判据：四对里至少一对 门 +>=10pp 且 p<0.05。
+    tests += [("检查点 best vs last（v10，温度 1.0）", "v10b_direct/32", "v10x_direct/32"),
+              ("检查点 best vs last（v10，温度 0.6）", "v10b_t60/32", "v10x32_t60/32"),
+              ("检查点 best vs last（v11d，温度 1.0）", "v11db_direct/32", "v11dx_direct/32"),
+              ("检查点 best vs last（v11d，温度 0.6）", "v11db_t60/32", "v11dx_t60/32"),
+              ("best.pt 最好的一格 vs 真人 32px", "v10b_t60/32", "REALval/32")]
     for lab, ka, kb in tests:
         if ka not in R or kb not in R:
             continue

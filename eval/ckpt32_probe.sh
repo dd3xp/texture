@@ -33,8 +33,11 @@
 set -u
 P=${PY:-/mnt/data/kw/anaconda3/envs/jzs_train/bin/python}
 O=${OUT:-/tmp/ckpt32}
-cd "$(dirname "$0")/.."
+cd "${REPO:-$(dirname "$0")/..}"      # 盘满时脚本只能放 /tmp 跑，这时用 REPO= 指仓库
 export HF_HUB_OFFLINE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+# deepspeed 在 **atexit** 里写 triton 自动调优表；盘满时它 Errno 28 -> 退出码非零 ->
+# 活干完了才崩、还把 `&&` 链上后面的配置全带掉（本轮实测：第一个配置出满 125 张后整链停）。
+export TRITON_CACHE_DIR=${TRITON_CACHE_DIR:-$O/triton}
 
 G="$P eval/gen_trd.py --ckpt best.pt --set V_mat --size 32 --bs 8 --n 1 --cfg 1.5 --pal_mode retrieve --xmodal --out $O"
 $G --run runs/trd_v10  --tag v10b_direct            || exit 1
