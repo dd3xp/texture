@@ -83,7 +83,10 @@ def main():
     ap.add_argument("--min_rate", type=float, default=0.65)
     ap.add_argument("--model", default="claude-opus-5")
     ap.add_argument("--root", type=Path, default=ROOT / "experiments/baselines")
+    ap.add_argument("--outdir", type=Path, default=ROOT / "experiments",
+                    help="判定 JSON 的落盘目录；`/mnt/data` 满时指到 /tmp，否则活干完才崩")
     a = ap.parse_args()
+    a.outdir.mkdir(parents=True, exist_ok=True)
     from vlm_judge import ask
     base, key = os.environ.get("VLM_BASE_URL"), os.environ.get("VLM_API_KEY")
     if not base or not key:
@@ -128,14 +131,14 @@ def main():
         out = {"tag": tag, "real_resolved": float(rr), "null_resolved": float(nr),
                "n_real": len(real), "n_null": len(null), "min_rate": a.min_rate, "pass": ok,
                "records": recs}
-        p = ROOT / f"experiments/judge_pilot_{tag}.json"
+        p = a.outdir / f"judge_pilot_{tag}.json"
         p.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"可解率：真题 {rr:.0%}（n={len(real)}）  空对照 {nr:.0%}（n={len(null)}）  "
               f"门槛 {a.min_rate:.0%} -> {'**通过**，可以跑 full' if ok else '**不通过**：判官在这个比较上没分辨力，不跑 full'}")
         return 0 if ok else 1
 
     # full：先确认试点通过
-    pp = ROOT / f"experiments/judge_pilot_{tag}.json"
+    pp = a.outdir / f"judge_pilot_{tag}.json"
     if not pp.exists() or not json.loads(pp.read_text(encoding="utf-8"))["pass"]:
         raise SystemExit(f"没有通过的试点记录 {pp.name}：先跑 pilot（判官可能分辨不了这个比较）")
     wins = tot = inc = fail = 0
@@ -154,7 +157,7 @@ def main():
     lo, hi = jeffreys(wins, tot) if tot else (float("nan"), float("nan"))
     out = {"tag": tag, "a_wins": wins, "decided": tot, "inconsistent": inc, "api_fail": fail,
            "rate": wins / tot if tot else float("nan"), "p": p, "jeffreys": [lo, hi], "records": recs}
-    (ROOT / f"experiments/judge_full_{tag}.json").write_text(
+    (a.outdir / f"judge_full_{tag}.json").write_text(
         json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{a.a} 胜 {wins}/{tot} = {wins / max(tot, 1):.0%}  p={p:.3g}  [{lo:.0%},{hi:.0%}]"
           f"   （两序不一致弃 {inc}，API 失败 {fail}；有效 n / 总 n = {tot}/{len(pairs)}）")
