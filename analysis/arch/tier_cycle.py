@@ -69,15 +69,30 @@ def sigmoid(x):
     return 1.0 / (1.0 + exp(-x))
 
 
-def read_edge(fname):
-    """从逐对记录重算 (胜, 判出, 弃, 总)。不信任 JSON 的汇总字段——复核脚本的老规矩。"""
+def read_edge(fname, fail_as=None):
+    """从逐对记录重算 (胜, 判出, 弃, 总)。不信任 JSON 的汇总字段——复核脚本的老规矩。
+
+    `fail_as`：只有在 api_fail>0 时才允许非 None。把 API 失败的那几对**显式**当成
+    'A' / 'B' / 'inconsistent' 算进去，用来做**最坏情况夹逼**——判决必须在三种赋值下
+    全都一样，否则该臂作废。这不是放宽操作检验 (8)：(8) 照旧记为"未通过"，
+    只是用一个不依赖缺失值的界把它的影响量死。总对数恒为 len(records)，(S2) 分母不变。
+    """
     d = json.loads(open(os.path.join(EXP, fname), encoding="utf-8").read())
     r = d["records"]
     w = sum(x["verdict"] == "A" for x in r)
     n = sum(x["verdict"] in ("A", "B") for x in r)
     inc = sum(x["verdict"] == "inconsistent" for x in r)
-    assert (d["a_wins"], d["decided"], d["inconsistent"]) == (w, n, inc), f"{fname}: 汇总与逐对不自洽"
-    assert d["api_fail"] == 0, f"{fname}: api_fail != 0"
+    nf = sum(x["verdict"] is None for x in r)
+    assert (d["a_wins"], d["decided"], d["inconsistent"], d["api_fail"]) == (w, n, inc, nf), \
+        f"{fname}: 汇总与逐对不自洽"
+    if nf:
+        assert fail_as in ("A", "B", "inconsistent"), f"{fname}: api_fail={nf}，必须显式说明怎么算"
+        if fail_as == "A":
+            w, n = w + nf, n + nf
+        elif fail_as == "B":
+            n = n + nf
+        else:
+            inc = inc + nf
     return w, n, inc, len(r)
 
 
@@ -187,28 +202,45 @@ def resolution(preds):
 
 
 def closure(preds):
-    """e4 已落地：按上面定死的判据判，两把尺子各一次。"""
-    w, n, inc, tot = read_edge(E4_FILE)
+    """e4 已落地：按上面定死的判据判，两把尺子各一次；API 失败的对做最坏情况夹逼。"""
+    d = json.loads(open(os.path.join(EXP, E4_FILE), encoding="utf-8").read())
+    nf = d["api_fail"]
     print(f"【e4 实测】{E4_FILE}")
-    lo, hi = jeffreys(w, n)
-    print(f"  TRD@32 vs TRD16c↑@32：判出里 {w}/{n} = {w / n:.1%}  [{lo:.0%},{hi:.0%}]"
-          f"  p={binom_test(w, n):.3g}   |   判出率 {n}/{tot} = {n / tot:.0%}（弃 {inc}）\n")
-    verdicts = []
-    for label, (d4, _lo, _hi, se, swing, fn) in preds.items():
-        m, vm = fn(w, n, inc, tot)
-        delta = logit(m) - d4
-        set_ = sqrt(se * se + vm)
-        z = delta / set_
-        ok = abs(z) < 1.96
-        verdicts.append(ok)
-        print(f"  {label}")
-        print(f"      环推 d4 = {d4:+.3f} ± {se:.3f}   实测 = {logit(m):+.3f} ± {sqrt(vm):.3f}"
-              f"   δ = {delta:+.3f} ± {set_:.3f}")
-        print(f"      z = {z:+.2f}   p = {norm_p2(z):.3g}   → "
-              f"{'环未被证伪' if ok else '**环不闭合**'}\n")
-    print("  【判决】" + ("两把尺子都未证伪 → **环闭合**（在本检验的分辨率内）"
-                         if all(verdicts) else
-                         "至少一把尺子判不闭合 → **环不闭合**，三档不能并排读"))
+    if nf:
+        bad = [x["material"] for x in d["records"] if x["verdict"] is None]
+        print(f"  ⛔ 操作检验 (8) **未通过**：api_fail = {nf}（{', '.join(bad)}），预注册要求 0。")
+        print(f"     不放宽判据——改为把这 {nf} 对分别当成 A/B/平局各算一遍，"
+              f"判决在三种赋值下全一致才作数。\n")
+    assigns = ["A", "inconsistent", "B"] if nf else [None]
+    name = {"A": "全算 A 胜（对 A 最有利）", "inconsistent": "全算平局", "B": "全算 A 负（最不利）",
+            None: "无缺失"}
+    closed = []          # 每种赋值下：两把尺子是否都未被证伪
+    for fa in assigns:
+        w, n, inc, tot = read_edge(E4_FILE, fail_as=fa)
+        lo, hi = jeffreys(w, n)
+        print(f"  ── {name[fa]} ──")
+        print(f"     TRD@32 vs TRD16c↑@32：判出里 {w}/{n} = {w / n:.1%}  [{lo:.0%},{hi:.0%}]"
+              f"  p={binom_test(w, n):.3g}   |   判出率 {n}/{tot} = {n / tot:.0%}（弃 {inc}）")
+        oks = []
+        for label, (d4, _lo, _hi, se, swing, fn) in preds.items():
+            m, vm = fn(w, n, inc, tot)
+            delta = logit(m) - d4
+            set_ = sqrt(se * se + vm)
+            z = delta / set_
+            ok = abs(z) < 1.96
+            oks.append(ok)
+            print(f"     {label[:2]}  环推 {d4:+.3f}±{se:.3f}  实测 {logit(m):+.3f}±{sqrt(vm):.3f}"
+                  f"  δ={delta:+.3f}±{set_:.3f}  z={z:+.2f}  p={norm_p2(z):.3g}"
+                  f"  → {'未被证伪' if ok else '**不闭合**'}")
+        closed.append(all(oks))
+        print()
+    if all(closed):
+        v = "两把尺子在所有赋值下都未证伪 → **环闭合**（在本检验的分辨率内）"
+    elif not any(closed):
+        v = "所有赋值下都至少有一把尺子判不闭合 → **环不闭合**，三档不能并排读"
+    else:
+        v = "⛔ 判决随缺失对的赋值翻转 → **该臂作废**，必须补测那几对"
+    print("  【判决】" + v)
     print("  ⚠ 「未被证伪」不等于「可加性成立」：本检验的最小可查出量与三档落差同量级。")
 
 

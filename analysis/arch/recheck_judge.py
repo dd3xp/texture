@@ -57,6 +57,10 @@ EXPECT = {
     # 测试集：1 号缺口的分母（预注册 557a50e，eval/b2_canvas2.sh）。全项目第一条**免门**的臂
     # （`--no_gate`）：可解率改由 full 自己量，138/272 = 50.7% vs 地板 17.8%，p=6.2e-35，远高于地板。
     "judge_full_B2_vs_B2up16_32.json":                       (107, 138, 134, 0),
+    # 测试集：环的第四条边 e4（预注册 2f64dd1 + e616dfe，eval/trd_canvas.sh）。同样免门。
+    # ⚠ **api_fail = 1**（nether basalt chiselled top）——操作检验 (8) 未通过，判读靠最坏情况夹逼
+    #   （`analysis/arch/tier_cycle.py`，三种赋值下判决一致）。这里照录 1，不许改成 0。
+    "judge_full_TRD32_rr4_vs_TRD16cup_32.json":              (136, 189, 82, 1),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。
