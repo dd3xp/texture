@@ -1,0 +1,192 @@
+{
+ "n_pairs": 272,
+ "coverage": {
+  "16": {
+   "decided": 199,
+   "resolvable_rate": 0.732,
+   "a_wins": 114,
+   "rate": 0.573,
+   "p": 0.0468864676321715
+  },
+  "24": {
+   "decided": 188,
+   "resolvable_rate": 0.691,
+   "a_wins": 94,
+   "rate": 0.5,
+   "p": 1.0
+  },
+  "32": {
+   "decided": 202,
+   "resolvable_rate": 0.743,
+   "a_wins": 83,
+   "rate": 0.411,
+   "p": 0.01359503941721217
+  }
+ },
+ "overlap": {
+  "16&24": {
+   "obs": 144,
+   "exp_if_independent": 137.5
+  },
+  "16&32": {
+   "obs": 159,
+   "exp_if_independent": 147.8
+  },
+  "24&32": {
+   "obs": 150,
+   "exp_if_independent": 139.6
+  },
+  "all3": {
+   "obs": 118,
+   "exp_if_independent": 102.1
+  }
+ },
+ "common": {
+  "16": {
+   "n": 118,
+   "a_wins": 66,
+   "rate": 0.559,
+   "p": 0.1670511141738021
+  },
+  "24": {
+   "n": 118,
+   "a_wins": 59,
+   "rate": 0.5,
+   "p": 1.0
+  },
+  "32": {
+   "n": 118,
+   "a_wins": 46,
+   "rate": 0.39,
+   "p": 0.020970029530034958
+  },
+  "mcnemar_16_vs_32": {
+   "x_win_y_lose": 25,
+   "x_lose_y_win": 5,
+   "discordant": 30,
+   "p": 0.00032491423189640045,
+   "mats_x_win_y_lose": [
+    "crimson hyphae wood",
+    "brick",
+    "cactus side",
+    "cobble",
+    "dry grass",
+    "fence acacia wood",
+    "silver sandstone block",
+    "steel block",
+    "desert sand soil wet",
+    "soil wet side",
+    "pressure plate wood on",
+    "bamboo bamboo block",
+    "granite",
+    "log birch",
+    "log spruce",
+    "log spruce top",
+    "end end stone",
+    "nether nether brick",
+    "gold block slab",
+    "granite smooth slab",
+    "stone slab side",
+    "cobble mossy wall side",
+    "circle stone bricks",
+    "nether basalt",
+    "nether brick compressed"
+   ],
+   "mats_x_lose_y_win": [
+    "silver sandstone brick",
+    "tree",
+    "planks spruce",
+    "deepslate copper ore",
+    "nether basalt side"
+   ]
+  },
+  "mcnemar_24_vs_32": {
+   "x_win_y_lose": 18,
+   "x_lose_y_win": 5,
+   "discordant": 23,
+   "p": 0.010622024536132812,
+   "mats_x_win_y_lose": [
+    "crimson hyphae wood",
+    "cactus side",
+    "dry grass",
+    "obsidian brick",
+    "tin block",
+    "desert sand soil wet",
+    "soil wet side",
+    "cherry blossom log",
+    "bone block side",
+    "coal ore",
+    "granite",
+    "log birch",
+    "log spruce",
+    "log spruce top",
+    "gold block slab",
+    "stone slab side",
+    "cobble mossy wall side",
+    "mithril block"
+   ],
+   "mats_x_lose_y_win": [
+    "baked clay white",
+    "dry grass side",
+    "fence wood",
+    "silver sandstone brick",
+    "tree"
+   ]
+  },
+  "mcnemar_16_vs_24": {
+   "x_win_y_lose": 16,
+   "x_lose_y_win": 9,
+   "discordant": 25,
+   "p": 0.2295229434967041,
+   "mats_x_win_y_lose": [
+    "baked clay white",
+    "brick",
+    "cobble",
+    "dry grass side",
+    "fence acacia wood",
+    "fence wood",
+    "silver sandstone block",
+    "steel block",
+    "pressure plate wood on",
+    "bamboo bamboo block",
+    "end end stone",
+    "nether nether brick",
+    "granite smooth slab",
+    "circle stone bricks",
+    "nether basalt",
+    "nether brick compressed"
+   ],
+   "mats_x_lose_y_win": [
+    "obsidian brick",
+    "tin block",
+    "cherry blossom log",
+    "bone block side",
+    "coal ore",
+    "planks spruce",
+    "deepslate copper ore",
+    "mithril block",
+    "nether basalt side"
+   ]
+  }
+ },
+ "posthoc": {
+  "only_16": {
+   "n": 14,
+   "a_wins": 8,
+   "rate": 0.571,
+   "p": 0.79052734375
+  },
+  "only_24": {
+   "n": 12,
+   "a_wins": 6,
+   "rate": 0.5,
+   "p": 1.0
+  },
+  "only_32": {
+   "n": 11,
+   "a_wins": 6,
+   "rate": 0.545,
+   "p": 1.0
+  }
+ }
+}
