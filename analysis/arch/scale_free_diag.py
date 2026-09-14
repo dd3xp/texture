@@ -66,6 +66,40 @@ B2 是判官在 32px 上认可的那一方（TRD 输它 41%，p=0.014），它�
   (O2) 每个配对比较的 n 必须等于两侧材质名的交集大小，且 >= 100（V_mat）/ >= 250（E_mat）。
 
     python analysis/arch/scale_free_diag.py --out /tmp/scale_free_diag.json
+
+---------------------------------------------------------------- 跑完的判读（2026-09-14）
+**方向预测错了，(P1) 的符号与预测相反 -> 预注册的"尺度漂移"假设被推翻。**
+  - (P2) 16px：TRD 0.797 vs B2 0.803，TRD 更低 65/125 = 52%，**p=0.72**（测试集 48%，p=0.63）-> 无差异。
+  - (P1) 32px：TRD 0.765 vs B2 **0.656**，TRD 更低只有 40/125 = 32%，**p=7.0e-05**
+    （测试集 89/271 = 33%，**p=1.7e-08**）-> TRD 在 32px 上显著**更花**，不是更粗。
+  判据要的是 "TRD 更低"，实测是 "TRD 更高" -> 尺度漂移**不成立**，且这次不是"没测到"，是**反向显著**。
+  (S1) 旁证同向：edge32/edge16 的中位，TRD **0.954**、B2 **0.840**（配对 p=4.2e-10；测试集 0.961/0.821）。
+  -> 画布翻倍时**变粗的是 B2，不是 TRD**；TRD 几乎原样保持 16px 的逐像素密度。
+  （`scale_diag.py` 用周期给的是相反的读数：TRD 比值 2.00 > B2 1.75。两者矛盾，
+   而那把尺子在 TRD 的 32px 上只覆盖 27.6% 的瓦片、在 B2 上覆盖 74.4% -> **以本脚本为准**。）
+
+**因此换来的那句可查的事实**（它不是"尺度漂移"，是它的反面）：
+> TRD 与 B2 在 16px 上逐像素密度**完全相同**；画布到 32px 时 B2 降到 0.656 而 TRD 只降到 0.765。
+> 判官在 16px 上选 TRD、在 32px 上选 B2。**这是目前唯一一个"随尺寸改变符号"的已测内容差异。**
+⚠ **"更花 = 更差"没有被证明**，本轮只测到相关（两个尺寸、一条轴）。不许拿 `edge` 当优化目标、
+   当挑配置的依据，或当任何臂的判据——本项目已经因为"拿结构门当依据"栽过一次。
+⚠ 参照线的口径：同材质的真人 16px（`REALval/16`）是 **0.766**，比两个模型都低；真人 32px
+   **没有可用参照**（`REALval/32` 89% 来自一个包，见 (S3)）。所以"0.656 和 0.765 哪个对"**无从判定**。
+
+---------------------------------------------------------------- 给 arch_nod32 的机制探针（预注册）
+写于 `arch_nod32` **一步都没训**的时候（`/tmp/nod32.txt` 0 字节，已排队 1h43m）。
+**不改 `eval/val_nod32.sh` 的任何判据**，这只是一条零 API 的旁读，用来解释臂的结果：
+
+  臂跑完后，对两臂各自的 32px 瓦片跑
+      python analysis/arch/scale_free_diag.py \
+        --extra32 nod32=/tmp/gen32nod/nod32x100_rr4/32 \
+        --extra32 ctrl0=/tmp/gen32nod/ctrl0x100_rr4/32
+  **方向预测**：A（撤掉 32px 数据）的 `edge` **低于** B（对照）。
+  依据：上面那句事实 + 上一轮 `data32_content.py` 量到的 32px 训练池比 16px 池**更花**
+  （`flat` 更低 p=1.5e-08、`k_used` 更高 p=5.5e-08）-> 若 TRD@32 的高密度是**学来的**，
+  撤掉这批数据就该降下来；若撤掉后 `edge` 不动，那这个密度是**架构给的**，与数据无关。
+  ⚠ 这条**不判臂的胜负**，也**不是**臂的判据：判官怎么判以 `val_nod32.sh` 为准。
+     它只区分"数据造成的"和"架构造成的"，这两种情况的下一步完全不同。
 """
 import argparse
 import json
@@ -139,6 +173,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="/mnt/data/kw/RoundSquisheen/texture/experiments/baselines")
     ap.add_argument("--trd32val", default="/tmp/gen32pb/v10x100_rr4/32")
+    ap.add_argument("--extra32", action="append", default=[], metavar="名字=目录",
+                    help="再量一个 32px 生成目录，并按材质与 val/B2_32 配对。"
+                         "用途见文件末尾『给 arch_nod32 的机制探针』。")
     ap.add_argument("--out", type=Path, default=Path("/tmp/scale_free_diag.json"))
     a = ap.parse_args()
     B = Path(a.base)
@@ -155,6 +192,9 @@ def main():
         "test/TRD32": (B / "TRD32_rr4/32", 32),
         "test/B2_32": (B / "B2/32", 32),
     }
+    for e in a.extra32:
+        name, _, d = e.partition("=")
+        spec[f"extra/{name}"] = (Path(d), 32)
     groups, bads = {}, {}
     for name, (d, size) in spec.items():
         g, bad = load_group(d, size)
@@ -185,6 +225,18 @@ def main():
                 "median_B2": float(np.median([groups[tb][m]["edge"] for m in mats])),
                 "n_mat_TRD": len(groups[ta]), "n_mat_B2": len(groups[tb]),
             }
+
+    for e in a.extra32:
+        name = e.partition("=")[0]
+        k = f"extra/{name}"
+        if k in groups and "val/B2_32" in groups:
+            mats = sorted(set(groups[k]) & set(groups["val/B2_32"]))
+            res["per_size"][f"extra/{name} vs val/B2_32"] = \
+                sign_test(groups[k], groups["val/B2_32"], mats) | {
+                    "median_TRD": float(np.median([groups[k][m]["edge"] for m in mats])),
+                    "median_B2": float(np.median([groups["val/B2_32"][m]["edge"] for m in mats])),
+                    "n_mat_TRD": len(groups[k]), "n_mat_B2": len(groups["val/B2_32"]),
+                }
 
     # (S1)：edge32/edge16 的方法间配对比较
     res["ratio_S1"] = {}

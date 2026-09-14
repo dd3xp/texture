@@ -1,0 +1,157 @@
+{
+ "rulers": [
+  "edge",
+  "flat",
+  "k"
+ ],
+ "dirs": {
+  "val/TRD16": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/v8x100_rr4/16",
+  "val/B2_16": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2val/16",
+  "val/TRD32": "/tmp/gen32pb/v10x100_rr4/32",
+  "val/B2_32": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2val/32",
+  "val/REAL16": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/REALval/16",
+  "val/REAL32": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/REALval/32",
+  "test/TRD16": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/TRD16c_rr4/16",
+  "test/B2_16": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2/16",
+  "test/TRD32": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/TRD32_rr4/32",
+  "test/B2_32": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2/32"
+ },
+ "operational_check_O1_bad": {},
+ "summary": {
+  "val/TRD16": {
+   "edge": 0.796875,
+   "flat": 0.203125,
+   "k": 15.0,
+   "n_mat": 125
+  },
+  "val/B2_16": {
+   "edge": 0.802734375,
+   "flat": 0.16015625,
+   "k": 12.0,
+   "n_mat": 125
+  },
+  "val/TRD32": {
+   "edge": 0.76513671875,
+   "flat": 0.173828125,
+   "k": 16.0,
+   "n_mat": 125
+  },
+  "val/B2_32": {
+   "edge": 0.65576171875,
+   "flat": 0.1650390625,
+   "k": 12.0,
+   "n_mat": 125
+  },
+  "val/REAL16": {
+   "edge": 0.765625,
+   "flat": 0.23046875,
+   "k": 10.0,
+   "n_mat": 125
+  },
+  "val/REAL32": {
+   "edge": 0.841796875,
+   "flat": 0.12890625,
+   "k": 16.0,
+   "n_mat": 67
+  },
+  "test/TRD16": {
+   "edge": 0.79296875,
+   "flat": 0.2109375,
+   "k": 15.0,
+   "n_mat": 272
+  },
+  "test/B2_16": {
+   "edge": 0.7841796875,
+   "flat": 0.15625,
+   "k": 12.0,
+   "n_mat": 272
+  },
+  "test/TRD32": {
+   "edge": 0.751953125,
+   "flat": 0.1806640625,
+   "k": 15.0,
+   "n_mat": 272
+  },
+  "test/B2_32": {
+   "edge": 0.627685546875,
+   "flat": 0.1650390625,
+   "k": 12.0,
+   "n_mat": 272
+  }
+ },
+ "per_size": {
+  "val/16": {
+   "n_pairs": 125,
+   "n_tied": 0,
+   "n_a_lower": 65,
+   "frac_a_lower": 0.52,
+   "p": 0.7206725161127153,
+   "median_diff": -0.005859375,
+   "median_TRD": 0.796875,
+   "median_B2": 0.802734375,
+   "n_mat_TRD": 125,
+   "n_mat_B2": 125
+  },
+  "val/32": {
+   "n_pairs": 125,
+   "n_tied": 0,
+   "n_a_lower": 40,
+   "frac_a_lower": 0.32,
+   "p": 7.028919966642162e-05,
+   "median_diff": 0.103515625,
+   "median_TRD": 0.76513671875,
+   "median_B2": 0.65576171875,
+   "n_mat_TRD": 125,
+   "n_mat_B2": 125
+  },
+  "test/16": {
+   "n_pairs": 271,
+   "n_tied": 2,
+   "n_a_lower": 130,
+   "frac_a_lower": 0.483271375464684,
+   "p": 0.6257959069946812,
+   "median_diff": 0.001953125,
+   "median_TRD": 0.79296875,
+   "median_B2": 0.78515625,
+   "n_mat_TRD": 272,
+   "n_mat_B2": 272
+  },
+  "test/32": {
+   "n_pairs": 271,
+   "n_tied": 0,
+   "n_a_lower": 89,
+   "frac_a_lower": 0.3284132841328413,
+   "p": 1.6725245748022715e-08,
+   "median_diff": 0.0966796875,
+   "median_TRD": 0.75146484375,
+   "median_B2": 0.6279296875,
+   "n_mat_TRD": 272,
+   "n_mat_B2": 272
+  }
+ },
+ "ratio_S1": {
+  "val": {
+   "n_pairs": 125,
+   "median_ratio_TRD": 0.9544902912621359,
+   "median_ratio_B2": 0.8397435897435898,
+   "n_TRD_ratio_lower": 28,
+   "p": 4.196820254233947e-10,
+   "median_diff": 0.09662508390767166
+  },
+  "test": {
+   "n_pairs": 271,
+   "median_ratio_TRD": 0.9606126914660832,
+   "median_ratio_B2": 0.8214285714285714,
+   "n_TRD_ratio_lower": 71,
+   "p": 2.1818181120511444e-15,
+   "median_diff": 0.14951469583048527
+  }
+ },
+ "real_S3_not_a_criterion": {
+  "note": "REALval/32 的 89% 来自 ROllerozxa__mtg_tiled_32x 一个包，见 ref_pack_audit.py",
+  "median_edge_16": 0.765625,
+  "median_edge_32": 0.841796875,
+  "n16": 125,
+  "n32": 67
+ }
+}
