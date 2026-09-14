@@ -1,0 +1,286 @@
+{
+ "extra_file": "train_extra_packs_only.json",
+ "missing_files": [],
+ "n16": 3177,
+ "n32": 641,
+ "rulers": [
+  "edge",
+  "flat",
+  "k_used"
+ ],
+ "pool": {
+  "edge": {
+   "p16": [
+    0.48046875,
+    0.708984375,
+    0.845703125
+   ],
+   "p32": [
+    0.54541015625,
+    0.6650390625,
+    0.77685546875
+   ]
+  },
+  "flat": {
+   "p16": [
+    0.125,
+    0.25,
+    0.43359375
+   ],
+   "p32": [
+    0.09765625,
+    0.130859375,
+    0.26953125
+   ]
+  },
+  "k_used": {
+   "p16": [
+    5.0,
+    13.0,
+    16.0
+   ],
+   "p32": [
+    14.0,
+    16.0,
+    16.0
+   ]
+  }
+ },
+ "n_materials": {
+  "p16": 743,
+  "p32": 461,
+  "paired": 205,
+  "paired_material_pack": 0
+ },
+ "paired": {
+  "全部配对材质": {
+   "edge": {
+    "n_pairs": 205,
+    "n_nonzero": 205,
+    "n_32_lower": 105,
+    "p": 0.7800402214898162,
+    "median_paired_diff": -0.00537109375,
+    "median_16": 0.6982421875,
+    "median_32": 0.677734375
+   },
+   "flat": {
+    "n_pairs": 205,
+    "n_nonzero": 205,
+    "n_32_lower": 143,
+    "p": 1.5121526613283322e-08,
+    "median_paired_diff": -0.08203125,
+    "median_16": 0.2578125,
+    "median_32": 0.162109375
+   },
+   "k_used": {
+    "n_pairs": 205,
+    "n_nonzero": 166,
+    "n_32_lower": 48,
+    "p": 5.480870276242644e-08,
+    "median_paired_diff": 1.5,
+    "median_16": 12.0,
+    "median_32": 15.5
+   }
+  },
+  "同材质同包子集": {
+   "edge": {
+    "n_pairs": 0,
+    "n_nonzero": 0,
+    "n_32_lower": 0,
+    "p": NaN,
+    "median_paired_diff": NaN,
+    "median_16": NaN,
+    "median_32": NaN
+   },
+   "flat": {
+    "n_pairs": 0,
+    "n_nonzero": 0,
+    "n_32_lower": 0,
+    "p": NaN,
+    "median_paired_diff": NaN,
+    "median_16": NaN,
+    "median_32": NaN
+   },
+   "k_used": {
+    "n_pairs": 0,
+    "n_nonzero": 0,
+    "n_32_lower": 0,
+    "p": NaN,
+    "median_paired_diff": NaN,
+    "median_16": NaN,
+    "median_32": NaN
+   }
+  }
+ },
+ "packs32": {
+  "Suzakuu__actionpvpforctf": {
+   "n": 34,
+   "share": 0.0530421216848674,
+   "edge": 0.54296875,
+   "flat": 0.40625,
+   "k_used": 16.0
+  },
+  "ROllerozxa__macrotex": {
+   "n": 186,
+   "share": 0.29017160686427457,
+   "edge": 0.682861328125,
+   "flat": 0.10986328125,
+   "k_used": 16.0
+  },
+  "sirrobzeroone__dungeonsoup": {
+   "n": 220,
+   "share": 0.34321372854914195,
+   "edge": 0.70947265625,
+   "flat": 0.2099609375,
+   "k_used": 16.0
+  },
+  "debiankaios__simpletextures": {
+   "n": 6,
+   "share": 0.0093603744149766,
+   "edge": 0.22265625,
+   "flat": 0.73779296875,
+   "k_used": 14.5
+  },
+  "Droog71__moontest_32x32": {
+   "n": 43,
+   "share": 0.06708268330733229,
+   "edge": 0.6630859375,
+   "flat": 0.1123046875,
+   "k_used": 16.0
+  },
+  "Ludus__gb_style": {
+   "n": 2,
+   "share": 0.0031201248049922,
+   "edge": 0.258056640625,
+   "flat": 0.60205078125,
+   "k_used": 4.0
+  },
+  "ROllerozxa__ohceedee": {
+   "n": 4,
+   "share": 0.0062402496099844,
+   "edge": 0.2451171875,
+   "flat": 0.36328125,
+   "k_used": 8.0
+  },
+  "ROllerozxa__vilja_pix_2": {
+   "n": 2,
+   "share": 0.0031201248049922,
+   "edge": 0.492919921875,
+   "flat": 0.15625,
+   "k_used": 15.0
+  },
+  "StarNinjas__simplepixel": {
+   "n": 10,
+   "share": 0.015600624024960999,
+   "edge": 0.128662109375,
+   "flat": 0.79443359375,
+   "k_used": 7.0
+  },
+  "TumeniNodes__ambiguity": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.64404296875,
+   "flat": 0.1513671875,
+   "k_used": 16.0
+  },
+  "TumeniNodes__default_ls": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.6826171875,
+   "flat": 0.103515625,
+   "k_used": 16.0
+  },
+  "Wuzzy__retroplus": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.548828125,
+   "flat": 0.1640625,
+   "k_used": 15.0
+  },
+  "Zughy__soothing32": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.43505859375,
+   "flat": 0.19140625,
+   "k_used": 12.0
+  },
+  "gtzi203__simple_16p": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.50634765625,
+   "flat": 0.16015625,
+   "k_used": 14.0
+  },
+  "joseanastacio__texture_pack_plastic": {
+   "n": 3,
+   "share": 0.0046801872074883,
+   "edge": 0.4111328125,
+   "flat": 0.4033203125,
+   "k_used": 11.0
+  },
+  "sebpro_3__mt_bare_bone": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.41748046875,
+   "flat": 0.3515625,
+   "k_used": 16.0
+  },
+  "LoopyAntenna__plastic_textures": {
+   "n": 3,
+   "share": 0.0046801872074883,
+   "edge": 0.21875,
+   "flat": 0.490234375,
+   "k_used": 5.0
+  },
+  "UltraSans__win25695": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.30224609375,
+   "flat": 0.3974609375,
+   "k_used": 6.0
+  },
+  "Liil__12345": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.841796875,
+   "flat": 0.07421875,
+   "k_used": 16.0
+  },
+  "Feaw2008__easy_see_ores": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.3232421875,
+   "flat": 0.234375,
+   "k_used": 16.0
+  },
+  "GefTau__techage_reskin": {
+   "n": 6,
+   "share": 0.0093603744149766,
+   "edge": 0.406494140625,
+   "flat": 0.4794921875,
+   "k_used": 8.0
+  },
+  "Jeremiah__mppbj": {
+   "n": 21,
+   "share": 0.0327613104524181,
+   "edge": 0.56298828125,
+   "flat": 0.1806640625,
+   "k_used": 15.0
+  },
+  "VanicGame__lord_textures_by_varttist": {
+   "n": 1,
+   "share": 0.0015600624024961,
+   "edge": 0.84521484375,
+   "flat": 0.130859375,
+   "k_used": 16.0
+  },
+  "Sharpik__sharpnet_textures": {
+   "n": 91,
+   "share": 0.1419656786271451,
+   "edge": 0.6513671875,
+   "flat": 0.099609375,
+   "k_used": 16.0
+  }
+ },
+ "verdict": "H_flat 未获支持：同材质下两个尺寸的 edge 测不出差别 -> 那句机制猜想没有证据，臂的结果只能读成'符号'本身"
+}

@@ -35,7 +35,12 @@
   另报 `flat` 与 `k_used` 两个尺子作旁证；三个尺子不一致就如实说不一致。
 
 ⚠ 配对的已知限制（跑之前写下）：同一材质在两个尺寸上**可能来自不同的包**，配对控住的是
-"画的是什么材质"，控不住"谁画的"。所以脚本同时报同材质两侧**包完全相同**的子集。
+"画的是什么材质"，控不住"谁画的"。所以脚本同时报一个把包也控住的子集。
+  ⚠⚠ **这个副控制第一版写坏了，已修（结果公布前）**：原先要求同材质两侧的**包集合完全相等**，
+  而 16px 一个材质常横跨十来个包、32px 常只有一两个 -> 子集恒为空（实跑 n=0），什么都没控住。
+  （它不是"两个池子的包不相交"：24 个 32px 包里 21 个也出现在 16px 池里。）
+  改成按 **(材质, 包)** 配对：同一个包画的同一个材质，16px 与 32px 各取一次。这**更严**，
+  连画师都控住了。**主判据（全部配对材质上的 `edge`）一个字没改**，副控制的修正不影响它。
 ⚠ 另一个限制：32px 瓦片有 4 倍的格子，`edge` 与 `flat` 都是**按格数归一化**的比例，
 可比；但"同一个材质在更大画布上画得更细"本身就是画师的选择，本脚本量的是**画出来的结果**，
 不是"该不该更细"。
@@ -92,6 +97,13 @@ def by_material(recs):
     return out
 
 
+def by_key(recs):
+    out = {}
+    for r in recs:
+        out.setdefault((r["material"], r["pack"]), []).append(r)
+    return out
+
+
 def sign_test(pairs):
     """pairs = [(x16, x32)]；返回 (32 更小的个数, 有效对数, p, 配对差的中位数)。
 
@@ -129,19 +141,21 @@ def main():
     # ---- 主读数：按材质配对 ---------------------------------------------------
     m16, m32 = by_material(p16), by_material(p32)
     both = sorted(set(m16) & set(m32))
-    same_pack = [m for m in both
-                 if {x["pack"] for x in m16[m]} == {x["pack"] for x in m32[m]}]
+    # 副控制（见文件头）：按 (材质, 包) 配对，连画师也控住
+    k16, k32 = by_key(p16), by_key(p32)
+    both_mp = sorted(set(k16) & set(k32))
     out["n_materials"] = {"p16": len(m16), "p32": len(m32), "paired": len(both),
-                          "paired_same_pack": len(same_pack)}
+                          "paired_material_pack": len(both_mp)}
     print(f"\n配对：16px 池 {len(m16)} 个材质、32px 池 {len(m32)} 个；两侧都有的 {len(both)} 个"
-          f"（其中两侧来源包完全相同的 {len(same_pack)} 个）")
+          f"；按 (材质, 包) 两侧都有的 {len(both_mp)} 组")
 
     out["paired"] = {}
-    for subset, mats in (("全部配对材质", both), ("两侧同包子集", same_pack)):
-        print(f"\n  [{subset}] n={len(mats)}")
+    for subset, keys, src16, src32 in (("全部配对材质", both, m16, m32),
+                                       ("同材质同包子集", both_mp, k16, k32)):
+        print(f"\n  [{subset}] n={len(keys)}")
         out["paired"][subset] = {}
         for r in RULERS:
-            pairs = [(med([x[r] for x in m16[m]]), med([x[r] for x in m32[m]])) for m in mats]
+            pairs = [(med([x[r] for x in src16[m]]), med([x[r] for x in src32[m]])) for m in keys]
             lower, n, p, dmed = sign_test(pairs)
             a16, a32 = med([x for x, _ in pairs]), med([y for _, y in pairs])
             out["paired"][subset][r] = {"n_pairs": len(pairs), "n_nonzero": n,
