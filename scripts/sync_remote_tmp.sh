@@ -12,7 +12,7 @@ mkdir -p "$DST"
 SINCE=$(( $(cat "$STAMP" 2>/dev/null || echo 120) - 120 ))   # 留 2 分钟余量防两台机器时钟偏差
 NOW=$(date +%s)
 # 本项目在服务器 /tmp 下的东西（显式列出，别碰共享账号里别人的文件）
-PATHS='runs sdpixl_runs judge_* trd_*.txt b3*.txt vj*.txt'
+PATHS='runs sdpixl_runs judge_* gen32* trd_*.txt b3*.txt vj*.txt'
 ssh -o ConnectTimeout=30 -o ServerAliveInterval=30 emnlp \
   "cd /tmp && ls -d $PATHS 2>/dev/null | xargs -r tar cf - --newer-mtime=@$SINCE --exclude='*.lock' --exclude='.trainlock' 2>/dev/null" \
   | tar xf - -C "$DST" 2>/dev/null
