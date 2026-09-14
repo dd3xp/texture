@@ -44,6 +44,7 @@ Q = ("下面是两张 {n}x{n} 的像素画材质贴图，材质是「{label}」�
      "哪一张更像这个材质、更像一张能用的游戏贴图？只回答 A 或 B，不要解释。\n"
      "（第一张是 A，第二张是 B）")
 PILOT_FIELDS = {"pair", "kind", "material", "answered", "resolved"}     # 白名单：不许有胜负
+FLOOR = 21 / 118        # 可解率地板：去重后 118 道空对照实测（analysis/arch/pilot_gate_audit.py 第一节）
 
 
 def panel(tile):
@@ -88,6 +89,9 @@ def main():
     ap.add_argument("--n_pilot", type=int, default=15)
     ap.add_argument("--n_null", type=int, default=5)
     ap.add_argument("--min_rate", type=float, default=0.65)
+    ap.add_argument("--no_gate", action="store_true",
+                    help="full 不要求先有通过的试点；可解率改由 full 自己的 decided/n 对地板检验。"
+                         "**必须在该臂的预注册里写明**（首例 eval/b2_canvas2.sh）")
     ap.add_argument("--model", default="claude-opus-5")
     ap.add_argument("--root", type=Path, default=ROOT / "experiments/baselines")
     ap.add_argument("--outdir", type=Path, default=ROOT / "experiments",
@@ -150,9 +154,11 @@ def main():
                   "60% 出头仍远高于地板；且 n=15 时门槛的分辨力只有 6.7pp。")
         return 0 if ok else 1
 
-    # full：先确认试点通过
+    # full：先确认试点通过（除非该臂预注册了免门，见 --no_gate）
     pp = a.outdir / f"judge_pilot_{tag}.json"
-    if not pp.exists() or not json.loads(pp.read_text(encoding="utf-8"))["pass"]:
+    if a.no_gate:
+        print("--no_gate：不查试点。可解率改由本次 full 的 decided/n 对地板检验（见下面最后一行）")
+    elif not pp.exists() or not json.loads(pp.read_text(encoding="utf-8"))["pass"]:
         raise SystemExit(f"没有通过的试点记录 {pp.name}：先跑 pilot（判官可能分辨不了这个比较）")
     wins = tot = inc = fail = 0
     recs = []
@@ -168,12 +174,20 @@ def main():
             wins += v == "A"
     p = binom_test(wins, tot) if tot else float("nan")
     lo, hi = jeffreys(wins, tot) if tot else (float("nan"), float("nan"))
+    # 可解率对地板：地板 = 21/118 = 17.8%（去重空对照，analysis/arch/pilot_gate_audit.py 第一节）。
+    # 免门的臂靠这一行代替试点门；有门的臂它只是多一个免费读数。
+    n_ask = len(pairs) - fail
+    p_floor = binom_test(tot, n_ask, FLOOR) if n_ask else float("nan")
     out = {"tag": tag, "a_wins": wins, "decided": tot, "inconsistent": inc, "api_fail": fail,
-           "rate": wins / tot if tot else float("nan"), "p": p, "jeffreys": [lo, hi], "records": recs}
+           "rate": wins / tot if tot else float("nan"), "p": p, "jeffreys": [lo, hi],
+           "resolve_rate": tot / n_ask if n_ask else float("nan"),
+           "floor": FLOOR, "p_vs_floor": p_floor, "records": recs}
     (a.outdir / f"judge_full_{tag}.json").write_text(
         json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{a.a} 胜 {wins}/{tot} = {wins / max(tot, 1):.0%}  p={p:.3g}  [{lo:.0%},{hi:.0%}]"
           f"   （两序不一致弃 {inc}，API 失败 {fail}；有效 n / 总 n = {tot}/{len(pairs)}）")
+    print(f"可解率 {tot}/{n_ask} = {tot / max(n_ask, 1):.1%}  vs 地板 {FLOOR:.1%}  p={p_floor:.3g} -> "
+          f"{'高于地板，判官在这个比较上有分辨力' if p_floor < 0.05 and tot / max(n_ask, 1) > FLOOR else '**不高于地板：判官分辨不了，胜负不作数**'}")
     return 0
 
 
