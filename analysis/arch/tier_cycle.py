@@ -43,7 +43,7 @@
 import json
 import os
 import sys
-from math import exp, log, sqrt
+from math import erfc, exp, log, sqrt
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "analysis"))
@@ -56,6 +56,9 @@ EDGES = {
     "d2": ("judge_full_TRD32_rr4_vs_B2_32.json",  "TRD@32 vs B2@32   （已发表：32px 这档我们输）"),
     "d3": ("judge_full_B2_vs_B2up16_32.json",     "B2@32  vs B2@16   （`557a50e` 新量：画布增益）"),
 }
+
+# `eval/trd_canvas.sh`（预注册 `2f64dd1`）的产物；跑完 scp 进 experiments/ 后本脚本自动接上。
+E4_FILE = "judge_full_TRD32_rr4_vs_TRD16cup_32.json"
 
 
 def logit(p):
@@ -96,6 +99,20 @@ SCALES = [("S1 只算判出（已发表三档同口径）", scale_decided),
           ("S2 平局记 0.5、分母 272（平局不丢）", scale_tiehalf)]
 
 
+def norm_p2(z):
+    """双侧正态 p 值（纯标准库；服务器的 jzs_train 没有 scipy）。"""
+    return erfc(abs(z) / sqrt(2.0))
+
+
+def assumed_var(fn, r, p, tot=272):
+    """造一份"判出率 r、判出里胜率 p"的假想 e4 计数，算它在某把尺子上的 logit 方差。
+
+    只用于 e4 回来**之前**估这个检验的分辨率。e4 一落地就改用它自己的真实计数。
+    """
+    n = r * tot
+    return fn(p * n, n, tot - n, tot)[1]
+
+
 def main():
     raw = {}
     print("四个格子的三条已知边（w 由逐对记录重算）：\n")
@@ -117,7 +134,7 @@ def main():
         se = sqrt(var["d2"] + var["d3"] + var["d1"])
         lo, hi = d4 - 1.96 * se, d4 + 1.96 * se
         swing = est["d1"] - est["d2"]
-        preds[label] = (d4, lo, hi)
+        preds[label] = (d4, lo, hi, se, swing, fn)
         print("\n" + "=" * 78)
         print(f"【{label}】  单位 logit，正数 = 画布变大时变好\n")
         print(f"  B2  的画布增益        d3 = {est['d3']:+.3f} ± {sqrt(var['d3']):.3f}   （实测）")
@@ -131,11 +148,68 @@ def main():
 
     print("\n" + "=" * 78)
     print("两把尺子的点预测放在一起（这就是 (L2) 说的「结论稳不稳」）：\n")
-    for label, (d4, lo, hi) in preds.items():
+    for label, (d4, lo, hi, se, swing, fn) in preds.items():
         print(f"  {label[:2]}  {sigmoid(d4):5.1%}   [{sigmoid(lo):.1%}, {sigmoid(hi):.1%}]")
     print("\n  两个预测差得越远，说明「三档」这个读数越依赖弃样口径本身。"
-          "\n  e4 回来后对**两把尺子各检验一次**：都落在区间内才算环闭合。")
+          "\n  e4 回来后对**两把尺子各检验一次**：都判「未被证伪」才算环闭合。")
+
+    print("\n" + "=" * 78)
+    if os.path.exists(os.path.join(EXP, E4_FILE)):
+        closure(preds)
+    else:
+        resolution(preds)
     return 0
+
+
+def resolution(preds):
+    """e4 未落地时：把闭合判据和它的分辨率先说死。"""
+    print("【闭合判据（e4 未见时定死）】\n")
+    print("  δ = logit(e4 实测) − d4(环推出)；SE(δ) = sqrt( var(d4 预测) + var(e4 自己) )。")
+    print("  |z| = |δ| / SE(δ) < 1.96 → **环未被证伪**；≥ 1.96 → **环不闭合**。两把尺子各判一次。\n")
+    print("  ⚠ 上面印的 [lo,hi] 是 **d4 这个参数的 CI，不含 e4 自己的抽样噪声**。")
+    print("     拿实测点直接跟它比会系统性偏向判「不闭合」。**闭合一律用上面的 z 判，不用那个区间。**\n")
+    print("  分辨率：80% 功效下能查出的最小不可加量 = 2.80 × SE(δ)。")
+    print("  e4 的判出率未知，用已观测到的两个 32px 判出率（e2 74%、e3 51%）把它夹住：\n")
+    print("    尺子  假设判出率   SE(δ)    最小可查出的不可加  （折成胜率偏离预测）    三档落差本身")
+    for label, (d4, lo, hi, se, swing, fn) in preds.items():
+        for r in (0.74, 0.51):
+            vm = assumed_var(fn, r, sigmoid(d4))
+            set_ = sqrt(se * se + vm)
+            mde = 2.80 * set_
+            print(f"    {label[:2]}      {r:.0%}      {set_:.3f}        {mde:+.3f} logit"
+                  f"        ±{abs(sigmoid(d4 + mde) - sigmoid(d4)):.0%}pp"
+                  f"            {swing:+.3f}")
+    print("\n  ⚠⚠ **最小可查出量和三档落差本身同量级**（S1：约 ±0.9 vs 0.65）。")
+    print("     所以 e4 落在区间内**只能说「没被证伪」，不能说「可加性成立」**——")
+    print("     这个检验分辨不了「完全可加」与「不可加得和整个缺口一样大」。**结论必须这么写。**")
+    print("\n  （另：e4 与三条已知边是各自独立的提问，但四条边共用同一批材质，")
+    print("   材质级的相关会让真实 SE 略大于上表 → 上表偏乐观，方向对我们不利那边。）")
+
+
+def closure(preds):
+    """e4 已落地：按上面定死的判据判，两把尺子各一次。"""
+    w, n, inc, tot = read_edge(E4_FILE)
+    print(f"【e4 实测】{E4_FILE}")
+    lo, hi = jeffreys(w, n)
+    print(f"  TRD@32 vs TRD16c↑@32：判出里 {w}/{n} = {w / n:.1%}  [{lo:.0%},{hi:.0%}]"
+          f"  p={binom_test(w, n):.3g}   |   判出率 {n}/{tot} = {n / tot:.0%}（弃 {inc}）\n")
+    verdicts = []
+    for label, (d4, _lo, _hi, se, swing, fn) in preds.items():
+        m, vm = fn(w, n, inc, tot)
+        delta = logit(m) - d4
+        set_ = sqrt(se * se + vm)
+        z = delta / set_
+        ok = abs(z) < 1.96
+        verdicts.append(ok)
+        print(f"  {label}")
+        print(f"      环推 d4 = {d4:+.3f} ± {se:.3f}   实测 = {logit(m):+.3f} ± {sqrt(vm):.3f}"
+              f"   δ = {delta:+.3f} ± {set_:.3f}")
+        print(f"      z = {z:+.2f}   p = {norm_p2(z):.3g}   → "
+              f"{'环未被证伪' if ok else '**环不闭合**'}\n")
+    print("  【判决】" + ("两把尺子都未证伪 → **环闭合**（在本检验的分辨率内）"
+                         if all(verdicts) else
+                         "至少一把尺子判不闭合 → **环不闭合**，三档不能并排读"))
+    print("  ⚠ 「未被证伪」不等于「可加性成立」：本检验的最小可查出量与三档落差同量级。")
 
 
 if __name__ == "__main__":
