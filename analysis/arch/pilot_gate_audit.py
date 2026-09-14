@@ -6,11 +6,18 @@
 
 1. **地板不是 50%。** 论文期 `crop_scale_study.py` 的推导是：判官若不看内容、以概率 q 选第一张，
    跨序一致率 = 2q(1-q) <= 0.5，q=0.5 时取到 0.5。**那是上界，不是这台仪器的实测值。**
-   合并 100 对空对照实测 **12%** → 反推 q ~ 0.94：`judge_pairs.py` 的判官在两图相同时
+   去重后 90 题实测 **15.6%** → 反推 q ~ 0.91：`judge_pairs.py` 的判官在两图相同时
    **几乎总是挑同一个位置**，换序就翻面，于是判成 inconsistent。
-2. 于是"可解率低"要分两种读法：低到 12% 附近 = 判官只在按位置作答（真的没信息）；
+2. 于是"可解率低"要分两种读法：低到 16% 附近 = 判官只在按位置作答（真的没信息）；
    60% 出头 = **远高于地板**，只是没到我们为了保功效而画的 65% 那条线。
    **把 62% 写成"判官没分辨力"是错的**，脚本里那句提示词要按这个改。
+
+⚠ **必须去重（2026-09-14 发现，此前的 "100 对 / 12%" 是把重复当独立了）**：
+`judge_pairs.py:122-124` 的空对照用的是 **A 臂自己的瓦片**（`ta,ta`），选题靠 `default_rng(0)`
+的固定排列。于是**同一张参照臂 + 同样的可比对张数**下，不同的 B 臂得到的是**同一批 5 道题**。
+16px 消融表五条臂共 25 条空对照记录，其实只有 **5 道不同的题**（对号 70/258/202/5/264）。
+本脚本按 (A 臂, 对号) 去重，重复的只取第一次。副产物：15 道被重复问过的题里 **3 道前后答案不一致**
+→ **这台仪器不是确定性的**（论文期那句"温度 0 下判官确定"是另一台仪器上量的，不能搬过来）。
 
 ⚠ 本脚本一个胜负字段都不读（只读 kind/answered/resolved），不会把试点变成偷看结果。
 
@@ -34,16 +41,26 @@ def main():
     if not files:
         print("没有试点 JSON（净克隆里应当有，见 .gitignore 的豁免）")
         return 1
-    R = RA = N = NA = 0
+    R = RA = 0
     rows = []
+    seen = {}          # (A 臂, 对号) -> 第一次的 resolved；空对照跨臂重复，必须去重
+    repeat = []        # 同一道题被重复问到的答案，用来看这台仪器确不确定
     for f in files:
         d = json.loads(Path(f).read_text(encoding="utf-8"))
-        recs = [{k: x[k] for k in FIELDS} for x in d["records"]]
+        arm_a = d["tag"].split("_vs_")[0]
+        recs = [{k: x[k] for k in FIELDS} | {"pair": x["pair"]} for x in d["records"]]
         r = [x for x in recs if x["kind"] == "real" and x["answered"]]
         n = [x for x in recs if x["kind"] == "null" and x["answered"]]
         rr, nn = sum(x["resolved"] for x in r), sum(x["resolved"] for x in n)
-        R += rr; RA += len(r); N += nn; NA += len(n)
+        R += rr; RA += len(r)
+        for x in n:
+            key = (arm_a, x["pair"])
+            if key in seen:
+                repeat.append((seen[key], x["resolved"]))
+            else:
+                seen[key] = x["resolved"]
         rows.append((d["tag"], rr, len(r), nn, len(n), d["min_rate"], d["pass"]))
+    N, NA = sum(seen.values()), len(seen)
 
     print(f"{'臂':52s} {'真题':>9s} {'空对照':>8s}  门槛  过?")
     for tag, rr, rn, nn, nnn, mr, ok in rows:
@@ -53,9 +70,14 @@ def main():
     print(f"\n合并真题   {R}/{RA} = {R / RA:.1%}  Jeffreys [{jeffreys(R, RA)[0]:.1%},{jeffreys(R, RA)[1]:.1%}]")
     lo, hi = jeffreys(N, NA)
     print(f"合并空对照 {N}/{NA} = {N / NA:.1%}  Jeffreys [{lo:.1%},{hi:.1%}]  "
-          f"vs 50% 的二项 p = {binom_test(N, NA):.3g}")
+          f"vs 50% 的二项 p = {binom_test(N, NA):.3g}   "
+          f"（已按 (A 臂, 对号) 去重，丢掉 {len(repeat)} 条重复记录）")
+    flip = sum(x != y for x, y in repeat)
+    print(f"重复问过的 {len(repeat)} 次里，与第一次答案不一致的有 {flip} 次 "
+          f"-> 这台仪器**不是确定性的**，别把论文期那句'温度 0 下判官确定'搬过来")
     print("\n读法：空对照 = 两边同一张图，判官若按内容作答无从判起。实测远低于 2q(1-q) 的上界 0.5，")
-    print("     说明它在平局上几乎总按位置作答（q ~ 0.94）→ **这台仪器的可解率地板约 12%，不是 50%**。")
+    print(f"     说明它在平局上几乎总按位置作答（q ~ {(1 + (1 - 2 * N / NA) ** 0.5) / 2:.2f}）"
+          f"-> **这台仪器的可解率地板约 {N / NA:.0%}，不是 50%**。")
 
     fails = [x for x in rows if not x[6]]
     if fails:

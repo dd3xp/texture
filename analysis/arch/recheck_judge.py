@@ -41,6 +41,18 @@ EXPECT = {
     "judge_full_pb05x100_rr4_vs_v10x100_rr4_32_V_mat.json":   (36, 73, 52, 0),
     # 测试集 16px 消融（预注册 83a6257，`eval/ablation_16.sh`）；参照臂 TRD16c_rr4 同材质直接对判
     "judge_full_TRD16c_rr4_vs_AB_pal_rr4_16.json":           (126, 190, 82, 0),
+    "judge_full_TRD16c_rr4_vs_AB_ex_rr4_16.json":             (87, 175, 97, 0),
+    "judge_full_TRD16c_rr4_vs_AB_ct_rr4_16.json":             (86, 154, 118, 0),
+}
+
+# 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。
+# 消融表里 AB_xm 与 AB_rr 两条臂**没有 full**，判读全压在试点上，所以试点也要能零 API 复算。
+PILOT_EXPECT = {
+    "judge_pilot_TRD16c_rr4_vs_AB_pal_rr4_16.json": (12, 15, 2, 5, True),
+    "judge_pilot_TRD16c_rr4_vs_AB_ex_rr4_16.json":  (10, 15, 3, 5, True),
+    "judge_pilot_TRD16c_rr4_vs_AB_xm_rr4_16.json":   (9, 15, 1, 5, False),
+    "judge_pilot_TRD16c_rr4_vs_AB_ct_rr4_16.json":  (11, 15, 3, 5, True),
+    "judge_pilot_TRD16c_rr4_vs_TRD16c_16.json":      (6, 15, 1, 5, False),
 }
 
 
@@ -70,12 +82,39 @@ def main():
             mark = "**不自洽**"
         print(f"{mark} {d['tag']:44s} {w}/{t} = {w / t:.0%}  p={binom_test(w, t):.3g}  "
               f"[{lo:.0%},{hi:.0%}]  弃 {got[2]}  API 失败 {got[3]}")
+    for name, exp in PILOT_EXPECT.items():
+        p = ROOT / "experiments" / name
+        if not p.exists():
+            bad.append(f"{name}: 文件不在（净克隆里应当有，见 .gitignore 的豁免）")
+            continue
+        d = json.loads(p.read_text(encoding="utf-8"))
+        r = d["records"]
+        real = [x for x in r if x["kind"] == "real"]
+        null = [x for x in r if x["kind"] == "null"]
+        got = (sum(x["resolved"] for x in real), len(real),
+               sum(x["resolved"] for x in null), len(null),
+               bool(d["pass"]))
+        # 判官如果在试点里泄露过胜负，白名单就漏了，这里顺手钉死
+        leak = sorted(set().union(*(set(x) for x in r)) - {"pair", "kind", "material", "answered", "resolved"})
+        mark = "OK "
+        if leak:
+            bad.append(f"{name}: 试点记录里出现了不该有的字段 {leak}")
+            mark = "**泄露**"
+        elif got != exp:
+            bad.append(f"{name}: 重算 {got} != 账本 {exp}")
+            mark = "**对不上**"
+        elif (got[0] / got[1] >= d["min_rate"] and got[0] > got[2] / got[3]) != got[4]:
+            bad.append(f"{name}: 门槛判读与 min_rate={d['min_rate']} 不自洽")
+            mark = "**不自洽**"
+        print(f"{mark} 试点 {d['tag']:38s} 真题 {got[0]}/{got[1]} = {got[0] / got[1]:.0%}  "
+              f"空对照 {got[2]}/{got[3]} = {got[2] / got[3]:.0%}  门槛 {d['min_rate']:.0%}  "
+              f"{'过' if got[4] else '不过'}")
     if bad:
         print("\n以下对不上：")
         for b in bad:
             print(" -", b)
         return 1
-    print(f"\n{len(EXPECT)} 条臂全部与账本一致（零 API 复算）。")
+    print(f"\n{len(EXPECT)} 条臂 + {len(PILOT_EXPECT)} 条试点全部与账本一致（零 API 复算）。")
     return 0
 
 
