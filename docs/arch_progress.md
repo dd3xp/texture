@@ -1881,3 +1881,11 @@ val 的三个包（0.300 / 0.181 / 0.140）分别有 11 / 19 / 25 个 train 包�
 
 数据：`experiments/train_pool_structure.json`（9 组逐张各向异性 + 5 个预注册对比 + 事后包画像）已入库；
 复算 `python analysis/arch/ref_pack_audit.py`。本轮成本：**零 GPU、零 API**。
+
+## 2026-09-14（主会话，额度恢复后）：重启 B3；32px 改用同材质直接对判
+
+**停摆原因**：09-12 晚到 09-14 上午，定时轮次全部撞额度上限（"You've hit your limit"），约 40 小时无进展。
+**B3（SD-piXL）** 两个进程都死于 `/mnt/data` 写满（`Errno 28`），12 张完成 6 张；已改 `--work /tmp/sdpixl_runs` 重启
+（tmux `arch_b3` GPU 6、`arch_b3rev` GPU 2，日志 `/tmp/b3*.txt`），剩 6 张两路并行、约一天。
+**32px**：按 09-12 定下的方法论（配置比较只认同材质直接对判），预注册 `eval/val_judge_32pair.sh`：
+级联 vs 直接、Gibbs 精修 vs 直接（都在 v10 N=100 + 4 选 1 上，图已存在、零新生成），判据写在脚本头。
