@@ -20,13 +20,26 @@ from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
-SRC = os.path.join(ROOT, "experiments", "baselines", "B2", "16")
-DST = os.path.join(ROOT, "experiments", "baselines", "B2up16", "32")
+BASE = os.path.join(ROOT, "experiments", "baselines")
+SRC = os.path.join(BASE, "B2", "16")
+DST = os.path.join(BASE, "B2up16", "32")
 
 
-def main() -> int:
+def main(argv) -> int:
+    # 可选 `make_up2.py <源方法>/<尺寸> <目标方法>/<尺寸>`；不给参数则与 `557a50e` 逐字节同行为。
+    global SRC, DST
+    if len(argv) == 2:
+        SRC, DST = (os.path.join(BASE, *p.split("/")) for p in argv)
+    elif argv:
+        print("[make_up2] 用法：make_up2.py [<源方法>/<尺寸> <目标方法>/<尺寸>]")
+        return 1
     if not os.path.isdir(SRC):
         print(f"[make_up2] 缺 {SRC}")
+        return 1
+    # 尺寸从目录名取，并要求目标恰是源的 2 倍——放大倍率写死在路径里，不另给一个可以错配的参数
+    s_src, s_dst = int(os.path.basename(SRC)), int(os.path.basename(DST))
+    if s_dst != 2 * s_src:
+        print(f"[make_up2] {s_dst} 不是 {s_src} 的 2 倍")
         return 1
     os.makedirs(DST, exist_ok=True)
     n = 0
@@ -34,8 +47,8 @@ def main() -> int:
         if not name.endswith(".png"):
             continue
         a = np.asarray(Image.open(os.path.join(SRC, name)).convert("RGB"))
-        if a.shape[:2] != (16, 16):
-            print(f"[make_up2] {name} 不是 16x16：{a.shape}")
+        if a.shape[:2] != (s_src, s_src):
+            print(f"[make_up2] {name} 不是 {s_src}x{s_src}：{a.shape}")
             return 1
         up = np.repeat(np.repeat(a, 2, axis=0), 2, axis=1)
         # 操作检验 (8)：往返必须逐像素相等，否则放大不是无损的
@@ -49,4 +62,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))
