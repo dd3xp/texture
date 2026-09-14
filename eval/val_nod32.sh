@@ -71,7 +71,7 @@
 # 轮询到某张卡空出 MINFREE MiB 才开训，且 B3 在跑时**绝不碰 GPU 2 / 6**（别把它 12 小时的活 OOM 掉）。
 # 凭据只从环境变量 VLM_BASE_URL / VLM_API_KEY 读。
 set -u
-P=${PY:-python}
+P=${PY:-/mnt/data/kw/anaconda3/envs/jzs_train/bin/python}
 REPO=${REPO:-/mnt/data/kw/RoundSquisheen/texture}
 STAMP=${STAMP:-$(date +%m%d%H%M)}
 A=/tmp/runs/trd_nod32_$STAMP
