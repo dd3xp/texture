@@ -18,6 +18,16 @@
    若这批占了 v11d 32px 训练池的大头，模型学到的"32px 长什么样"就是被抹平过的。
    这还会**顺带解释已判定的事实**：v11d（p32=0.7，带 64to32）在判官下反而不如 v10（61% vs 39%，p=0.064）。
 
+**跑完之后（2026-09-14 补记，判读规则一个字没改）**：预注册判据判**不定**（判据 3）——
+B 组 0.107 < 0.33 但对 val32 的 MW p=0.112，且 16px 那一档对照（判据 4）自己也响了
+（0.143 vs 0.197，p=0.0125）。判据 5 成立：A（v10 池）显著好于 B（v11d 池），
+0.149 vs 0.107 MW p=0.0027、门 36% vs 23% p=2.3e-09，祸首是 64to32 那 1236 张（门 17%）。
+⚠⚠ **下面引作参照的"真人 32px 门 64% / 0.534"，事后查出是一个包**：那个参照组 n=74，
+其中 66 张（89%）来自 `ROllerozxa__mtg_tiled_32x`；整份 val32 是 46% / 0.132。
+**判据里的 0.33 这条线因此是照着一个包画的**（原样留着不改，改了就是事后改判据），
+但别再把 0.534 当"真人 32px"引用。见 `analysis/arch/ref_pack_audit.py`（零 GPU 零 API 可复算）
+与 `docs/arch_progress.md` 的「参照组是一个包」那节。
+
 **判读规则（跑之前写死，见 git 提交顺序）**，尺子与 `scale_diag.py` 完全一致：
 `tools/downsample.dominant_period(lo=2, hi_frac=0.625)` + `anisotropy`，过门 = 周期>0 且 各向异性>=0.20。
 参照数（上一轮同一把尺子）：TRD 32px 门 28% / aniso 0.130；真人 32px 门 64% / aniso 0.534。
@@ -211,9 +221,58 @@ def main():
     print(f"  => {verdict}")
     out["verdict"] = verdict
 
+    # ---- 事后（**不是**预注册的）：按材质包看 train/val 的风格错位 ------------
+    # 判据 3 判成"不定"之后才做的，写清楚免得日后被当成预注册结论。
+    # 起因：参照组 REALval/32 只有 67 个材质（74 张瓦片）、aniso 中位 0.524，而整份 val32
+    # （156 张）只有 0.132。查下来 74 张里 66 张（89%）来自**同一个包**。
+    # ⚠ 下面的 ref_pack_counts_Vmat 需要 eval/prompt_sets_val.json；缺它时为 None，
+    #   参照组那一侧改由 analysis/arch/ref_pack_audit.py 从已入库数据单独复算。
+    print("\n事后（非预注册）：按材质包")
+    out["posthoc_packs"] = posthoc_packs()
+
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(out, indent=1, ensure_ascii=False), encoding="utf-8")
     print("\n->", a.out)
+
+
+def posthoc_packs():
+    """每个材质包的 aniso 中位；并问：val 那一侧的包落在 train 那一侧包的范围内吗？"""
+    res = {}
+    vmat = None
+    ps = ROOT / "eval/prompt_sets_val.json"
+    if ps.exists():
+        vmat = {p["material"] for p in json.loads(ps.read_text())["V_mat"]}
+
+    def profile(size, split, extra=False):
+        by = {}
+        for s in load(size, split, extra=extra):
+            rgb = s["palette"][s["idx"]].astype(float)
+            by.setdefault(s["pack"], []).append(anisotropy(rgb))
+        return {p: {"n": len(v), "median_aniso": med(v)} for p, v in by.items()}
+
+    for size in (16, 32):
+        tr = profile(size, "train", extra=PACKS if have(PACKS) else False)
+        va = profile(size, "val")
+        res[f"{size}px"] = {"train_packs": tr, "val_packs": va,
+                            "disjoint": sorted(set(tr) & set(va)) == []}
+        tr_med = sorted(v["median_aniso"] for v in tr.values())
+        print(f"  {size}px: train {len(tr)} 包 / val {len(va)} 包，包名不相交 "
+              f"{sorted(set(tr) & set(va)) == []}")
+        print(f"    train 包 aniso 中位的范围 [{tr_med[0]:.3f}, {tr_med[-1]:.3f}]")
+        for p, v in sorted(va.items(), key=lambda kv: -kv[1]["n"]):
+            above = sum(x > v["median_aniso"] for x in tr_med)
+            print(f"    val 包 {p:<34} n={v['n']:<4} {v['median_aniso']:.3f}  "
+                  f"（train 里有 {above}/{len(tr_med)} 个包比它更高）")
+            res[f"{size}px"]["val_packs"][p]["n_train_packs_above"] = above
+    if vmat:
+        v32 = load(32, "val")
+        cnt = {}
+        for s in v32:
+            if s["material"] in vmat:
+                cnt[s["pack"]] = cnt.get(s["pack"], 0) + 1
+        res["ref_pack_counts_Vmat"] = cnt
+        print(f"  参照组（val32 与 V_mat 的交集）的来源包: {cnt}")
+    return res
 
 
 if __name__ == "__main__":
