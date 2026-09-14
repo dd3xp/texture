@@ -168,12 +168,22 @@ def main() -> int:
     common = sorted(set(decided["24"]) & set(decided["32"]) & set(decided["16"]))
     res["O3_common_n"] = len(common)
 
-    def slug_of(m):
-        return m.replace(" ", "_")
+    # 判官记的 `material` 是 `e["prompt"]`（judge_pairs.py:112,124），manifest 也存了 prompt
+    # （sdxl_baselines.py:78），所以用 prompt 做**精确**映射，别按名字猜下划线。
+    by_prompt = {}
+    for slug, e in man.items():
+        by_prompt.setdefault(e["prompt"], []).append(slug)
+    ambiguous = {p: s for p, s in by_prompt.items()
+                 if len({cls[x]["class"] for x in s}) > 1}
 
-    miss = [m for m in common if slug_of(m) not in cls]
+    def slug_of(m):
+        s = by_prompt.get(m)
+        return s[0] if s and m not in ambiguous else None
+
+    miss = [m for m in common if slug_of(m) is None]
     res["O3_unmapped"] = miss
-    mapped = [m for m in common if slug_of(m) in cls]
+    res["O3_ambiguous_prompts"] = len(ambiguous)
+    mapped = [m for m in common if slug_of(m) is not None]
     b = sum(1 for m in mapped if cls[slug_of(m)]["class"] == "cropped") / max(len(mapped), 1)
     res["O3_base_rate_cropped"] = round(b, 4)
     flips = [m for m in mapped if decided["24"][m] == "A" and decided["32"][m] == "B"]
@@ -206,7 +216,7 @@ def main() -> int:
     print("  这个构造性增益在**判官口径下值多少**，仍未量过。能量它的最便宜的臂：")
     print("  把 B2@16 最近邻放大 2x 当作「同内容、但没拿到额外输出像素」的 32px 对照，")
     print("  判 B2@32 vs up2(B2@16)。零 GPU（只是 PIL 放大已在盘的瓦片）。")
-    print("  ⚠ 那条臂要**另行预注册**，且按 `d0345de` 的教训把试点门加在「对」上而不是每条腿。")
+    print("  注意：那条臂要**另行预注册**，且按 `d0345de` 的教训把试点门加在「对」上而不是每条腿。")
     return 0
 
 

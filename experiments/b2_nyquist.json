@@ -1,0 +1,83 @@
+{
+ "O1_side_size_independent": {
+  "16": {
+   "per_sizes": {
+    "16": {
+     "side": 81,
+     "frac": 0.079102
+    },
+    "24": {
+     "side": 81,
+     "frac": 0.079102
+    },
+    "32": {
+     "side": 81,
+     "frac": 0.079102
+    }
+   },
+   "identical": true,
+   "side": 81
+  },
+  "32": {
+   "per_sizes": {
+    "16": {
+     "side": 144,
+     "frac": 0.140625
+    },
+    "24": {
+     "side": 144,
+     "frac": 0.140625
+    },
+    "32": {
+     "side": 144,
+     "frac": 0.140625
+    }
+   },
+   "identical": true,
+   "side": 144
+  },
+  "64": {
+   "per_sizes": {
+    "16": {
+     "side": 288,
+     "frac": 0.28125
+    },
+    "24": {
+     "side": 288,
+     "frac": 0.28125
+    },
+    "32": {
+     "side": 288,
+     "frac": 0.28125
+    }
+   },
+   "identical": true,
+   "side": 288
+  }
+ },
+ "O1_pass": true,
+ "px_per_period": {
+  "16": 3.556,
+  "24": 5.333,
+  "32": 7.111
+ },
+ "O2_classes": {
+  "cropped": 236,
+  "lower_clipped": 3,
+  "uncropped": 33
+ },
+ "O2_n": 272,
+ "O2_frac_cropped": 0.8676,
+ "O3_common_n": 118,
+ "O3_unmapped": [],
+ "O3_ambiguous_prompts": 1,
+ "O3_base_rate_cropped": 0.822,
+ "O3": {
+  "n_mapped": 118,
+  "flips_24win_32lose": 18,
+  "flips_cropped": 14,
+  "reverse_flips": 5,
+  "reverse_cropped": 4
+ },
+ "O3_read": "no_power"
+}
