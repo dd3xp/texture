@@ -1895,3 +1895,10 @@ val 的三个包（0.300 / 0.181 / 0.140）分别有 11 / 19 / 25 个 train 包�
 故先用 γ=0.5。`/tmp/runs/trd_v10pb05_09141130`（从 v10 接着训 8000 步，tmux `arch_pb05`，GPU 6，日志 `/tmp/trd_v10pb05.txt`）。
 ⚠ 混杂：GPU 7 被同账号下别的项目（`src/v6/train_v7.py`）占去 29GB，本次批大小降为 192/48（v10 是 256/64）。
 训完用同材质直接对判比 v10 N=100 + 4 选 1（32px），不用结构门。
+
+**交接（下一轮第一件事，按顺序）**：
+1. 读 `/tmp/vj32.txt`（服务器）：级联 vs 直接、Gibbs 精修 vs 直接（32px 同材质对判）→ 判读、结果 JSON 从 `/tmp/judge_32pair/` scp 回 `experiments/` 入库。
+2. `arch_pb05` 训完后：用 `/tmp/runs/trd_v10pb05_09141130/last.pt` 在 V_mat 32px 出 N=100 × 4 张 → B/16 4 选 1
+   （`gen_trd.py --out /tmp/...`，盘满），与 `v10x100_rr4` 同材质直接对判（先试点）；赢了再试 γ=1。
+3. B3 两路（`arch_b3`/`arch_b3rev`，产物在 `experiments/baselines/B3/16/`）完成 12 张后：做 TRD vs B3 的 12 材质子集对比（CLIP + 判官）。
+4. 32px 若找到显著更好的配置：**测试集第二次观察须另行预注册、只跑一次**。
