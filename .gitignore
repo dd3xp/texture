@@ -192,3 +192,6 @@ remote_tmp/
 # 32px 训练侧：按包均衡 γ=0.5（预注册 a6b9742）
 !experiments/judge_full_pb05x100_rr4_vs_v10x100_rr4_32_V_mat.json
 !experiments/judge_pilot_pb05x100_rr4_vs_v10x100_rr4_32_V_mat.json
+
+# 32px 训练侧：按包均衡 γ=1.0（预注册 67139dc）——试点未过门槛，没有 full
+!experiments/judge_pilot_pb10x100_rr4_vs_v10x100_rr4_32_V_mat.json
