@@ -52,6 +52,8 @@ EXPECT = {
     # 绝对胜率只报不判（判据 (5)：B7 在 24/32 从未调过 CFG），进判据的是梯度。
     "judge_full_TRD24_rr4_vs_B7_24.json":                    (144, 208, 64, 0),
     "judge_full_TRD32_rr4_vs_B7_32.json":                    (116, 188, 84, 0),
+    # 同一预注册的 B1 腿：B1@24 试点没过门 -> 判据 (1) 整对梯度作废，这条 full 只作水平记录、不入判据
+    "judge_full_TRD32_rr4_vs_B1_32.json":                    (105, 186, 86, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。
@@ -73,6 +75,8 @@ PILOT_EXPECT = {
     "judge_pilot_TRD32_rr4_vs_B1_32.json":            (10, 15, 0, 5, True),
     # nod32（预注册 7e96e2c）：不过门 -> 判据 (1) 不报胜负、不下结论，没有 full
     "judge_pilot_nod32x100_rr4_vs_ctrl0x100_rr4_32_V_mat.json": (9, 15, 1, 5, False),
+    # b2_canvas（预注册 92fc3c7）：不过门 -> 判据 (1) 不报胜负，没有 full。(H_B2) 的"值多少"仍未量到
+    "judge_pilot_B2_vs_B2up16_32.json":                (9, 15, 2, 5, False),
 }
 
 
