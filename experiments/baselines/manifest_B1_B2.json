@@ -1,0 +1,5986 @@
+{
+ "baked_clay_black": {
+  "prompt": "baked clay black",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1142578125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.158203125
+   },
+   {
+    "k": 3,
+    "frac": 0.2412109375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "baked_clay_blue": {
+  "prompt": "baked clay blue",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 2,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 3,
+    "frac": 0.125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "baked_clay_brown": {
+  "prompt": "baked clay brown",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.3310546875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "baked_clay_cyan": {
+  "prompt": "baked clay cyan",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1005859375
+   },
+   {
+    "k": 2,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 3,
+    "frac": 0.1162109375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "baked_clay_dark_green": {
+  "prompt": "baked clay dark green",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.091796875
+   },
+   {
+    "k": 1,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.333984375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "baked_clay_dark_grey": {
+  "prompt": "baked clay dark grey",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1162109375
+   },
+   {
+    "k": 1,
+    "frac": 0.1728515625
+   },
+   {
+    "k": 2,
+    "frac": 0.1357421875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "baked_clay_green": {
+  "prompt": "baked clay green",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.087890625
+   },
+   {
+    "k": 2,
+    "frac": 0.19921875
+   },
+   {
+    "k": 3,
+    "frac": 0.193359375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "baked_clay_grey": {
+  "prompt": "baked clay grey",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 0.2373046875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "baked_clay_magenta": {
+  "prompt": "baked clay magenta",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.08984375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "baked_clay_natural": {
+  "prompt": "baked clay natural",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 2,
+    "frac": 0.1376953125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "baked_clay_orange": {
+  "prompt": "baked clay orange",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.09375
+   },
+   {
+    "k": 3,
+    "frac": 0.1796875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "baked_clay_pink": {
+  "prompt": "baked clay pink",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 1,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 2,
+    "frac": 0.1005859375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "baked_clay_red": {
+  "prompt": "baked clay red",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 1,
+    "frac": 0.162109375
+   },
+   {
+    "k": 2,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 3,
+    "frac": 0.1005859375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "baked_clay_violet": {
+  "prompt": "baked clay violet",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 0.125
+   },
+   {
+    "k": 2,
+    "frac": 0.126953125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "baked_clay_white": {
+  "prompt": "baked clay white",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.12890625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "baked_clay_yellow": {
+  "prompt": "baked clay yellow",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 0.17578125
+   },
+   {
+    "k": 2,
+    "frac": 0.1162109375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "basic_materials_brass_block": {
+  "prompt": "brass block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.123046875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.2548828125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "basic_materials_cement_block": {
+  "prompt": "cement block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.25
+   },
+   {
+    "k": 1,
+    "frac": 0.2109375
+   },
+   {
+    "k": 2,
+    "frac": 0.3291015625
+   },
+   {
+    "k": 3,
+    "frac": 0.2783203125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "basic_materials_chain_steel": {
+  "prompt": "chain steel",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.109375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.9052734375
+   },
+   {
+    "k": 3,
+    "frac": 0.17578125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "basic_materials_concrete_block": {
+  "prompt": "concrete block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.126953125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.17578125
+   },
+   {
+    "k": 3,
+    "frac": 0.3466796875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "crimson_hyphae_wood": {
+  "prompt": "crimson hyphae wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 0.10546875
+   },
+   {
+    "k": 2,
+    "frac": 0.2939453125
+   },
+   {
+    "k": 3,
+    "frac": 0.3115234375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "ctf_map_damage_cobble": {
+  "prompt": "ctf map damage cobble",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 1,
+    "frac": 0.298828125
+   },
+   {
+    "k": 2,
+    "frac": 0.1376953125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "ctf_map_stone_red": {
+  "prompt": "ctf map stone red",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1357421875
+   },
+   {
+    "k": 1,
+    "frac": 0.1494140625
+   },
+   {
+    "k": 2,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_acacia_tree": {
+  "prompt": "acacia tree",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_acacia_tree_top": {
+  "prompt": "acacia tree top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.7138671875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_acacia_wood": {
+  "prompt": "acacia wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 2,
+    "frac": 0.228515625
+   },
+   {
+    "k": 3,
+    "frac": 0.12890625
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_aspen_tree": {
+  "prompt": "aspen tree",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.4482421875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_aspen_tree_top": {
+  "prompt": "aspen tree top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_aspen_wood": {
+  "prompt": "aspen wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.234375
+   },
+   {
+    "k": 1,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 2,
+    "frac": 0.9755859375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_brick": {
+  "prompt": "brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.158203125
+   },
+   {
+    "k": 1,
+    "frac": 0.0830078125
+   },
+   {
+    "k": 2,
+    "frac": 0.123046875
+   },
+   {
+    "k": 3,
+    "frac": 0.2373046875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_bronze_block": {
+  "prompt": "bronze block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.283203125
+   },
+   {
+    "k": 1,
+    "frac": 0.248046875
+   },
+   {
+    "k": 2,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 3,
+    "frac": 0.1728515625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_cactus_side": {
+  "prompt": "cactus side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_cactus_top": {
+  "prompt": "cactus top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_clay": {
+  "prompt": "clay",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.142578125
+   },
+   {
+    "k": 1,
+    "frac": 0.1513671875
+   },
+   {
+    "k": 2,
+    "frac": 0.1376953125
+   },
+   {
+    "k": 3,
+    "frac": 0.2548828125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_coal_block": {
+  "prompt": "coal block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 0.126953125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1181640625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_cobble": {
+  "prompt": "cobble",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.17578125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.140625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_copper_block": {
+  "prompt": "copper block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_coral_brown": {
+  "prompt": "coral brown",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.267578125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_coral_orange": {
+  "prompt": "coral orange",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1162109375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_coral_skeleton": {
+  "prompt": "coral skeleton",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_desert_cobble": {
+  "prompt": "desert cobble",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.21484375
+   },
+   {
+    "k": 1,
+    "frac": 0.2744140625
+   },
+   {
+    "k": 2,
+    "frac": 0.12890625
+   },
+   {
+    "k": 3,
+    "frac": 0.1669921875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_desert_sand": {
+  "prompt": "desert sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2216796875
+   },
+   {
+    "k": 1,
+    "frac": 0.7314453125
+   },
+   {
+    "k": 2,
+    "frac": 0.10546875
+   },
+   {
+    "k": 3,
+    "frac": 0.4521484375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_desert_sandstone": {
+  "prompt": "desert sandstone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.17578125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.9755859375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_desert_sandstone_block": {
+  "prompt": "desert sandstone block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.3427734375
+   },
+   {
+    "k": 3,
+    "frac": 0.462890625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_desert_sandstone_brick": {
+  "prompt": "desert sandstone brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.9091796875
+   },
+   {
+    "k": 1,
+    "frac": 0.123046875
+   },
+   {
+    "k": 2,
+    "frac": 0.123046875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_desert_stone": {
+  "prompt": "desert stone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2255859375
+   },
+   {
+    "k": 1,
+    "frac": 0.650390625
+   },
+   {
+    "k": 2,
+    "frac": 0.38671875
+   },
+   {
+    "k": 3,
+    "frac": 0.5712890625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_desert_stone_block": {
+  "prompt": "desert stone block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2060546875
+   },
+   {
+    "k": 1,
+    "frac": 0.2080078125
+   },
+   {
+    "k": 2,
+    "frac": 0.2041015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_desert_stone_brick": {
+  "prompt": "desert stone brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.14453125
+   },
+   {
+    "k": 1,
+    "frac": 0.1884765625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.3466796875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_diamond_block": {
+  "prompt": "diamond block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1357421875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_dirt": {
+  "prompt": "dirt",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.111328125
+   },
+   {
+    "k": 1,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 2,
+    "frac": 0.087890625
+   },
+   {
+    "k": 3,
+    "frac": 0.1337890625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_dry_dirt": {
+  "prompt": "dry dirt",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1513671875
+   },
+   {
+    "k": 2,
+    "frac": 0.1513671875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_dry_grass": {
+  "prompt": "dry grass",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_dry_grass_side": {
+  "prompt": "dry grass side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 0.63671875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_fence_acacia_wood": {
+  "prompt": "fence acacia wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1142578125
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.498046875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_fence_aspen_wood": {
+  "prompt": "fence aspen wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.158203125
+   },
+   {
+    "k": 1,
+    "frac": 0.4541015625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_fence_pine_wood": {
+  "prompt": "fence pine wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.10546875
+   },
+   {
+    "k": 3,
+    "frac": 0.1533203125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_fence_wood": {
+  "prompt": "fence wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1025390625
+   },
+   {
+    "k": 1,
+    "frac": 0.1142578125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.3251953125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_gold_block": {
+  "prompt": "gold block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.10546875
+   },
+   {
+    "k": 3,
+    "frac": 0.2255859375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_grass": {
+  "prompt": "grass",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 3,
+    "frac": 0.24609375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_grass_footsteps": {
+  "prompt": "grass footsteps",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_grass_side": {
+  "prompt": "grass side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_gravel": {
+  "prompt": "gravel",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_ice": {
+  "prompt": "ice",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.26953125
+   },
+   {
+    "k": 1,
+    "frac": 0.427734375
+   },
+   {
+    "k": 2,
+    "frac": 0.2763671875
+   },
+   {
+    "k": 3,
+    "frac": 0.1728515625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_lava": {
+  "prompt": "lava",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2568359375
+   },
+   {
+    "k": 1,
+    "frac": 0.28515625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.650390625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_mese_block": {
+  "prompt": "mese block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1884765625
+   },
+   {
+    "k": 1,
+    "frac": 0.6943359375
+   },
+   {
+    "k": 2,
+    "frac": 0.123046875
+   },
+   {
+    "k": 3,
+    "frac": 0.1181640625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_mineral_coal": {
+  "prompt": "mineral coal",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.14453125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_mineral_iron": {
+  "prompt": "mineral iron",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.3955078125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_moss": {
+  "prompt": "moss",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1845703125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.109375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_obsidian": {
+  "prompt": "obsidian",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.23046875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.3798828125
+   },
+   {
+    "k": 3,
+    "frac": 0.1494140625
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_obsidian_block": {
+  "prompt": "obsidian block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.5556640625
+   },
+   {
+    "k": 2,
+    "frac": 0.4130859375
+   },
+   {
+    "k": 3,
+    "frac": 0.421875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_obsidian_brick": {
+  "prompt": "obsidian brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.193359375
+   },
+   {
+    "k": 1,
+    "frac": 0.1552734375
+   },
+   {
+    "k": 2,
+    "frac": 0.107421875
+   },
+   {
+    "k": 3,
+    "frac": 0.1845703125
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_permafrost": {
+  "prompt": "permafrost",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.5224609375
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_pine_tree": {
+  "prompt": "pine tree",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.4541015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_pine_tree_top": {
+  "prompt": "pine tree top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_pine_wood": {
+  "prompt": "pine wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2783203125
+   },
+   {
+    "k": 1,
+    "frac": 0.1796875
+   },
+   {
+    "k": 2,
+    "frac": 0.123046875
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_river_water": {
+  "prompt": "river water",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_sand": {
+  "prompt": "sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1513671875
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 0.162109375
+   },
+   {
+    "k": 3,
+    "frac": 0.2724609375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_sandstone": {
+  "prompt": "sandstone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.158203125
+   },
+   {
+    "k": 1,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 2,
+    "frac": 0.177734375
+   },
+   {
+    "k": 3,
+    "frac": 0.2373046875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_sandstone_block": {
+  "prompt": "sandstone block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2763671875
+   },
+   {
+    "k": 1,
+    "frac": 0.14453125
+   },
+   {
+    "k": 2,
+    "frac": 0.140625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_sandstone_brick": {
+  "prompt": "sandstone brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.126953125
+   },
+   {
+    "k": 1,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 2,
+    "frac": 0.2255859375
+   },
+   {
+    "k": 3,
+    "frac": 0.10546875
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_silver_sand": {
+  "prompt": "silver sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.10546875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.087890625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_silver_sandstone": {
+  "prompt": "silver sandstone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.2197265625
+   },
+   {
+    "k": 3,
+    "frac": 0.1904296875
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_silver_sandstone_block": {
+  "prompt": "silver sandstone block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.3515625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.3515625
+   },
+   {
+    "k": 3,
+    "frac": 0.3271484375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_silver_sandstone_brick": {
+  "prompt": "silver sandstone brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.091796875
+   },
+   {
+    "k": 1,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 2,
+    "frac": 0.2568359375
+   },
+   {
+    "k": 3,
+    "frac": 0.1865234375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_snow": {
+  "prompt": "snow",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.6416015625
+   },
+   {
+    "k": 2,
+    "frac": 0.7265625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "default_snow_side": {
+  "prompt": "snow side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.689453125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_steel_block": {
+  "prompt": "steel block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2763671875
+   },
+   {
+    "k": 1,
+    "frac": 0.1865234375
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_stone": {
+  "prompt": "stone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0830078125
+   },
+   {
+    "k": 1,
+    "frac": 0.2587890625
+   },
+   {
+    "k": 2,
+    "frac": 0.14453125
+   },
+   {
+    "k": 3,
+    "frac": 0.197265625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_stone_block": {
+  "prompt": "stone block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.42578125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.2373046875
+   },
+   {
+    "k": 3,
+    "frac": 0.16015625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_stone_brick": {
+  "prompt": "stone brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1533203125
+   },
+   {
+    "k": 1,
+    "frac": 0.1494140625
+   },
+   {
+    "k": 2,
+    "frac": 0.17578125
+   },
+   {
+    "k": 3,
+    "frac": 0.193359375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "default_tin_block": {
+  "prompt": "tin block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.177734375
+   },
+   {
+    "k": 2,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "default_tree": {
+  "prompt": "tree",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_tree_top": {
+  "prompt": "tree top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_water": {
+  "prompt": "water",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.125
+   },
+   {
+    "k": 3,
+    "frac": 0.123046875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "default_wood": {
+  "prompt": "wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 0.1953125
+   },
+   {
+    "k": 3,
+    "frac": 0.21484375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "farming_desert_sand_soil": {
+  "prompt": "desert sand soil",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1337890625
+   },
+   {
+    "k": 2,
+    "frac": 0.109375
+   },
+   {
+    "k": 3,
+    "frac": 0.087890625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "farming_desert_sand_soil_wet": {
+  "prompt": "desert sand soil wet",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.197265625
+   },
+   {
+    "k": 1,
+    "frac": 0.6455078125
+   },
+   {
+    "k": 2,
+    "frac": 0.123046875
+   },
+   {
+    "k": 3,
+    "frac": 0.0966796875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "farming_desert_sand_soil_wet_side": {
+  "prompt": "desert sand soil wet side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.2958984375
+   },
+   {
+    "k": 3,
+    "frac": 0.1005859375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "farming_hemp_block": {
+  "prompt": "hemp block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 1,
+    "frac": 0.35546875
+   },
+   {
+    "k": 2,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 3,
+    "frac": 0.126953125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "farming_soil": {
+  "prompt": "soil",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.091796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "farming_soil_wet": {
+  "prompt": "soil wet",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.3466796875
+   },
+   {
+    "k": 1,
+    "frac": 0.8056640625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.123046875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "farming_soil_wet_side": {
+  "prompt": "soil wet side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.087890625
+   },
+   {
+    "k": 1,
+    "frac": 0.791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.234375
+   },
+   {
+    "k": 3,
+    "frac": 0.3818359375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "farming_straw": {
+  "prompt": "straw",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay": {
+  "prompt": "hardened clay",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.265625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "hardened_clay_stained_black": {
+  "prompt": "hardened clay stained black",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.08984375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_blue": {
+  "prompt": "hardened clay stained blue",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.6982421875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1162109375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_brown": {
+  "prompt": "hardened clay stained brown",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0830078125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.14453125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "hardened_clay_stained_cyan": {
+  "prompt": "hardened clay stained cyan",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.091796875
+   },
+   {
+    "k": 1,
+    "frac": 0.2568359375
+   },
+   {
+    "k": 2,
+    "frac": 0.1533203125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "hardened_clay_stained_green": {
+  "prompt": "hardened clay stained green",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1728515625
+   },
+   {
+    "k": 1,
+    "frac": 0.1689453125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.126953125
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_grey": {
+  "prompt": "hardened clay stained grey",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 0.2392578125
+   },
+   {
+    "k": 3,
+    "frac": 0.1796875
+   }
+  ],
+  "b2_pick": 2
+ },
+ "hardened_clay_stained_light_blue": {
+  "prompt": "hardened clay stained light blue",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_lime": {
+  "prompt": "hardened clay stained lime",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.3310546875
+   },
+   {
+    "k": 1,
+    "frac": 0.1904296875
+   },
+   {
+    "k": 2,
+    "frac": 0.142578125
+   },
+   {
+    "k": 3,
+    "frac": 0.2197265625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_magenta": {
+  "prompt": "hardened clay stained magenta",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1376953125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_orange": {
+  "prompt": "hardened clay stained orange",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2255859375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "hardened_clay_stained_pink": {
+  "prompt": "hardened clay stained pink",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.197265625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.6171875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "hardened_clay_stained_purple": {
+  "prompt": "hardened clay stained purple",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 1,
+    "frac": 0.17578125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1494140625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "hardened_clay_stained_red": {
+  "prompt": "hardened clay stained red",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.091796875
+   },
+   {
+    "k": 2,
+    "frac": 0.1708984375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "hardened_clay_stained_silver": {
+  "prompt": "hardened clay stained silver",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1337890625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.2109375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "hardened_clay_stained_white": {
+  "prompt": "hardened clay stained white",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.125
+   },
+   {
+    "k": 1,
+    "frac": 0.126953125
+   },
+   {
+    "k": 2,
+    "frac": 0.3115234375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "hardened_clay_stained_yellow": {
+  "prompt": "hardened clay stained yellow",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "jeija_pressure_plate_stone_on": {
+  "prompt": "pressure plate stone on",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.251953125
+   },
+   {
+    "k": 1,
+    "frac": 0.3798828125
+   },
+   {
+    "k": 2,
+    "frac": 0.228515625
+   },
+   {
+    "k": 3,
+    "frac": 0.2373046875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "jeija_pressure_plate_wood_off": {
+  "prompt": "pressure plate wood off",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.087890625
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 0.1025390625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "jeija_pressure_plate_wood_on": {
+  "prompt": "pressure plate wood on",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1357421875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.25
+   },
+   {
+    "k": 3,
+    "frac": 0.583984375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_bamboo_bamboo_block": {
+  "prompt": "bamboo bamboo block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.1005859375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_bamboo_bamboo_bottom": {
+  "prompt": "bamboo bamboo bottom",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.091796875
+   },
+   {
+    "k": 1,
+    "frac": 0.7333984375
+   },
+   {
+    "k": 2,
+    "frac": 0.1904296875
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_bamboo_bamboo_plank": {
+  "prompt": "bamboo bamboo plank",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.4609375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.1845703125
+   },
+   {
+    "k": 3,
+    "frac": 0.1005859375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_bamboo_bamboo_plank_mosaic": {
+  "prompt": "bamboo bamboo plank mosaic",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.1142578125
+   },
+   {
+    "k": 3,
+    "frac": 0.08984375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_cherry_blossom_log": {
+  "prompt": "cherry blossom log",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.515625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_cherry_blossom_log_top": {
+  "prompt": "cherry blossom log top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_cherry_blossom_planks": {
+  "prompt": "cherry blossom planks",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1494140625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 3,
+    "frac": 0.1142578125
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_copper_block": {
+  "prompt": "copper block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.265625
+   },
+   {
+    "k": 1,
+    "frac": 0.2041015625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.10546875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_copper_block_cut": {
+  "prompt": "copper block cut",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.12890625
+   },
+   {
+    "k": 2,
+    "frac": 0.10546875
+   },
+   {
+    "k": 3,
+    "frac": 0.1318359375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_copper_block_raw": {
+  "prompt": "copper block raw",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_copper_exposed": {
+  "prompt": "copper exposed",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.3837890625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.318359375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_copper_exposed_cut": {
+  "prompt": "copper exposed cut",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 3,
+    "frac": 0.12890625
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_copper_oxidized": {
+  "prompt": "copper oxidized",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.17578125
+   },
+   {
+    "k": 1,
+    "frac": 0.2412109375
+   },
+   {
+    "k": 2,
+    "frac": 0.08984375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_copper_oxidized_cut": {
+  "prompt": "copper oxidized cut",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_copper_weathered": {
+  "prompt": "copper weathered",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 0.125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.091796875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_copper_weathered_cut": {
+  "prompt": "copper weathered cut",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.10546875
+   },
+   {
+    "k": 3,
+    "frac": 0.0966796875
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_andesite": {
+  "prompt": "andesite",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.126953125
+   },
+   {
+    "k": 1,
+    "frac": 0.17578125
+   },
+   {
+    "k": 2,
+    "frac": 0.1708984375
+   },
+   {
+    "k": 3,
+    "frac": 0.126953125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_andesite_smooth": {
+  "prompt": "andesite smooth",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.3515625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_bone_block_side": {
+  "prompt": "bone block side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.337890625
+   },
+   {
+    "k": 1,
+    "frac": 0.2724609375
+   },
+   {
+    "k": 2,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 3,
+    "frac": 0.08984375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_coal_ore": {
+  "prompt": "coal ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_coarse_dirt": {
+  "prompt": "coarse dirt",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.111328125
+   },
+   {
+    "k": 2,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 3,
+    "frac": 0.0986328125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_crying_obsidian": {
+  "prompt": "crying obsidian",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.216796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_diamond_ore": {
+  "prompt": "diamond ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_diorite": {
+  "prompt": "diorite",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2587890625
+   },
+   {
+    "k": 1,
+    "frac": 0.12890625
+   },
+   {
+    "k": 2,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 3,
+    "frac": 0.123046875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_diorite_smooth": {
+  "prompt": "diorite smooth",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.3046875
+   },
+   {
+    "k": 1,
+    "frac": 0.197265625
+   },
+   {
+    "k": 2,
+    "frac": 0.1884765625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_dirt_podzol_side": {
+  "prompt": "dirt podzol side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.41015625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.1005859375
+   },
+   {
+    "k": 3,
+    "frac": 0.197265625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_dirt_podzol_top": {
+  "prompt": "dirt podzol top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.16015625
+   },
+   {
+    "k": 2,
+    "frac": 0.31640625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_emerald_block": {
+  "prompt": "emerald block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.2724609375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_emerald_ore": {
+  "prompt": "emerald ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.123046875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_gold_ore": {
+  "prompt": "gold ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.2568359375
+   },
+   {
+    "k": 3,
+    "frac": 0.83203125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_granite": {
+  "prompt": "granite",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.14453125
+   },
+   {
+    "k": 1,
+    "frac": 0.2236328125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_granite_smooth": {
+  "prompt": "granite smooth",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2060546875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.109375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_grass_block_top": {
+  "prompt": "grass block top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.146484375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_grass_path_side": {
+  "prompt": "grass path side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.111328125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_grass_path_top": {
+  "prompt": "grass path top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.744140625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_grass_side_snowed": {
+  "prompt": "grass side snowed",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.193359375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_ice_packed": {
+  "prompt": "ice packed",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.2548828125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_iron_ore": {
+  "prompt": "iron ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2197265625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_lapis_block": {
+  "prompt": "lapis block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_lapis_ore": {
+  "prompt": "lapis ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.177734375
+   },
+   {
+    "k": 3,
+    "frac": 0.1796875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_log_big_oak": {
+  "prompt": "log big oak",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0830078125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.423828125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_log_big_oak_top": {
+  "prompt": "log big oak top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2109375
+   },
+   {
+    "k": 1,
+    "frac": 0.779296875
+   },
+   {
+    "k": 2,
+    "frac": 0.111328125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_log_birch": {
+  "prompt": "log birch",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 0.14453125
+   },
+   {
+    "k": 2,
+    "frac": 0.689453125
+   },
+   {
+    "k": 3,
+    "frac": 0.302734375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_log_birch_top": {
+  "prompt": "log birch top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.2216796875
+   },
+   {
+    "k": 2,
+    "frac": 0.091796875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_log_spruce": {
+  "prompt": "log spruce",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0830078125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.849609375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_log_spruce_top": {
+  "prompt": "log spruce top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 1,
+    "frac": 0.111328125
+   },
+   {
+    "k": 2,
+    "frac": 0.140625
+   },
+   {
+    "k": 3,
+    "frac": 0.2080078125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_planks_big_oak": {
+  "prompt": "planks big oak",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.7861328125
+   },
+   {
+    "k": 3,
+    "frac": 0.28125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_planks_birch": {
+  "prompt": "planks birch",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.193359375
+   },
+   {
+    "k": 1,
+    "frac": 0.28125
+   },
+   {
+    "k": 2,
+    "frac": 0.251953125
+   },
+   {
+    "k": 3,
+    "frac": 0.2548828125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_planks_spruce": {
+  "prompt": "planks spruce",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.14453125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.17578125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_core_red_sand": {
+  "prompt": "red sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.14453125
+   },
+   {
+    "k": 1,
+    "frac": 0.1640625
+   },
+   {
+    "k": 2,
+    "frac": 0.0810546875
+   },
+   {
+    "k": 3,
+    "frac": 0.0966796875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_red_sandstone_bottom": {
+  "prompt": "red sandstone bottom",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.125
+   },
+   {
+    "k": 1,
+    "frac": 0.146484375
+   },
+   {
+    "k": 2,
+    "frac": 0.1357421875
+   },
+   {
+    "k": 3,
+    "frac": 0.3466796875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_red_sandstone_carved": {
+  "prompt": "red sandstone carved",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.298828125
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1708984375
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_red_sandstone_normal": {
+  "prompt": "red sandstone normal",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.12890625
+   },
+   {
+    "k": 1,
+    "frac": 0.21484375
+   },
+   {
+    "k": 2,
+    "frac": 0.14453125
+   },
+   {
+    "k": 3,
+    "frac": 0.1181640625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_red_sandstone_smooth": {
+  "prompt": "red sandstone smooth",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.162109375
+   },
+   {
+    "k": 1,
+    "frac": 0.126953125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1142578125
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_red_sandstone_top": {
+  "prompt": "red sandstone top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.109375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_redstone_ore": {
+  "prompt": "redstone ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_sandstone_bottom": {
+  "prompt": "sandstone bottom",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.126953125
+   },
+   {
+    "k": 1,
+    "frac": 0.3642578125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.107421875
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_sandstone_carved": {
+  "prompt": "sandstone carved",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.49609375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_core_sandstone_normal": {
+  "prompt": "sandstone normal",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.181640625
+   },
+   {
+    "k": 2,
+    "frac": 0.1728515625
+   },
+   {
+    "k": 3,
+    "frac": 0.2060546875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_core_sandstone_smooth": {
+  "prompt": "sandstone smooth",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1513671875
+   },
+   {
+    "k": 1,
+    "frac": 0.162109375
+   },
+   {
+    "k": 2,
+    "frac": 0.091796875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_sandstone_top": {
+  "prompt": "sandstone top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.126953125
+   },
+   {
+    "k": 1,
+    "frac": 0.2412109375
+   },
+   {
+    "k": 2,
+    "frac": 0.1494140625
+   },
+   {
+    "k": 3,
+    "frac": 0.16015625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_core_stonebrick_mossy": {
+  "prompt": "stonebrick mossy",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.10546875
+   },
+   {
+    "k": 1,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 2,
+    "frac": 0.2900390625
+   },
+   {
+    "k": 3,
+    "frac": 0.84375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_deepslate_coal_ore": {
+  "prompt": "deepslate coal ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_deepslate_cobbled": {
+  "prompt": "deepslate cobbled",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.140625
+   },
+   {
+    "k": 3,
+    "frac": 0.109375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_deepslate_copper_ore": {
+  "prompt": "deepslate copper ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_deepslate_diamond_ore": {
+  "prompt": "deepslate diamond ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.5185546875
+   },
+   {
+    "k": 3,
+    "frac": 0.37109375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_deepslate_emerald_ore": {
+  "prompt": "deepslate emerald ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_deepslate_gold_ore": {
+  "prompt": "deepslate gold ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_deepslate_iron_ore": {
+  "prompt": "deepslate iron ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2587890625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_deepslate_lapis_ore": {
+  "prompt": "deepslate lapis ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.10546875
+   },
+   {
+    "k": 1,
+    "frac": 0.1689453125
+   },
+   {
+    "k": 2,
+    "frac": 0.1728515625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_deepslate_redstone_ore": {
+  "prompt": "deepslate redstone ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_end_end_bricks": {
+  "prompt": "end end bricks",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2412109375
+   },
+   {
+    "k": 1,
+    "frac": 0.1640625
+   },
+   {
+    "k": 2,
+    "frac": 0.1728515625
+   },
+   {
+    "k": 3,
+    "frac": 0.1337890625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_end_end_stone": {
+  "prompt": "end end stone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.181640625
+   },
+   {
+    "k": 1,
+    "frac": 0.212890625
+   },
+   {
+    "k": 2,
+    "frac": 0.162109375
+   },
+   {
+    "k": 3,
+    "frac": 0.193359375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_mangrove_log": {
+  "prompt": "mangrove log",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1142578125
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.087890625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_mangrove_log_top": {
+  "prompt": "mangrove log top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.9970703125
+   },
+   {
+    "k": 3,
+    "frac": 0.2060546875
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_mangrove_planks": {
+  "prompt": "mangrove planks",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.10546875
+   },
+   {
+    "k": 2,
+    "frac": 0.111328125
+   },
+   {
+    "k": 3,
+    "frac": 0.158203125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_mushrooms_mushroom_block_inside": {
+  "prompt": "mushrooms mushroom block inside",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_mushrooms_mushroom_block_skin_brown": {
+  "prompt": "mushrooms mushroom block skin brown",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_mushrooms_mushroom_block_skin_red": {
+  "prompt": "mushrooms mushroom block skin red",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.6328125
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_mushrooms_mushroom_block_skin_stem": {
+  "prompt": "mushrooms mushroom block skin stem",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_nether_nether_brick": {
+  "prompt": "nether nether brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 0.107421875
+   },
+   {
+    "k": 2,
+    "frac": 0.2021484375
+   },
+   {
+    "k": 3,
+    "frac": 0.1201171875
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_nether_netherrack": {
+  "prompt": "nether netherrack",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.21484375
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_nether_quartz_ore": {
+  "prompt": "nether quartz ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_nether_soul_sand": {
+  "prompt": "nether soul sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.197265625
+   },
+   {
+    "k": 1,
+    "frac": 0.373046875
+   },
+   {
+    "k": 2,
+    "frac": 0.109375
+   },
+   {
+    "k": 3,
+    "frac": 0.1708984375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_raw_ores_raw_gold_block": {
+  "prompt": "raw ores raw gold block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_raw_ores_raw_iron_block": {
+  "prompt": "raw ores raw iron block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2060546875
+   },
+   {
+    "k": 1,
+    "frac": 0.283203125
+   },
+   {
+    "k": 2,
+    "frac": 0.1376953125
+   },
+   {
+    "k": 3,
+    "frac": 0.615234375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_stairs_andesite_smooth_slab": {
+  "prompt": "andesite smooth slab",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.2900390625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_stairs_diorite_smooth_slab": {
+  "prompt": "diorite smooth slab",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.158203125
+   },
+   {
+    "k": 1,
+    "frac": 0.1796875
+   },
+   {
+    "k": 2,
+    "frac": 0.1337890625
+   },
+   {
+    "k": 3,
+    "frac": 0.2060546875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_stairs_gold_block_slab": {
+  "prompt": "gold block slab",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1953125
+   },
+   {
+    "k": 1,
+    "frac": 0.0849609375
+   },
+   {
+    "k": 2,
+    "frac": 0.1005859375
+   },
+   {
+    "k": 3,
+    "frac": 0.1513671875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_stairs_granite_smooth_slab": {
+  "prompt": "granite smooth slab",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1708984375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.091796875
+   },
+   {
+    "k": 3,
+    "frac": 0.142578125
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_stairs_iron_block_slab": {
+  "prompt": "iron block slab",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.267578125
+   },
+   {
+    "k": 1,
+    "frac": 0.3251953125
+   },
+   {
+    "k": 2,
+    "frac": 0.212890625
+   },
+   {
+    "k": 3,
+    "frac": 0.177734375
+   }
+  ],
+  "b2_pick": 1
+ },
+ "mcl_stairs_stone_slab_side": {
+  "prompt": "stone slab side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.158203125
+   },
+   {
+    "k": 2,
+    "frac": 0.2041015625
+   },
+   {
+    "k": 3,
+    "frac": 0.3779296875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_stairs_stone_slab_top": {
+  "prompt": "stone slab top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.4482421875
+   },
+   {
+    "k": 1,
+    "frac": 0.267578125
+   },
+   {
+    "k": 2,
+    "frac": 0.197265625
+   },
+   {
+    "k": 3,
+    "frac": 0.40625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_walls_cobble_mossy_wall_side": {
+  "prompt": "cobble mossy wall side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.212890625
+   },
+   {
+    "k": 2,
+    "frac": 0.21484375
+   },
+   {
+    "k": 3,
+    "frac": 0.1708984375
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_walls_cobble_mossy_wall_top": {
+  "prompt": "cobble mossy wall top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.14453125
+   },
+   {
+    "k": 1,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 2,
+    "frac": 0.5205078125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_walls_cobble_wall_side": {
+  "prompt": "cobble wall side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 2,
+    "frac": 0.146484375
+   },
+   {
+    "k": 3,
+    "frac": 0.16015625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "mcl_walls_cobble_wall_top": {
+  "prompt": "cobble wall top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.21484375
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.3427734375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "mcl_wool_light_blue": {
+  "prompt": "wool light blue",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.0810546875
+   },
+   {
+    "k": 3,
+    "frac": 0.091796875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "mcl_wool_lime": {
+  "prompt": "wool lime",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.109375
+   },
+   {
+    "k": 1,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 0.19921875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "moreblocks_circle_stone_bricks": {
+  "prompt": "circle stone bricks",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1357421875
+   },
+   {
+    "k": 1,
+    "frac": 0.146484375
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.2431640625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "moreores_mithril_block": {
+  "prompt": "mithril block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "moreores_silver_block": {
+  "prompt": "silver block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.19921875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.2431640625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "nc_fire_coal_4": {
+  "prompt": "coal",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1201171875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "nc_lode_ore": {
+  "prompt": "lode ore",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.1708984375
+   },
+   {
+    "k": 3,
+    "frac": 0.158203125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "nc_optics_glass_frost": {
+  "prompt": "optics glass frost",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.123046875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "nc_terrain_dirt": {
+  "prompt": "terrain dirt",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.0830078125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "nc_terrain_grass_top": {
+  "prompt": "terrain grass top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nc_terrain_gravel": {
+  "prompt": "terrain gravel",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nc_terrain_sand": {
+  "prompt": "terrain sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.146484375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "nc_terrain_stone": {
+  "prompt": "terrain stone",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.66796875
+   },
+   {
+    "k": 2,
+    "frac": 0.146484375
+   },
+   {
+    "k": 3,
+    "frac": 0.2548828125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "nc_tree_bud_side": {
+  "prompt": "tree bud side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.193359375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "nc_tree_bud_top": {
+  "prompt": "tree bud top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.8232421875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "nc_tree_humus": {
+  "prompt": "tree humus",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nc_tree_tree_side": {
+  "prompt": "tree tree side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nc_tree_tree_top": {
+  "prompt": "tree tree top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nc_woodwork_plank": {
+  "prompt": "woodwork plank",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.158203125
+   },
+   {
+    "k": 1,
+    "frac": 0.10546875
+   },
+   {
+    "k": 2,
+    "frac": 0.087890625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nether_basalt": {
+  "prompt": "nether basalt",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2109375
+   },
+   {
+    "k": 1,
+    "frac": 0.193359375
+   },
+   {
+    "k": 2,
+    "frac": 0.2109375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nether_basalt_chiselled_side": {
+  "prompt": "nether basalt chiselled side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2060546875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.48046875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "nether_basalt_chiselled_top": {
+  "prompt": "nether basalt chiselled top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.935546875
+   },
+   {
+    "k": 1,
+    "frac": 0.1552734375
+   },
+   {
+    "k": 2,
+    "frac": 0.177734375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "nether_basalt_side": {
+  "prompt": "nether basalt side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1640625
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.87890625
+   }
+  ],
+  "b2_pick": 3
+ },
+ "nether_brick": {
+  "prompt": "nether brick",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.111328125
+   },
+   {
+    "k": 1,
+    "frac": 0.1318359375
+   },
+   {
+    "k": 2,
+    "frac": 0.267578125
+   },
+   {
+    "k": 3,
+    "frac": 0.125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "nether_brick_compressed": {
+  "prompt": "nether brick compressed",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.142578125
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 3,
+    "frac": 0.158203125
+   }
+  ],
+  "b2_pick": 3
+ },
+ "nether_sand": {
+  "prompt": "nether sand",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.12890625
+   },
+   {
+    "k": 1,
+    "frac": 0.7685546875
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 0.1953125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "quartz_block": {
+  "prompt": "quartz block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.28125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "quartz_chiseled": {
+  "prompt": "quartz chiseled",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.703125
+   },
+   {
+    "k": 2,
+    "frac": 0.14453125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "quartz_pillar_side": {
+  "prompt": "quartz pillar side",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0966796875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.404296875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "quartz_pillar_side_horizontal": {
+  "prompt": "quartz pillar side horizontal",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.7333984375
+   },
+   {
+    "k": 1,
+    "frac": 0.14453125
+   },
+   {
+    "k": 2,
+    "frac": 0.6298828125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "quartz_pillar_top": {
+  "prompt": "quartz pillar top",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1357421875
+   },
+   {
+    "k": 1,
+    "frac": 0.28515625
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.158203125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "redstone_redstone_block": {
+  "prompt": "redstone redstone block",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.2216796875
+   },
+   {
+    "k": 1,
+    "frac": 0.333984375
+   },
+   {
+    "k": 2,
+    "frac": 0.318359375
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "warped_hyphae_wood": {
+  "prompt": "warped hyphae wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 0.16015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "wool_black": {
+  "prompt": "wool black",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.09375
+   },
+   {
+    "k": 1,
+    "frac": 0.158203125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.126953125
+   }
+  ],
+  "b2_pick": 1
+ },
+ "wool_blue": {
+  "prompt": "wool blue",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.109375
+   },
+   {
+    "k": 1,
+    "frac": 0.10546875
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 0.193359375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "wool_brown": {
+  "prompt": "wool brown",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.09375
+   },
+   {
+    "k": 1,
+    "frac": 0.091796875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "wool_cyan": {
+  "prompt": "wool cyan",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 1,
+    "frac": 0.0810546875
+   },
+   {
+    "k": 2,
+    "frac": 0.23046875
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 2
+ },
+ "wool_dark_green": {
+  "prompt": "wool dark green",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 0.1181640625
+   },
+   {
+    "k": 2,
+    "frac": 0.107421875
+   },
+   {
+    "k": 3,
+    "frac": 0.107421875
+   }
+  ],
+  "b2_pick": 0
+ },
+ "wool_dark_grey": {
+  "prompt": "wool dark grey",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1025390625
+   },
+   {
+    "k": 1,
+    "frac": 0.109375
+   },
+   {
+    "k": 2,
+    "frac": 0.125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 2
+ },
+ "wool_green": {
+  "prompt": "wool green",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0810546875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "wool_grey": {
+  "prompt": "wool grey",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.123046875
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1181640625
+   }
+  ],
+  "b2_pick": 0
+ },
+ "wool_magenta": {
+  "prompt": "wool magenta",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.0986328125
+   },
+   {
+    "k": 1,
+    "frac": 0.140625
+   },
+   {
+    "k": 2,
+    "frac": 0.12890625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "wool_orange": {
+  "prompt": "wool orange",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.162109375
+   },
+   {
+    "k": 1,
+    "frac": 0.0986328125
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "wool_pink": {
+  "prompt": "wool pink",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.0986328125
+   },
+   {
+    "k": 2,
+    "frac": 0.2060546875
+   },
+   {
+    "k": 3,
+    "frac": 0.17578125
+   }
+  ],
+  "b2_pick": 2
+ },
+ "wool_red": {
+  "prompt": "wool red",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 1.0
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.1357421875
+   }
+  ],
+  "b2_pick": 3
+ },
+ "wool_violet": {
+  "prompt": "wool violet",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1865234375
+   },
+   {
+    "k": 1,
+    "frac": 0.1669921875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "wool_white": {
+  "prompt": "wool white",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1201171875
+   },
+   {
+    "k": 1,
+    "frac": 0.1796875
+   },
+   {
+    "k": 2,
+    "frac": 0.158203125
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "wool_yellow": {
+  "prompt": "wool yellow",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.1845703125
+   },
+   {
+    "k": 2,
+    "frac": 0.0791015625
+   },
+   {
+    "k": 3,
+    "frac": 0.0791015625
+   }
+  ],
+  "b2_pick": 1
+ },
+ "xdecor_packed_ice": {
+  "prompt": "packed ice",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.1142578125
+   },
+   {
+    "k": 1,
+    "frac": 0.126953125
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 1
+ },
+ "xdecor_stone_rune": {
+  "prompt": "stone rune",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 1.0
+   },
+   {
+    "k": 1,
+    "frac": 0.19921875
+   },
+   {
+    "k": 2,
+    "frac": 1.0
+   },
+   {
+    "k": 3,
+    "frac": 0.21484375
+   }
+  ],
+  "b2_pick": 3
+ },
+ "xdecor_wood": {
+  "prompt": "wood",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.5048828125
+   },
+   {
+    "k": 1,
+    "frac": 0.10546875
+   },
+   {
+    "k": 2,
+    "frac": 0.421875
+   },
+   {
+    "k": 3,
+    "frac": 1.0
+   }
+  ],
+  "b2_pick": 0
+ },
+ "xpanes_edge_obsidian": {
+  "prompt": "edge obsidian",
+  "samples": [
+   {
+    "k": 0,
+    "frac": 0.28125
+   },
+   {
+    "k": 1,
+    "frac": 0.1796875
+   },
+   {
+    "k": 2,
+    "frac": 0.1162109375
+   },
+   {
+    "k": 3,
+    "frac": 0.126953125
+   }
+  ],
+  "b2_pick": 0
+ }
+}
