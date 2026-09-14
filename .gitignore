@@ -202,3 +202,13 @@ remote_tmp/
 # 16px 消融表（预注册 83a6257，eval/ablation_16.sh）：测试集 E_mat 五条臂的分布指标。
 # 重出要 GPU 出 4352 张图，判官那半要上百次 API。判官逐对 JSON 由上面的 judge_*_TRD* 规则豁免。
 !experiments/abl16_metrics.json
+
+# B3（SD-piXL）12 材质子集（预注册 cf9cd80，eval/b3_subset.sh）：四条臂 + CLIP 配对。
+# TRD 臂由上面的 judge_*_TRD* 规则豁免；B2/B7 两条参照臂与 CLIP 汇总在这里。
+!experiments/judge_full_B2_vs_B3_*_sdpixl_subset.json
+!experiments/judge_pilot_B2_vs_B3_*_sdpixl_subset.json
+!experiments/judge_full_B7_vs_B3_*_sdpixl_subset.json
+!experiments/judge_pilot_B7_vs_B3_*_sdpixl_subset.json
+!experiments/b3_subset_clip.json
+!experiments/b3_32_clip.json
+!experiments/b3sub.txt

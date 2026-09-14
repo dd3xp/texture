@@ -1,0 +1,75 @@
+{
+ "tag": "TRD16_vs_B3_16_sdpixl_subset",
+ "a_wins": 11,
+ "decided": 12,
+ "inconsistent": 0,
+ "api_fail": 0,
+ "rate": 0.9166666666666666,
+ "p": 0.006347656249999985,
+ "jeffreys": [
+  0.6715042735939556,
+  0.9908556737658518
+ ],
+ "records": [
+  {
+   "pair": 0,
+   "material": "baked clay green",
+   "verdict": "B"
+  },
+  {
+   "pair": 1,
+   "material": "ctf map damage cobble",
+   "verdict": "A"
+  },
+  {
+   "pair": 2,
+   "material": "desert stone block",
+   "verdict": "A"
+  },
+  {
+   "pair": 3,
+   "material": "desert sand soil",
+   "verdict": "A"
+  },
+  {
+   "pair": 4,
+   "material": "desert sand soil wet",
+   "verdict": "A"
+  },
+  {
+   "pair": 5,
+   "material": "soil",
+   "verdict": "A"
+  },
+  {
+   "pair": 6,
+   "material": "bamboo bamboo bottom",
+   "verdict": "A"
+  },
+  {
+   "pair": 7,
+   "material": "log spruce top",
+   "verdict": "A"
+  },
+  {
+   "pair": 8,
+   "material": "red sandstone bottom",
+   "verdict": "A"
+  },
+  {
+   "pair": 9,
+   "material": "stone slab top",
+   "verdict": "A"
+  },
+  {
+   "pair": 10,
+   "material": "circle stone bricks",
+   "verdict": "A"
+  },
+  {
+   "pair": 11,
+   "material": "coal",
+   "verdict": "A"
+  }
+ ]
+}

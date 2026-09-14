@@ -43,6 +43,11 @@ EXPECT = {
     "judge_full_TRD16c_rr4_vs_AB_pal_rr4_16.json":           (126, 190, 82, 0),
     "judge_full_TRD16c_rr4_vs_AB_ex_rr4_16.json":             (87, 175, 97, 0),
     "judge_full_TRD16c_rr4_vs_AB_ct_rr4_16.json":             (86, 154, 118, 0),
+    # B3（SD-piXL）12 材质子集（预注册 cf9cd80，eval/b3_subset.sh）。"TRD16c" 是未重排的原始样本，不是 rr4
+    "judge_full_TRD16_vs_B3_16_sdpixl_subset.json":          (11, 12, 0, 0),
+    "judge_full_TRD16c_vs_B3_16_sdpixl_subset.json":         (10, 10, 2, 0),
+    "judge_full_B2_vs_B3_16_sdpixl_subset.json":              (8,  9, 3, 0),
+    "judge_full_B7_vs_B3_16_sdpixl_subset.json":             (10, 10, 2, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。
@@ -53,6 +58,10 @@ PILOT_EXPECT = {
     "judge_pilot_TRD16c_rr4_vs_AB_xm_rr4_16.json":   (9, 15, 1, 5, False),
     "judge_pilot_TRD16c_rr4_vs_AB_ct_rr4_16.json":  (11, 15, 3, 5, True),
     "judge_pilot_TRD16c_rr4_vs_TRD16c_16.json":      (6, 15, 1, 5, False),
+    "judge_pilot_TRD16_vs_B3_16_sdpixl_subset.json":  (11, 12, 0, 5, True),
+    "judge_pilot_TRD16c_vs_B3_16_sdpixl_subset.json": (10, 12, 3, 5, True),
+    "judge_pilot_B2_vs_B3_16_sdpixl_subset.json":     (11, 12, 0, 5, True),
+    "judge_pilot_B7_vs_B3_16_sdpixl_subset.json":     (10, 12, 0, 5, True),
 }
 
 
@@ -103,7 +112,7 @@ def main():
         elif got != exp:
             bad.append(f"{name}: 重算 {got} != 账本 {exp}")
             mark = "**对不上**"
-        elif (got[0] / got[1] >= d["min_rate"] and got[0] > got[2] / got[3]) != got[4]:
+        elif (got[0] / got[1] >= d["min_rate"] and got[0] / got[1] > got[2] / got[3]) != got[4]:
             bad.append(f"{name}: 门槛判读与 min_rate={d['min_rate']} 不自洽")
             mark = "**不自洽**"
         print(f"{mark} 试点 {d['tag']:38s} 真题 {got[0]}/{got[1]} = {got[0] / got[1]:.0%}  "
