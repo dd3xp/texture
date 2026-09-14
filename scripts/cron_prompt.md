@@ -51,6 +51,13 @@
   被拦住就说明目录有主，**换名字，不许删锁**。
 - 分辨检查点只能靠 `ckpt["args"]`（`init_from` / `extra_file` / 各开关），不能靠目录名。
 
+## 磁盘（2026-09-14）
+
+- `/mnt/data` 满：训练检查点、生成图、判官 JSON 一律写服务器 `/tmp`（`--out /tmp/...`、`judge_pairs.py --outdir /tmp/...`、
+  `TRITON_CACHE_DIR=/tmp/triton`）。服务器 `/tmp` **开机即清空** → `scripts/sync_remote_tmp.sh` 每 30 分钟把
+  `runs/ sdpixl_runs/ judge_* trd_*.txt b3*.txt vj*.txt` 拉回本机 `remote_tmp/`；新产物命名要落在这个列表里。
+  要入库的小文件（判官 JSON、指标 JSON）照旧 scp 进 `experiments/` 提交。
+
 ## 硬性约束
 
 - **GPU 只用 emnlp**（`ssh emnlp` = a100-node03），路径 `/mnt/data/kw/RoundSquisheen/texture`。

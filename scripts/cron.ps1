@@ -12,6 +12,17 @@ $lock   = Join-Path $logDir 'cron.lock'
 $log    = Join-Path $logDir 'cron.log'
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 
+# 先把服务器 /tmp 里的本项目产物增量拉回本机（remote_tmp/）：/tmp 开机即清空，
+# 而 /mnt/data 满了以后检查点、判官结果都写在那里。放在所有"让路"判断之前 → 每 30 分钟必跑。
+try {
+    $bash = Join-Path $env:ProgramFiles 'Git\bin\bash.exe'
+    if (-not (Test-Path $bash)) { $bash = 'bash' }
+    $syncOut = & $bash (Join-Path $root 'scripts/sync_remote_tmp.sh') 2>&1 | Select-Object -Last 1
+    Add-Content -Encoding utf8 $log ("[{0}] {1}" -f (Get-Date -f 'MM-dd HH:mm'), $syncOut)
+} catch {
+    Add-Content -Encoding utf8 $log ("[{0}] sync error: {1}" -f (Get-Date -f 'MM-dd HH:mm'), $_)
+}
+
 # 单实例：上一轮没跑完就跳过，避免并发改同一个仓库
 if (Test-Path $lock) {
     $age = (Get-Date) - (Get-Item $lock).LastWriteTime

@@ -1902,3 +1902,8 @@ val 的三个包（0.300 / 0.181 / 0.140）分别有 11 / 19 / 25 个 train 包�
    （`gen_trd.py --out /tmp/...`，盘满），与 `v10x100_rr4` 同材质直接对判（先试点）；赢了再试 γ=1。
 3. B3 两路（`arch_b3`/`arch_b3rev`，产物在 `experiments/baselines/B3/16/`）完成 12 张后：做 TRD vs B3 的 12 材质子集对比（CLIP + 判官）。
 4. 32px 若找到显著更好的配置：**测试集第二次观察须另行预注册、只跑一次**。
+
+**服务器 /tmp 的产物同步回本机**：服务器 tmpfiles 规则 `D /tmp` = **开机即清空**（已连续运行 89 天，但一重启就没；共享账号他人也可能删）。
+`scripts/sync_remote_tmp.sh` 把本项目在 `/tmp` 下的东西（`runs/`、`sdpixl_runs/`、`judge_*`、`trd_*.txt`、`b3*.txt`、`vj*.txt`）
+增量打包拉回本机 `remote_tmp/`（已 gitignore；首次 282M），`scripts/cron.ps1` 在所有"让路"判断之前调用它 → **每 30 分钟必跑**，结果写 `logs_local/cron.log`。
+新往 `/tmp` 放本项目产物时，名字要落在上面的列表里（或改脚本里的 `PATHS`）。

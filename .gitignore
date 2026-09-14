@@ -182,3 +182,6 @@ paper/supplementary.zip
 # 结论"结构门在温度轴上与判官反向"就靠这些逐对记录，零 API 可复算（recheck_judge.py）。
 !experiments/judge_full_v1*_vs_v11dx_direct_32_V_mat.json
 !experiments/judge_pilot_v1*_vs_v11dx_direct_32_V_mat.json
+
+# 服务器 /tmp 产物的本机镜像（scripts/sync_remote_tmp.sh；检查点等大文件，不进 git）
+remote_tmp/
