@@ -1,0 +1,113 @@
+{
+ "arms": {
+  "B7@24": {
+   "decided": 208,
+   "resolvable_rate": 0.765,
+   "trd_wins": 144,
+   "rate": 0.692,
+   "p": 1.276726610775555e-08,
+   "level_enters_verdict": false
+  },
+  "B7@32": {
+   "decided": 188,
+   "resolvable_rate": 0.691,
+   "trd_wins": 116,
+   "rate": 0.617,
+   "p": 0.0016404673196346521,
+   "level_enters_verdict": false
+  },
+  "B2@24": {
+   "decided": 188,
+   "resolvable_rate": 0.691,
+   "trd_wins": 94,
+   "rate": 0.5,
+   "p": 1.0,
+   "level_enters_verdict": true
+  },
+  "B2@32": {
+   "decided": 202,
+   "resolvable_rate": 0.743,
+   "trd_wins": 83,
+   "rate": 0.411,
+   "p": 0.01359503941721217,
+   "level_enters_verdict": true
+  }
+ },
+ "gradient": {
+  "B7": {
+   "common_decided": 146,
+   "rate24_on_common": 0.705,
+   "rate32_on_common": 0.644,
+   "flip_24win_32lose": 26,
+   "flip_24lose_32win": 17,
+   "discordant": 43,
+   "p": 0.2220528201560228,
+   "falls": false,
+   "judged": true,
+   "mats_24win_32lose": [
+    "baked clay pink",
+    "crimson hyphae wood",
+    "aspen tree top",
+    "desert stone brick",
+    "fence acacia wood",
+    "fence aspen wood",
+    "fence pine wood",
+    "ice",
+    "mese block",
+    "stone",
+    "tin block",
+    "hardened clay stained brown",
+    "pressure plate stone on",
+    "copper weathered",
+    "dirt podzol side",
+    "dirt podzol top",
+    "grass side snowed",
+    "log big oak",
+    "log birch",
+    "log spruce",
+    "planks big oak",
+    "deepslate gold ore",
+    "stone slab side",
+    "nether basalt",
+    "quartz chiseled",
+    "wool black"
+   ]
+  },
+  "B2": {
+   "common_decided": 150,
+   "rate24_on_common": 0.473,
+   "rate32_on_common": 0.353,
+   "flip_24win_32lose": 23,
+   "flip_24lose_32win": 5,
+   "discordant": 28,
+   "p": 0.0009122341871261597,
+   "falls": true,
+   "judged": false,
+   "mats_24win_32lose": [
+    "crimson hyphae wood",
+    "cactus side",
+    "desert sandstone brick",
+    "dry grass",
+    "obsidian brick",
+    "snow",
+    "snow side",
+    "stone block",
+    "tin block",
+    "desert sand soil wet",
+    "soil wet side",
+    "cherry blossom log",
+    "bone block side",
+    "coal ore",
+    "granite",
+    "log birch",
+    "log spruce",
+    "log spruce top",
+    "mangrove planks",
+    "gold block slab",
+    "stone slab side",
+    "cobble mossy wall side",
+    "mithril block"
+   ]
+  }
+ }
+}

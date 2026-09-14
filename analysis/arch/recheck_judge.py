@@ -48,6 +48,10 @@ EXPECT = {
     "judge_full_TRD16c_vs_B3_16_sdpixl_subset.json":         (10, 10, 2, 0),
     "judge_full_B2_vs_B3_16_sdpixl_subset.json":              (8,  9, 3, 0),
     "judge_full_B7_vs_B3_16_sdpixl_subset.json":             (10, 10, 2, 0),
+    # 测试集：tier_anchor 的锚臂（预注册 8ec5446，eval/tier_anchor.sh）。
+    # 绝对胜率只报不判（判据 (5)：B7 在 24/32 从未调过 CFG），进判据的是梯度。
+    "judge_full_TRD24_rr4_vs_B7_24.json":                    (144, 208, 64, 0),
+    "judge_full_TRD32_rr4_vs_B7_32.json":                    (116, 188, 84, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。
@@ -62,6 +66,13 @@ PILOT_EXPECT = {
     "judge_pilot_TRD16c_vs_B3_16_sdpixl_subset.json": (10, 12, 3, 5, True),
     "judge_pilot_B2_vs_B3_16_sdpixl_subset.json":     (11, 12, 0, 5, True),
     "judge_pilot_B7_vs_B3_16_sdpixl_subset.json":     (10, 12, 0, 5, True),
+    # tier_anchor（预注册 8ec5446）：B1@24 不过门 -> 按判据 (1) B1 那一对梯度作废，没有 full
+    "judge_pilot_TRD24_rr4_vs_B7_24.json":            (11, 15, 1, 5, True),
+    "judge_pilot_TRD32_rr4_vs_B7_32.json":            (12, 15, 2, 5, True),
+    "judge_pilot_TRD24_rr4_vs_B1_24.json":             (9, 15, 3, 5, False),
+    "judge_pilot_TRD32_rr4_vs_B1_32.json":            (10, 15, 0, 5, True),
+    # nod32（预注册 7e96e2c）：不过门 -> 判据 (1) 不报胜负、不下结论，没有 full
+    "judge_pilot_nod32x100_rr4_vs_ctrl0x100_rr4_32_V_mat.json": (9, 15, 1, 5, False),
 }
 
 
