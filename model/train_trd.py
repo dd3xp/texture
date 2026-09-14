@@ -241,6 +241,9 @@ def main():
                     help="粗网格取样相位：rand = v10（模型不知道块里哪一格是真的）；fixed = v11，相位 (0,0)，与推理端对齐")
     ap.add_argument("--probe_coarse", type=Path, default=None,
                     help="只诊断不训练：载入这个检查点，量 val 损失在 不给/给真/给别人的 粗网格三种条件下的差")
+    ap.add_argument("--pack_balance", type=float, default=0.0,
+                    help="32px 按包均衡采样的强度 γ：样本权重 ∝ 包大小^-γ（1 = 每包等概率，0 = 不均衡）。"
+                         "32px 训练池只有 24 个包、两个近乎平涂的大包占 63%（docs/arch_progress.md 2026-09-14）")
     ap.add_argument("--init_from", type=Path, default=None,
                     help="从已有检查点初始化（形状不同的来源嵌入按行拷贝，多出的行用第 0 行＝材质包初始化）")
     ap.add_argument("--domain", action="store_true",
@@ -296,6 +299,14 @@ def main():
     V = to_tensors(val, cb, a.codes, tindex, temb)
     T32 = to_tensors(train32, cb, a.codes, tindex, temb) if train32 else None
     V32 = to_tensors(val32, cb, a.codes, tindex, temb) if val32 else None
+    if a.pack_balance > 0:
+        from collections import Counter
+        for Dd, smp in ((T32, train32),):               # 只均衡 32px（16px 有 51 个包、覆盖得住）
+            if Dd is not None and smp:
+                cnt = Counter(x.get("pack") for x in smp)
+                Dd["pack_w"] = torch.tensor([cnt[x.get("pack")] ** -a.pack_balance for x in smp], dtype=torch.float)
+        print(f"按包均衡 γ={a.pack_balance}：16px {len({x.get('pack') for x in train})} 包、"
+              f"32px {len({x.get('pack') for x in train32})} 包", flush=True)
     BANK = None
     if a.n_ex:                                        # v7 结构范例：候选表按样本预先算好，取样在 GPU 上
         from exemplars import ExemplarBank
@@ -469,7 +480,10 @@ def main():
         model.train()
         use32 = T32 is not None and torch.rand(()).item() < a.p32
         D, nD, bs = (T32, len(train32), a.batch32) if use32 else (T, n, a.batch)
-        idx = torch.randint(0, nD, (bs,))
+        if a.pack_balance and "pack_w" in D:           # 按包均衡：每包被抽到的概率与包大小无关
+            idx = torch.multinomial(D["pack_w"], bs, replacement=True).cpu()
+        else:
+            idx = torch.randint(0, nD, (bs,))
         with torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
             loss, parts = training_loss(model, *batch_of(D, idx, True), pal_smooth=a.pal_smooth)
         opt.zero_grad(set_to_none=True)
