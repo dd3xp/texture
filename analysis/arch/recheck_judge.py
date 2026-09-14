@@ -39,6 +39,8 @@ EXPECT = {
     # 验证集 32px：推理侧（预注册 20b188b）与训练侧（按包均衡 γ=0.5，预注册 a6b9742）
     "judge_full_v10x100r16_rr4_vs_v10x100_rr4_32_V_mat.json": (25, 78, 47, 0),
     "judge_full_pb05x100_rr4_vs_v10x100_rr4_32_V_mat.json":   (36, 73, 52, 0),
+    # 测试集 16px 消融（预注册 83a6257，`eval/ablation_16.sh`）；参照臂 TRD16c_rr4 同材质直接对判
+    "judge_full_TRD16c_rr4_vs_AB_pal_rr4_16.json":           (126, 190, 82, 0),
 }
 
 
