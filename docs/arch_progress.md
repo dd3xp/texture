@@ -2030,3 +2030,23 @@ val 的三个包（0.300 / 0.181 / 0.140）分别有 11 / 19 / 25 个 train 包�
 4. `/mnt/data` 仍 100%（13G 可用，别人腾的）→ 产物继续全写 `/tmp`，靠 `scripts/sync_remote_tmp.sh` 拉回。
 
 **本轮成本**：零 GPU、零 API（纯读已有 JSON）。
+
+## 2026-09-14 11:30 交接（主会话下线，用户睡觉；定时轮次按此推进）
+
+**在跑（emnlp，全部不依赖会话在线）**：
+- `eval/val_pb_32.sh`（预注册 `67139dc`，nohup，日志 `/tmp/judge_pb05.txt`，产物 `/tmp/judge_pb05/`）：
+  按包均衡 γ=0.5 的 32px 新检查点 → 出图 → 4 选 1 → 与 `v10x100_rr4` 同材质对判。判据写在脚本头。
+- `arch_b3`（GPU 6）/ `arch_b3rev`（GPU 2）：SD-piXL 剩 6 张，产物 `experiments/baselines/B3/16/`，工作目录 `/tmp/sdpixl_runs`。
+- 本机每 30 分钟 `scripts/sync_remote_tmp.sh` 把服务器 `/tmp` 产物拉回 `remote_tmp/`。
+
+**下一轮第一件事（按顺序，做完一件记账提交再做下一件）**：
+1. 读 `/tmp/judge_pb05.txt`：按脚本头判据判读；判官 JSON 从 `remote_tmp/judge_pb05/` 拷进 `experiments/`（在 `.gitignore` 加豁免），
+   把新臂加进 `analysis/arch/recheck_judge.py` 并让它通过。胜 → 预注册 γ=1 再训一版（`--out /tmp/runs/trd_v10pb10_<时间戳>`，
+   `TRITON_CACHE_DIR=/tmp/triton`，先 `nvidia-smi` 挑卡：7 号卡常被同账号别的项目占去 29GB）；平/输 → 关闭这条路，记下。
+2. **速度对比**（零风险、论文必需）：TRD 每张 16/32px 的生成时间（含检索、4 选 1）vs B2（SDXL 4 次 1024 渲染）vs B3（SD-piXL 实测 ~7.5 GPU 小时）vs B7，
+   同一张卡、同批大小，写 `experiments/speed.json`。
+3. **消融表的预注册**（测试集，一次跑完）：组件 = 调色板记忆库（关 = 模型自出调色板）、结构范例（`--no_ex`）、跨模态（关 = 名字检索）、
+   解码顺序（choice_temp 4.5 vs 20）、4 选 1 重排、环面位置编码（v1 单频 vs v2 多频，用已有检查点）。先写脚本 + 判据提交，再跑。
+4. B3 满 12 张后：TRD vs B3 的 12 材质子集（CLIP + 判官；子集太小不算 FID/KID）。
+5. 32px 若第 1 项找到显著更好的配置：预注册后在测试集做**第二次观察**，只跑一次。
+⚠ 盘满：大产物一律写服务器 `/tmp`，命名要落在 `sync_remote_tmp.sh` 的 `PATHS` 里。
