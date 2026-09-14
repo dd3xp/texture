@@ -185,3 +185,6 @@ paper/supplementary.zip
 
 # 服务器 /tmp 产物的本机镜像（scripts/sync_remote_tmp.sh；检查点等大文件，不进 git）
 remote_tmp/
+!experiments/judge_full_v10x100r16_rr4_vs_v10x100_rr4_32_V_mat.json
+!experiments/judge_pilot_v10x100c_rr4_vs_v10x100_rr4_32_V_mat.json
+!experiments/judge_pilot_v10x100r16_rr4_vs_v10x100_rr4_32_V_mat.json

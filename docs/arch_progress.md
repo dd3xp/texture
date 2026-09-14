@@ -1907,3 +1907,13 @@ val 的三个包（0.300 / 0.181 / 0.140）分别有 11 / 19 / 25 个 train 包�
 `scripts/sync_remote_tmp.sh` 把本项目在 `/tmp` 下的东西（`runs/`、`sdpixl_runs/`、`judge_*`、`trd_*.txt`、`b3*.txt`、`vj*.txt`）
 增量打包拉回本机 `remote_tmp/`（已 gitignore；首次 282M），`scripts/cron.ps1` 在所有"让路"判断之前调用它 → **每 30 分钟必跑**，结果写 `logs_local/cron.log`。
 新往 `/tmp` 放本项目产物时，名字要落在上面的列表里（或改脚本里的 `PATHS`）。
+
+**32px 同材质对判结果（预注册 `20b188b`，`eval/val_judge_32pair.sh`，V_mat 125 材质）**：
+
+| 对比（都是 v10 N=100 + 4 选 1） | 试点可解 / 空对照 | 全量 | p | 判读 |
+| --- | --- | --- | --- | --- |
+| 级联 vs 直接 | 47% / 20% | —（不过门槛） | — | 判官分不出 |
+| **Gibbs 精修 vs 直接** | 67% / 20% | **25/78 = 32%** | **0.002** | **精修显著更差** |
+
+→ 推理侧两条都比不过直接生成：精修把噪点和特征一起抹掉（与 KID 变好、CLIP 掉 0.3 一致）。32px 只剩训练侧（按包均衡在训）。
+记录：`experiments/judge_{pilot,full}_v10x100{c,r16}_rr4_vs_v10x100_rr4_32_V_mat.json`。
