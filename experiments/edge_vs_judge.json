@@ -1,0 +1,86 @@
+{
+ "arms": {
+  "16": {
+   "dirs": [
+    "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/TRD16c_rr4/16",
+    "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2/16"
+   ],
+   "judge": "judge_full_TRD16c_rr4_vs_B2_16.json",
+   "judge_a_wins": 114,
+   "judge_decided": 199,
+   "judge_rate": 0.5728643216080402,
+   "n_mat": 272,
+   "frac_TRD_busier": 0.5185185185185185,
+   "median_gap": 0.00390625,
+   "p_sign": 0.583964318190869,
+   "B_within": {
+    "n_x": 85,
+    "n_y": 114,
+    "auc": 0.37708978328173376,
+    "z": -2.9637227080639854,
+    "p": 0.00303942036140421,
+    "median_gap_TRD_lost": -0.03125,
+    "median_gap_TRD_won": 0.03515625
+   }
+  },
+  "24": {
+   "dirs": [
+    "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/TRD24_rr4/24",
+    "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2/24"
+   ],
+   "judge": "judge_full_TRD24_rr4_vs_B2_24.json",
+   "judge_a_wins": 94,
+   "judge_decided": 188,
+   "judge_rate": 0.5,
+   "n_mat": 272,
+   "frac_TRD_busier": 0.6360294117647058,
+   "median_gap": 0.062065972222222265,
+   "p_sign": 8.50074214583519e-06,
+   "B_within": {
+    "n_x": 94,
+    "n_y": 94,
+    "auc": 0.4247397012222725,
+    "z": -1.782604035029903,
+    "p": 0.07465078253829897,
+    "median_gap_TRD_lost": 0.02039930555555558,
+    "median_gap_TRD_won": 0.078125
+   }
+  },
+  "32": {
+   "dirs": [
+    "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/TRD32_rr4/32",
+    "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/B2/32"
+   ],
+   "judge": "judge_full_TRD32_rr4_vs_B2_32.json",
+   "judge_a_wins": 83,
+   "judge_decided": 202,
+   "judge_rate": 0.41089108910891087,
+   "n_mat": 272,
+   "frac_TRD_busier": 0.6727941176470589,
+   "median_gap": 0.096923828125,
+   "p_sign": 1.2369747288532446e-08,
+   "B_within": {
+    "n_x": 119,
+    "n_y": 83,
+    "auc": 0.4142958388174547,
+    "z": -2.070896071396906,
+    "p": 0.03836850939337303,
+    "median_gap_TRD_lost": 0.06884765625,
+    "median_gap_TRD_won": 0.11669921875
+   }
+  }
+ },
+ "verdict_A": "不跟随：判官判平的 24px 上 edge 差已与判输的 32px 相当 -> edge 差不足以解释那个 41%",
+ "verdict_B": "(B-反向)：TRD 输掉的材质 edge 差显著更小",
+ "operational_check_O1": [],
+ "thresholds": {
+  "A_follow": [
+   0.57,
+   0.03
+  ],
+  "A_nofollow": [
+   0.62,
+   0.06
+  ]
+ }
+}
