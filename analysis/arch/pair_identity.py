@@ -69,38 +69,36 @@ def summarise(key, a, b, size, desc):
     for r, (_, ta, tb) in zip(recs, pairs):
         if r["verdict"] is None:                     # API 失败的对：没有读数，整对排除
             continue
-        diff.append(float(np.mean(np.any(ta != tb, axis=-1))))   # 不同像素的比例
+        # 每通道绝对差的均值（0–255）。⚠ 别用"有多少像素不相等"：±1 的差也记成"不同"，
+        # 那个数在四条边上都是 100%，什么都分不出来（第一版就是这么废掉的）。
+        diff.append(float(np.abs(ta.astype(np.int16) - tb.astype(np.int16)).mean()))
         resolved.append(r["verdict"] in ("A", "B"))
     diff, resolved = np.array(diff), np.array(resolved)
 
     print(f"\n{'=' * 78}\n{key}  {desc}   （{a} vs {b} @{size}，n={len(diff)}）")
-    ident = diff == 0.0
-    print(f"  **逐像素完全相同的对：{ident.sum()}/{len(diff)} = {ident.mean():.1%}** "
-          f"← 这些对是货真价实的空对照")
-    print(f"  不同像素比例：中位 {np.median(diff):.1%}   "
-          f"四分位 [{np.quantile(diff, .25):.1%}, {np.quantile(diff, .75):.1%}]")
+    near = diff < 2.0                                # 平均每通道差 <2/255：肉眼基本同一张图
+    print(f"  **近乎同一张图的对（平均每通道差 <2/255）：{near.sum()}/{len(diff)} = {near.mean():.1%}** "
+          f"（其中逐像素完全相同 {int((diff == 0).sum())} 对）← 这些对接近空对照")
+    print(f"  平均每通道差：中位 {np.median(diff):.1f}/255   "
+          f"四分位 [{np.quantile(diff, .25):.1f}, {np.quantile(diff, .75):.1f}]")
 
-    # 判出率按"两张图差多少"分层。identical 那一层的判出率应当贴着地板 17.8%。
-    print(f"  {'分层':<22}{'对数':>5}{'判出率':>9}   {'Jeffreys':>16}")
-    strata = [("逐像素相同 (=0%)", ident)]
-    rest = ~ident
-    if rest.any():
-        q = np.quantile(diff[rest], [1 / 3, 2 / 3])
-        strata += [(f"差异小 (0, {q[0]:.0%}]", rest & (diff <= q[0])),
-                   (f"差异中 ({q[0]:.0%}, {q[1]:.0%}]", rest & (diff > q[0]) & (diff <= q[1])),
-                   (f"差异大 (> {q[1]:.0%})", rest & (diff > q[1]))]
-    for name, m in strata:
+    # 判出率按"两张图差多少"分四层（等频）。若判出率随差异单调上升 = 判官在按内容作答。
+    print(f"  {'分层（平均每通道差）':<26}{'对数':>5}{'判出率':>9}   {'Jeffreys':>14}")
+    q = np.quantile(diff, [.25, .5, .75])
+    edges_ = [(-1, q[0]), (q[0], q[1]), (q[1], q[2]), (q[2], 1e9)]
+    for lo_, hi_ in edges_:
+        m = (diff > lo_) & (diff <= hi_)
         if not m.any():
             continue
         k, n = int(resolved[m].sum()), int(m.sum())
-        lo, hi = jeffreys(k, n)
-        print(f"  {name:<22}{n:>5}{k / n:>9.1%}   [{lo:>5.0%},{hi:>5.0%}]")
-    k, n = int(resolved[ident].sum()), int(ident.sum())
+        jl, jh = jeffreys(k, n)
+        name = f"({max(lo_, 0):.1f}, {min(hi_, diff.max()):.1f}]"
+        print(f"  {name:<26}{n:>5}{k / n:>9.1%}   [{jl:>5.0%},{jh:>5.0%}]")
+    k, n = int(resolved[near].sum()), int(near.sum())
     if n:
-        print(f"  -> 相同那层 {k}/{n} = {k / n:.1%} vs 地板 {FLOOR:.1%}："
-              f"双侧 p={binom_test(k, n, FLOOR):.3g}"
-              f"（**与地板无异 = 这些对确实什么都没测到**）")
-    return key, len(diff), int(ident.sum()), float(resolved.mean())
+        print(f"  -> 近同那层 {k}/{n} = {k / n:.1%} vs 地板 {FLOOR:.1%}："
+              f"双侧 p={binom_test(k, n, FLOOR):.3g}")
+    return key, len(diff), int(near.sum()), float(np.median(diff)), float(resolved.mean())
 
 
 def main():
@@ -108,10 +106,11 @@ def main():
     out = []
     for key, a, b, size, desc in EDGES:
         out.append(summarise(key, a, b, size, desc))
-    print(f"\n{'=' * 78}\n汇总：\n  {'边':<4}{'对数':>5}{'全同对':>7}{'全同占比':>9}{'总判出率':>9}")
-    for key, n, ident, rr in out:
-        print(f"  {key:<4}{n:>5}{ident:>7}{ident / n:>9.1%}{rr:>9.1%}")
-    print("\n判读（**跑之前写死**）：若 e3 的全同对明显多于另三条边，且全同那层的判出率贴着地板，")
+    print(f"\n{'=' * 78}\n汇总：\n  {'边':<4}{'对数':>5}{'近同对':>7}{'近同占比':>9}"
+          f"{'中位差/255':>11}{'总判出率':>9}")
+    for key, n, near, med, rr in out:
+        print(f"  {key:<4}{n:>5}{near:>7}{near / n:>9.1%}{med:>11.1f}{rr:>9.1%}")
+    print("\n判读（**跑之前写死**）：若 e3 的近同对明显多于另三条边，且近同那层的判出率贴着地板，")
     print("  则 e3 的低判出率是**刺激的属性**（有一批对根本没有可判的内容），")
     print("  而不是「判官在这条边上更不稳」——那样的话，去改弃样记分方式就是在治错的病。")
     return 0
