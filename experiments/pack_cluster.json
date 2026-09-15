@@ -1,0 +1,227 @@
+{
+ "desc": {
+  "16": {
+   "n_tiles": 2732,
+   "n_packs": 47,
+   "hhi": 0.04798505430996229,
+   "eff_packs": 20.839822198396213,
+   "top3": [
+    [
+     "Jeremiah__mppbj",
+     387
+    ],
+    [
+     "joseanastacio__texture_pack_plastic",
+     183
+    ],
+    [
+     "Liil__12345",
+     154
+    ]
+   ]
+  },
+  "32": {
+   "n_tiles": 403,
+   "n_packs": 19,
+   "hhi": 0.36989945138508334,
+   "eff_packs": 2.703437369954224,
+   "top3": [
+    [
+     "ROllerozxa__macrotex",
+     175
+    ],
+    [
+     "sirrobzeroone__dungeonsoup",
+     168
+    ],
+    [
+     "Suzakuu__actionpvpforctf",
+     34
+    ]
+   ]
+  }
+ },
+ "A": {
+  "published": {
+   "delta": 0.01229125960644857,
+   "E_cell": 0.021077871890815454,
+   "E_canvas": 0.033369131497264025,
+   "ci": [
+    0.00392442643812525,
+    0.018256039277634993
+   ]
+  },
+  "delta_full": 0.01229125960644857,
+  "E_cell": 0.021077871890815454,
+  "E_canvas": 0.033369131497264025,
+  "tile_ci": [
+   0.00392442643812525,
+   0.018256039277634993
+  ],
+  "cluster_ci": [
+   -0.04782297018519531,
+   0.029989233131941295
+  ],
+  "n_boot": 2000,
+  "lopo": [
+   {
+    "pack": "Droog71__moontest_32x32",
+    "status": "ok",
+    "n16": 2732,
+    "n32": 402,
+    "delta": 0.012373523412870818
+   },
+   {
+    "pack": "Liil__12345",
+    "status": "ok",
+    "n16": 2578,
+    "n32": 402,
+    "delta": 0.013514410538542462
+   },
+   {
+    "pack": "LoopyAntenna__plastic_textures",
+    "status": "ok",
+    "n16": 2708,
+    "n32": 402,
+    "delta": 0.011509485817305157
+   },
+   {
+    "pack": "Ludus__gb_style",
+    "status": "ok",
+    "n16": 2675,
+    "n32": 401,
+    "delta": 0.01164509113532771
+   },
+   {
+    "pack": "ROllerozxa__macrotex",
+    "status": "ok",
+    "n16": 2732,
+    "n32": 228,
+    "delta": 0.018351402191305217
+   },
+   {
+    "pack": "ROllerozxa__ohceedee",
+    "status": "ok",
+    "n16": 2673,
+    "n32": 400,
+    "delta": 0.010223892690624816
+   },
+   {
+    "pack": "ROllerozxa__vilja_pix_2",
+    "status": "ok",
+    "n16": 2604,
+    "n32": 402,
+    "delta": 0.014133685397826834
+   },
+   {
+    "pack": "StarNinjas__simplepixel",
+    "status": "ok",
+    "n16": 2673,
+    "n32": 402,
+    "delta": 0.011297877445058724
+   },
+   {
+    "pack": "Suzakuu__actionpvpforctf",
+    "status": "ok",
+    "n16": 2720,
+    "n32": 369,
+    "delta": 0.012566601885870034
+   },
+   {
+    "pack": "TumeniNodes__ambiguity",
+    "status": "ok",
+    "n16": 2627,
+    "n32": 402,
+    "delta": 0.013062055330022304
+   },
+   {
+    "pack": "TumeniNodes__default_ls",
+    "status": "ok",
+    "n16": 2616,
+    "n32": 402,
+    "delta": 0.013308881960549995
+   },
+   {
+    "pack": "UltraSans__win25695",
+    "status": "ok",
+    "n16": 2632,
+    "n32": 402,
+    "delta": 0.012365243161784792
+   },
+   {
+    "pack": "Wuzzy__retroplus",
+    "status": "ok",
+    "n16": 2623,
+    "n32": 402,
+    "delta": 0.01329828788907917
+   },
+   {
+    "pack": "Zughy__soothing32",
+    "status": "ok",
+    "n16": 2645,
+    "n32": 402,
+    "delta": 0.010439044194470472
+   },
+   {
+    "pack": "debiankaios__simpletextures",
+    "status": "ok",
+    "n16": 2732,
+    "n32": 397,
+    "delta": 0.013719868318835822
+   },
+   {
+    "pack": "gtzi203__simple_16p",
+    "status": "ok",
+    "n16": 2618,
+    "n32": 402,
+    "delta": 0.011368132898732949
+   },
+   {
+    "pack": "joseanastacio__texture_pack_plastic",
+    "status": "ok",
+    "n16": 2549,
+    "n32": 400,
+    "delta": 0.0015598217809105197
+   },
+   {
+    "pack": "sebpro_3__mt_bare_bone",
+    "status": "ok",
+    "n16": 2668,
+    "n32": 402,
+    "delta": 0.01103263636267933
+   },
+   {
+    "pack": "sirrobzeroone__dungeonsoup",
+    "status": "ok",
+    "n16": 2731,
+    "n32": 235,
+    "delta": 0.00036449921465312243
+   }
+  ],
+  "n_folds_ok": 19,
+  "all_folds_positive": true
+ },
+ "ops": {
+  "op1": true,
+  "op2": true,
+  "op3": true,
+  "op4a": true,
+  "op5": true
+ },
+ "verdict": "V2a_direction_only",
+ "B": {
+  "n_mats": 192,
+  "n_packs": 6,
+  "chi2": 14.427508061825861,
+  "perm_p": 0.17149142542872856,
+  "b_perm": 20000,
+  "w": 0.2,
+  "cluster_ci": [
+   0.037037037037037035,
+   0.2571428571428571
+  ],
+  "n_boot": 2000,
+  "op4b": true,
+  "excludes_half": true
+ }
+}
