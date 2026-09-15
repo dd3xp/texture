@@ -1,0 +1,274 @@
+{
+ "extra": "train_extra_packs_only.json+train_64to32.json",
+ "gates": {
+  "periodic_exact": 0.5,
+  "periodic_mad": 0.69,
+  "clean_exact": 0.1,
+  "clean_mad": 9.47,
+  "op1_trivial_exact": 0.2,
+  "op2_min_n": 300
+ },
+ "op1_ruler_16to8": {
+  "n": 3177,
+  "exact": 52,
+  "exact_rate": 0.016367642429965377,
+  "mad_median": 10.514322916666666,
+  "mad_mean": 16.003279594218863,
+  "pass": true
+ },
+ "pool32_train": {
+  "n": 1877,
+  "exact": 4,
+  "exact_rate": 0.002131060202450719,
+  "mad_median": 18.150065104166668,
+  "mad_mean": 21.15762145378263
+ },
+ "op2_pass": true,
+ "verdict_main": "P_TRAIN_CLEAN",
+ "by_source": {
+  "dataset_k16(base)": {
+   "n": 403,
+   "exact": 2,
+   "exact_rate": 0.004962779156327543,
+   "mad_median": 12.529947916666666,
+   "mad_mean": 17.603004323045905
+  },
+  "extra(packs_only+64to32)": {
+   "n": 1474,
+   "exact": 2,
+   "exact_rate": 0.0013568521031207597,
+   "mad_median": 19.808756510416664,
+   "mad_mean": 22.129474034302916
+  }
+ },
+ "by_pack": [
+  {
+   "pack": "Sharpik__sharpnet_textures",
+   "n": 1218,
+   "exact": 1,
+   "exact_rate": 0.0008210180623973727,
+   "mad_median": 20.31201171875,
+   "mad_mean": 22.42272033858443
+  },
+  {
+   "pack": "sirrobzeroone__dungeonsoup",
+   "n": 226,
+   "exact": 3,
+   "exact_rate": 0.01327433628318584,
+   "mad_median": 14.14794921875,
+   "mad_mean": 17.985793752304573
+  },
+  {
+   "pack": "ROllerozxa__macrotex",
+   "n": 187,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 12.629557291666666,
+   "mad_mean": 19.349809561608737
+  },
+  {
+   "pack": "Droog71__moontest_32x32",
+   "n": 43,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 13.354817708333334,
+   "mad_mean": 17.630533854166664
+  },
+  {
+   "pack": "Suzakuu__actionpvpforctf",
+   "n": 34,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 1.0224609375,
+   "mad_mean": 5.02816712622549
+  },
+  {
+   "pack": "Jeremiah__mppbj",
+   "n": 30,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 24.911458333333336,
+   "mad_mean": 21.23756510416667
+  },
+  {
+   "pack": "but1YT__dumb_ctf_textures",
+   "n": 28,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 5.947591145833334,
+   "mad_mean": 12.816162109374998
+  },
+  {
+   "pack": "Pudding__standart_textures",
+   "n": 24,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 5.055338541666666,
+   "mad_mean": 10.841756184895834
+  },
+  {
+   "pack": "but1YT__pp",
+   "n": 18,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 14.02978515625,
+   "mad_mean": 20.451822916666664
+  },
+  {
+   "pack": "StarNinjas__simplepixel",
+   "n": 17,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 22.8408203125,
+   "mad_mean": 25.395526960784313
+  },
+  {
+   "pack": "debiankaios__simpletextures",
+   "n": 12,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 21.022623697916664,
+   "mad_mean": 26.119303385416668
+  },
+  {
+   "pack": "GefTau__techage_reskin",
+   "n": 10,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 62.82682291666667,
+   "mad_mean": 57.2373046875
+  },
+  {
+   "pack": "but1YT__automated_chests_retextured",
+   "n": 5,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 15.6162109375,
+   "mad_mean": 16.3
+  },
+  {
+   "pack": "ROllerozxa__ohceedee",
+   "n": 4,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 36.03645833333333,
+   "mad_mean": 37.59261067708333
+  },
+  {
+   "pack": "joseanastacio__texture_pack_plastic",
+   "n": 3,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 28.485677083333332,
+   "mad_mean": 28.485677083333332
+  },
+  {
+   "pack": "LoopyAntenna__plastic_textures",
+   "n": 3,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 39.447916666666664,
+   "mad_mean": 31.893012152777775
+  },
+  {
+   "pack": "Ludus__gb_style",
+   "n": 2,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 21.596354166666668,
+   "mad_mean": 21.596354166666668
+  },
+  {
+   "pack": "ROllerozxa__vilja_pix_2",
+   "n": 2,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 27.833821614583332,
+   "mad_mean": 27.833821614583332
+  },
+  {
+   "pack": "UltraSans__win25695",
+   "n": 2,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 52.776529947916664,
+   "mad_mean": 52.776529947916664
+  },
+  {
+   "pack": "TumeniNodes__ambiguity",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 34.3310546875,
+   "mad_mean": 34.3310546875
+  },
+  {
+   "pack": "TumeniNodes__default_ls",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 30.288736979166668,
+   "mad_mean": 30.288736979166668
+  },
+  {
+   "pack": "Wuzzy__retroplus",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 35.529296875,
+   "mad_mean": 35.529296875
+  },
+  {
+   "pack": "Zughy__soothing32",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 35.035481770833336,
+   "mad_mean": 35.035481770833336
+  },
+  {
+   "pack": "gtzi203__simple_16p",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 28.125,
+   "mad_mean": 28.125
+  },
+  {
+   "pack": "sebpro_3__mt_bare_bone",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 34.405598958333336,
+   "mad_mean": 34.405598958333336
+  },
+  {
+   "pack": "Liil__12345",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 10.466796875,
+   "mad_mean": 10.466796875
+  },
+  {
+   "pack": "Feaw2008__easy_see_ores",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 17.016927083333332,
+   "mad_mean": 17.016927083333332
+  },
+  {
+   "pack": "VanicGame__lord_textures_by_varttist",
+   "n": 1,
+   "exact": 0,
+   "exact_rate": 0.0,
+   "mad_median": 5.245768229166667,
+   "mad_mean": 5.245768229166667
+  }
+ ],
+ "pack_hhi": 0.44726463322802,
+ "n_packs": 28,
+ "lopo_flips": [],
+ "verdict": "P_TRAIN_CLEAN"
+}
