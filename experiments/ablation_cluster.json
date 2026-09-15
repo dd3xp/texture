@@ -1,0 +1,438 @@
+{
+ "pre_registered": "analysis/arch/ablation_cluster.py",
+ "reuses": "analysis/arch/judge_cluster.py (M17)",
+ "B_boot": 2000,
+ "B_perm": 20000,
+ "seed": 0,
+ "OP6_family_fn_identical": true,
+ "predictions": {
+  "P1": "A -> W1_robust",
+  "P2": "C1 p < 0.05",
+  "P3": "D contains 0"
+ },
+ "arms": [
+  {
+   "tag": "AB_pal",
+   "file": "judge_full_TRD16c_rr4_vs_AB_pal_rr4_16",
+   "note": "主判据：调色板记忆库，消融表里唯一下过'承重'判决的部件",
+   "published": {
+    "a_wins": 126,
+    "decided": 190,
+    "rate": 0.6631578947368421,
+    "p": 8.085986468267622e-06,
+    "jeffreys": [
+     0.5938883547158011,
+     0.727499241196641
+    ],
+    "api_fail": 0,
+    "resolve_rate": null
+   },
+   "OP1_recount_exact": true,
+   "recount": {
+    "wins": 126,
+    "decided": 190,
+    "inconsistent": 82,
+    "api_fail": 0,
+    "rate": 0.6631578947368421
+   },
+   "OP2_degenerate": {
+    "ci": [
+     0.5947368421052631,
+     0.7263157894736842
+    ],
+    "jeffreys": [
+     0.5938883547158011,
+     0.727499241196641
+    ],
+    "max_dev": 0.001183451722956752,
+    "pass": true,
+    "n_eff": 2000,
+    "OP4_pass": true
+   },
+   "grains": {
+    "U1_drop_last": {
+     "n_families": 118,
+     "hhi": 0.015124653739612188,
+     "eff_families": 66.11721611721612,
+     "max_family": 11,
+     "ci": [
+      0.5739619755244756,
+      0.747372329338197
+     ],
+     "width": 0.17341035381372139,
+     "published_width": 0.13361088648083985,
+     "widening": 1.2978759319779596,
+     "contains_half": false,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 118,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "hardened clay stained",
+       "n": 179,
+       "rate": 0.6424581005586593,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    },
+    "U2_first": {
+     "n_families": 70,
+     "hhi": 0.026703601108033242,
+     "eff_families": 37.448132780082986,
+     "max_family": 13,
+     "ci": [
+      0.5740587151132175,
+      0.7435929648241206
+     ],
+     "width": 0.16953424971090314,
+     "published_width": 0.13361088648083985,
+     "widening": 1.268865540647504,
+     "contains_half": false,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 70,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "hardened",
+       "n": 177,
+       "rate": 0.6440677966101694,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    }
+   },
+   "verdict": "W1_robust",
+   "only_report_no_verdict": false
+  },
+  {
+   "tag": "AB_ct",
+   "file": "judge_full_TRD16c_rr4_vs_AB_ct_rr4_16",
+   "note": "只报告：解码顺序，已发表结论=真平局",
+   "published": {
+    "a_wins": 86,
+    "decided": 154,
+    "rate": 0.5584415584415584,
+    "p": 0.17051654860820734,
+    "jeffreys": [
+     0.47953386747855165,
+     0.6351754631005762
+    ],
+    "api_fail": 0,
+    "resolve_rate": null
+   },
+   "OP1_recount_exact": true,
+   "recount": {
+    "wins": 86,
+    "decided": 154,
+    "inconsistent": 118,
+    "api_fail": 0,
+    "rate": 0.5584415584415584
+   },
+   "OP2_degenerate": {
+    "ci": [
+     0.487012987012987,
+     0.6363636363636364
+    ],
+    "jeffreys": [
+     0.47953386747855165,
+     0.6351754631005762
+    ],
+    "max_dev": 0.007479119534435363,
+    "pass": true,
+    "n_eff": 2000,
+    "OP4_pass": true
+   },
+   "grains": {
+    "U1_drop_last": {
+     "n_families": 104,
+     "hhi": 0.018299881936245575,
+     "eff_families": 54.64516129032258,
+     "max_family": 9,
+     "ci": [
+      0.47650207734100347,
+      0.6329170099618007
+     ],
+     "width": 0.1564149326207972,
+     "published_width": 0.1556415956220245,
+     "widening": 1.0049687038717512,
+     "contains_half": true,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 104,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "baked clay",
+       "n": 145,
+       "rate": 0.5448275862068965,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    },
+    "U2_first": {
+     "n_families": 65,
+     "hhi": 0.026817338505650195,
+     "eff_families": 37.289308176100626,
+     "max_family": 10,
+     "ci": [
+      0.47617382617382614,
+      0.6325442055993759
+     ],
+     "width": 0.1563703794255497,
+     "published_width": 0.1556415956220245,
+     "widening": 1.0046824488056203,
+     "contains_half": true,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 65,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "baked",
+       "n": 145,
+       "rate": 0.5448275862068965,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    }
+   },
+   "verdict": "REPORT_ONLY_W2a_direction_only",
+   "only_report_no_verdict": true
+  },
+  {
+   "tag": "AB_ex",
+   "file": "judge_full_TRD16c_rr4_vs_AB_ex_rr4_16",
+   "note": "只报告：结构范例，已发表结论=真平局",
+   "published": {
+    "a_wins": 87,
+    "decided": 175,
+    "rate": 0.49714285714285716,
+    "p": 1.0,
+    "jeffreys": [
+     0.4236200909970935,
+     0.5707592635308272
+    ],
+    "api_fail": 0,
+    "resolve_rate": null
+   },
+   "OP1_recount_exact": true,
+   "recount": {
+    "wins": 87,
+    "decided": 175,
+    "inconsistent": 97,
+    "api_fail": 0,
+    "rate": 0.49714285714285716
+   },
+   "OP2_degenerate": {
+    "ci": [
+     0.4228571428571429,
+     0.5657142857142857
+    ],
+    "jeffreys": [
+     0.4236200909970935,
+     0.5707592635308272
+    ],
+    "max_dev": 0.005044977816541452,
+    "pass": true,
+    "n_eff": 2000,
+    "OP4_pass": true
+   },
+   "grains": {
+    "U1_drop_last": {
+     "n_families": 108,
+     "hhi": 0.017599999999999998,
+     "eff_families": 56.81818181818183,
+     "max_family": 10,
+     "ci": [
+      0.4267479401624496,
+      0.5812536337209303
+     ],
+     "width": 0.1545056935584807,
+     "published_width": 0.14713917253373365,
+     "widening": 1.0500649887986706,
+     "contains_half": true,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 108,
+      "skipped": 0,
+      "all_same_side": false,
+      "valid": true,
+      "worst": {
+       "drop": "acacia tree",
+       "n": 174,
+       "rate": 0.5,
+       "same_side": true
+      },
+      "flipped": [
+       {
+        "drop": "acacia",
+        "n": 173,
+        "rate": 0.5028901734104047,
+        "same_side": false
+       },
+       {
+        "drop": "baked clay",
+        "n": 165,
+        "rate": 0.503030303030303,
+        "same_side": false
+       },
+       {
+        "drop": "desert",
+        "n": 172,
+        "rate": 0.5058139534883721,
+        "same_side": false
+       },
+       {
+        "drop": "dry",
+        "n": 173,
+        "rate": 0.5028901734104047,
+        "same_side": false
+       },
+       {
+        "drop": "hardened clay stained",
+        "n": 166,
+        "rate": 0.5120481927710844,
+        "same_side": false
+       },
+       {
+        "drop": "terrain",
+        "n": 172,
+        "rate": 0.5058139534883721,
+        "same_side": false
+       },
+       {
+        "drop": "wool",
+        "n": 165,
+        "rate": 0.509090909090909,
+        "same_side": false
+       }
+      ]
+     }
+    },
+    "U2_first": {
+     "n_families": 64,
+     "hhi": 0.029420408163265306,
+     "eff_families": 33.990011098779135,
+     "max_family": 12,
+     "ci": [
+      0.42857142857142855,
+      0.5657956802383316
+     ],
+     "width": 0.13722425166690305,
+     "published_width": 0.14713917253373365,
+     "widening": 0.9326153552715034,
+     "contains_half": true,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 64,
+      "skipped": 0,
+      "all_same_side": false,
+      "valid": true,
+      "worst": {
+       "drop": "aspen",
+       "n": 172,
+       "rate": 0.5,
+       "same_side": true
+      },
+      "flipped": [
+       {
+        "drop": "acacia",
+        "n": 172,
+        "rate": 0.5058139534883721,
+        "same_side": false
+       },
+       {
+        "drop": "desert",
+        "n": 167,
+        "rate": 0.5029940119760479,
+        "same_side": false
+       },
+       {
+        "drop": "dry",
+        "n": 173,
+        "rate": 0.5028901734104047,
+        "same_side": false
+       },
+       {
+        "drop": "hardened",
+        "n": 165,
+        "rate": 0.509090909090909,
+        "same_side": false
+       },
+       {
+        "drop": "pine",
+        "n": 173,
+        "rate": 0.5028901734104047,
+        "same_side": false
+       },
+       {
+        "drop": "quartz",
+        "n": 171,
+        "rate": 0.5029239766081871,
+        "same_side": false
+       },
+       {
+        "drop": "terrain",
+        "n": 171,
+        "rate": 0.5087719298245614,
+        "same_side": false
+       },
+       {
+        "drop": "wool",
+        "n": 163,
+        "rate": 0.5030674846625767,
+        "same_side": false
+       }
+      ]
+     }
+    }
+   },
+   "verdict": "REPORT_ONLY_W2b_direction_too",
+   "only_report_no_verdict": true
+  }
+ ],
+ "C1_fam_x_winner": {
+  "chi2": 141.72639715608466,
+  "p": 0.0008999550022498875,
+  "n_fam": 118,
+  "n": 190
+ },
+ "C2_fam_x_resolved": {
+  "chi2": 160.54235099944984,
+  "p": 0.1312934353282336,
+  "n_fam": 150,
+  "n": 272
+ },
+ "D_pal_minus_ct": {
+  "point": 0.10471633629528365,
+  "ci": [
+   -0.002141912446066696,
+   0.2065007395497135
+  ],
+  "contains_zero": true,
+  "n_families": 150,
+  "n_eff_boot": 2000
+ }
+}
