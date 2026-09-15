@@ -174,7 +174,7 @@ def main():
     res["n_packs"] = {str(n): len(data[n]["packs"]) for n in (16, 32)}
     for n in (16, 32):
         res[f"curve_{n}"] = pooled(data[n]["c"]).tolist()
-        print(f"[{n}px] Â(d) =", " ".join(f"{v:.3f}" for v in pooled(data[n]['c'])))
+        print(f"[{n}px] A_hat(d) =", " ".join(f"{v:.3f}" for v in pooled(data[n]['c'])))
         print(f"[{n}px] C(d) =", " ".join(f"{contrast(pooled(data[n]['c']), d, n):+.3f}"
                                           for d in range(2, n // 2 + 1)), flush=True)
 
