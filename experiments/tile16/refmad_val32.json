@@ -1,0 +1,18 @@
+{
+ "n": 113,
+ "median": 0.0,
+ "mean": 2.8582313560103243,
+ "packs": {
+  "ROllerozxa__mtg_tiled_32x": 0.0,
+  "Winter94__wintercore_dwemer": 4.791341145833334,
+  "hilol__textures__": 20.051595052083336
+ },
+ "pack_n": {
+  "ROllerozxa__mtg_tiled_32x": 83,
+  "hilol__textures__": 8,
+  "Winter94__wintercore_dwemer": 22
+ },
+ "MED_EXP": 0.69,
+ "MED_CTL": 9.47,
+ "verdict": "REF_PERIODIC_FRAGILE"
+}
