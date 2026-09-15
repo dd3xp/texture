@@ -354,8 +354,9 @@ def main():
         print(f"  ==> 判决（只认 U1）：**{o['verdict']}**")
 
     print(f"\n=== (C) e3 的聚集性（描述性，不参与判决）")
-    print(f"  (C1) 族 × 胜负   χ²={c1[0]:.2f}  置换 p={c1[1]:.4f}  （{c1[2]} 族，n={len(e3_decided)}）")
-    print(f"  (C2) 族 × 可解性 χ²={c2[0]:.2f}  置换 p={c2[1]:.4f}  （{c2[2]} 族，n={len(ans)}）")
+    # 注意：Windows 控制台默认 GBK，打印里不许出现 chi²/χ 之类字符（判据不受影响，但会崩在最后一行）
+    print(f"  (C1) fam x winner    chi2={c1[0]:.2f}  perm p={c1[1]:.4f}  ({c1[2]} fam, n={len(e3_decided)})")
+    print(f"  (C2) fam x resolved  chi2={c2[0]:.2f}  perm p={c2[1]:.4f}  ({c2[2]} fam, n={len(ans)})")
     print(f"\n-> {a.json}")
     return 0
 

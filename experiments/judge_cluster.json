@@ -1,0 +1,326 @@
+{
+ "pre_registered": "analysis/arch/judge_cluster.py",
+ "arms": [
+  {
+   "tag": "e3",
+   "file": "judge_full_B2_vs_B2up16_32",
+   "note": "主判据：B2@32 vs B2@16，1 号缺口的分母",
+   "published": {
+    "a_wins": 107,
+    "decided": 138,
+    "rate": 0.7753623188405797,
+    "p": 5.4871722699137e-11,
+    "jeffreys": [
+     0.7004905068171721,
+     0.8388246960353707
+    ],
+    "api_fail": 0,
+    "resolve_rate": 0.5073529411764706
+   },
+   "OP1_recount_exact": true,
+   "recount": {
+    "wins": 107,
+    "decided": 138,
+    "inconsistent": 134,
+    "api_fail": 0,
+    "rate": 0.7753623188405797
+   },
+   "OP2_degenerate": {
+    "ci": [
+     0.7101449275362319,
+     0.8478260869565217
+    ],
+    "jeffreys": [
+     0.7004905068171721,
+     0.8388246960353707
+    ],
+    "max_dev": 0.009654420719059864,
+    "pass": true,
+    "n_eff": 2000,
+    "OP4_pass": true
+   },
+   "grains": {
+    "U1_drop_last": {
+     "n_families": 89,
+     "hhi": 0.01848351186725478,
+     "eff_families": 54.10227272727273,
+     "max_family": 7,
+     "ci": [
+      0.6929119797525309,
+      0.8571428571428571
+     ],
+     "width": 0.16423087739032616,
+     "published_width": 0.13833418921819862,
+     "widening": 1.1872038164858865,
+     "contains_half": false,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 89,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "red sandstone",
+       "n": 133,
+       "rate": 0.7669172932330827,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    },
+    "U2_first": {
+     "n_families": 60,
+     "hhi": 0.028985507246376812,
+     "eff_families": 34.5,
+     "max_family": 9,
+     "ci": [
+      0.6891780025058171,
+      0.8584345059606522
+     ],
+     "width": 0.16925650345483512,
+     "published_width": 0.13833418921819862,
+     "widening": 1.2235334186826499,
+     "contains_half": false,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 60,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "sandstone",
+       "n": 133,
+       "rate": 0.7669172932330827,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    }
+   },
+   "verdict": "W1_robust"
+  },
+  {
+   "tag": "e4",
+   "file": "judge_full_TRD32_rr4_vs_TRD16cup_32",
+   "note": "次：TRD@32 vs TRD@16 放大，环的 e4",
+   "published": {
+    "a_wins": 136,
+    "decided": 189,
+    "rate": 0.7195767195767195,
+    "p": 1.340993584782171e-09,
+    "jeffreys": [
+     0.6525571358892137,
+     0.7799299823636514
+    ],
+    "api_fail": 1,
+    "resolve_rate": 0.6974169741697417
+   },
+   "OP1_recount_exact": true,
+   "recount": {
+    "wins": 136,
+    "decided": 189,
+    "inconsistent": 82,
+    "api_fail": 1,
+    "rate": 0.7195767195767195
+   },
+   "OP2_degenerate": {
+    "ci": [
+     0.656084656084656,
+     0.783068783068783
+    ],
+    "jeffreys": [
+     0.6525571358892137,
+     0.7799299823636514
+    ],
+    "max_dev": 0.003527520195442335,
+    "pass": true,
+    "n_eff": 2000,
+    "OP4_pass": true
+   },
+   "grains": {
+    "U1_drop_last": {
+     "n_families": 121,
+     "hhi": 0.017104784300551495,
+     "eff_families": 58.4631751227496,
+     "max_family": 12,
+     "ci": [
+      0.6568590869183494,
+      0.7823890515881955
+     ],
+     "width": 0.12552996466984612,
+     "published_width": 0.1273728464744377,
+     "widening": 0.9855315959751169,
+     "contains_half": false,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 121,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "hardened clay stained",
+       "n": 178,
+       "rate": 0.7134831460674157,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    },
+    "U2_first": {
+     "n_families": 75,
+     "hhi": 0.02779877383051986,
+     "eff_families": 35.97280966767372,
+     "max_family": 14,
+     "ci": [
+      0.6577735507246377,
+      0.7771443375277572
+     ],
+     "width": 0.11937078680311952,
+     "published_width": 0.1273728464744377,
+     "widening": 0.9371760944910335,
+     "contains_half": false,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 75,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "hardened",
+       "n": 176,
+       "rate": 0.7102272727272727,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    }
+   },
+   "verdict": "W1_robust"
+  },
+  {
+   "tag": "b32",
+   "file": "judge_full_TRD32_rr4_vs_B2_32",
+   "note": "次：TRD@32 vs B2@32，'32px 输'那条",
+   "published": {
+    "a_wins": 83,
+    "decided": 202,
+    "rate": 0.41089108910891087,
+    "p": 0.013595039417210748,
+    "jeffreys": [
+     0.34470724075345704,
+     0.4796080821617924
+    ],
+    "api_fail": 0,
+    "resolve_rate": null
+   },
+   "OP1_recount_exact": true,
+   "recount": {
+    "wins": 83,
+    "decided": 202,
+    "inconsistent": 70,
+    "api_fail": 0,
+    "rate": 0.41089108910891087
+   },
+   "OP2_degenerate": {
+    "ci": [
+     0.3415841584158416,
+     0.4801980198019802
+    ],
+    "jeffreys": [
+     0.34470724075345704,
+     0.4796080821617924
+    ],
+    "max_dev": 0.003123082337615435,
+    "pass": true,
+    "n_eff": 2000,
+    "OP4_pass": true
+   },
+   "grains": {
+    "U1_drop_last": {
+     "n_families": 131,
+     "hhi": 0.012792863444760319,
+     "eff_families": 78.16858237547892,
+     "max_family": 11,
+     "ci": [
+      0.3152695973441851,
+      0.5024396251351676
+     ],
+     "width": 0.18717002779098252,
+     "published_width": 0.13490084140833536,
+     "widening": 1.3874637536502237,
+     "contains_half": true,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 131,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "sandstone",
+       "n": 197,
+       "rate": 0.4213197969543147,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    },
+    "U2_first": {
+     "n_families": 77,
+     "hhi": 0.02382119400058818,
+     "eff_families": 41.97942386831276,
+     "max_family": 12,
+     "ci": [
+      0.3076923076923077,
+      0.5185185185185185
+     ],
+     "width": 0.21082621082621078,
+     "published_width": 0.13490084140833536,
+     "widening": 1.5628235422791372,
+     "contains_half": true,
+     "n_eff_boot": 2000,
+     "OP4_pass": true,
+     "OP3_pass": true,
+     "lofo": {
+      "n_folds": 77,
+      "skipped": 0,
+      "all_same_side": true,
+      "valid": true,
+      "worst": {
+       "drop": "cobble",
+       "n": 197,
+       "rate": 0.4213197969543147,
+       "same_side": true
+      },
+      "flipped": []
+     }
+    }
+   },
+   "verdict": "W2a_direction_only"
+  }
+ ],
+ "B_boot": 2000,
+ "B_perm": 20000,
+ "seed": 0,
+ "C1_fam_x_winner": {
+  "chi2": 96.30698996511477,
+  "p": 0.16049197540122995,
+  "n_fam": 89,
+  "n": 138
+ },
+ "C2_fam_x_resolved": {
+  "chi2": 158.9612681931955,
+  "p": 0.12094395280235988,
+  "n_fam": 150,
+  "n": 272
+ }
+}
