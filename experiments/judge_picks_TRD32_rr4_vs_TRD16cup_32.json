@@ -1,0 +1,963 @@
+{
+ "tag": "TRD32_rr4_vs_TRD16cup_32",
+ "n_pairs": 136,
+ "api_fail": 0,
+ "seed": 7,
+ "n_answers": 272,
+ "n_first": 120,
+ "resolved": 92,
+ "records": [
+  {
+   "pair": 0,
+   "material": "baked clay black",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 1,
+   "material": "baked clay blue",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 2,
+   "material": "baked clay brown",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 4,
+   "material": "baked clay dark green",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 5,
+   "material": "baked clay dark grey",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 6,
+   "material": "baked clay green",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 7,
+   "material": "baked clay grey",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 9,
+   "material": "baked clay natural",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 10,
+   "material": "baked clay orange",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 12,
+   "material": "baked clay red",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 14,
+   "material": "baked clay white",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 20,
+   "material": "crimson hyphae wood",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 21,
+   "material": "ctf map damage cobble",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 26,
+   "material": "aspen tree",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 28,
+   "material": "aspen wood",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 32,
+   "material": "cactus top",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 35,
+   "material": "cobble",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 36,
+   "material": "copper block",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 40,
+   "material": "desert cobble",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 41,
+   "material": "desert sand",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 43,
+   "material": "desert sandstone block",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 45,
+   "material": "desert stone",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 46,
+   "material": "desert stone block",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 49,
+   "material": "dirt",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 54,
+   "material": "fence aspen wood",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 55,
+   "material": "fence pine wood",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 56,
+   "material": "fence wood",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 57,
+   "material": "gold block",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 58,
+   "material": "grass",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 61,
+   "material": "gravel",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 62,
+   "material": "ice",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 65,
+   "material": "mineral coal",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 66,
+   "material": "mineral iron",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 69,
+   "material": "obsidian block",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 70,
+   "material": "obsidian brick",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 71,
+   "material": "permafrost",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 74,
+   "material": "pine wood",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 75,
+   "material": "river water",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 80,
+   "material": "silver sand",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 81,
+   "material": "silver sandstone",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 87,
+   "material": "stone",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 88,
+   "material": "stone block",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 90,
+   "material": "tin block",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 92,
+   "material": "tree top",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 93,
+   "material": "water",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 96,
+   "material": "desert sand soil wet",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 98,
+   "material": "hemp block",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 100,
+   "material": "soil wet",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 101,
+   "material": "soil wet side",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 102,
+   "material": "straw",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 103,
+   "material": "hardened clay",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 108,
+   "material": "hardened clay stained green",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 111,
+   "material": "hardened clay stained lime",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 114,
+   "material": "hardened clay stained pink",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 115,
+   "material": "hardened clay stained purple",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 117,
+   "material": "hardened clay stained silver",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 119,
+   "material": "hardened clay stained yellow",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 123,
+   "material": "bamboo bamboo block",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 125,
+   "material": "bamboo bamboo plank",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 126,
+   "material": "bamboo bamboo plank mosaic",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 130,
+   "material": "copper block",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 132,
+   "material": "copper block raw",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 140,
+   "material": "andesite smooth",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 144,
+   "material": "crying obsidian",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 146,
+   "material": "diorite",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 148,
+   "material": "dirt podzol side",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 150,
+   "material": "emerald block",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 151,
+   "material": "emerald ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 152,
+   "material": "gold ore",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 155,
+   "material": "grass block top",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 156,
+   "material": "grass path side",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 157,
+   "material": "grass path top",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 158,
+   "material": "grass side snowed",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 160,
+   "material": "iron ore",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 163,
+   "material": "log big oak",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 164,
+   "material": "log big oak top",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 165,
+   "material": "log birch",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 169,
+   "material": "planks big oak",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 171,
+   "material": "planks spruce",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 173,
+   "material": "red sandstone bottom",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 175,
+   "material": "red sandstone normal",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 177,
+   "material": "red sandstone top",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 179,
+   "material": "sandstone bottom",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 181,
+   "material": "sandstone normal",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 184,
+   "material": "stonebrick mossy",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 185,
+   "material": "deepslate coal ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 186,
+   "material": "deepslate cobbled",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 187,
+   "material": "deepslate copper ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 189,
+   "material": "deepslate emerald ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 191,
+   "material": "deepslate iron ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 192,
+   "material": "deepslate lapis ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 194,
+   "material": "end end bricks",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 195,
+   "material": "end end stone",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 196,
+   "material": "mangrove log",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 198,
+   "material": "mangrove planks",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 202,
+   "material": "mushrooms mushroom block skin stem",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 203,
+   "material": "nether nether brick",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 205,
+   "material": "nether quartz ore",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 208,
+   "material": "raw ores raw iron block",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 210,
+   "material": "diorite smooth slab",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 216,
+   "material": "cobble mossy wall side",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 217,
+   "material": "cobble mossy wall top",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 218,
+   "material": "cobble wall side",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 219,
+   "material": "cobble wall top",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 220,
+   "material": "wool light blue",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 222,
+   "material": "circle stone bricks",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 224,
+   "material": "silver block",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 227,
+   "material": "optics glass frost",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 228,
+   "material": "terrain dirt",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 231,
+   "material": "terrain sand",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 234,
+   "material": "tree bud top",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 235,
+   "material": "tree humus",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 238,
+   "material": "woodwork plank",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 239,
+   "material": "nether basalt",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 241,
+   "material": "nether basalt chiselled top",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 243,
+   "material": "nether brick",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 244,
+   "material": "nether brick compressed",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 245,
+   "material": "nether sand",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 248,
+   "material": "quartz pillar side",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 250,
+   "material": "quartz pillar top",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 251,
+   "material": "redstone redstone block",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 252,
+   "material": "warped hyphae wood",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 253,
+   "material": "wool black",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 254,
+   "material": "wool blue",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 255,
+   "material": "wool brown",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 256,
+   "material": "wool cyan",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 257,
+   "material": "wool dark green",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 259,
+   "material": "wool green",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 260,
+   "material": "wool grey",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 262,
+   "material": "wool orange",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 265,
+   "material": "wool violet",
+   "pick1": "first",
+   "pick2": "first",
+   "verdict": "inconsistent"
+  },
+  {
+   "pair": 266,
+   "material": "wool white",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 267,
+   "material": "wool yellow",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 269,
+   "material": "stone rune",
+   "pick1": "second",
+   "pick2": "first",
+   "verdict": "B"
+  },
+  {
+   "pair": 270,
+   "material": "wood",
+   "pick1": "first",
+   "pick2": "second",
+   "verdict": "A"
+  },
+  {
+   "pair": 271,
+   "material": "edge obsidian",
+   "pick1": "second",
+   "pick2": "second",
+   "verdict": "inconsistent"
+  }
+ ]
+}

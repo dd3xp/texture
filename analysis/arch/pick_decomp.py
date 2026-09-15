@@ -110,12 +110,62 @@ def main():
         print("\n（还没有 judge_picks_*.json：先跑 eval/pick_calib.sh）")
         return 0
     print("\n" + "=" * 78)
+    obs = {}
     for key, tag, _full, path in got:
         if not path:
             print(f"{key}：还没落地")
             continue
-        report(key, path, pred[key])
+        obs[key] = report(key, path, pred[key])
+    if len(obs) == 2:
+        verdict_p4(pred, obs)
+        posthoc(pred, obs)
     return 0
+
+
+def verdict_p4(pred, obs):
+    """(P4) 预注册了预测却没印实测，补上。两条边是各自独立的样本，故方差直接相加。"""
+    d = obs["e3"][0] - obs["e4"][0]
+    se = sqrt(obs["e3"][1] + obs["e4"][1])
+    want = pred["e3"][2] - pred["e4"][2]
+    z = (d - want) / se
+    print(f"\n(P4) 边间差 p_first(e3) - p_first(e4)：实测 {d:+.3f} ± {se:.3f}"
+          f"，(M-b) 预测 {want:+.3f}  ->  z={z:+.2f}  p={norm_p2(z):.3g}"
+          f"  {'**方向就反了**' if d * want < 0 else ''}")
+
+
+def posthoc(pred, obs):
+    """⚠ 以下**不是预注册**，是事后的稳健性检查：证伪会不会只是"二次方程选错了根"造成的。
+
+    f = 2q(1-q) 有两个根，预注册硬写了 q_first = 0.901 那个。实测 p_first < 0.5 说明
+    位置偏好指向**第二张**，对应另一个根 q_first = 0.099。把镜像根代回同一个模型再判一次；
+    另外 (P3) 的值**不含 λ**，所以任何单 q 模型都必须在两条边上给出同一个数——直接比。
+    """
+    print("\n" + "-" * 78)
+    print("事后稳健性（非预注册）：换成 f = 2q(1-q) 的另一个根（位置偏好指向第二张）")
+    qm = 1 - Q
+    print(f"  镜像根 q_first = {qm:.4f}；(P3) 改预测 "
+          f"{qm ** 2 / (qm ** 2 + (1 - qm) ** 2):.1%}（实测见上，两条边都远高于它）")
+    for key in ("e3", "e4"):
+        lam = pred[key][1]
+        pf = 0.5 * lam + qm * (1 - lam)
+        z = (obs[key][0] - pf) / sqrt(obs[key][1])
+        print(f"  {key} (P2) 镜像点预测 {pf:.1%}  实测 {obs[key][0]:.1%}  z={z:+.2f}"
+              f"  p={norm_p2(z):.3g}  -> {'仍被证伪' if abs(z) >= 1.96 else '未被证伪'}")
+    l3, l4 = pred["e3"][1], pred["e4"][1]
+    want = (0.5 * l3 + qm * (1 - l3)) - (0.5 * l4 + qm * (1 - l4))
+    d = obs["e3"][0] - obs["e4"][0]
+    print(f"  (P4) 镜像预测 {want:+.3f}  实测 {d:+.3f} ± {sqrt(obs['e3'][1] + obs['e4'][1]):.3f}"
+          f"  -> 这一条镜像根对上了；但 (P2)/(P3) 仍不对 => **换根救不回来**")
+    a, na = obs["e3"][2], obs["e3"][3]
+    b, nb = obs["e4"][2], obs["e4"][3]
+    p = (a + b) / (na + nb)
+    z = (a / na - b / nb) / sqrt(p * (1 - p) * (1 / na + 1 / nb))
+    print(f"  (P3) 跨边：e3 {a}/{na}={a / na:.1%} vs e4 {b}/{nb}={b / nb:.1%}"
+          f"  z={z:+.2f} p={norm_p2(z):.3g}（(P3) 不含 λ，单 q 模型要求两边相等）")
+    for key, bf, bs in (("e3", a, na - a), ("e4", b, nb - b)):
+        r = sqrt(bf / bs)
+        print(f"      {key} 由 inconsistent 两格反推 q_first = {r / (1 + r):.3f}"
+              f"（空对照给的是 {qm:.3f} 或 {Q:.3f}）")
 
 
 def report(key, path, pr):
@@ -136,14 +186,15 @@ def report(key, path, pr):
     print(f"  (P2) vs (M-b) 的点预测 {pf:.1%}：z={zp:+.2f}  p={norm_p2(zp):.3g}  -> "
           f"{'**点预测被证伪**' if abs(zp) >= 1.96 else '点预测未被证伪'}")
     bad = [r for r in recs if r["verdict"] == "inconsistent"]
+    k = sum(r["pick1"] == "first" for r in bad)
     if bad:
-        k = sum(r["pick1"] == "first" for r in bad)
         lo, hi = jeffreys(k, len(bad))
         print(f"  (P3) inconsistent 的对里两次都挑第一张：{k}/{len(bad)} = {k / len(bad):.1%}"
               f"  [{lo:.0%},{hi:.0%}]   （(M-b) 预测 {Q ** 2 / (Q ** 2 + (1 - Q) ** 2):.1%}，(M-a) 预测 50%）")
     rr = sum(r["verdict"] in ("A", "B") for r in recs) / n
     print(f"  参考：本次样本自己的判出率 {rr:.1%}（已发表 {R:.1%}）"
           f"；判官非确定性已知（57 道重复题 14 道翻面），两者不必相等")
+    return m, var, k, len(bad)
 
 
 if __name__ == "__main__":
