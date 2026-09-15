@@ -212,6 +212,10 @@ def main():
                     help="训练用的分辨率。32px 真人数据只有 517 张，与 16 混训；选检查点只看 16px val")
     ap.add_argument("--p32", type=float, default=0.3, help="每步取 32px 批次的概率")
     ap.add_argument("--batch32", type=int, default=64, help="32px 序列长 4 倍，批次相应缩小")
+    ap.add_argument("--p_tile16", type=float, default=0.0,
+                    help="32px 那一路里改用「16px 真人瓦片 2×2 平铺」当样本的概率（默认 0 = 旧行为）。"
+                         "补的是 32px 的材质覆盖（真人 32px 只覆盖 36%% 测试材质，16px 覆盖 68%%），"
+                         "用的还是同一批干净许可数据，不引入新来源。")
     ap.add_argument("--bias_freqs", type=int, default=1, help="v1=1；v2=8（见 trd.ToroidalBias）")
     ap.add_argument("--bias_hidden", type=int, default=64)
     ap.add_argument("--bias_cells", type=float, nargs="*", default=[],
@@ -375,11 +379,16 @@ def main():
     Kx = torch.tensor([[0, -axis[2], axis[1]], [axis[2], 0, -axis[0]], [-axis[1], axis[0], 0]], device=dev)
     K2 = Kx @ Kx
 
-    def batch_of(D, idx, train_mode, coarse_mode=None):
+    def batch_of(D, idx, train_mode, coarse_mode=None, tile2=False):
         idx = idx.to(dev)
         g = D["grid"][idx]
         if train_mode:
             g = augment(g)
+        if tile2:
+            # --p_tile16：16px 真人瓦片 2×2 平铺 → 构造上合法的 32px 可平铺纹理（周期 16）。
+            # 秩索引/调色板/色数/材质名/颜色直方图与源瓦片逐位相同，只有网格变大；
+            # 放在 augment 之后 → 循环平移与翻转都在 16px 上做，平铺后仍然可平铺。
+            g = g.repeat(1, 2, 2)
         t = D["text"][idx].clone()
         c = D["color"][idx].clone()
         pal = D["pal"][idx]
@@ -490,12 +499,17 @@ def main():
         model.train()
         use32 = T32 is not None and torch.rand(()).item() < a.p32
         D, nD, bs = (T32, len(train32), a.batch32) if use32 else (T, n, a.batch)
+        # p_tile16：32px 那一路里按此概率改抽 16px 瓦片再 2×2 平铺（默认 0 = 一步都不抽，
+        # 且短路求值保证不额外消耗随机数 → 旧配方逐位复现）。
+        tile2 = use32 and a.p_tile16 > 0 and torch.rand(()).item() < a.p_tile16
+        if tile2:
+            D, nD, bs = T, n, a.batch32
         if a.pack_balance and "pack_w" in D:           # 按包均衡：每包被抽到的概率与包大小无关
             idx = torch.multinomial(D["pack_w"], bs, replacement=True).cpu()
         else:
             idx = torch.randint(0, nD, (bs,))
         with torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
-            loss, parts = training_loss(model, *batch_of(D, idx, True), pal_smooth=a.pal_smooth)
+            loss, parts = training_loss(model, *batch_of(D, idx, True, tile2=tile2), pal_smooth=a.pal_smooth)
         opt.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
