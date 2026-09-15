@@ -161,7 +161,7 @@ def model_from_args(a, drop=None):
                bias_hidden=int(g("bias_hidden", 64)),
                ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
                n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0,
-               coarse=bool(g("coarse", False)))
+               coarse=bool(g("coarse", False)), bias_cells=tuple(g("bias_cells", ()) or ()))
 
 
 @torch.no_grad()
@@ -214,6 +214,10 @@ def main():
     ap.add_argument("--batch32", type=int, default=64, help="32px 序列长 4 倍，批次相应缩小")
     ap.add_argument("--bias_freqs", type=int, default=1, help="v1=1；v2=8（见 trd.ToroidalBias）")
     ap.add_argument("--bias_hidden", type=int, default=64)
+    ap.add_argument("--bias_cells", type=float, nargs="*", default=[],
+                    help="位置偏置额外加 exp(-|d_cells|/s) 的格子单位局部性特征（空=不加，行为与旧检查点一致）。"
+                         "见 trd.ToroidalBias 与 analysis/arch/scale_prior.py：真人瓦片的相关长度按格子对齐、"
+                         "不随画布缩放，而归一化谐波只能表达后者")
     ap.add_argument("--level_emb", action="store_true", help="v2：秩的归一化色阶嵌入")
     ap.add_argument("--pal_aug", type=float, default=0.0,
                     help="调色板颜色抖动幅度：色相 ±pal_aug*60°、亮度 ±pal_aug*50%%（v1=0）")
@@ -341,6 +345,12 @@ def main():
                 w = own[kk].clone()
                 w[:v.shape[0]] = v
                 w[v.shape[0]:] = v[0]
+                sd[kk] = w
+            # --bias_cells 加了输入维：旧列照抄、新列置零 → 第 0 步的偏置函数与源模型逐元素相同
+            if kk == "bias.mlp.0.weight" and kk in own and own[kk].shape != v.shape:
+                assert own[kk].shape[1] > v.shape[1], (own[kk].shape, v.shape)
+                w = torch.zeros_like(own[kk])
+                w[:, :v.shape[1]] = v
                 sd[kk] = w
         missing, unexpected = model.load_state_dict(sd, strict=False)
         for name in ("dom_emb", "coarse_emb"):         # 源检查点没有的新嵌入：置零，起点行为与源模型完全一致

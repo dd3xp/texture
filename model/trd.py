@@ -34,18 +34,30 @@ def modulate(x, shift, scale):
 class ToroidalBias(nn.Module):
     """每个头一张注意力偏置：网格-网格由环面归一化偏移经 MLP 给出；其余块为可学标量。"""
 
-    def __init__(self, heads: int, hidden: int = 64, freqs: int = 1):
+    def __init__(self, heads: int, hidden: int = 64, freqs: int = 1, cell_scales=()):
         """freqs：环面偏移用几个谐波的 sin/cos 编码。
 
         v1 只用基频（freqs=1）。**这是 v1 结构学不出来的设计缺陷**：模型里没有绝对位置，
         "往上看 4 行"只能靠这个偏置表达；只有基频时偏置天生偏向"越近越相关"的平滑衰减，
         很难表达"每隔 4 格一道砖缝"的周期 → 采样出来是斑点（2026-09-11 诊断，砖/木板无结构）。
         N 格环面上的任意函数可由 ≤N/2 次谐波精确表示，v2 取 freqs=8（N=16 满表达）。
+
+        cell_scales（2026-09-15 加，默认空 = 行为一个字不变）：**格子单位**的局部性特征
+        exp(-|d_cells|/s)，每个 s 两维（y、x）。上面的谐波只看**归一化**偏移 d/n，
+        于是 16px 与 32px 共用一张表就等于写死了"结构随画布缩放"。真人训练瓦片不同意：
+        相关长度 L 在两档**按格子对齐**（L32/L16 = 1.01，95% CI [0.96, 1.18]，
+        `analysis/arch/scale_prior.py`，预注册 8e364ae）→ 归一化谐波无法同时服务两档，
+        而 16px 瓦片多 5 倍、先验被它带走 → 32px 采样只剩逐像素噪点。
+        任何**环绕后的格子偏移**的函数在 n 环面上自动是 n 周期的，故不破坏可平铺性；
+        指数衰减在 d=±n/2 处连续。谐波那一支原样保留（周期性结构确实随画布缩放：
+        16px 的自相关峰在 d=4/8，32px 在 d=8/16）。
         """
         super().__init__()
         self.heads = heads
         self.freqs = freqs
-        self.mlp = nn.Sequential(nn.Linear(4 * freqs, hidden), nn.GELU(), nn.Linear(hidden, heads))
+        self.cell_scales = tuple(float(s) for s in cell_scales)
+        self.mlp = nn.Sequential(nn.Linear(4 * freqs + 2 * len(self.cell_scales), hidden),
+                                 nn.GELU(), nn.Linear(hidden, heads))
         self.pal_pal = nn.Parameter(torch.zeros(heads, K_MAX, K_MAX))
         self.pal_grid = nn.Parameter(torch.zeros(heads))
         self.grid_pal = nn.Parameter(torch.zeros(heads))
@@ -64,6 +76,10 @@ class ToroidalBias(nn.Module):
             f = torch.arange(1, self.freqs + 1).float()
             ay, ax = 2 * math.pi * dy[..., None] * f, 2 * math.pi * dx[..., None] * f
             feat = torch.cat([ay.sin(), ay.cos(), ax.sin(), ax.cos()], -1)
+            if self.cell_scales:            # 格子单位的局部性：d/n 乘回 n 就是环绕后的格子距离
+                cy, cx = (dy * n).abs(), (dx * n).abs()
+                s = torch.tensor(self.cell_scales).view(*([1] * cy.dim()), -1)
+                feat = torch.cat([feat, (-cy[..., None] / s).exp(), (-cx[..., None] / s).exp()], -1)
             self._cache[key] = feat.to(device)
         return self._cache[key]
 
@@ -113,7 +129,7 @@ class TRD(nn.Module):
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
                  bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
-                 n_domains: int = 0, critic: bool = False, coarse: bool = False):
+                 n_domains: int = 0, critic: bool = False, coarse: bool = False, bias_cells=()):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -153,7 +169,7 @@ class TRD(nn.Module):
             self.ex_slot = nn.Parameter(torch.randn(n_exemplars, d) * 0.02)
         else:
             self.ex_proj = None
-        self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs)
+        self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs, cell_scales=bias_cells)
         # 归一化色阶嵌入：秩 r 在 k 色瓦片里的相对亮度位置 round(15 r/(k-1))。
         # 单纯的秩记号含义随 k 变（k=3 的"秩 2"是最亮，k=16 的"秩 2"很暗），
         # 同样的结构换个 k 就是完全不同的记号；加上它，"最亮/最暗"跨 k 共享。

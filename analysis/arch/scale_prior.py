@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""TRD 的位置先验是"结构随画布缩放"——真人数据同意吗？（预注册：本文件先提交再跑）
+r"""TRD 的位置先验是"结构随画布缩放"——真人数据同意吗？（预注册：本文件先提交再跑）
 
 ## 为什么问这个
 
@@ -126,7 +126,7 @@ def main():
     ok3 = all(L[n] is not None for n in (16, 32))
     print(f"(OP1) n>=300: {ok1}   (OP2) A_hat(1)>0: {ok2}   (OP3) 未截断: {ok3}")
     for n in (16, 32):
-        print(f"[{n}px] Â(d) =", " ".join(f"{v:.3f}" for v in pooled[n]))
+        print(f"[{n}px] A_hat(d) =", " ".join(f"{v:.3f}" for v in pooled[n]))
         print(f"[{n}px] L = {L[n]}")
 
     out = {"op1": bool(ok1), "op2": bool(ok2), "op3": bool(ok3),
