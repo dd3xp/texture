@@ -17,7 +17,9 @@ ssh -o ConnectTimeout=30 -o ServerAliveInterval=30 emnlp \
   "cd /tmp && ls -d $PATHS 2>/dev/null | xargs -r tar cf - --newer-mtime=@$SINCE --exclude='*.lock' --exclude='.trainlock' 2>/dev/null" \
   | tar xf - -C "$DST" 2>/dev/null
 st=("${PIPESTATUS[@]}")
-if [ "${st[0]}" = 0 ]; then
+# ssh=123 = xargs 报"某次 tar 非零退出"，实测是 tar 读到正在写的文件（SD-piXL 每 50 步写一张 png_logs）
+# 返回 1 "file changed as we read it"；数据照样流到本机（tar=0）。那个文件读完后 mtime 更新，下一轮还会再拉一次。
+if [ "${st[1]}" = 0 ] && { [ "${st[0]}" = 0 ] || [ "${st[0]}" = 123 ]; }; then
   echo "$NOW" > "$STAMP"
   echo "[$(date '+%m-%d %H:%M')] sync ok since @$SINCE -> $(du -sh "$DST" | cut -f1)"
 else
