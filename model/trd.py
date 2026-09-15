@@ -109,9 +109,15 @@ class ToroidalBias(nn.Module):
         self.pal_grid = nn.Parameter(torch.zeros(heads))
         self.grid_pal = nn.Parameter(torch.zeros(heads))
         self._cache = {}
+        # 推理期干预旋钮（(M28)，2026-09-16）：None = 关 = 行为一个字不变。
+        # 置成 m 时，表的唯一输入从 u=wrap(d)/n 换成 u'=wrap(d)/m —— 画布还是 n x n、权重一个字不改，
+        # 只是"骗表说画布有 m 大"。谐波按 u 是 1 周期的，故 u' 落在表见过的同一个取值集合上（无外推），
+        # 且仍只是环绕偏移的函数 → 平移等变/可平铺不受影响。仅供 analysis/arch/comb_shift.py 的因果检验用。
+        self.n_override = None
 
-    def grid_offsets(self, n, device):
-        key = (n, str(device))
+    def grid_offsets(self, n, device, m=None):
+        m = int(m) if m else n
+        key = (n, m, str(device))
         if key not in self._cache:
             ys, xs = torch.meshgrid(torch.arange(n), torch.arange(n), indexing="ij")
             ys, xs = ys.flatten().float(), xs.flatten().float()
@@ -119,19 +125,20 @@ class ToroidalBias(nn.Module):
             dx = (xs[:, None] - xs[None, :]) / n
             dy = (dy + 0.5) % 1.0 - 0.5          # 折回环面 [-0.5, 0.5)
             dx = (dx + 0.5) % 1.0 - 0.5
+            cy, cx = (dy * n).abs(), (dx * n).abs()     # 环绕后的格子距离：按 n 算，与 m 无关
+            uy, ux = dy * (n / m), dx * (n / m)         # m=n（默认）时乘的是 1.0，逐位等于旧的 dy/dx
             # 用各次谐波的 sin/cos 编码周期偏移：天然满足环面连续性，且能表达任意周期
             f = torch.arange(1, self.freqs + 1).float()
-            ay, ax = 2 * math.pi * dy[..., None] * f, 2 * math.pi * dx[..., None] * f
+            ay, ax = 2 * math.pi * uy[..., None] * f, 2 * math.pi * ux[..., None] * f
             feat = torch.cat([ay.sin(), ay.cos(), ax.sin(), ax.cos()], -1)
             if self.cell_scales:            # 格子单位的局部性：d/n 乘回 n 就是环绕后的格子距离
-                cy, cx = (dy * n).abs(), (dx * n).abs()
                 s = torch.tensor(self.cell_scales).view(*([1] * cy.dim()), -1)
                 feat = torch.cat([feat, (-cy[..., None] / s).exp(), (-cx[..., None] / s).exp()], -1)
             self._cache[key] = feat.to(device)
         return self._cache[key]
 
     def forward(self, n, device):
-        g = self.mlp(self.grid_offsets(n, device)).permute(2, 0, 1)      # [H, n², n²]
+        g = self.mlp(self.grid_offsets(n, device, self.n_override)).permute(2, 0, 1)      # [H, n², n²]
         P, G = K_MAX, n * n
         bias = torch.zeros(self.heads, P + G, P + G, device=device)
         bias[:, :P, :P] = self.pal_pal

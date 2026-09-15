@@ -123,6 +123,10 @@ def main():
                     help="对齐分数条件的分位数（模型用 --align_clip 训练时才有效），如 0.9")
     ap.add_argument("--colour_task", action="store_true",
                     help="按 eval/colour_task.py 的目标（每张真人参照瓦片的材质名 + 平均色）出图，颜色条件打开")
+    ap.add_argument("--bias_n", type=int, default=0,
+                    help="(M28) 因果检验旋钮，**默认 0 = 关 = 行为一个字不变**：把位置偏置表的唯一输入由 "
+                         "u=wrap(d)/size 换成 u'=wrap(d)/bias_n（权重、画布尺寸、提示词、种子全不变）。"
+                         "只给 analysis/arch/comb_shift.py 用；⛔ 不许进任何评测/交付脚本")
     a = ap.parse_args()
     dev = "cuda"
     torch.manual_seed(a.seed)
@@ -132,6 +136,9 @@ def main():
     model = model_from_args(args, drop=0.0).to(dev)
     model.load_state_dict(ck["model"])
     model.eval()
+    if a.bias_n:
+        model.bias.n_override = a.bias_n
+        print(f"[bias_n] 位置偏置表的输入改为 wrap(d)/{a.bias_n}（画布仍是 {a.size}）", flush=True)
 
     from prompts import load_set
     prompts, _ = load_set(a.set)
