@@ -1,0 +1,38 @@
+[
+ {
+  "dir": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/t16x_direct/32",
+  "n": 250,
+  "exact": 0,
+  "exact_rate": 0.0,
+  "mad_mean": 4.280747395833334,
+  "mad_median": 0.6907552083333334,
+  "tag": "t16x_direct"
+ },
+ {
+  "dir": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/t16x100_rr4/32",
+  "n": 125,
+  "exact": 0,
+  "exact_rate": 0.0,
+  "mad_mean": 4.732731770833333,
+  "mad_median": 0.8811848958333334,
+  "tag": "t16x100_rr4"
+ },
+ {
+  "dir": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/v11dx_direct/32",
+  "n": 250,
+  "exact": 0,
+  "exact_rate": 0.0,
+  "mad_mean": 12.270311197916666,
+  "mad_median": 9.466796875,
+  "tag": "v11dx_direct"
+ },
+ {
+  "dir": "/mnt/data/kw/RoundSquisheen/texture/experiments/baselines/v11dx100_rr4/32",
+  "n": 125,
+  "exact": 0,
+  "exact_rate": 0.0,
+  "mad_mean": 13.032583333333333,
+  "mad_median": 10.734700520833334,
+  "tag": "v11dx100_rr4"
+ }
+]
