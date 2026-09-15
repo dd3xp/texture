@@ -1,0 +1,70 @@
+##### [1] E_mat + 旧 extra（v10 用的，= 6e2a95f 逐字复现）
+E_mat：272 条，材质文件名 272 种，提示词 270 种
+
+[16px 训练池 train_extra_packs_only.json] 瓦片 3177  包 51  文件名 743 种
+    文件名精确命中：命中 184/272 = 68%  样本数中位 6（最多 30，只有 1 张的 57 种）  只出自 1 个包的 63 种 = 34%
+    提示词命中    ：命中 184/270 = 68%  样本数中位 6（最多 30，只有 1 张的 57 种）  只出自 1 个包的 63 种 = 34%
+
+[32px 训练池 train_extra_packs_only.json] 瓦片 641  包 24  文件名 461 种
+    文件名精确命中：命中 98/272 = 36%  样本数中位 2（最多 5，只有 1 张的 19 种）  只出自 1 个包的 19 种 = 19%
+    提示词命中    ：命中 100/270 = 37%  样本数中位 2（最多 5，只有 1 张的 21 种）  只出自 1 个包的 21 种 = 21%
+
+**16px 池有、32px 池没有同名瓦片的 E_mat 材质：88 种**（占 E_mat 材质的 32%）
+  前 30 例：baked_clay_black, basic_materials_concrete_block, crimson_hyphae_wood, ctf_map_damage_cobble, ctf_map_stone_red, default_dry_dirt, default_dry_grass_side, default_grass_footsteps, default_grass_side, default_mineral_coal, default_mineral_iron, default_snow_side, default_water, mcl_cherry_blossom_planks, mcl_core_andesite, mcl_core_coal_ore, mcl_core_diamond_ore, mcl_core_diorite, mcl_core_dirt_podzol_side, mcl_core_dirt_podzol_top, mcl_core_emerald_block, mcl_core_emerald_ore, mcl_core_gold_ore, mcl_core_granite, mcl_core_granite_smooth, mcl_core_grass_block_top, mcl_core_grass_path_top, mcl_core_grass_side_snowed, mcl_core_iron_ore, mcl_core_lapis_ore
+
+[操作检验 --p_tile16] 32px 池 36.0%  16px 池 67.6%  headroom = 31.6pp；p_tile16>0 时 32px 那一路能见到的并集 = 68.4%
+  判据：headroom ≥ 16pp 为通过 → **通过**
+
+##### [2] E_mat + 训练实际 extra（v11d 起）
+E_mat：272 条，材质文件名 272 种，提示词 270 种
+
+[16px 训练池 train_extra_packs_only.json+train_64to32.json] 瓦片 3177  包 51  文件名 743 种
+    文件名精确命中：命中 184/272 = 68%  样本数中位 6（最多 30，只有 1 张的 57 种）  只出自 1 个包的 63 种 = 34%
+    提示词命中    ：命中 184/270 = 68%  样本数中位 6（最多 30，只有 1 张的 57 种）  只出自 1 个包的 63 种 = 34%
+
+[32px 训练池 train_extra_packs_only.json+train_64to32.json] 瓦片 1877  包 28  文件名 1427 种
+    文件名精确命中：命中 169/272 = 62%  样本数中位 2（最多 8，只有 1 张的 69 种）  只出自 1 个包的 69 种 = 41%
+    提示词命中    ：命中 169/270 = 63%  样本数中位 2（最多 8，只有 1 张的 64 种）  只出自 1 个包的 68 种 = 40%
+
+**16px 池有、32px 池没有同名瓦片的 E_mat 材质：53 种**（占 E_mat 材质的 19%）
+  前 30 例：crimson_hyphae_wood, ctf_map_damage_cobble, ctf_map_stone_red, default_dry_grass_side, default_mineral_coal, default_mineral_iron, mcl_cherry_blossom_planks, mcl_core_diamond_ore, mcl_core_emerald_ore, mcl_core_gold_ore, mcl_core_iron_ore, mcl_core_planks_big_oak, mcl_core_planks_birch, mcl_core_planks_spruce, mcl_core_red_sand, mcl_core_red_sandstone_bottom, mcl_core_red_sandstone_carved, mcl_core_red_sandstone_normal, mcl_core_red_sandstone_smooth, mcl_core_red_sandstone_top, mcl_core_sandstone_bottom, mcl_core_stonebrick_mossy, mcl_deepslate_copper_ore, mcl_deepslate_diamond_ore, mcl_deepslate_emerald_ore, mcl_deepslate_gold_ore, mcl_deepslate_iron_ore, mcl_deepslate_redstone_ore, mcl_end_end_stone, mcl_mangrove_planks
+
+[操作检验 --p_tile16] 32px 池 62.1%  16px 池 67.6%  headroom = 5.5pp；p_tile16>0 时 32px 那一路能见到的并集 = 81.6%
+  判据：headroom ≥ 16pp 为通过 → **不通过**
+  ⛔ 不通过 → `trd_tile16_train_eval.sh` 判据②的空结果只能读作「功效不足」，不许读作「假设被否」，也不许因此改写②。
+
+##### [3] V_mat + 旧 extra
+V_mat：125 条，材质文件名 125 种，提示词 124 种
+
+[16px 训练池 train_extra_packs_only.json] 瓦片 3177  包 51  文件名 743 种
+    文件名精确命中：命中 95/125 = 76%  样本数中位 15（最多 30，只有 1 张的 9 种）  只出自 1 个包的 9 种 = 9%
+    提示词命中    ：命中 95/124 = 77%  样本数中位 15（最多 30，只有 1 张的 9 种）  只出自 1 个包的 9 种 = 9%
+
+[32px 训练池 train_extra_packs_only.json] 瓦片 641  包 24  文件名 461 种
+    文件名精确命中：命中 76/125 = 61%  样本数中位 2（最多 5，只有 1 张的 11 种）  只出自 1 个包的 12 种 = 16%
+    提示词命中    ：命中 76/124 = 61%  样本数中位 2（最多 5，只有 1 张的 11 种）  只出自 1 个包的 12 种 = 16%
+
+**16px 池有、32px 池没有同名瓦片的 V_mat 材质：19 种**（占 V_mat 材质的 15%）
+  前 30 例：default_dry_grass_side, default_grass_side, default_mineral_coal, default_mineral_copper, default_mineral_diamond, default_mineral_gold, default_mineral_iron, default_mineral_tin, default_snow_side, ethereal_grass_fiery_top, mcl_cherry_blossom_planks, mcl_core_granite, mcl_core_grass_side_snowed, mcl_core_red_sand, mcl_core_sandstone_normal, mcl_core_sandstone_top, mcl_mangrove_planks, nether_brick, xdecor_hard_clay
+
+[操作检验 --p_tile16] 32px 池 60.8%  16px 池 76.0%  headroom = 15.2pp；p_tile16>0 时 32px 那一路能见到的并集 = 76.0%
+  判据：headroom ≥ 16pp 为通过 → **不通过**
+  ⛔ 不通过 → `trd_tile16_train_eval.sh` 判据②的空结果只能读作「功效不足」，不许读作「假设被否」，也不许因此改写②。
+
+##### [4] V_mat + 训练实际 extra（= --p_tile16 那轮真正在量的口径）
+V_mat：125 条，材质文件名 125 种，提示词 124 种
+
+[16px 训练池 train_extra_packs_only.json+train_64to32.json] 瓦片 3177  包 51  文件名 743 种
+    文件名精确命中：命中 95/125 = 76%  样本数中位 15（最多 30，只有 1 张的 9 种）  只出自 1 个包的 9 种 = 9%
+    提示词命中    ：命中 95/124 = 77%  样本数中位 15（最多 30，只有 1 张的 9 种）  只出自 1 个包的 9 种 = 9%
+
+[32px 训练池 train_extra_packs_only.json+train_64to32.json] 瓦片 1877  包 28  文件名 1427 种
+    文件名精确命中：命中 87/125 = 70%  样本数中位 3（最多 6，只有 1 张的 14 种）  只出自 1 个包的 14 种 = 16%
+    提示词命中    ：命中 87/124 = 70%  样本数中位 3（最多 6，只有 1 张的 13 种）  只出自 1 个包的 14 种 = 16%
+
+**16px 池有、32px 池没有同名瓦片的 V_mat 材质：10 种**（占 V_mat 材质的 8%）
+  前 30 例：default_dry_grass_side, default_mineral_coal, default_mineral_copper, default_mineral_diamond, default_mineral_gold, default_mineral_iron, default_mineral_tin, mcl_cherry_blossom_planks, mcl_core_red_sand, mcl_mangrove_planks
+
+[操作检验 --p_tile16] 32px 池 69.6%  16px 池 76.0%  headroom = 6.4pp；p_tile16>0 时 32px 那一路能见到的并集 = 77.6%
+  判据：headroom ≥ 16pp 为通过 → **不通过**
+  ⛔ 不通过 → `trd_tile16_train_eval.sh` 判据②的空结果只能读作「功效不足」，不许读作「假设被否」，也不许因此改写②。
