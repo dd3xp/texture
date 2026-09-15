@@ -1,0 +1,76 @@
+{
+ "OP4_anchor_cell": {
+  "n_mats": 349,
+  "n_cell": 349,
+  "n_canvas": 0,
+  "n_other": 0,
+  "w": 1.0,
+  "p": 1.7440603504673385e-105
+ },
+ "OP4_anchor_canvas": {
+  "n_mats": 349,
+  "n_cell": 0,
+  "n_canvas": 269,
+  "n_other": 80,
+  "w": 0.0,
+  "p": 2.1084395886461046e-81
+ },
+ "OP5_shuffle": {
+  "n_mats": 192,
+  "n_cell": 6,
+  "n_canvas": 13,
+  "n_other": 173,
+  "w": 0.3157894736842105,
+  "p": 0.1670684814453125
+ },
+ "T1_train": {
+  "n_mats": 192,
+  "n_cell": 20,
+  "n_canvas": 80,
+  "n_other": 92,
+  "w": 0.2,
+  "p": 1.1159089057251951e-09
+ },
+ "T1_val": {
+  "n_mats": 88,
+  "n_cell": 34,
+  "n_canvas": 31,
+  "n_other": 23,
+  "w": 0.5230769230769231,
+  "p": 0.8043170001933986
+ },
+ "T2_train": {
+  "n_mats": 192,
+  "median_delta": 0.012872310553843816,
+  "ci": [
+   -0.0019886606576274175,
+   0.04646779735587972
+  ],
+  "n_boot": 2000,
+  "op3": true
+ },
+ "T2_val": {
+  "n_mats": 88,
+  "median_delta": 0.05215165211276307,
+  "ci": [
+   0.035111419352386326,
+   0.06684074729550109
+  ],
+  "n_boot": 2000,
+  "op3": true
+ },
+ "replication": {
+  "same_w_direction": false,
+  "same_delta_sign": true
+ },
+ "ops": {
+  "op1": true,
+  "op2": true,
+  "op3": true,
+  "op4": true,
+  "op5": true
+ },
+ "t1_verdict": "D1_canvas",
+ "t2_verdict": "undecided",
+ "verdict": "UNDECIDED"
+}
