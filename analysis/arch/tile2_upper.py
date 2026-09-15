@@ -30,9 +30,25 @@
   - ⚠ 已知局限：32px 参照集有 (M16) 那个包级聚集问题 → **FD 的绝对水平脆**；
     本判据只比同一参照下的方法间高低，且结论形如"退化图也能得高分"，不依赖参照的代表性。
 
-# 操作检验
+# 操作检验（一）：平铺器
 build 阶段对每个平铺目录跑一遍 `tile2_degeneracy.scan`：**exact_rate 必须 = 100%、MAD = 0**，
 否则平铺器本身有 bug，判据作废（这是仪器验钥，不是结果）。
+
+# 操作检验（二）：参照集本身是不是周期 16（`refmad`，跑前写死，与本段一起提交）
+若判出 **FD_ARTIFACT**，"尺子被周期性刷了"这个读法还有一个**竞争解释**：
+**真人 32px 参照集本身大多就是"16px 内容平铺两遍"** —— 那样的话平铺图并非"零信息"，
+它只是**忠实于数据**，尺子一点毛病没有，而"32px 缺口"要整个重新定义。
+两者必须分开，否则 FD_ARTIFACT 不许下。
+
+读数 = 真人 32px 参照瓦片（与 `run_eval.py` 同一批：`load(32, val)` 过 `is_material`）的
+**四象限每通道绝对差中位数**。两个阈值都取本轮已发表的读数，跑前固定：
+  - 中位 <= **0.69**（= 实验组 `t16x_direct` 的中位）→ **REF_PERIODIC**：参照集自己就是周期 16
+    → ⛔ **不许下 FD_ARTIFACT**，只能记"参照集是周期 16"，且该发现须另行预注册再测。
+  - 中位 >= **9.47**（= 控制组 `v11dx_direct` 的中位）→ **REF_RICH**：参照集不是周期 16
+    → 平铺图确实不含与参照匹配的 32px 结构，**FD_ARTIFACT 的读法成立**。
+  - 之间 → **UNDECIDED**，⛔ 不许挑一边说。
+稳健性（预注册，遵 (M16)「真人语料以包为单位」）：逐包再算一次中位数；
+**若各包不全落在判决阈值的同一侧**，判决加后缀 `_FRAGILE`，⛔ 只能引方向、不许引数值。
 """
 import argparse
 import json
@@ -96,6 +112,58 @@ def verdict(args):
         print("->", args.out)
 
 
+MED_EXP, MED_CTL = 0.69, 9.47        # t16x_direct / v11dx_direct 的四象限 MAD 中位（本轮已发表）
+
+
+def quad_mad(rgb):
+    a = rgb.astype(np.int16)
+    h = a.shape[0] // 2
+    return float(np.abs(a - np.tile(a[:h, :h], (2, 2, 1))).mean())
+
+
+def refmad(args):
+    sys.path.insert(0, str(ROOT / "model"))
+    sys.path.insert(0, str(ROOT / "eval"))
+    from tiles_data import load                          # noqa: E402
+    from prompts import is_material                      # noqa: E402
+
+    tiles = [s for s in load(args.size, args.split) if is_material(s["material"])]
+    by_pack = {}
+    mads = []
+    for s in tiles:
+        m = quad_mad(s["palette"][s["idx"]])
+        mads.append(m)
+        by_pack.setdefault(s["pack"], []).append(m)
+    med = float(np.median(mads))
+
+    if med <= MED_EXP:
+        v, thr = "REF_PERIODIC", MED_EXP
+    elif med >= MED_CTL:
+        v, thr = "REF_RICH", MED_CTL
+    else:
+        v, thr = "UNDECIDED", None
+
+    packs = {p: float(np.median(x)) for p, x in sorted(by_pack.items())}
+    if thr is not None:
+        same = all((pm <= thr) == (med <= thr) for pm in packs.values())
+        if not same:
+            v += "_FRAGILE"
+
+    print(f"真人 {args.size}px 参照（{args.split}）：n={len(tiles)}，{len(packs)} 个包")
+    print(f"  四象限每通道绝对差：中位 {med:.3f}  均值 {np.mean(mads):.3f}")
+    print(f"  门：REF_PERIODIC <= {MED_EXP}   REF_RICH >= {MED_CTL}")
+    for p, pm in packs.items():
+        print(f"    {p:44s} n={len(by_pack[p]):3d}  中位 {pm:.3f}")
+    print(f"判决：{v}")
+    if args.out:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        json.dump({"n": len(tiles), "median": med, "mean": float(np.mean(mads)),
+                   "packs": packs, "pack_n": {p: len(x) for p, x in by_pack.items()},
+                   "MED_EXP": MED_EXP, "MED_CTL": MED_CTL, "verdict": v},
+                  open(args.out, "w"), indent=1)
+        print("->", args.out)
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -110,6 +178,11 @@ def main():
     j.add_argument("--base", type=Path, required=True)
     j.add_argument("--out", type=Path, default=None)
     j.set_defaults(fn=verdict)
+    r = sub.add_parser("refmad")
+    r.add_argument("--size", type=int, default=32)
+    r.add_argument("--split", default="val")
+    r.add_argument("--out", type=Path, default=None)
+    r.set_defaults(fn=refmad)
     a = ap.parse_args()
     a.fn(a)
 
