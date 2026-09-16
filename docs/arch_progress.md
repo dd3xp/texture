@@ -7234,8 +7234,10 @@ V_mat 125 材质，m=1 口径（每材质第 0 张）：
 ### 三、指标表
 
 **新判定**：无（(M38) 预注册已入库）。
-**新工具**：`eval/cfg16_ab.sh`（新增，预注册脚本）。
-**改动**：新增 `eval/cfg16_ab.sh` + 本文。
+**新工具**：`eval/cfg16_ab.sh`（新增，预注册脚本）+ `analysis/arch/m38_read_cfg.py`
+（判读器，**盲写**于料出来之前，`--selftest` 7/7 通过；import 冻结的 `judge_cluster.analyse`，
+⛔ 不重跑 `judge_cluster_sweep.py`）。
+**改动**：新增 `eval/cfg16_ab.sh` + 判读器 + 本文。
 **未改动**：**`final_test.sh`**、`gen_trd.py`、`rerank.py`、`run_eval.py`、`judge_pairs.py`、
 `train_trd.py`、`model/trd.py`、`UNITS_PER_TILE`、`sync_remote_tmp.sh`、任何默认值、
 **32px 准入条件①②③④**、已下的任何判决（含 (M36) `PIXCOMB_NULL`、(M37) `CKPT_LATE_WINS`）。
