@@ -1,0 +1,53 @@
+[retnn16] eval/gen_trd.py --ret_nname 30 --run runs/trd_v8 --ckpt last.pt --set V_mat --size 16 --n 4 --bs 16 --pal_mode retrieve --xmodal --cfg 1.5 --out /tmp/retnn16 --tag ret30
+[retnn16] eval/gen_trd.py --ret_nname 100 --run runs/trd_v8 --ckpt last.pt --set V_mat --size 16 --n 4 --bs 16 --pal_mode retrieve --xmodal --cfg 1.5 --out /tmp/retnn16 --tag ret100
+[retnn16] eval/gen_trd.py --ret_nname 300 --run runs/trd_v8 --ckpt last.pt --set V_mat --size 16 --n 4 --bs 16 --pal_mode retrieve --xmodal --cfg 1.5 --out /tmp/retnn16 --tag ret300
+sample 1/4 done
+sample 2/4 done
+sample 3/4 done
+sample 4/4 done
+-> /tmp/retnn16/ret30
+sample 1/4 done
+sample 2/4 done
+sample 3/4 done
+sample 4/4 done
+-> /tmp/retnn16/ret100
+sample 1/4 done
+sample 2/4 done
+sample 3/4 done
+sample 4/4 done
+-> /tmp/retnn16/ret300
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [27, 36, 33, 29] -> /tmp/retnn16/ret30_rr4/16
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [31, 34, 41, 19] -> /tmp/retnn16/ret100_rr4/16
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [29, 26, 33, 37] -> /tmp/retnn16/ret300_rr4/16
+[OP1] ret30       500 张 (应为 500)
+[OP1] ret100      500 张 (应为 500)
+[OP1] ret300      500 张 (应为 500)
+[OP1] ret30_rr4   125 张 (应为 125)
+[OP1] ret100_rr4  125 张 (应为 125)
+[OP1] ret300_rr4  125 张 (应为 125)
+[操作检验] 已查 6 项，problems=0 []
+V_mat: 125 个材质；参照 196 张真人 16px
+  ret30_rr4                    KID_x1e3=10.230  KID_std_x1e3=2.145  FID=68.752  FD_DINOv2=114.482  CLIP=35.109  tile_seam_ratio=0.976  LPIPS_div=nan
+  ret100_rr4                   KID_x1e3=14.454  KID_std_x1e3=2.732  FID=74.745  FD_DINOv2=112.752  CLIP=35.430  tile_seam_ratio=0.944  LPIPS_div=nan
+  ret300_rr4                   KID_x1e3=21.590  KID_std_x1e3=3.553  FID=79.865  FD_DINOv2=119.661  CLIP=35.584  tile_seam_ratio=0.946  LPIPS_div=nan
+  ret30                        KID_x1e3=5.231  KID_std_x1e3=1.273  FID=61.865  FD_DINOv2=104.228  CLIP=34.818  tile_seam_ratio=0.937  LPIPS_div=0.277
+  ret100                       KID_x1e3=9.200  KID_std_x1e3=1.909  FID=68.617  FD_DINOv2=109.734  CLIP=35.056  tile_seam_ratio=0.912  LPIPS_div=0.279
+  ret300                       KID_x1e3=18.519  KID_std_x1e3=3.322  FID=75.534  FD_DINOv2=110.134  CLIP=34.893  tile_seam_ratio=0.918  LPIPS_div=0.298
+
+| 方法 | KID_x1e3 | FID | FD_DINOv2 | CLIP | LPIPS_div | tile_seam_ratio | materials |
+|---|---|---|---|---|---|---|---|
+| ret30_rr4 | 10.230 | 68.752 | 114.482 | 35.109 | nan | 0.976 | 125 |
+| ret100_rr4 | 14.454 | 74.745 | 112.752 | 35.430 | nan | 0.944 | 125 |
+| ret300_rr4 | 21.590 | 79.865 | 119.661 | 35.584 | nan | 0.946 | 125 |
+| ret30 | 5.231 | 61.865 | 104.228 | 34.818 | 0.277 | 0.937 | 125 |
+| ret100 | 9.200 | 68.617 | 109.734 | 35.056 | 0.279 | 0.912 | 125 |
+| ret300 | 18.519 | 75.534 | 110.134 | 34.893 | 0.298 | 0.918 | 125 |
+
+-> /tmp/m39_retnn16.json
+RETNN16_GEN_DONE

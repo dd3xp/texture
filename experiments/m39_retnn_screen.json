@@ -1,0 +1,71 @@
+{
+ "meter": "pixfrac = 逐像素不同比例的材质均值",
+ "pairs": {
+  "D37_ck3k_vs_ck20k": {
+   "n": 125,
+   "identical": 0,
+   "pixfrac": 0.81728125,
+   "mae": 0.10320571895424836,
+   "dirs": [
+    "/tmp/ckab16/ck3k_rr4",
+    "/tmp/ckab16/ck20k_rr4"
+   ]
+  },
+  "D38_cfg25_vs_cfg15": {
+   "n": 125,
+   "identical": 0,
+   "pixfrac": 0.6608125,
+   "mae": 0.0808079248366013,
+   "dirs": [
+    "/tmp/cfgab16/cfg25_rr4",
+    "/tmp/cfgab16/cfg15_rr4"
+   ]
+  },
+  "D0_ret100_vs_cfg15": {
+   "n": 125,
+   "identical": 125,
+   "pixfrac": 0.0,
+   "mae": 0.0,
+   "dirs": [
+    "/tmp/retnn16/ret100_rr4",
+    "/tmp/cfgab16/cfg15_rr4"
+   ]
+  },
+  "d_ret30_vs_ret100": {
+   "n": 125,
+   "identical": 28,
+   "pixfrac": 0.75928125,
+   "mae": 0.12969783496732026,
+   "dirs": [
+    "/tmp/retnn16/ret30_rr4",
+    "/tmp/retnn16/ret100_rr4"
+   ]
+  },
+  "d_ret300_vs_ret100": {
+   "n": 125,
+   "identical": 35,
+   "pixfrac": 0.71278125,
+   "mae": 0.10838198529411763,
+   "dirs": [
+    "/tmp/retnn16/ret300_rr4",
+    "/tmp/retnn16/ret100_rr4"
+   ]
+  }
+ },
+ "problems": [],
+ "n_checked": 5,
+ "anchors": {
+  "D37": 0.81728125,
+  "D38": 0.6608125,
+  "D0": 0.0
+ },
+ "calibration": {
+  "ok": true,
+  "why": []
+ },
+ "verdict": {
+  "ret30": "SCREEN_AMBIGUOUS",
+  "ret300": "SCREEN_AMBIGUOUS"
+ },
+ "promote": null
+}
