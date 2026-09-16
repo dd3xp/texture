@@ -1,0 +1,30 @@
+{
+ "B2val": {
+  "n": 125,
+  "CLIP": 35.81316375732422,
+  "tile_seam_ratio": 0.6201400268136452,
+  "LPIPS_div": NaN,
+  "materials": 125
+ },
+ "v11dx_direct": {
+  "n": 125,
+  "CLIP": 34.935543060302734,
+  "tile_seam_ratio": 0.9534753250916668,
+  "LPIPS_div": 0.29303022369742393,
+  "materials": 125
+ },
+ "seed1x_direct": {
+  "n": 125,
+  "CLIP": 35.01398849487305,
+  "tile_seam_ratio": 1.018154441815444,
+  "LPIPS_div": 0.29104207003116606,
+  "materials": 125
+ },
+ "seed2x_direct": {
+  "n": 125,
+  "CLIP": 35.03919982910156,
+  "tile_seam_ratio": 1.0018921475875118,
+  "LPIPS_div": 0.29178994676470754,
+  "materials": 125
+ }
+}
