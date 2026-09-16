@@ -197,6 +197,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=ROOT / "runs/trd_v1")
     ap.add_argument("--steps", type=int, default=40000)
+    ap.add_argument("--seed", type=int, default=0, help="全局 RNG 种子；默认 0 = 旧行为")
     ap.add_argument("--batch", type=int, default=256)
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--wd", type=float, default=0.05)
@@ -270,7 +271,10 @@ def main():
     a.out.mkdir(parents=True, exist_ok=True)
     claim_out_dir(a.out)
     dev = "cuda" if torch.cuda.is_available() else "cpu"
-    torch.manual_seed(0)
+    # (M31)：--seed 默认 0 -> 与旧代码逐字节相同（那一行原本就写死 0）。
+    # 它同时决定模型构造与取批（两者共用 CPU 全局 RNG，见 (M30) `RNG_DIVERGES`），
+    # 所以换 seed = 换一次完整的独立训练 —— 这正是标定同配置重训漂移所需要的。
+    torch.manual_seed(a.seed)
     torch.set_num_threads(4)                              # 共享机器：别吃满所有 CPU 核
 
     ext = a.extra_file if a.extra else False
