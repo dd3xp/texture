@@ -152,6 +152,18 @@ def decode(pal_codes, ranks, cb):
     return img.view(*r.shape, 3).round().clamp(0, 255).byte().numpy()
 
 
+def seed_for_training(seed, enabled):
+    """(M32) 成对设计：模型构造本身会消耗 CPU 全局 RNG（(M30) `RNG_DIVERGES` —— `nn.Linear`
+    的构造从同一条流里抽数，而取批也用这条流），所以"只多一个零初始化模块"的新臂
+    从第 0 步起看到的数据就与控制臂不同。构造完成之后再播一次同一颗种子，
+    两臂进入训练循环时的 RNG 状态就相同 = 真正的成对设计。
+    ⚠ 只有配 `--init_from` 才成对：新模块会把它之后构造的所有模块的初始化整体移位，
+    需要源检查点把共享权重覆盖回来（判据与读数见 `analysis/arch/paired_rng.py`）。
+    默认关 → 旧路径逐字节不变。"""
+    if enabled:
+        torch.manual_seed(seed)
+
+
 def model_from_args(a, drop=None):
     """从检查点里存的参数建模型（v1 检查点没有 v2 字段，按 v1 默认值补）。"""
     g = (lambda k, d: a.get(k, d)) if isinstance(a, dict) else (lambda k, d: getattr(a, k, d))
@@ -198,6 +210,9 @@ def main():
     ap.add_argument("--out", type=Path, default=ROOT / "runs/trd_v1")
     ap.add_argument("--steps", type=int, default=40000)
     ap.add_argument("--seed", type=int, default=0, help="全局 RNG 种子；默认 0 = 旧行为")
+    ap.add_argument("--reseed_after_build", action="store_true",
+                    help="(M32) 建完模型后再播一次 --seed；默认关 = 旧路径逐字节不变。"
+                         "开 = 两条只差架构的臂看到逐位相同的数据（须配 --init_from，见 seed_for_training）")
     ap.add_argument("--batch", type=int, default=256)
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--wd", type=float, default=0.05)
@@ -503,6 +518,7 @@ def main():
     best, log = float("inf"), []
     t0 = time.time()
     n = len(train)
+    seed_for_training(a.seed, a.reseed_after_build)   # (M32)：放在循环入口，覆盖构造之后的一切消耗
     for step in range(a.steps + 1):
         model.train()
         use32 = T32 is not None and torch.rand(()).item() < a.p32
