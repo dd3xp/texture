@@ -238,8 +238,13 @@ def main():
         ev = json.load(open(a.eval16, encoding="utf-8"))
         kid = None
         for k, v in (ev.get("methods") or ev).items():
-            if isinstance(v, dict) and "scond" in str(k) and v.get("KID") is not None:
-                kid = float(v["KID"])
+            # run_eval.py 写的键是 "KID_x1e3"（"KID" 从来不存在）-> 原来的读法恒为 None，
+            # 会把"确实不过门"误报成"读不到"。两个键都试，缺则保持 None。
+            if isinstance(v, dict) and "scond" in str(k):
+                for key in ("KID_x1e3", "KID"):
+                    if v.get(key) is not None:
+                        kid = float(v[key])
+                        break
         gate = {"kid": kid, "pass": (kid is not None and kid <= KID_GATE)}
         print("[①守门] 16px KID=%s 门槛 %.1f -> %s" % (kid, KID_GATE, gate["pass"]))
     out["gate16"] = gate
