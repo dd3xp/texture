@@ -68,6 +68,9 @@ EXPECT = {
     # 验证集 16px：主配方该用哪个检查点（预注册 a704b31，eval/ckpt16_ab.sh）。同样免门（`--no_gate`），
     # A = best.pt(step3000)、B = last.pt(step20000)，同材质直接对判。可解率 79/125 = 63.2% vs 地板 17.8%。
     "judge_full_ck3k_rr4_vs_ck20k_rr4_16_V_mat.json":         (26,  79, 46, 0),
+    # 验证集 16px：主配方该用哪个 CFG（预注册 bb39c38，eval/cfg16_ab.sh）。同样免门（`--no_gate`），
+    # A = cfg 2.5、B = cfg 1.5（现行主配方），其余逐字照抄 TRD16c 配方。可解率 70/125 = 56.0% vs 地板 17.8%。
+    "judge_full_cfg25_rr4_vs_cfg15_rr4_16_V_mat.json":        (42,  70, 55, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。

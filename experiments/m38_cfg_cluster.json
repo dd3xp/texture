@@ -1,0 +1,45 @@
+{
+ "arm": "judge_full_cfg25_rr4_vs_cfg15_rr4_16_V_mat",
+ "verdict": "CFG_NULL",
+ "resolvable": true,
+ "resolve_rate": 0.56,
+ "p_vs_floor": 1.0337359481278135e-21,
+ "floor": 0.17796610169491525,
+ "binomial": {
+  "a_wins": 42,
+  "decided": 70,
+  "rate": 0.6,
+  "p": 0.11960933562988263,
+  "jeffreys": [
+   0.4831034233883593,
+   0.7088162054765563
+  ],
+  "inconsistent": 55,
+  "api_fail": 0
+ },
+ "family_U1": {
+  "ci": [
+   0.48274322660098523,
+   0.696969696969697
+  ],
+  "n_families": 44,
+  "eff_families": 20.58823529411765,
+  "max_family": 10,
+  "width": 0.21422647036871179,
+  "widening": 0.9491109381878207,
+  "contains_half": true,
+  "lofo_n_folds": 44,
+  "lofo_all_same_side": true,
+  "lofo_flipped": 0
+ },
+ "family_U2_report_only": {
+  "ci": [
+   0.4909090909090909,
+   0.694125816993464
+  ],
+  "contains_half": true
+ },
+ "cluster_label": "W2a_direction_only",
+ "n_checked": 6,
+ "problems": []
+}
