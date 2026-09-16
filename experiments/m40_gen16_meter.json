@@ -1,0 +1,21 @@
+{
+ "pair": "gen10_rr4 vs gen8_rr4",
+ "n": 125,
+ "identical": 0,
+ "pixfrac": 0.643125,
+ "mae": 0.08347373366013074,
+ "determinism_vs_prior_arms": {
+  "cfg15": {
+   "n": 125,
+   "identical": 125,
+   "pixfrac": 0.0
+  },
+  "ret100": {
+   "n": 125,
+   "identical": 125,
+   "pixfrac": 0.0
+  }
+ },
+ "problems": [],
+ "n_checked": 7
+}

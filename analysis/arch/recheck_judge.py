@@ -71,6 +71,11 @@ EXPECT = {
     # 验证集 16px：主配方该用哪个 CFG（预注册 bb39c38，eval/cfg16_ab.sh）。同样免门（`--no_gate`），
     # A = cfg 2.5、B = cfg 1.5（现行主配方），其余逐字照抄 TRD16c 配方。可解率 70/125 = 56.0% vs 地板 17.8%。
     "judge_full_cfg25_rr4_vs_cfg15_rr4_16_V_mat.json":        (42,  70, 55, 0),
+    # 验证集 16px：主配方该用哪一代模型（预注册 456af9f，eval/gen16_ab.sh）。同样免门（`--no_gate`），
+    # A = runs/trd_v10、B = runs/trd_v8（现行主配方），唯一变量是 --run。可解率 63/125 = 50.4% vs 地板 17.8%。
+    # ⚠ 同一条命令的**第一次**执行 api_fail=125/125（key 失效，decided=0 = 什么也没测到），
+    #   那份原样留在 `experiments/judge_full_gen10_rr4_vs_gen8_rr4_16_V_mat_VOID_apidown.json`，⛔ 不进本表。
+    "judge_full_gen10_rr4_vs_gen8_rr4_16_V_mat.json":         (33,  63, 62, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。

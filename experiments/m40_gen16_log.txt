@@ -1,0 +1,47 @@
+8dd2a303b547584a1013a2cb116d23be  runs/trd_v8/codebook.npy
+8dd2a303b547584a1013a2cb116d23be  runs/trd_v10/codebook.npy
+[OP3] 码本 md5 相同: 8dd2a303b547584a1013a2cb116d23be
+[gen16ab] A: eval/gen_trd.py --run runs/trd_v10 --ckpt last.pt --set V_mat --size 16 --n 4 --bs 16 --cfg 1.5 --pal_mode retrieve --xmodal --ret_nname 100 --out /tmp/gen16ab --tag gen10
+[gen16ab] B: eval/gen_trd.py --run runs/trd_v8 --ckpt last.pt --set V_mat --size 16 --n 4 --bs 16 --cfg 1.5 --pal_mode retrieve --xmodal --ret_nname 100 --out /tmp/gen16ab --tag gen8
+sample 1/4 done
+sample 2/4 done
+sample 3/4 done
+sample 4/4 done
+-> /tmp/gen16ab/gen10
+sample 1/4 done
+sample 2/4 done
+sample 3/4 done
+sample 4/4 done
+-> /tmp/gen16ab/gen8
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [27, 46, 31, 21] -> /tmp/gen16ab/gen10_rr4/16
+/mnt/data/kw/RoundSquisheen/texture/eval/rerank.py:88: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.cat([F.interpolate(torch.from_numpy(t).permute(2, 0, 1)[None].float().to(dev), size=224,
+125 个材质；选中下标分布 [31, 34, 41, 19] -> /tmp/gen16ab/gen8_rr4/16
+[OP1] gen10       500 张 (应为 500)
+[OP1] gen8        500 张 (应为 500)
+[OP1] gen10_rr4   125 张 (应为 125)
+[OP1] gen8_rr4    125 张 (应为 125)
+[OP4] 两臂逐像素相同的材质 0/125（门槛 <=25）
+[判据9-记录项] pixfrac=0.6431 mae=0.0835 （跑前预测 >= D37 0.8173；不做门）
+[确定性复核] cfg15   同图 125/125
+[确定性复核] ret100  同图 125/125
+[操作检验] 已查 7 项，problems=0 []
+-> /tmp/m40_gen16_meter.json
+V_mat: 125 个材质；参照 196 张真人 16px
+  gen10_rr4                    KID_x1e3=16.797  KID_std_x1e3=3.086  FID=76.420  FD_DINOv2=111.854  CLIP=35.341  tile_seam_ratio=0.918  LPIPS_div=nan
+  gen8_rr4                     KID_x1e3=14.454  KID_std_x1e3=2.732  FID=74.745  FD_DINOv2=112.752  CLIP=35.430  tile_seam_ratio=0.944  LPIPS_div=nan
+  gen10                        KID_x1e3=8.108  KID_std_x1e3=1.636  FID=70.899  FD_DINOv2=113.074  CLIP=35.064  tile_seam_ratio=0.977  LPIPS_div=0.275
+  gen8                         KID_x1e3=9.200  KID_std_x1e3=1.909  FID=68.617  FD_DINOv2=109.734  CLIP=35.056  tile_seam_ratio=0.912  LPIPS_div=0.279
+
+| 方法 | KID_x1e3 | FID | FD_DINOv2 | CLIP | LPIPS_div | tile_seam_ratio | materials |
+|---|---|---|---|---|---|---|---|
+| gen10_rr4 | 16.797 | 76.420 | 111.854 | 35.341 | nan | 0.918 | 125 |
+| gen8_rr4 | 14.454 | 74.745 | 112.752 | 35.430 | nan | 0.944 | 125 |
+| gen10 | 8.108 | 70.899 | 113.074 | 35.064 | 0.275 | 0.977 | 125 |
+| gen8 | 9.200 | 68.617 | 109.734 | 35.056 | 0.279 | 0.912 | 125 |
+
+-> /tmp/m40_gen16.json
+GEN16AB_GEN_DONE
+EXIT=0
