@@ -104,11 +104,20 @@ B=runs/trd_ctl_$TAG
 COMMON="--init_from runs/trd_v8/last.pt --reseed_after_build --seed 0 \
  --sizes 16 --steps 6000 --batch 256 --lr 1.5e-4 --warmup 500 --eval_every 500 \
  --codes 512 --extra --extra_file train_extra_packs_only.json \
- --n_ex 4 --level_emb --bias_freqs 8"
+ --n_ex 4 --level_emb --bias_freqs 8 --bias_hidden 128 --pal_aug 0.3 --pal_smooth 0.1"
+# ⚠ 首次启动时上面这行漏了 `--bias_hidden 128 --pal_aug 0.3 --pal_smooth 0.1`（v8 用的是非默认值），
+#   两臂在 `--init_from` 处**同样地**当场 AssertionError 退出，**一个权重、一张图、一条判定都没产生**
+#   ⇒ 补齐它们只是让"其余逐字相同"这句话真正成立，⛔ 不是改判据、⛔ 不是换配方（唯一变量仍是那三个标志）。
+# ⚠ 第二次启动两臂**又都当场 OOM**（同样是一个权重都没产生）：16px-only + batch 256 本身要 **16.3GB**，
+#   再加 L/14 的反传（`--clip_bs 32`）要 **28.2GB**，而八张卡里只有一张有 29GB 空闲。处置两条：
+#   ①`--clip_bs` 32 → **8**（它是新损失的**成本旋钮**，不是配方的一部分；A 降到约 19GB）；
+#   ②两臂**串行**跑在同一张卡上（⛔ 不许赌两张紧卡：账本 (M35) 的教训是"显存只看 free、别赌"）。
+#   ⚠ 串行不影响成对性：RNG 由种子决定，与先后、与挂在哪张卡上无关。
+#   ⛔ **没有动 `--batch`** —— 那会改动 v8 的配方本身，比动一个新损失的成本旋钮贵得多。
 
 case "${1:-}" in
   A) exec $PY model/train_trd.py --out $A $COMMON \
-       --clip_loss openai/clip-vit-large-patch14 --clip_w 0.3 --clip_bs 32 ;;
+       --clip_loss openai/clip-vit-large-patch14 --clip_w 0.3 --clip_bs 8 ;;
   B) exec $PY model/train_trd.py --out $B $COMMON ;;
   *) echo "用法：TAG=MMDDHHmm CUDA_VISIBLE_DEVICES=n bash $0 {A|B}" >&2; exit 2 ;;
 esac
