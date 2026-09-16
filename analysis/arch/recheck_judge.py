@@ -65,6 +65,9 @@ EXPECT = {
     # ⚠ **api_fail = 1**（nether basalt chiselled top）——操作检验 (8) 未通过，判读靠最坏情况夹逼
     #   （`analysis/arch/tier_cycle.py`，三种赋值下判决一致）。这里照录 1，不许改成 0。
     "judge_full_TRD32_rr4_vs_TRD16cup_32.json":              (136, 189, 82, 1),
+    # 验证集 16px：主配方该用哪个检查点（预注册 a704b31，eval/ckpt16_ab.sh）。同样免门（`--no_gate`），
+    # A = best.pt(step3000)、B = last.pt(step20000)，同材质直接对判。可解率 79/125 = 63.2% vs 地板 17.8%。
+    "judge_full_ck3k_rr4_vs_ck20k_rr4_16_V_mat.json":         (26,  79, 46, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。

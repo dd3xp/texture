@@ -1,0 +1,45 @@
+{
+ "arm": "judge_full_ck3k_rr4_vs_ck20k_rr4_16_V_mat",
+ "verdict": "CKPT_LATE_WINS",
+ "resolvable": true,
+ "resolve_rate": 0.632,
+ "p_vs_floor": 3.1738405115569974e-29,
+ "floor": 0.17796610169491525,
+ "binomial": {
+  "a_wins": 26,
+  "decided": 79,
+  "rate": 0.3291139240506329,
+  "p": 0.003183010628835071,
+  "jeffreys": [
+   0.23308167030721633,
+   0.43741086855993394
+  ],
+  "inconsistent": 46,
+  "api_fail": 0
+ },
+ "family_U1": {
+  "ci": [
+   0.21739130434782608,
+   0.43820224719101125
+  ],
+  "n_families": 47,
+  "eff_families": 18.741741741741745,
+  "max_family": 11,
+  "width": 0.22081094284318517,
+  "widening": 1.0806626988771457,
+  "contains_half": false,
+  "lofo_n_folds": 47,
+  "lofo_all_same_side": true,
+  "lofo_flipped": 0
+ },
+ "family_U2_report_only": {
+  "ci": [
+   0.2112676056338028,
+   0.44661336379211874
+  ],
+  "contains_half": false
+ },
+ "cluster_label": "W1_robust",
+ "n_checked": 6,
+ "problems": []
+}
