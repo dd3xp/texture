@@ -1,0 +1,77 @@
+{
+ "cfg": "remote_tmp\\runs\\trd_scond_09161230\\config.json",
+ "flag": "bias_size_cond",
+ "steps": 200,
+ "seed": 0,
+ "n_data_stub": 4096,
+ "id_check": {
+  "pass": true,
+  "first_diff_step": null
+ },
+ "P1_reseed_on": {
+  "first_diff_step": null,
+  "n_coin_diff": 0,
+  "n_idx_diff": 0,
+  "identical": true
+ },
+ "P2_reseed_off": {
+  "first_diff_step": 0,
+  "n_coin_diff": 70,
+  "n_idx_diff": 200,
+  "diverges": true
+ },
+ "P3_params_at_build": {
+  "n_shared": 153,
+  "n_differing": 101,
+  "examples": [
+   "level_emb.weight",
+   "blocks.0.qkv.weight",
+   "blocks.0.qkv.bias",
+   "blocks.0.proj.weight",
+   "blocks.0.proj.bias"
+  ]
+ },
+ "P4_after_init_from": {
+  "n_shared": 153,
+  "n_differing": 0,
+  "examples": [],
+  "missing_keys": [
+   "bias.size_film.weight",
+   "bias.size_film.bias"
+  ],
+  "unexpected_keys": [],
+  "new_module_all_zero": true
+ },
+ "P5_dropout": {
+  "a": [
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1
+  ],
+  "b": [
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1,
+   0.1
+  ],
+  "same": true
+ },
+ "verdict": "PAIRED_OK"
+}
