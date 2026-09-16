@@ -1,0 +1,58 @@
+{
+ "gate_cleared": 2.118,
+ "gate_partial": 1.0,
+ "ops": {
+  "op1": true,
+  "op1_missing": [],
+  "op1_checked": 6,
+  "op2": true,
+  "op2_n": {
+   "v11dx": [
+    125,
+    125
+   ],
+   "scondx": [
+    125,
+    125
+   ]
+  },
+  "op2_problems": [],
+  "op2_checked": 2,
+  "op3": true,
+  "op3_ctrl": 6.198023515114506,
+  "op3_seed0": 6.198023515114506,
+  "op3_absdiff": 0.0,
+  "op3_checked": 1
+ },
+ "ops_all_pass": true,
+ "m29_delta_kid16": 2.1181287228482892,
+ "m29_ctrl": 6.198023515114506,
+ "m29_treat": 8.316152237962795,
+ "drift_Dmax": 1.0874936721784811,
+ "drift_pairwise": {
+  "seed0-seed1": 0.2812013438734029,
+  "seed0-seed2": 1.0874936721784811,
+  "seed1-seed2": 0.8062923283050782
+ },
+ "verdict": "PARTIAL",
+ "report_only": {
+  "note": "post-hoc estimator, NOT pre-registered; df=2 => very low power",
+  "arm_values": {
+   "seed0": 6.198023515114506,
+   "seed1": 5.916822171241103,
+   "seed2": 5.110529842936025
+  },
+  "arm_mean": 5.741791843097211,
+  "arm_sd": 0.5644797016586852,
+  "se_new_obs": 0.651805015409443,
+  "t": 3.249635508738374,
+  "df": 2,
+  "p_two_sided": 0.08306707374765254,
+  "min_detectable_delta_at_n3": 2.8044906289213003,
+  "detected_at_alpha_05": false
+ },
+ "inputs": {
+  "drift": "m31_drift.json",
+  "scond": "eval_scond_Vmat_16.json"
+ }
+}
