@@ -1,0 +1,28 @@
+{
+ "thr2": 2.419,
+ "drift2": 1.162,
+ "key": "KID_x1e3",
+ "new": "pixx",
+ "ctl": "v11dx",
+ "checked": [
+  "m2_KID",
+  "OP4_materials"
+ ],
+ "problems": [],
+ "m2": {
+  "new_KID": 8.671975377040395,
+  "ctl_KID": 7.982867879392584,
+  "materials_new": 125,
+  "materials_ctl": 125,
+  "delta": 0.6891074976478109
+ },
+ "OP4_pass": true,
+ "m1_report": {
+  "new_KID": 8.066793244065277,
+  "ctl_KID": 6.198023515114506,
+  "delta": 1.8687697289507712,
+  "note": "报告项，非判据；与 (M29) 的 +2.118 同为 m=1 口径"
+ },
+ "n_checked": 2,
+ "verdict": "GATE_OK"
+}
