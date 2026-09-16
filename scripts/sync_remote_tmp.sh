@@ -12,7 +12,11 @@ mkdir -p "$DST"
 SINCE=$(( $(cat "$STAMP" 2>/dev/null || echo 120) - 120 ))   # 留 2 分钟余量防两台机器时钟偏差
 NOW=$(date +%s)
 # 本项目在服务器 /tmp 下的东西（显式列出，别碰共享账号里别人的文件）
-PATHS='runs sdpixl_runs* judge_* gen32* abl* speed*.json trd_*.txt b3*.txt vj*.txt nod32*.txt tanchor*.txt b2canvas*.txt'
+# ⚠ 白名单：新产物的**命名**必须落进这里，否则开机清空即永久丢失（/tmp 是共享账号的杂物间，
+#   所以通配符要写窄——那里有别人项目的 eval_*.json）。eval_*Vmat*.json = run_eval.py 写到 /tmp 的读数。
+# ⚠ 加一条新通配符**救不了已经存在的文件**：下面是 --newer-mtime 增量，比上次同步旧的文件永远不会补拉，
+#   而这个脚本照样打印 "sync ok" -> 加完模式必须手动 scp 一次已存在的那几个。
+PATHS='runs sdpixl_runs* judge_* gen32* abl* speed*.json trd_*.txt b3*.txt vj*.txt nod32*.txt tanchor*.txt b2canvas*.txt drift*.txt eval_*Vmat*.json m3[0-9]_*.json'
 ssh -o ConnectTimeout=30 -o ServerAliveInterval=30 emnlp \
   "cd /tmp && ls -d $PATHS 2>/dev/null | xargs -r tar cf - --newer-mtime=@$SINCE --exclude='*.lock' --exclude='.trainlock' 2>/dev/null" \
   | tar xf - -C "$DST" 2>/dev/null

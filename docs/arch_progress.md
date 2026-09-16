@@ -6192,3 +6192,93 @@ Dmax 落地时会有一股很强的力气把它往"能解锁架构侧"的方向�
 
 ⛔ 三种情形**都不**重开 (M29)（判据④）、**都不**放宽 32px 准入条件①②③、
 **都不**单独授权任何新臂——每条新臂仍要自己的预注册。本段只决定"那道门算不算过"，不决定别的。
+
+## 2026-09-16 15:15 UTC+8：**同步白名单漏了 (M31) 的全部读数**——趁 seed2 还在跑，先堵住会永久丢数据的洞
+
+开工时 `arch_drift` **仍在跑**（seed2 第 **7000/12000** 步，84.6 分钟；按此速率约 **16:00 UTC+8** 训完，
+随后生成 16/24/32 + 三次 `run_eval.py`）。工作树干净、`origin/main..HEAD` 为空、无并行痕迹。
+上一轮那条操作红线照旧生效：**`train_trd.py` 本轮仍未 scp**（远程那份确认仍无 `reseed_after_build` 键）。
+本轮**零 GPU、零 API、零判官、零新臂**，不碰任何在跑的东西。
+
+### 一、洞：`scripts/sync_remote_tmp.sh` 的白名单不含 (M31) 的任何一个读数
+
+记忆里那条"新产物命名要落在这个列表里"**本轮被违反了而且没人发现**。原 `PATHS`：
+
+```
+runs sdpixl_runs* judge_* gen32* abl* speed*.json trd_*.txt b3*.txt vj*.txt nod32*.txt tanchor*.txt b2canvas*.txt
+```
+
+(M31) 往 `/tmp` 写四类东西，**逐条比对**：
+
+| 产物 | 覆盖？ | 丢了会怎样 |
+|---|---|---|
+| `/tmp/runs/trd_seed{1,2}_09161230/` | ✅ `runs` | —（已实测拉回，`last.pt` 本机 15:00 的那份在） |
+| `/tmp/trd_seed{1,2}.txt`（训练日志） | ✅ `trd_*.txt` | —（已实测拉回 3993B / 2433B） |
+| `/tmp/eval_drift_Vmat_{16,24,32}.json` | ❌ | **判据②的原始读数**（`speed*.json` 不匹配） |
+| `/tmp/m31_drift.json`（判决） | ❌ | 判决本身 |
+| `/tmp/drift.txt`（外层 stdout） | ❌ | 314B，低价值但免费 |
+
+服务器 `/tmp` **开机即清空**。→ 若在下一轮之前重启，这轮 GPU 标定的**读数与判决**全没，
+只剩检查点（可重跑评测，但那是又一轮 GPU）。
+
+⚠ **事实更正（顺带查出来的）**：`drift.txt` 只有 **314 字节**，里面**没有训练步日志**——
+`m31_drift_calib.sh:54` 把 train 的 stdout 单独重定向到 `/tmp/trd_seed$1.txt`，那条**已在白名单里**。
+所以"不可替代的训练日志"并没有处在风险中；处在风险中的是**评测读数与判决**。
+（上一轮账本没写清这一点，容易让人以为 `drift.txt` 就是训练日志。）
+
+### 二、补丁（`scripts/sync_remote_tmp.sh`，唯一改动）
+
+新增三条**窄**通配符：`drift*.txt eval_*Vmat*.json m3[0-9]_*.json`。
+
+⚠ **为什么必须写窄**：远程 `/tmp` 是共享账号的杂物间，实测里面躺着别人项目的
+`eval_cases_final.json`、`eval_original_qwen35_2b.py` 等——`eval_*.json` 会把别人的文件拖回来。
+`Vmat` 是本项目 `run_eval.py --set V_mat` 的特征串；实测三条模式在远程**只**命中
+`drift.txt` 与 `m31_drift.json`，零误伤。
+
+⚑ **补丁当场暴露了第二个洞（比第一个阴）**：加完模式跑一次，脚本打印 **`sync ok`**，
+但 `drift.txt` / `m31_drift.json` **一个都没拉回来**。原因是 `--newer-mtime=@$SINCE` 增量——
+两个文件的 mtime（1789536905 / 1789539372）都**早于**上次同步时刻（1789542302）
+→ **新加一条通配符救不了任何已经存在的文件，而脚本照样报成功**。
+这正是记忆里"没人读的退出码不是门"的同一族：**成功的打印不等于数据到手**。
+→ 已手动 `scp` 补拉两份（本机 `remote_tmp/drift.txt` 314B、`remote_tmp/m31_drift.json` 352B 已在），
+并把这条写进脚本注释：**加完模式必须手动补拉一次已存在的文件**。
+
+⚑ `/tmp/m31_drift.json` 是**上一轮判读器的真产物**（`verdict: OPS_FAILED`，
+`op2_problems: ["seed2: log.json 最后一步 3000 != 12000"]`），**不是**自测假数据——
+上一轮"自测产物已删"的说法对它成立（它是真跑的输出，该留）。核对过，无"陈旧假判决"隐患。
+
+### 三、顺带做掉的两个跑前核对（都属于"崩在最后一行＝白跑一整轮"那一族）
+
+1. **判读器远程就位且是当前版本**：`analysis/arch/m31_read_drift.py` 本机/远程 md5 同为
+   `4fa99ef1b6bf909f8cd62e6c1984867d` → 下一轮"一条命令出判决"不会卡在"远程没有这个脚本"。
+2. **`/mnt/data` 余量**：`14T 100% 用满，Avail 56G`。`gen_trd.py` 不给 `--out` 会写
+   `experiments/baselines/`（在 `/mnt/data` 上，现 337M）——seed1 的三档生成已成功落地，
+   seed2 的同样量级 → **56G 够**，本轮不需要干预。⚠ 但余量是别人腾出来的、随时会回去。
+
+### 四、指标表
+
+**新判定**：无（(M31) 仍在跑；⛔ 本轮**没有**读任何 KID，判据一个字未动）。
+**新工具**：无。**改动**：`scripts/sync_remote_tmp.sh` 的 `PATHS` + 两条注释（**只影响同步，不影响任何实验**）。
+**未改动**：`train_trd.py`（**仍未 scp**）、`m31_drift_calib.sh` 及其判据、`m31_read_drift.py`、
+`final_test.sh`、`UNITS_PER_TILE`、`judge_pairs.py`、任何默认值、32px 准入条件①②③、已下的任何判决。
+
+⚠ **一条自律记录**：为估训练剩余时间读了 `log.json`，因而**看见了 seed2 的 val loss**。
+⛔ 那不是 (M31) 的判据（判据②只认 16px KID），**故意不记进账本、也不许用来预判 Dmax**。
+本轮只用它算了"第 7000 步 / 84.6 分钟"这一个时间估计。
+
+**在跑**：`arch_drift`（tmux，pid 1610330）—— seed2 第 7000/12000 步，约 16:00 UTC+8 训完、
+16:20 前后出 `/tmp/eval_drift_Vmat_{16,24,32}.json`。
+
+**下一步**（与上一轮完全一致，本轮没有改变任何计划）
+1. `arch_drift` 退出后，远程跑 `python analysis/arch/m31_read_drift.py --out /tmp/m31_drift.json`
+   即得判决；把它与三份 eval JSON scp 回 `experiments/` 入库（`git add -f`）。
+   ⛔ 判据一个字不许改；(OP1)(OP2)(OP3) 任一不过就是 `OPS_FAILED`，不下判决。
+   ⚑ 这四份文件现在**都已落在同步白名单里**，即便忘了手动 scp 也有一份在 `remote_tmp/`。
+2. **确认 `arch_drift` 已退出后**，再 `scp model/train_trd.py`（(M32) 的 `--reseed_after_build`）。
+   ⛔ 在它退出前不许上传。
+3. 判完之后架构侧才重新有路：下一个候选仍须（a）先解释 (M29) 里 16px 为何被带着动
+   （⚑ Dmax 如何结清这道门，已在上一轮**盲写**写死），（b）守门画在 max(Dmax, 4.8) 之外
+   **或**用 (M32) 的成对配方（并附当轮 `paired_rng.py` 读数）。
+4. 32px 准入条件①②③一个字未动；判官侧自 (M24) 起仍无可用机制。速度对比仍等独占卡。
+
+**本轮成本**：GPU **0**、API **0**（本机 + 若干次 ssh `ls`/`md5sum`/`df`）。
