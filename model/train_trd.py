@@ -174,7 +174,8 @@ def model_from_args(a, drop=None):
                ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
                n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0,
                coarse=bool(g("coarse", False)), bias_cells=tuple(g("bias_cells", ()) or ()),
-               bias_size_cond=bool(g("bias_size_cond", False)))
+               bias_size_cond=bool(g("bias_size_cond", False)),
+               bias_pix=tuple(g("bias_pix", ()) or ()))
 
 
 @torch.no_grad()
@@ -241,7 +242,12 @@ def main():
                          "不随画布缩放，而归一化谐波只能表达后者")
     ap.add_argument("--bias_size_cond", action="store_true",
                     help="(M29)：把位置偏置表按画布解绑——隐层经零初始化 FiLM（输入 s=n/32）调制。"
-                         "默认关 = 旧行为一个字不变；见 trd.ToroidalBias 的 size_cond。")
+                         "默认关 = 旧行为一个字不变；见 trd.ToroidalBias 的 size_cond。"
+                         "⚠ (M29) 实测被 16px 守门挡下、已作废，别再打开。")
+    ap.add_argument("--bias_pix", type=float, nargs="*", default=[],
+                    help="(M35)：位置偏置额外加**固定像素周期** P 的谐波支 sin/cos(2pi*w/P)（空=不加，"
+                         "行为与旧检查点一个字不变）。本项目用 4。与 --bias_size_cond 不同，这一支**没有画布输入**，"
+                         "三档共用一组权重；P 必须整除用到的每个画布尺寸。见 trd.ToroidalBias 的 pix_periods。")
     ap.add_argument("--level_emb", action="store_true", help="v2：秩的归一化色阶嵌入")
     ap.add_argument("--pal_aug", type=float, default=0.0,
                     help="调色板颜色抖动幅度：色相 ±pal_aug*60°、亮度 ±pal_aug*50%%（v1=0）")

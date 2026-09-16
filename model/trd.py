@@ -34,7 +34,8 @@ def modulate(x, shift, scale):
 class ToroidalBias(nn.Module):
     """每个头一张注意力偏置：网格-网格由环面归一化偏移经 MLP 给出；其余块为可学标量。"""
 
-    def __init__(self, heads: int, hidden: int = 64, freqs: int = 1, cell_scales=(), size_cond: bool = False):
+    def __init__(self, heads: int, hidden: int = 64, freqs: int = 1, cell_scales=(), size_cond: bool = False,
+                 pix_periods=()):
         """freqs：环面偏移用几个谐波的 sin/cos 编码。
 
         v1 只用基频（freqs=1）。**这是 v1 结构学不出来的设计缺陷**：模型里没有绝对位置，
@@ -119,12 +120,44 @@ class ToroidalBias(nn.Module):
         max|Δ|=0.0），旧检查点缺这些键时构造器的零值原样保留 → 不需要在 train_trd.py 里另行置零。
         ⚠ 这是 (M26)/(M27)/(M28) 唯一授权的那条"替换/削弱归一化谐波支"的**削弱**形式；
         判据与识别检验见 `scripts/trd_sizecond_train_eval.sh` 与 `docs/arch_progress.md` 的 (M29) 预注册。
+        ⚠ **实测被守门挡下**（(M29)，`4cdab69`）：16px KID 6.198→8.316 > 门槛 7.2 → `--bias_size_cond`
+        **作废**、默认留关，主判据②不下判。⛔ 不许读成"16px 变差了"（+2.118 在噪声下限内），
+        ⛔ 也不许读成"(M29) 其实通过了"。⛔ **不重开、不许换一种解绑形式直接再试。**
+
+        pix_periods（2026-09-16 加，默认空 = 行为一个字不变）：**固定像素周期**的谐波支
+        sin/cos(2*pi*f*w/P)，w = 环绕后的**有符号像素偏移**，P 为像素周期（本项目用 P=4）。
+        ⚑ **它不是 (M29) 那种按画布解绑**：这一支**没有任何画布输入**，16/24/32 共用同一组权重，
+        给出的是同一条以像素计的梳齿 —— 与归一化支"每张画布固定几个周期"正交。
+        ⛔ 也不是 (M13) 那种加性格子支：`cell_scales` 是 exp(-|d|/s) 的**衰减**特征，
+        **表达不了梳齿**（(M13) 什么也没测到）；本支是周期特征，专门表达梳齿。
+
+        **为什么正好是这一支**：归一化支只能表达"每张画布 k 个周期"，而真人数据要的是
+        "每 4 像素一道"。单独一个 P=4 的余弦在**已发表的** (M25)/(M26) 读数上把两档的符号全预测对：
+        cos(2*pi*d/4) 在 d≡0 (mod 4) 为 +1、在 d≡2 (mod 4) 为 −1，而
+            16px C(d)：d=2 −0.054，d=4 +0.056，d=6 −0.030，d=8 +0.073
+            32px C(d)：d=2 −0.052，d=4 +0.010，d=6 −0.022，d=8 +0.052，
+                       d=10 −0.016，d=12 +0.011，d=14 −0.019，d=16 +0.081
+        —— 两档**共 12 个偶数位置全部同号**。于是 (M26) 的符号冲突不必解绑就能解：
+        u=0.375 在 16px 是 d=6（不是 4 的倍数 → 这一支压低），在 32px 是 d=12（是 4 的倍数 → 这一支抬高），
+        **同一张表、同一组权重**给出相反的符号。
+        ⚠ 这是**动机**（读的是已发表的真人统计量），⛔ 不是本轮的判据、⛔ 不许当结果引。
+
+        **可平铺性 / 环面连续性**：任何 P | n 的情形下 sin/cos(2*pi*f*w/P) 关于 w 以 n 为周期
+        （f*n/P 是整数）→ 在折回点 d=±n/2 处单值连续，平移等变按构造保留。
+        P=4 整除本项目全部画布 16/24/32 → 正是 (M29) 写死的那条"P 不整除 n 就不连续"的**例外**，
+        构造器对每个用到的 n 断言 n % P == 0。
+        零初始化：新加的输入维在 `train_trd.py` 的 `init_from` 里**旧列照抄、新列置零**
+        （与 `--bias_cells` 同一条代码路径）→ 第 0 步的偏置函数与源检查点逐元素相同。
+        ⚠ 但 (M30) 那条仍然成立：输入维变了 → `nn.Linear` 构造抽走的随机数变了 → **数据顺序会分叉**；
+        守门必须画在 (M33) 实测的漂移+采样下限之外（thr(2)=2.42），见
+        `scripts/trd_pixcomb_train_eval.sh` 的 (M35) 预注册。
         """
         super().__init__()
         self.heads = heads
         self.freqs = freqs
         self.cell_scales = tuple(float(s) for s in cell_scales)
-        self.mlp = nn.Sequential(nn.Linear(4 * freqs + 2 * len(self.cell_scales), hidden),
+        self.pix_periods = tuple(float(p) for p in pix_periods)
+        self.mlp = nn.Sequential(nn.Linear(4 * freqs + 2 * len(self.cell_scales) + 4 * len(self.pix_periods), hidden),
                                  nn.GELU(), nn.Linear(hidden, heads))
         # 画布解绑（见上文 size_cond）：零初始化的 FiLM，第 0 步恒等 → 与源检查点逐元素相同
         # ⚠ (M30)：零初始化只保证**偏置函数**相同，**不**保证数据顺序相同 —— nn.Linear 的构造
@@ -164,6 +197,11 @@ class ToroidalBias(nn.Module):
             if self.cell_scales:            # 格子单位的局部性：d/n 乘回 n 就是环绕后的格子距离
                 s = torch.tensor(self.cell_scales).view(*([1] * cy.dim()), -1)
                 feat = torch.cat([feat, (-cy[..., None] / s).exp(), (-cx[..., None] / s).exp()], -1)
+            for P in self.pix_periods:      # 固定像素周期的梳齿支（见上文 pix_periods）：用**有符号**像素偏移
+                assert n % P == 0, f"pix_periods={P} 不整除画布 n={n}：折回点 d=±n/2 会不连续"
+                py, px = 2 * math.pi * (dy * n) / P, 2 * math.pi * (dx * n) / P
+                feat = torch.cat([feat, py.sin()[..., None], py.cos()[..., None],
+                                  px.sin()[..., None], px.cos()[..., None]], -1)
             self._cache[key] = feat.to(device)
         return self._cache[key]
 
@@ -223,7 +261,7 @@ class TRD(nn.Module):
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
                  bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
                  n_domains: int = 0, critic: bool = False, coarse: bool = False, bias_cells=(),
-                 bias_size_cond: bool = False):
+                 bias_size_cond: bool = False, bias_pix=()):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -264,7 +302,7 @@ class TRD(nn.Module):
         else:
             self.ex_proj = None
         self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs, cell_scales=bias_cells,
-                                 size_cond=bias_size_cond)
+                                 size_cond=bias_size_cond, pix_periods=bias_pix)
         # 归一化色阶嵌入：秩 r 在 k 色瓦片里的相对亮度位置 round(15 r/(k-1))。
         # 单纯的秩记号含义随 k 变（k=3 的"秩 2"是最亮，k=16 的"秩 2"很暗），
         # 同样的结构换个 k 就是完全不同的记号；加上它，"最亮/最暗"跨 k 共享。
