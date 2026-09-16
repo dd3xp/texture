@@ -34,7 +34,7 @@ def modulate(x, shift, scale):
 class ToroidalBias(nn.Module):
     """每个头一张注意力偏置：网格-网格由环面归一化偏移经 MLP 给出；其余块为可学标量。"""
 
-    def __init__(self, heads: int, hidden: int = 64, freqs: int = 1, cell_scales=()):
+    def __init__(self, heads: int, hidden: int = 64, freqs: int = 1, cell_scales=(), size_cond: bool = False):
         """freqs：环面偏移用几个谐波的 sin/cos 编码。
 
         v1 只用基频（freqs=1）。**这是 v1 结构学不出来的设计缺陷**：模型里没有绝对位置，
@@ -98,6 +98,27 @@ class ToroidalBias(nn.Module):
         KID/FID/FD/CLIP **全部差异都在 m=1 噪声下限以内**，判据②（32px 三取二改善）不通过。
         默认仍为空 = 旧行为；**别把这组特征当成已验证的改进**。谐波支是被**补充**而非替换，
         所以 (M9) 那个"共用归一化表错设"的嫌疑**并未被洗清**，只是这一种加性形式无效。
+
+        ⚑⚑⚑ **(M28)：那张表在**训练过的** 32px 上也支配周期**（预注册 67b8a04，
+        `analysis/arch/comb_shift.py`，产物 `experiments/comb_shift.json`）。同一个检查点、权重一个字
+        不改，只把表的除数从 32 换成 16（`n_override`），控制臂只在 d=8/16 有峰的梳齿当场多长出
+        d=4/12 一支：**ΔC(4)=+0.0375 族级 CI [+0.0244,+0.0528]**，空操作臂 272/272 逐字节相同。
+        ⛔ 限定语：干预是推理期的、干预臂分布外（A_hat(1) 0.166→0.083），只能读成"表**能**支配
+        32px 的周期"，**不许**读成"32px 的毛病就是表造成的"。
+
+        size_cond（2026-09-16 加，默认 False = 行为一个字不变）：**把这张表按画布解绑**。
+        (M26) 量到的矛盾是"**同一个 u=d/n 上两档要求相反的符号**"（u=0.375：16px −0.0303 是谷、
+        32px +0.0111 是峰），而这张表只吃 u → 一张表物理上装不下两档。打开后 MLP 的隐层经一层
+        **零初始化的 FiLM**（输入只有标量 s=n/32）做仿射调制：同一个 u 在不同画布上可以给出不同
+        （乃至反号）的偏置。
+        ⛔ **为什么不直接用"固定格子周期的谐波"**：sin(2πf·wrap(d)/P) 在 n 不是 P 的整数倍时于环面
+        折回点 d=n/2 处不连续 → n=24 上破坏可平铺（(M13) 脚本里已写死这条，本轮不推翻）。
+        FiLM 只改**每个隐单元的仿射系数**，偏置仍只是 wrap(d)/n 的函数 → 平移等变/可平铺按构造保留，
+        且 s 是连续标量 → 没训过的 n=24 落在 16 与 32 之间**插值**，不是外推到未定义的 one-hot。
+        零初始化 ⇒ 第 0 步 gamma=beta=0，偏置函数与源检查点**逐元素相同**（本机自检 16/24/32 三档
+        max|Δ|=0.0），旧检查点缺这些键时构造器的零值原样保留 → 不需要在 train_trd.py 里另行置零。
+        ⚠ 这是 (M26)/(M27)/(M28) 唯一授权的那条"替换/削弱归一化谐波支"的**削弱**形式；
+        判据与识别检验见 `scripts/trd_sizecond_train_eval.sh` 与 `docs/arch_progress.md` 的 (M29) 预注册。
         """
         super().__init__()
         self.heads = heads
@@ -105,6 +126,11 @@ class ToroidalBias(nn.Module):
         self.cell_scales = tuple(float(s) for s in cell_scales)
         self.mlp = nn.Sequential(nn.Linear(4 * freqs + 2 * len(self.cell_scales), hidden),
                                  nn.GELU(), nn.Linear(hidden, heads))
+        # 画布解绑（见上文 size_cond）：零初始化的 FiLM，第 0 步恒等 → 与源检查点逐元素相同
+        self.size_film = nn.Linear(1, 2 * hidden) if size_cond else None
+        if self.size_film is not None:
+            nn.init.zeros_(self.size_film.weight)
+            nn.init.zeros_(self.size_film.bias)
         self.pal_pal = nn.Parameter(torch.zeros(heads, K_MAX, K_MAX))
         self.pal_grid = nn.Parameter(torch.zeros(heads))
         self.grid_pal = nn.Parameter(torch.zeros(heads))
@@ -137,8 +163,17 @@ class ToroidalBias(nn.Module):
             self._cache[key] = feat.to(device)
         return self._cache[key]
 
+    def _table(self, n, device):
+        feat = self.grid_offsets(n, device, self.n_override)
+        if self.size_film is None:
+            return self.mlp(feat)
+        h = self.mlp[0](feat)
+        s = torch.full((1, 1), n / 32.0, device=device, dtype=h.dtype)
+        gamma, beta = self.size_film(s)[0].chunk(2, -1)
+        return self.mlp[2](self.mlp[1](h * (1 + gamma) + beta))
+
     def forward(self, n, device):
-        g = self.mlp(self.grid_offsets(n, device, self.n_override)).permute(2, 0, 1)      # [H, n², n²]
+        g = self._table(n, device).permute(2, 0, 1)      # [H, n², n²]
         P, G = K_MAX, n * n
         bias = torch.zeros(self.heads, P + G, P + G, device=device)
         bias[:, :P, :P] = self.pal_pal
@@ -183,7 +218,8 @@ class TRD(nn.Module):
     def __init__(self, n_codes: int, text_dim: int = 512, d: int = 384, depth: int = 12,
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
                  bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
-                 n_domains: int = 0, critic: bool = False, coarse: bool = False, bias_cells=()):
+                 n_domains: int = 0, critic: bool = False, coarse: bool = False, bias_cells=(),
+                 bias_size_cond: bool = False):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -223,7 +259,8 @@ class TRD(nn.Module):
             self.ex_slot = nn.Parameter(torch.randn(n_exemplars, d) * 0.02)
         else:
             self.ex_proj = None
-        self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs, cell_scales=bias_cells)
+        self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs, cell_scales=bias_cells,
+                                 size_cond=bias_size_cond)
         # 归一化色阶嵌入：秩 r 在 k 色瓦片里的相对亮度位置 round(15 r/(k-1))。
         # 单纯的秩记号含义随 k 变（k=3 的"秩 2"是最亮，k=16 的"秩 2"很暗），
         # 同样的结构换个 k 就是完全不同的记号；加上它，"最亮/最暗"跨 k 共享。

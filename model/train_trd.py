@@ -161,7 +161,8 @@ def model_from_args(a, drop=None):
                bias_hidden=int(g("bias_hidden", 64)),
                ref_dim=512 if g("refs", None) else 0, align_cond=bool(g("align_clip", "")),
                n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0,
-               coarse=bool(g("coarse", False)), bias_cells=tuple(g("bias_cells", ()) or ()))
+               coarse=bool(g("coarse", False)), bias_cells=tuple(g("bias_cells", ()) or ()),
+               bias_size_cond=bool(g("bias_size_cond", False)))
 
 
 @torch.no_grad()
@@ -222,6 +223,9 @@ def main():
                     help="位置偏置额外加 exp(-|d_cells|/s) 的格子单位局部性特征（空=不加，行为与旧检查点一致）。"
                          "见 trd.ToroidalBias 与 analysis/arch/scale_prior.py：真人瓦片的相关长度按格子对齐、"
                          "不随画布缩放，而归一化谐波只能表达后者")
+    ap.add_argument("--bias_size_cond", action="store_true",
+                    help="(M29)：把位置偏置表按画布解绑——隐层经零初始化 FiLM（输入 s=n/32）调制。"
+                         "默认关 = 旧行为一个字不变；见 trd.ToroidalBias 的 size_cond。")
     ap.add_argument("--level_emb", action="store_true", help="v2：秩的归一化色阶嵌入")
     ap.add_argument("--pal_aug", type=float, default=0.0,
                     help="调色板颜色抖动幅度：色相 ±pal_aug*60°、亮度 ±pal_aug*50%%（v1=0）")
@@ -251,7 +255,7 @@ def main():
                     help="只诊断不训练：载入这个检查点，量 val 损失在 不给/给真/给别人的 粗网格三种条件下的差")
     ap.add_argument("--pack_balance", type=float, default=0.0,
                     help="32px 按包均衡采样的强度 γ：样本权重 ∝ 包大小^-γ（1 = 每包等概率，0 = 不均衡）。"
-                         "32px 训练池只有 24 个包、两个近乎平涂的大包占 63%（docs/arch_progress.md 2026-09-14）")
+                         "32px 训练池只有 24 个包、两个近乎平涂的大包占 63%%（docs/arch_progress.md 2026-09-14）")
     ap.add_argument("--init_from", type=Path, default=None,
                     help="从已有检查点初始化（形状不同的来源嵌入按行拷贝，多出的行用第 0 行＝材质包初始化）")
     ap.add_argument("--domain", action="store_true",
