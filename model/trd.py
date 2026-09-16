@@ -127,6 +127,10 @@ class ToroidalBias(nn.Module):
         self.mlp = nn.Sequential(nn.Linear(4 * freqs + 2 * len(self.cell_scales), hidden),
                                  nn.GELU(), nn.Linear(hidden, heads))
         # 画布解绑（见上文 size_cond）：零初始化的 FiLM，第 0 步恒等 → 与源检查点逐元素相同
+        # ⚠ (M30)：零初始化只保证**偏置函数**相同，**不**保证数据顺序相同 —— nn.Linear 的构造
+        # 本身就从 CPU 全局 RNG 抽走 512 个数，而 train_trd.py 的取批（:504/:514）用的正是这条流
+        # → 开关一开，训练从第 0 步起就看到不同的批次（实测 200/200 步下标不同）。
+        # 拿它和控制臂对着守门比时，差值里必然混有"同配置重训"的漂移。
         self.size_film = nn.Linear(1, 2 * hidden) if size_cond else None
         if self.size_film is not None:
             nn.init.zeros_(self.size_film.weight)

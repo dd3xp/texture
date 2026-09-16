@@ -1,0 +1,34 @@
+{
+ "steps": 200,
+ "seed": 0,
+ "n_data_stub": 4096,
+ "config_diff_excluding_out": {
+  "bias_cells": [
+   "<missing>",
+   []
+  ],
+  "bias_size_cond": [
+   "<missing>",
+   true
+  ],
+  "p_tile16": [
+   "<missing>",
+   0.0
+  ],
+  "pack_balance": [
+   "<missing>",
+   0.0
+  ]
+ },
+ "params_a": 33256230,
+ "params_b": 33256742,
+ "params_delta": 512,
+ "id_check": {
+  "pass": true,
+  "first_diff_step": null
+ },
+ "first_diff_step": 0,
+ "steps_with_diff_use32": 70,
+ "steps_with_diff_batch_idx": 200,
+ "verdict": "RNG_DIVERGES"
+}
