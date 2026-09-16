@@ -1,0 +1,44 @@
+{
+ "B1val": {
+  "n": 125,
+  "CLIP": 35.475162506103516,
+  "tile_seam_ratio": 0.945664619548246,
+  "LPIPS_div": 0.2349828661084175,
+  "materials": 125
+ },
+ "B2val": {
+  "n": 125,
+  "CLIP": 35.81316375732422,
+  "tile_seam_ratio": 0.6201400268136452,
+  "LPIPS_div": NaN,
+  "materials": 125
+ },
+ "v11dx_direct": {
+  "n": 125,
+  "CLIP": 34.935543060302734,
+  "tile_seam_ratio": 0.9534753250916668,
+  "LPIPS_div": 0.29303022369742393,
+  "materials": 125
+ },
+ "v11dx100_rr4": {
+  "n": 125,
+  "CLIP": 35.724239349365234,
+  "tile_seam_ratio": 0.9497342122049756,
+  "LPIPS_div": NaN,
+  "materials": 125
+ },
+ "scondx_direct": {
+  "n": 125,
+  "CLIP": 34.94927978515625,
+  "tile_seam_ratio": 0.9673354207738992,
+  "LPIPS_div": 0.293532483920455,
+  "materials": 125
+ },
+ "scondx100_rr4": {
+  "n": 125,
+  "CLIP": 35.82155227661133,
+  "tile_seam_ratio": 0.9729194353200772,
+  "LPIPS_div": NaN,
+  "materials": 125
+ }
+}

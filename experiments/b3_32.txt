@@ -1,0 +1,41 @@
+[gpu7] baked clay green             ok 5.84 h
+[gpu7] ctf map damage cobble        ok 7.23 h
+[gpu7] desert stone block           ok 7.99 h
+[gpu7] desert sand soil             ok 7.82 h
+[gpu7] desert sand soil wet         locked (another worker)
+[gpu7] soil                         skip
+[gpu7] bamboo bamboo bottom         skip
+[gpu7] log spruce top               skip
+[gpu7] red sandstone bottom         skip
+[gpu7] stone slab top               skip
+[gpu7] circle stone bricks          skip
+[gpu7] coal                         skip
+done
+TRD32_rr4 vs B3：可比对 12
+可解率：真题 100%（n=12）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+TRD32_rr4 vs B3：可比对 12
+TRD32_rr4 胜 10/12 = 83%  p=0.0386  [56%,96%]   （两序不一致弃 0，API 失败 0；有效 n / 总 n = 12/12）
+可解率 12/12 = 100.0%  vs 地板 17.8%  p=1.01e-09 -> 高于地板，判官在这个比较上有分辨力
+B2 vs B3：可比对 12
+可解率：真题 75%（n=12）  空对照 20%（n=5）  门槛 65% -> **通过**，可以跑 full
+B2 vs B3：可比对 12
+B2 胜 8/9 = 89%  p=0.0391  [59%,99%]   （两序不一致弃 3，API 失败 0；有效 n / 总 n = 9/12）
+可解率 9/12 = 75.0%  vs 地板 17.8%  p=2.34e-05 -> 高于地板，判官在这个比较上有分辨力
+B7 vs B3：可比对 12
+可解率：真题 67%（n=12）  空对照 0%（n=5）  门槛 65% -> **通过**，可以跑 full
+B7 vs B3：可比对 12
+B7 胜 5/7 = 71%  p=0.453  [35%,94%]   （两序不一致弃 5，API 失败 0；有效 n / 总 n = 7/12）
+可解率 7/12 = 58.3%  vs 地板 17.8%  p=0.00193 -> 高于地板，判官在这个比较上有分辨力
+CLIP-B/32（32px，12 材质，每材质第 0 张）：
+  TRD32_rr4  35.45   vs B3：高 12/12  符号检验 p=0.000488  均差 +2.15
+  B2       35.22   vs B3：高 10/12  符号检验 p=0.0386  均差 +1.92
+  B7       34.02   vs B3：高 8/12  符号检验 p=0.388  均差 +0.72
+  B1       35.31   vs B3：高 11/12  符号检验 p=0.00635  均差 +2.01
+  B4       35.70   vs B3：高 11/12  符号检验 p=0.00635  均差 +2.40
+  B3       33.30
+判官（A vs B3，两序一致才计）：
+  TRD32_rr4 试点 100%/空 0%  -> TRD32_rr4 胜 10/12  p=0.0386  [56%,96%]  弃 0
+  B2      试点 75%/空 20%  -> B2 胜 8/9  p=0.0391  [59%,99%]  弃 3
+  B7      试点 67%/空 0%  -> B7 胜 5/7  p=0.453  [35%,94%]  弃 5
+B3 每张耗时（共享卡）：n=12 中位 3.45 h，范围 3.40-7.99 h
+B3_32_DONE

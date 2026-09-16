@@ -1,0 +1,78 @@
+{
+ "tag": "TRD32_rr4_vs_B3_32_sdpixl_subset",
+ "a_wins": 10,
+ "decided": 12,
+ "inconsistent": 0,
+ "api_fail": 0,
+ "rate": 0.8333333333333334,
+ "p": 0.03857421875,
+ "jeffreys": [
+  0.5637520640676164,
+  0.9636622436013069
+ ],
+ "resolve_rate": 1.0,
+ "floor": 0.17796610169491525,
+ "p_vs_floor": 1.0093631586983057e-09,
+ "records": [
+  {
+   "pair": 0,
+   "material": "baked clay green",
+   "verdict": "A"
+  },
+  {
+   "pair": 1,
+   "material": "ctf map damage cobble",
+   "verdict": "A"
+  },
+  {
+   "pair": 2,
+   "material": "desert stone block",
+   "verdict": "A"
+  },
+  {
+   "pair": 3,
+   "material": "desert sand soil",
+   "verdict": "A"
+  },
+  {
+   "pair": 4,
+   "material": "desert sand soil wet",
+   "verdict": "A"
+  },
+  {
+   "pair": 5,
+   "material": "soil",
+   "verdict": "A"
+  },
+  {
+   "pair": 6,
+   "material": "bamboo bamboo bottom",
+   "verdict": "A"
+  },
+  {
+   "pair": 7,
+   "material": "log spruce top",
+   "verdict": "B"
+  },
+  {
+   "pair": 8,
+   "material": "red sandstone bottom",
+   "verdict": "B"
+  },
+  {
+   "pair": 9,
+   "material": "stone slab top",
+   "verdict": "A"
+  },
+  {
+   "pair": 10,
+   "material": "circle stone bricks",
+   "verdict": "A"
+  },
+  {
+   "pair": 11,
+   "material": "coal",
+   "verdict": "A"
+  }
+ ]
+}

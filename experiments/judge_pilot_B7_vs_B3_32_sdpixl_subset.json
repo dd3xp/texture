@@ -1,0 +1,130 @@
+{
+ "tag": "B7_vs_B3_32_sdpixl_subset",
+ "real_resolved": 0.6666666666666666,
+ "null_resolved": 0.0,
+ "n_real": 12,
+ "n_null": 5,
+ "min_rate": 0.65,
+ "pass": true,
+ "records": [
+  {
+   "pair": 9,
+   "kind": "real",
+   "material": "stone slab top",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 2,
+   "kind": "real",
+   "material": "desert stone block",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 7,
+   "kind": "real",
+   "material": "log spruce top",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 4,
+   "kind": "real",
+   "material": "desert sand soil wet",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 5,
+   "kind": "real",
+   "material": "soil",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 11,
+   "kind": "real",
+   "material": "coal",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 0,
+   "kind": "real",
+   "material": "baked clay green",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 3,
+   "kind": "real",
+   "material": "desert sand soil",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 6,
+   "kind": "real",
+   "material": "bamboo bamboo bottom",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 10,
+   "kind": "real",
+   "material": "circle stone bricks",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 8,
+   "kind": "real",
+   "material": "red sandstone bottom",
+   "answered": true,
+   "resolved": true
+  },
+  {
+   "pair": 1,
+   "kind": "real",
+   "material": "ctf map damage cobble",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 9,
+   "kind": "null",
+   "material": "stone slab top",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 2,
+   "kind": "null",
+   "material": "desert stone block",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 7,
+   "kind": "null",
+   "material": "log spruce top",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 4,
+   "kind": "null",
+   "material": "desert sand soil wet",
+   "answered": true,
+   "resolved": false
+  },
+  {
+   "pair": 5,
+   "kind": "null",
+   "material": "soil",
+   "answered": true,
+   "resolved": false
+  }
+ ]
+}

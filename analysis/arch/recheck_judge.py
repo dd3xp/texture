@@ -48,6 +48,10 @@ EXPECT = {
     "judge_full_TRD16c_vs_B3_16_sdpixl_subset.json":         (10, 10, 2, 0),
     "judge_full_B2_vs_B3_16_sdpixl_subset.json":              (8,  9, 3, 0),
     "judge_full_B7_vs_B3_16_sdpixl_subset.json":             (10, 10, 2, 0),
+    # B3@32（预注册 9da014b，eval/b3_32.sh）：同 12 材质、同设置，32px 三条臂
+    "judge_full_TRD32_rr4_vs_B3_32_sdpixl_subset.json":      (10, 12, 0, 0),
+    "judge_full_B2_vs_B3_32_sdpixl_subset.json":              (8,  9, 3, 0),
+    "judge_full_B7_vs_B3_32_sdpixl_subset.json":              (5,  7, 5, 0),
     # 测试集：tier_anchor 的锚臂（预注册 8ec5446，eval/tier_anchor.sh）。
     # 绝对胜率只报不判（判据 (5)：B7 在 24/32 从未调过 CFG），进判据的是梯度。
     "judge_full_TRD24_rr4_vs_B7_24.json":                    (144, 208, 64, 0),
@@ -75,6 +79,9 @@ PILOT_EXPECT = {
     "judge_pilot_TRD16c_vs_B3_16_sdpixl_subset.json": (10, 12, 3, 5, True),
     "judge_pilot_B2_vs_B3_16_sdpixl_subset.json":     (11, 12, 0, 5, True),
     "judge_pilot_B7_vs_B3_16_sdpixl_subset.json":     (10, 12, 0, 5, True),
+    "judge_pilot_TRD32_rr4_vs_B3_32_sdpixl_subset.json": (12, 12, 0, 5, True),
+    "judge_pilot_B2_vs_B3_32_sdpixl_subset.json":        (9, 12, 1, 5, True),
+    "judge_pilot_B7_vs_B3_32_sdpixl_subset.json":        (8, 12, 0, 5, True),
     # tier_anchor（预注册 8ec5446）：B1@24 不过门 -> 按判据 (1) B1 那一对梯度作废，没有 full
     "judge_pilot_TRD24_rr4_vs_B7_24.json":            (11, 15, 1, 5, True),
     "judge_pilot_TRD32_rr4_vs_B7_32.json":            (12, 15, 2, 5, True),
