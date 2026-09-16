@@ -6809,3 +6809,99 @@ P | n 时该特征关于 w 以 n 为周期（f·n/P 是整数）⇒ 折回点单
 2. ⛔ 32px 准入条件①②③一个字未动；判官侧自 (M24) 起仍无可用机制。速度对比仍等独占卡。
 
 **本轮成本**：GPU **约 1.5–2 小时**（1 张卡，与别的项目共卡）、API **0**。
+
+## 2026-09-16 21:40 UTC+8：**(M35) 中途维护 —— 拆掉两颗会让这一轮白跑的雷（零 GPU、零 API）**
+
+开工状态：工作树干净、`origin/main..HEAD` 为空、无并行痕迹。(M35) 的 `tmux arch_pix` 在跑
+（GPU 3，训练 step 2000/12000）。本轮**不下任何判决、不改任何判据**，只做跑中巡检。
+
+### 一、看门狗的 `$R` 被引号层吃掉了 —— 它会安静地用 `VOID_NO_DATA` 覆盖真判决
+
+上一轮挂的看门狗（`tmux pixread`），`/proc/<pid>/cmdline` 逐字读出来是：
+
+```
+... R=/tmp/runs/trd_pix4_09162048; python analysis/arch/m35_read_gate.py \
+      --m2 \/eval_pix_Vmat_16_m2.json --m1 \/eval_pix_Vmat_16.json ...
+```
+
+`ssh` → `tmux new-session` → `bash -c` 三层引号把 `$R` 吃掉、只留下一个字面反斜杠。
+评测真正写的是 `$RUN/eval_pix_Vmat_16_m2.json` ⇒ 看门狗读的是一个**不存在**的路径。
+
+⚑ **这颗雷的恶性之处正是 (M31) 记下的那一条**：`m35_read_gate.py` 是盲写的、对缺文件有
+`VOID_NO_DATA` 分支 ⇒ 它**不会崩**，会**退出码 0、正常打印、把 `/tmp/m35_gate.json` 写成
+"没量到"**。等于训练+评测跑满 2 小时之后，账面上留下的是一份"成功的空判决"。
+（"成功的打印 ≠ 数据到手"，这是本项目第二次踩同一类坑。）
+
+**修法**：把整条命令**写进文件**再跑，彻底绕开引号层 ——
+`/tmp/m35_watch.sh`（`bash -n` 过、无 CR），`tmux kill-session -t pixread`，
+改挂 `tmux m35watch`（13:32 UTC 起）。路径用 `"$R/..."` 双引号包好。
+⚑ **今后的看门狗一律走文件**，⛔ 不许把变量写在 `tmux new-session "..."` 的命令串里。
+
+**修完当场空跑验证**（判据⑥要求的操作检验，用**正确**路径）：
+`m35_read_gate.py --selftest` 远程 13/13 过；带真路径空跑 → `VOID_NO_DATA`、
+**`n_checked: 0`、"已查 0 项；问题 5 条"** ⇒ 缺数据时它确实报"没量"而不是冒充"量过没事"。
+
+### 二、跑前料检：这一轮不会崩在最后一行
+
+记忆里的规矩（"训练脚本落地前先查评测的料在不在"）本该在预注册那轮做，补做如下：
+
+| `run_eval.py --methods` 点到的历史 tag | 16 | 24 | 32 |
+|---|---|---|---|
+| `B2val` | 125 | 125 | 125 |
+| `v10x` / `v11dx` | 250 / 250 | — | — |
+| `B1val` | 500 | 500 | 500 |
+| `v11dx_direct` / `v11dx100_rr4` | — | 250 / 125 | 250 / 125 |
+
+全部齐（16px 只用 `B2val v10x v11dx`、32/24 只用 `B1val B2val v11dx_direct v11dx100_rr4`，逐一对上）。
+⚑ **顺带核准了判据①的口径**：`v11dx/16` 有 **250** 张 = 125 材质 × 2 ⇒ 新臂 `--n 2` 的 250 张与它
+**张数相等**，`--all_samples` 这才真的等于 m=2（记忆里那条"仅当各臂张数相同才等于 m"的前提，实测成立）。
+检查点 `runs/trd_v11d/last.pt`、`runs/trd_v10/last.pt` 在。`(ID4)` 的阳性对照 `/tmp/gen32_m28`
+（`m28_ctl`/`m28_noop`/`m28_over`）**还在**（`/tmp` 未重启清空）⇒ ⑥ 的四条识别检验跑得全。
+盘：`/mnt/data` 腾到 **434G 可用**（仍 97%，规矩不变、产物照写 `/tmp`），`/` 252G。
+
+### 三、第二颗雷：下一轮**绝不许**给 `comb_learned.py` 传 `--eval16`
+
+读 `comb_learned.py:236-249` 发现，`--eval16` 这条支路是 (M29) 专用的，两处都对 (M35) 有毒：
+
+1. `KID_GATE = 7.2`（= v11d 的 6.2 **+1.0**）—— 就是 (M31) 已判**作废**的那道 ±1.0 的门；
+2. 它只认方法名里含 **`scond`** 的臂（(M29) 的 tag），(M35) 的臂叫 **`pixx`** ⇒ 取不到 KID
+   → `kid=None` → `gate["pass"]=False` → **`verdict` 被强行改写成 `GATE_FAILED`**。
+
+⇒ 传了它，(M35) 会得到一个**与真数据无关的假 `GATE_FAILED`**。
+**正确用法**：`--eval16` **不给**（缺省即 `gate={"kid":None,"pass":None}`，
+而 `None is False` 为假 ⇒ 不触发改写），判据①**只由** `m35_read_gate.py` 出。
+⛔ 这**不是**改判据：预注册⑧写死 `comb_learned.py` 一个字不改，本轮**一个字也没改**；
+被写死的只是"**怎么调它**"。下一轮逐字照抄这条命令：
+
+```
+python analysis/arch/comb_learned.py --gen_root /tmp/gen32_m35 \
+       --ctl_tag m35_ctl --new_tag m35_new --out /tmp/m35_comb.json
+```
+
+（`--id4_root` 用缺省 `/tmp/gen32_m28`，已核在；⛔ 不加 `--eval16`。）
+
+### 四、进度与工期修正
+
+step 2000/12000 用了 24 分钟 ⇒ **约 12 分/千步、12000 步约 2.4 小时**，比预注册里写的
+"(M29) 实测 62 分"**慢 2.3 倍**（GPU 3 与别的项目共卡）。训练预计 ~15:20 UTC 收工，
+其后还有 16/32/24 三档生成与评测。⚑ **工期按"半天"记，别按"1.5–2 小时"记。**
+
+### 五、指标表
+
+**新判定**：无（⛔ 本轮不碰任何判据、不看任何结果数字）。
+**新工具**：无（`/tmp/m35_watch.sh` 是远程临时件，不入库）。
+**改动**：只有本文。
+**未改动**：`m35_read_gate.py`、`comb_learned.py`、`pix_selfcheck.py`、
+`scripts/trd_pixcomb_train_eval.sh`（判据全文）、`model/trd.py`、`model/train_trd.py`、
+`noise_floor.py`、`gen_trd.py`、`run_eval.py`、`final_test.sh`、`UNITS_PER_TILE`、
+`judge_pairs.py`、`sync_remote_tmp.sh`、任何默认值、**32px 准入条件①②③**、已下的任何判决。
+
+**在跑**：`tmux arch_pix`（GPU 3，训练中）+ `tmux m35watch`（看门狗，等 `arch_pix` 退出后出判据①）。
+
+**下一步**
+1. 先看 `/tmp/m35_gate.json`（看门狗自动产出）。⛔ ①不过就是 `GATE_FAILED`、`--bias_pix` 作废、
+   **不下②③**、**不重开**。
+2. ①过才跑第三节那条**逐字命令**判 ②③。⛔ 不加 `--eval16`。
+3. ⛔ 32px 准入条件①②③一个字未动；判官侧自 (M24) 起仍无可用机制。
+
+**本轮成本**：GPU **0**、API **0**（ssh 巡检 + 本机读脚本）。
