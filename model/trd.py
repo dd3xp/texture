@@ -375,7 +375,9 @@ def mask_ratio(u):
 
 
 def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=None, dom=None, coarse=None,
-                  pal_smooth: float = 0.0):
+                  pal_smooth: float = 0.0, aux_fn=None):
+    """aux_fn：可选的附加损失，签名 (lg, mg, grid, k) -> 标量（(M41) 训练侧 CLIP 目标用）。
+    默认 None ⇒ 与旧代码逐字节相同。"""
     B, N, _ = grid.shape
     r = mask_ratio(torch.rand(B, device=grid.device))
     valid_pal = pal != model.PAL_PAD
@@ -391,7 +393,13 @@ def training_loss(model, pal, grid, k, text, color, ref=None, align=None, ex=Non
     lg = lg.masked_fill(~rank_ok[:, None, None, :], float("-inf"))
     loss_g = F.cross_entropy(lg[mg], grid[mg]) if mg.any() else lg.sum() * 0
     loss_p = F.cross_entropy(lp[mp], pal[mp], label_smoothing=pal_smooth) if mp.any() else lp.sum() * 0
-    return loss_g + loss_p, {"loss_grid": loss_g.item(), "loss_pal": loss_p.item()}
+    info = {"loss_grid": loss_g.item(), "loss_pal": loss_p.item()}
+    loss = loss_g + loss_p
+    if aux_fn is not None:
+        la = aux_fn(lg, mg, grid, k)
+        loss = loss + la
+        info["loss_aux"] = la.item()
+    return loss, info
 
 
 # ------------------------------------------------------------------ 采样

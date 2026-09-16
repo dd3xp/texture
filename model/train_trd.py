@@ -124,7 +124,8 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
         dom[i] = 2 if pk.endswith("@gen") else 1 if pk.endswith("@mod") else 0      # 材质包 / 模组 / SDXL
     return {"pal": torch.from_numpy(pal), "grid": torch.from_numpy(grid), "k": torch.from_numpy(k),
             "color": torch.from_numpy(col), "text": text_emb[torch.from_numpy(tix)],
-            "rgb": torch.from_numpy(rgb), "hist": torch.from_numpy(hist), "dom": torch.from_numpy(dom)}
+            "rgb": torch.from_numpy(rgb), "hist": torch.from_numpy(hist), "dom": torch.from_numpy(dom),
+            "tix": torch.from_numpy(tix)}                 # (M41) 训练侧 CLIP 目标按材质取文本嵌入
 
 
 def augment(grid):
@@ -205,6 +206,51 @@ def align_scores(samples, clip_path, dev, bs=256):
     return torch.cat(out).cpu().numpy()
 
 
+# --------------------------------------------------- (M41) 训练侧 CLIP 对齐目标
+class ClipAlign:
+    """把"单张更贴文本"直接写进**损失**，而不是当条件。
+
+    账本自 2026-09-12 起每轮都把这条列为"唯一还没试过的方向"：FD 与 CLIP 是一根杆的两头，
+    已知的两条杠杆（挑调色板先验 / 挑最终样本）都只是在同一条汇率曲线上滑动
+    （CLIP 每涨 1.1，FD 涨 16–22），没有一条能把曲线整体推出去。`--align_clip` 是把
+    对齐分数当**条件**（v6，只动了 ±0.2），本类是把它当**梯度**。
+
+    可微路径：结构 logits 的 softmax × 该样本自己的真调色板 = 期望图（被掩的格子用软的，
+    没被掩的格子用真值且 detach ⇒ 梯度只从"模型自己预测的那些格子"流回去）→ 最近邻放大 224
+    → 冻结 CLIP 图像塔 → 与 "pixel art texture of {材质}" 的余弦。
+
+    ⚠ 故意用**第三个** CLIP：评测用 B/32、重排用 B/16、本损失用 L/14 ⇒ 不直接优化任何
+    一把在用的尺子。⛔ 即使 CLIP 分涨了也不许当证据；判据只认同材质直接对判的判官。
+    """
+
+    def __init__(self, path, prompts, dev, w, bs, tmpl_bs=64):
+        from transformers import CLIPModel, CLIPTokenizer
+        self.m = CLIPModel.from_pretrained(path).to(dev).eval().requires_grad_(False)
+        tok = CLIPTokenizer.from_pretrained(path)
+        te = []
+        with torch.no_grad():
+            for i in range(0, len(prompts), tmpl_bs):
+                t = tok(prompts[i:i + tmpl_bs], padding=True, return_tensors="pt").to(dev)
+                te.append(F.normalize(self.m.get_text_features(**t).float(), dim=-1))
+        self.te = torch.cat(te)
+        self.mean = torch.tensor([0.48145466, 0.4578275, 0.40821073], device=dev).view(1, 3, 1, 1)
+        self.std = torch.tensor([0.26862954, 0.26130258, 0.27577711], device=dev).view(1, 3, 1, 1)
+        self.w, self.bs, self.cos = w, bs, 0.0
+
+    def __call__(self, lg, mg, grid, k, rgb, tix):
+        b = min(self.bs, lg.shape[0])                     # 只取批次前 b 张：CLIP 塔的反传是本损失的全部成本
+        lg, mg, grid, rgb, tix = lg[:b], mg[:b], grid[:b], rgb[:b], tix[:b]
+        p = lg.float().softmax(-1)                        # 越界秩已在 training_loss 里 -inf 屏蔽 ⇒ 权重 0
+        soft = torch.einsum("bijr,brc->bijc", p, rgb.float())
+        hard = torch.gather(rgb.float(), 1, grid.reshape(b, -1, 1).expand(-1, -1, 3)).view(*grid.shape, 3)
+        img = torch.where(mg[..., None], soft, hard.detach())
+        x = F.interpolate(img.permute(0, 3, 1, 2) / 255.0, size=224, mode="nearest")
+        e = F.normalize(self.m.get_image_features(pixel_values=(x - self.mean) / self.std).float(), dim=-1)
+        cos = (e * self.te[tix]).sum(-1).mean()
+        self.cos = cos.item()
+        return self.w * (1.0 - cos)
+
+
 # ------------------------------------------------------------------ 主流程
 def main():
     ap = argparse.ArgumentParser()
@@ -262,6 +308,11 @@ def main():
     ap.add_argument("--align_clip", default="",
                     help="对齐分数条件：用这个 CLIP（本地目录，如 weights/clip-vit-base-patch16）给训练瓦片打图文对齐分")
     ap.add_argument("--p_align_drop", type=float, default=0.5)
+    ap.add_argument("--clip_loss", default="",
+                    help="(M41) 训练侧 CLIP 对齐损失用的 CLIP（默认空 = 关，旧路径逐字节不变）。"
+                         "⚠ 别填评测的 B/32 或重排的 B/16")
+    ap.add_argument("--clip_w", type=float, default=0.3, help="对齐损失权重（只在 --clip_loss 非空时生效）")
+    ap.add_argument("--clip_bs", type=int, default=32, help="每步送进 CLIP 塔的张数（批次前 N 张）")
     ap.add_argument("--n_ex", type=int, default=0,
                     help="v7 结构范例数（model/exemplars.py：同材质、其他画师的 16px 真人瓦片）")
     ap.add_argument("--p_ex_drop", type=float, default=0.3)
@@ -524,6 +575,11 @@ def main():
     best, log = float("inf"), []
     t0 = time.time()
     n = len(train)
+    # (M41)：必须建在 seed_for_training 之前 —— from_pretrained 会消耗 CPU 全局 RNG，
+    # 而 (M30) `RNG_DIVERGES` 说取批与构造共用这条流；放在重播种之前 ⇒ 两臂进循环时 RNG 状态相同。
+    CA = ClipAlign(a.clip_loss, prompts, dev, a.clip_w, a.clip_bs) if a.clip_loss else None
+    if CA is not None:
+        print(f"训练侧 CLIP 对齐损失：{a.clip_loss}，权重 {a.clip_w}，每步 {a.clip_bs} 张", flush=True)
     seed_for_training(a.seed, a.reseed_after_build)   # (M32)：放在循环入口，覆盖构造之后的一切消耗
     for step in range(a.steps + 1):
         model.train()
@@ -538,8 +594,15 @@ def main():
             idx = torch.multinomial(D["pack_w"], bs, replacement=True).cpu()
         else:
             idx = torch.randint(0, nD, (bs,))
+        aux_fn = None
+        if CA is not None:
+            gi = idx.to(dev)
+            aux_fn = lambda lg, mg, g_, k_: CA(lg, mg, g_, k_, D["rgb"][gi], D["tix"][gi])   # noqa: E731
         with torch.autocast(dev, dtype=torch.bfloat16, enabled=dev == "cuda"):
-            loss, parts = training_loss(model, *batch_of(D, idx, True, tile2=tile2), pal_smooth=a.pal_smooth)
+            loss, parts = training_loss(model, *batch_of(D, idx, True, tile2=tile2), pal_smooth=a.pal_smooth,
+                                        aux_fn=aux_fn)
+        if CA is not None:
+            parts["clip_cos"] = CA.cos
         opt.zero_grad(set_to_none=True)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
