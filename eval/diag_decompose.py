@@ -37,6 +37,10 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--xmodal", action="store_true",
                     help="再加一行 palette=xmodal：正式配置那套跨模态检索（B/16 图文相似度，n_name=30，前 5 随机）")
+    ap.add_argument("--oracle_split", action="store_true",
+                    help="再加三行 oracle 重排（只用于把「挑调色板」这一轴再拆一级，需 --xmodal）："
+                         "在前 5 / 前 30 候选 / 全库里按「与该目标真人调色板的距离」取最优。"
+                         "⚠ 全部用到目标信息，是不可达上界，只作定位、不是可达读数")
     ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
     a = ap.parse_args()
     dev = "cuda"
@@ -78,7 +82,12 @@ def main():
     # 正式配置（final_test.sh 的 TRD16）用的是跨模态检索：先按名字取 n_name=30 条，
     # 再按"这张真人瓦片 ↔ 材质名"的 CLIP-B/16 图文相似度取前 5 随机一张，且不限色数（FREE_K）。
     # 这里只把它当**调色板来源**加成一行，网格仍是同一张 —— 四行共用一张网格，隔离出"挑调色板"这一轴。
-    mem = t16 = None
+    def pal_rs(p, n=16):
+        """调色板重采样到 n 个亮度槽（两张调色板色数不同也能比）。两侧都已按亮度排序。"""
+        p = np.asarray(p, np.float64)
+        return p[np.round(np.linspace(0, len(p) - 1, n)).astype(np.int64)]
+
+    mem = t16 = bank_rs = None
     if a.xmodal:
         sys.path.insert(0, str(ROOT / "model"))
         from palette_memory import PaletteMemory, clip16, clip16_texts
@@ -88,8 +97,23 @@ def main():
         t16 = clip16_texts([t["prompt"] for t in T], dev, m16, tok16)
         del m16, tok16
         torch.cuda.empty_cache()
+        if a.oracle_split:
+            bank_rs = np.stack([pal_rs(p) for p in mem.pal])          # [M,16,3]
+
+    def xmodal_cands(i):
+        """与 PaletteMemory.query(k=None, colour=None, topk=5, n_name=30) **逐条等价**的内联版本，
+        rng 消耗顺序一字不差（先 rng.random(len(sims))、再 rng.integers(5)）——这样才能复现 (M46) 的那一行。
+        返回 (选中的调色板, 前 5 候选下标, 前 30 候选下标)。"""
+        sims = (mem.emb @ temb[i].float()).cpu().numpy()
+        sims = sims + 1e-6 * rng.random(len(sims))
+        near = np.argsort(-sims)[:30]
+        xs = (mem.img16[torch.as_tensor(near, device=mem.img16.device)] @ t16[i].float()).cpu().numpy()
+        cand = near[np.argsort(-xs)[:5]]
+        return mem.pal[int(cand[rng.integers(len(cand))])], cand, near
 
     names = ["TRD", "struct=real", "palette=real", "palette=retrieved"] + (["palette=xmodal"] if a.xmodal else [])
+    if a.oracle_split:
+        names += ["palette=best5", "palette=best30", "palette=best_bank"]
     rows = {k: [] for k in names}
     mats = []
     for r in range(a.reps):
@@ -107,9 +131,17 @@ def main():
                 qp = retrieve(i + j, int(ks[sl][j]))
                 rows["palette=retrieved"].append(qp[np.clip(gi, 0, len(qp) - 1)].astype(np.uint8))
                 if mem is not None:
-                    xp, _ = mem.query(temb[i + j], None, rng, colour=None, topk=5,
-                                      text16=t16[i + j], n_name=30)
+                    xp, cand, near = xmodal_cands(i + j)
                     rows["palette=xmodal"].append(xp[np.clip(gi, 0, len(xp) - 1)].astype(np.uint8))
+                    if a.oracle_split:
+                        rr = pal_rs(rp)
+                        for nm, pool_ix in (("palette=best5", cand), ("palette=best30", near)):
+                            d = np.sqrt(((bank_rs[pool_ix] - rr) ** 2).sum(-1)).mean(-1)
+                            bp = mem.pal[int(pool_ix[int(d.argmin())])]
+                            rows[nm].append(bp[np.clip(gi, 0, len(bp) - 1)].astype(np.uint8))
+                        d = np.sqrt(((bank_rs - rr) ** 2).sum(-1)).mean(-1)
+                        bp = mem.pal[int(d.argmin())]
+                        rows["palette=best_bank"].append(bp[np.clip(gi, 0, len(bp) - 1)].astype(np.uint8))
                 mats.append(t["prompt"])
     out, cache = {}, None
     for name, tiles in rows.items():
