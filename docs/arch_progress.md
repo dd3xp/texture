@@ -10094,3 +10094,37 @@ init_from `runs/trd_v8/last.pt` / save_at 6000 12000）。
 `judge_cluster*.py`、`recheck_judge.EXPECT`（本轮**无判官臂**，仍 37 臂 + 18 试点）、
 `eval/diag_decompose.py`、`UNITS_PER_TILE`、任何默认值（`--refs` 默认仍 None ⇒ 旧配方逐位不变）。
 ⛔ 未解禁 32px 判官新臂、未碰 32px 准入条件、零 API。
+
+### 七、起跑记账（2026-09-18 03:25 UTC+8 / 远程 09-17 19:25 UTC）
+
+远程原本无我方任务（`tmux ls` 只有 `h3_*`/`sft`）。三个会话已挂：
+
+| tmux | pid | GPU | 干什么 | 日志 |
+|---|---|---|---|---|
+| `m55_r0` | 2800406 | 6 | `render_refs.py --shard 0 --nshards 2`（539 个提示词） | `/tmp/m55_refs0.txt` |
+| `m55_r1` | 2800411 | 7 | 同上 `--shard 1`（538 个） | `/tmp/m55_refs1.txt` |
+| `m55_tr` | 2802639 | 6 | 等两个 `shard*.done` 齐（上限 6 小时，否则 `exit 3`）后训 12000 步 | `/tmp/m55_train.txt` |
+
+**核链路复核**（记忆里三条坑逐条对过）：
+- `/proc/<pid>/environ` 实测 `CUDA_VISIBLE_DEVICES=6` / `=7`、`HF_HUB_OFFLINE=1`
+  ⇒ 卡号确实进去了（tmux 不继承 ssh 环境那条坑没踩）。
+- `/proc/<pid>/cmdline` 与预注册第三节逐字相同；`nvidia-smi` 两个进程各 15.6GB，
+  同卡另有他人 35.5GB ⇒ 80GB 上还剩 ~29GB，训练（约 22GB）等渲染退出后再起，不冲突。
+- 命令全部写在 `.sh` 里（ssh→tmux→`bash -c` 三层引号那条坑），远程已 `tr -d '\r'`。
+- 产物全在 `/tmp`（`/mnt/data` 97% 满、只剩 417G）；`/tmp` 所在盘 252G 可写。
+
+**(OP1) 的跑前版本已过**（`scripts/m55_check.sh`，零 GPU）：`train_trd.py` 建 `mats` 需要
+**1076** 个提示词，`render_refs.all_prompts("train_extra_packs_only.json")` 产出 **1077**，
+**缺 0** ⇒ 不会死在 `train_trd.py:383`。⚑ 这一条是 (M31)(M35) 那招"判读器用正确路径提前空跑"
+的同类：把会让整轮白跑的那个检查挪到起跑之前。
+
+**作废条件 3（`VOID_REF_GARBAGE`）已人工核对**：`thumbs/` 取 4 张 ——
+`acacia_wood` 是棕色木板、`adamantium_block` 是蓝橙方块、`acacia_tree_top` 是俯视树冠、
+`airlock` 是灰底橙板的工业面板，**语义全部对得上且都是可平铺的像素画风** ⇒ 不触发。
+
+**下一轮怎么接**（盲写，含"谁在什么时候执行"）：
+1. 先看 `/tmp/m55_train.txt`：出现 `M55_TRAIN_ABORT_NO_REFS` ⇒ 渲染没齐，查两个 `m55_refs*.txt`；
+   出现 `M55_TRAIN_DONE` ⇒ 料齐。⛔ 别拿 stdout 比字符串，只看这两个串在不在（`grep -q`）。
+2. 训完先跑第四节的 (OP1)–(OP4)，再按**主判据**读：`run_eval.py --set V_mat --size 32`
+   比 `/tmp/runs/trd_refs_09180330` 与 `runs/trd_v10`，推理配方除 `--run`/`--refs` 外逐字相同。
+3. ⛔ 判据一个字不许改；⛔ 本轮及下轮都**不开判官臂**；⛔ CLIP 读数不许换算成胜率。
