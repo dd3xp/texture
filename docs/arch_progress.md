@@ -9553,3 +9553,19 @@ seed 0（`--sham 12`）+ seed 1（`--sham 24`，主判据）。
 （第十一轮不改）；⛔ 不动 `palette_memory.py` / 检索 / topk / 候选集 / `judge_pairs.py`；
 ⛔ 不重跑 `judge_cluster_sweep.py`；⛔ 不碰 E_mat；⛔ 判决若为 `AXIS_TOO_SMALL`，**不许改口去换个门槛重读**。
 ⚑ 本轮对活件的唯一改动 ＝ `eval/diag_decompose.py` 加 `--dump`（纯落盘，在生成循环之后，(OP2) 负责证明它没动读数）。
+
+### 七、本轮挂起的活（给下一轮：料齐就判，别干等）
+
+| 会话 | 在跑什么 | 产物 | 用途 |
+|---|---|---|---|
+| `m52dump`（emnlp，GPU 6） | `diag_decompose.py ... --dump /tmp/m52_dump`（已落盘 **9 行 x 125 张**，正在算九行指标） | `/tmp/m52_decompose_s0.json`、`/tmp/m52_dump.txt` | (OP2) 复现检验（`TRD=38.909` 已对上 (M50) seed0） |
+| `m52judge`（emnlp，零 GPU） | 探针 2 次调用 **PROBE_OK** 后跑 `judge_pairs.py full --a pal_real --b pal_xmodal --set V_mat --no_gate --root /tmp/m52_dump --outdir /tmp` | `/tmp/judge_full_pal_real_vs_pal_xmodal_16_V_mat.json`、`/tmp/m52_judge.txt` | 主判据 |
+
+⚠ **可比对 125**（不是 124）⇒ **(P1) 已推翻**，记在账上。
+下一轮：`scp` 回 `/tmp/m52_decompose_s0.json` + `/tmp/judge_full_*.json` + `/tmp/m52_dump/pal_real|pal_xmodal`
+（⚠ `sync_remote_tmp.sh` 新加的 `m5[0-9]_dump` 救不了已存在的文件，**必须手动 scp 一次**），然后
+
+    python analysis/arch/m52_read_axis.py --judge <judge_full json> --decomp <decompose json> \
+        --dump remote_tmp/m52_dump --out experiments/m52_verdict.json
+
+⛔ 判读器 `16ad1a4` 已冻结，**一个字不许改**。
