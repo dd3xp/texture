@@ -1,0 +1,55 @@
+{
+ "thr": 4.656,
+ "checks": {
+  "OP1_dyn_range": {
+   "value": 35.11824007043704,
+   "need": ">= 4.656",
+   "pass": true
+  },
+  "OP2_repro": {
+   "d_xmodal": -0.00011938508636610834,
+   "d_incbest5": -0.0002104779784932731,
+   "need": "|d| <= 0.5",
+   "pass": true
+  },
+  "OP3_changed": {
+   "change_rate": {
+    "palette=rr_argmax": 0.7882653061224489,
+    "palette=rr_trdpal": 0.8061224489795918,
+    "palette=rr_incTRD": 0.7933673469387755
+   },
+   "need": ">= 0.5 每行",
+   "pass": true
+  },
+  "OP4_same_pool": {
+   "subset_ok": true,
+   "need": "True",
+   "pass": true
+  }
+ },
+ "G": {
+  "palette=rr_argmax": -3.471473274467151,
+  "palette=rr_trdpal": 3.5545239148027097,
+  "palette=rr_incTRD": -2.9450605360951094
+ },
+ "notes": [],
+ "missing_rows": [],
+ "missing_rr": [],
+ "kid": {
+  "TRD": 38.90940939181589,
+  "real_half": 3.791169321378849,
+  "palette=xmodal": 13.430880614913633,
+  "palette=incbest5": 8.325789522021507,
+  "palette=rr_argmax": 16.902353889380784,
+  "palette=rr_trdpal": 9.876356700110923,
+  "palette=rr_incTRD": 16.375941151008742
+ },
+ "S1_now": 5.105091092892126,
+ "dropped_rows": [],
+ "n_checks_done": 4,
+ "win_row": "palette=rr_trdpal",
+ "G_best": 3.5545239148027097,
+ "recovered_frac": 0.696270419102161,
+ "verdict": "RERANK_TOO_SMALL",
+ "why": "最好的一行 palette=rr_trdpal 只追回 3.555 < thr 4.656 ＝测不出，【禁】不许开判官臂"
+}
