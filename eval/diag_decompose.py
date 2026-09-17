@@ -33,6 +33,13 @@ def main():
     ap.add_argument("--run", type=Path, required=True)
     ap.add_argument("--ckpt", default="last.pt")
     ap.add_argument("--cfg", type=float, default=1.5)
+    ap.add_argument("--size", type=int, default=16,
+                    help="(M53) 画布尺寸。默认 16 ＝ (M46)–(M52) 那条路径一个字未改；"
+                         "给 32 时参照集换成 V_mat 的 32px 真人瓦片、网格按 32 采样")
+    ap.add_argument("--floor_reps", type=int, default=1,
+                    help="(M53) 地板行重复几次随机对半。>1 时额外落盘 `_floor_null`＝"
+                         "「真人 vs 真人」在**这个 n 上**的经验零分布（(M50) 那条纪律：门槛口径不对就自己造零分布）。"
+                         "默认 1 ＝ 旧行为（前一半 vs 后一半），逐位不变")
     ap.add_argument("--reps", type=int, default=2, help="每个目标出几张（增加 n 降方差）")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--xmodal", action="store_true",
@@ -76,13 +83,13 @@ def main():
     model.load_state_dict(ck["model"])
     model.eval()
 
-    T = targets("V_mat", 16)
+    T = targets("V_mat", a.size)
     ref = [t["ref"] for t in T]
     # 真人：亮度序网格 + 调色板（与 tiles_data 同一规范化）
     real = []
     for t in T:
         cols, inv = np.unique(t["ref"].reshape(-1, 3), axis=0, return_inverse=True)
-        g, p = canonicalise(inv.reshape(16, 16).astype(np.int64), cols.astype(np.uint8))
+        g, p = canonicalise(inv.reshape(a.size, a.size).astype(np.int64), cols.astype(np.uint8))
         real.append((g, p))
     temb = clip_text([TEXT_TMPL.format(p=t["prompt"]) for t in T], dev).to(dev)
     ks = torch.tensor([p.shape[0] for _, p in real], device=dev).clamp(max=16)
@@ -154,7 +161,7 @@ def main():
     for r in range(a.reps):
         for i in range(0, len(T), 32):
             sl = slice(i, i + 32)
-            pal, grid = sample(model, temb[sl], ks[sl], n=16, cfg=a.cfg)
+            pal, grid = sample(model, temb[sl], ks[sl], n=a.size, cfg=a.cfg)
             tiles = decode(pal, grid, cb)
             for j, t in enumerate(T[sl]):
                 gi = grid[j].cpu().numpy()
@@ -270,7 +277,7 @@ def main():
         from PIL import Image
         first = [i for i, t in enumerate(T) if t["j"] == 0]
         for name, tiles in rows.items():
-            d = a.dump / name.replace("palette=", "pal_").replace("=", "_") / "16"
+            d = a.dump / name.replace("palette=", "pal_").replace("=", "_") / str(a.size)
             d.mkdir(parents=True, exist_ok=True)
             for i in first:
                 Image.fromarray(np.asarray(tiles[i], np.uint8)).save(d / f"{T[i]['slug']}_0.png")
@@ -283,6 +290,19 @@ def main():
     half = len(ref) // 2
     res, _ = evaluate(ref[:half], [t["prompt"] for t in T[:half]], ref[half:])
     out["real_half"] = res
+    if a.floor_reps > 1:
+        # (M53) 地板的经验零分布：同一批真人瓦片随机对半 R−1 次。真值恒为「两边同分布」，
+        # 于是这组读数就是 KID 在**这个 n 上**的零分布。独立 rng、且在生成循环之后 => 原有各行逐位复现。
+        frng = np.random.default_rng(530000 + a.seed)
+        null = []
+        for _ in range(a.floor_reps - 1):
+            perm = frng.permutation(len(ref))
+            A, B = perm[:half], perm[half:]
+            r, _ = evaluate([ref[i] for i in A], [T[i]["prompt"] for i in A], [ref[i] for i in B])
+            null.append(r)
+            print(f"  floor_null {len(null)}/{a.floor_reps - 1} KID={r.get('KID_x1e3', float('nan')):.3f}",
+                  flush=True)
+        out["_floor_null"] = null
     if sel:
         out["_sel"] = sel
     if rr_diag:
