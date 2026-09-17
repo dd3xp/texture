@@ -1,0 +1,56 @@
+{
+ "thr": 4.656,
+ "checks": {
+  "OP1_dyn_range": {
+   "value": 35.11824007043704,
+   "need": ">= 4.656",
+   "pass": true
+  },
+  "OP2_repro_M46": {
+   "d_xmodal": -0.00011938508636610834,
+   "d_real": 0.00022157883050599736,
+   "need": "|d| <= 0.5",
+   "pass": true
+  },
+  "OP3_metric_agrees": {
+   "S1": 5.105091092892126,
+   "S2": -0.6993572049055832,
+   "need": "S1,S2 >= -4.656",
+   "pass": true
+  },
+  "OP4_sel_monotone": {
+   "mean_d": {
+    "palette=xmodal": 243.58584192908643,
+    "palette=incbest5": 178.6830877368656,
+    "palette=incbest30": 138.02052747366733
+   },
+   "need": "d_xmodal >= d5 >= d30",
+   "pass": true
+  }
+ },
+ "buckets": {
+  "S1": 5.105091092892126,
+  "S2": -0.6993572049055832,
+  "S3": 2.548329262433259,
+  "S4": -0.4174041143366747
+ },
+ "notes": [],
+ "missing_rows": [],
+ "missing_sel": [],
+ "kid": {
+  "TRD": 38.90940939181589,
+  "real_half": 3.791169321378849,
+  "palette=real": 6.894221578830506,
+  "palette=xmodal": 13.430880614913633,
+  "palette=incbest5": 8.325789522021507,
+  "palette=incbest30": 9.02514672692709,
+  "palette=incbest30r": 13.406457507687763,
+  "palette=incbest512r": 6.4768174644938314
+ },
+ "n_checks_done": 4,
+ "verdict": "GAP_PICK_IN_TOP5",
+ "win_bucket": "S1",
+ "win_value": 5.105091092892126,
+ "why": "可捞量在「现有 5 个候选里没挑对」=> 下个部件造重排器",
+ "P_sel": 6.536659036083127
+}
