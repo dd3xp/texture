@@ -76,6 +76,13 @@ EXPECT = {
     # ⚠ 同一条命令的**第一次**执行 api_fail=125/125（key 失效，decided=0 = 什么也没测到），
     #   那份原样留在 `experiments/judge_full_gen10_rr4_vs_gen8_rr4_16_V_mat_VOID_apidown.json`，⛔ 不进本表。
     "judge_full_gen10_rr4_vs_gen8_rr4_16_V_mat.json":         (33,  63, 62, 0),
+    # 验证集 16px：补充训练数据被砍掉 80% 值不值（预注册 098e1e1，eval/m43_data_ab.sh）。免门（`--no_gate`），
+    # A = runs/trd_v7 step_20000（train_extra.json 12241 条，含模组池 + --domain）、
+    # B = runs/trd_v8 step_20000（train_extra_packs_only.json 2433 条 = 现行主配方），其余逐字照抄 TRD16c。
+    # 可解率 68/125 = 54.4% vs 地板 17.8%（p=3.4e-20）。判决 DATA_NULL（族级 (U1) CI [0.5000,0.7031] 含 0.5）。
+    # ⚠⚠ 引本臂必须同引：该臂的零 API pixfrac 筛子读数是 **SCREEN_AMBIGUOUS(0.7907)**，
+    #   而那道门是**在看到该读数之后**由另一次独立预注册（(M44)，522297e）整个撤下的。
+    "judge_full_data7_rr4_vs_data8_rr4_16_V_mat.json":        (41,  68, 57, 0),
 }
 
 # 试点 -> (真题可解, n 真题, 空对照可解, n 空对照, 是否过门槛)。
