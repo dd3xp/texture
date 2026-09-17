@@ -31,7 +31,7 @@ def main():
         for t in targets(a.set, 16):
             if t["j"] != 0:
                 continue
-            if m in ("B1", "B2", "B4"):
+            if m in ("B1", "B2", "B4", "B5"):      # B5 由 eval/build_b5.py 落盘后与其他基线同路
                 src = next((p for p in (base / m / "16" / f"{t['slug']}.png", base / m / "16" / f"{t['slug']}_0.png")
                             if p.exists()), None)
             else:
