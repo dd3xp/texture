@@ -1,0 +1,55 @@
+{
+ "round": "M43",
+ "question": "16px 该发含模组训练池的 v7 还是现行 v8（采纳问题）",
+ "meter": "pixfrac = 逐像素不同比例的材质均值（与 M39/M41/M42 逐字相同）",
+ "anchors": {
+  "D37": 0.8173,
+  "D38": 0.6608,
+  "D40": 0.6431,
+  "D_seed_M42": 0.6643
+ },
+ "anchor_caveat": "本轮是跨码本比较，与三个锚点不同类（预注册 (5)）",
+ "prerun_prediction_P1": "SCREEN_GO",
+ "counts": {
+  "data7": 500,
+  "data8": 500,
+  "data7_rr4": 125,
+  "data8_rr4": 125
+ },
+ "runs": {
+  "A": "runs/trd_v7",
+  "B": "runs/trd_v8"
+ },
+ "pair_rr4": {
+  "n": 125,
+  "identical": 0,
+  "pixfrac": 0.79075,
+  "mae": 0.10062777777777777
+ },
+ "pair_raw_first": {
+  "n": 500,
+  "identical": 0,
+  "pixfrac": 0.5271328125,
+  "mae": 0.04864653799019606
+ },
+ "cfg_diff": [
+  "codebook_err",
+  "domain",
+  "extra_file",
+  "out",
+  "save_at",
+  "steps"
+ ],
+ "extra_file": {
+  "A": "<MISSING>=train_extra.json(含模组)",
+  "B": "train_extra_packs_only.json"
+ },
+ "domain": {
+  "A": true,
+  "B": false
+ },
+ "n_checked": 8,
+ "problems": [],
+ "screen": "SCREEN_AMBIGUOUS",
+ "P1_correct": false
+}
