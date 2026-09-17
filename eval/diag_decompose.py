@@ -41,6 +41,12 @@ def main():
                     help="再加三行 oracle 重排（只用于把「挑调色板」这一轴再拆一级，需 --xmodal）："
                          "在前 5 / 前 30 候选 / 全库里按「与该目标真人调色板的距离」取最优。"
                          "⚠ 全部用到目标信息，是不可达上界，只作定位、不是可达读数")
+    ap.add_argument("--oracle_feat", action="store_true",
+                    help="(M48) 再加四行 oracle 重排，但**在评测特征空间里选**（Inception pool3，"
+                         "= KID/FID 用的同一张网）：前 5 / 前 30 / 全库随机 30 / 全库随机 N 里，"
+                         "按 ||Inception(候选调色板配这张网格) - Inception(该目标真人瓦片)||^2 取最优。"
+                         "需 --xmodal。⚠ 用到目标信息，是不可达上界，只作定位")
+    ap.add_argument("--rand_pool", type=int, default=512, help="--oracle_feat 的全库随机候选池大小")
     ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
     a = ap.parse_args()
     dev = "cuda"
@@ -103,18 +109,24 @@ def main():
     def xmodal_cands(i):
         """与 PaletteMemory.query(k=None, colour=None, topk=5, n_name=30) **逐条等价**的内联版本，
         rng 消耗顺序一字不差（先 rng.random(len(sims))、再 rng.integers(5)）——这样才能复现 (M46) 的那一行。
-        返回 (选中的调色板, 前 5 候选下标, 前 30 候选下标)。"""
+        返回 (选中的调色板, 前 5 候选下标, 前 30 候选下标, 选中者在库里的下标)。"""
         sims = (mem.emb @ temb[i].float()).cpu().numpy()
         sims = sims + 1e-6 * rng.random(len(sims))
         near = np.argsort(-sims)[:30]
         xs = (mem.img16[torch.as_tensor(near, device=mem.img16.device)] @ t16[i].float()).cpu().numpy()
         cand = near[np.argsort(-xs)[:5]]
-        return mem.pal[int(cand[rng.integers(len(cand))])], cand, near
+        pick = int(cand[rng.integers(len(cand))])
+        return mem.pal[pick], cand, near, pick
 
     names = ["TRD", "struct=real", "palette=real", "palette=retrieved"] + (["palette=xmodal"] if a.xmodal else [])
     if a.oracle_split:
         names += ["palette=best5", "palette=best30", "palette=best_bank"]
+    RAND_R = f"palette=incbest{a.rand_pool}r"
+    feat_names = ["palette=incbest5", "palette=incbest30", "palette=incbest30r", RAND_R]
+    if a.oracle_feat:
+        names += feat_names
     rows = {k: [] for k in names}
+    jobs = []
     mats = []
     for r in range(a.reps):
         for i in range(0, len(T), 32):
@@ -131,8 +143,10 @@ def main():
                 qp = retrieve(i + j, int(ks[sl][j]))
                 rows["palette=retrieved"].append(qp[np.clip(gi, 0, len(qp) - 1)].astype(np.uint8))
                 if mem is not None:
-                    xp, cand, near = xmodal_cands(i + j)
+                    xp, cand, near, pick = xmodal_cands(i + j)
                     rows["palette=xmodal"].append(xp[np.clip(gi, 0, len(xp) - 1)].astype(np.uint8))
+                    if a.oracle_feat:
+                        jobs.append((gi.copy(), i + j, cand, near, pick))
                     if a.oracle_split:
                         rr = pal_rs(rp)
                         for nm, pool_ix in (("palette=best5", cand), ("palette=best30", near)):
@@ -143,7 +157,39 @@ def main():
                         bp = mem.pal[int(d.argmin())]
                         rows["palette=best_bank"].append(bp[np.clip(gi, 0, len(bp) - 1)].astype(np.uint8))
                 mats.append(t["prompt"])
-    out, cache = {}, None
+    out, cache, sel = {}, None, {}
+    if a.oracle_feat:
+        # (M48) 在**读数用的那把尺子**（Inception pool3）里选 oracle，而不是 RGB 代理距离。
+        # 换调色板只是给同一张网格换取色表，不需要重新生成 => 代价只是候选瓦片的特征前向。
+        from metrics import inception_feats, dino_feats
+        cache = {"inc": inception_feats(ref), "dino": dino_feats(ref)}
+        ref_inc = cache["inc"]
+        prng = np.random.default_rng(20260917)           # 与生成用的 rng 分开，且抽样在生成循环之后
+        r30 = prng.choice(len(mem.pal), 30, replace=False)
+        r512 = prng.choice(len(mem.pal), a.rand_pool, replace=False)
+        dsum = {k: 0.0 for k in ["palette=xmodal"] + feat_names}
+        uniq = {k: set() for k in feat_names}
+        for n_done, (gi, ti, cand, near, pick) in enumerate(jobs):
+            pool_ix = {"palette=incbest5": cand, "palette=incbest30": near,
+                       "palette=incbest30r": r30, RAND_R: r512}
+            uni = np.unique(np.concatenate([cand, near, r30, r512, [pick]])).astype(np.int64)
+            cand_tiles = [mem.pal[int(x)][np.clip(gi, 0, len(mem.pal[int(x)]) - 1)].astype(np.uint8)
+                          for x in uni]
+            f = np.concatenate([inception_feats(cand_tiles[s:s + 192])
+                                for s in range(0, len(cand_tiles), 192)])
+            d = ((f - ref_inc[ti]) ** 2).sum(1)
+            pos = {int(v): p for p, v in enumerate(uni)}
+            dsum["palette=xmodal"] += float(d[pos[pick]])
+            for nm, ixs in pool_ix.items():
+                sub = np.array([pos[int(x)] for x in ixs], np.int64)
+                b = int(sub[int(d[sub].argmin())])
+                rows[nm].append(cand_tiles[b])
+                dsum[nm] += float(d[b])
+                uniq[nm].add(int(uni[b]))
+            if n_done % 50 == 0:
+                print(f"  oracle_feat {n_done}/{len(jobs)}", flush=True)
+        sel = {k: {"mean_d": dsum[k] / len(jobs), "uniq": len(uniq[k]) if k in uniq else None}
+               for k in dsum}
     for name, tiles in rows.items():
         res, cache = evaluate(tiles, mats, ref, ref_cache=cache)
         out[name] = res
@@ -152,6 +198,8 @@ def main():
     half = len(ref) // 2
     res, _ = evaluate(ref[:half], [t["prompt"] for t in T[:half]], ref[half:])
     out["real_half"] = res
+    if sel:
+        out["_sel"] = sel
     p = a.out or ROOT / f"experiments/diag_decompose_{a.run.name}.json"
     p.write_text(json.dumps(out, indent=1))      # 落盘一律挪到打印之前：崩在打印上也不丢数据
     print("real half vs half " + "  ".join(f"{k}={v:.3f}" for k, v in res.items() if k != "n"))
