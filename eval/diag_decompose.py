@@ -59,6 +59,10 @@ def main():
                          "就是 G 的**经验零分布**（于是 rr_* 对它的秩检验是精确置换检验）。"
                          "抽样用独立 rng、且在生成循环之后 ⇒ ⛔ 不消耗生成流，原有各行逐位复现。需 --rerank")
     ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
+    ap.add_argument("--dump", type=Path, default=None,
+                    help="(M52) 把各行的瓦片按判官要的目录结构落盘：<dump>/<行名>/<size>/<slug>_0.png，"
+                         "于是 `judge_pairs.py --root <dump> --set V_mat` 能直接拿两行去对判。"
+                         "只落 reps 的第一轮、每个 slug 的 j=0 那张。⚠ 在生成循环之后做，不消耗任何 rng")
     a = ap.parse_args()
     if a.rerank and (a.oracle_feat or not a.xmodal):
         ap.error("--rerank 需要 --xmodal，且与 --oracle_feat 互斥（行名会撞）")
@@ -260,6 +264,17 @@ def main():
         rr_diag["palette=incbest5"] = {"mean_d": dsel["palette=incbest5"] / n,
                                        "uniq": len(set(orc))}
         rr_diag["subset_ok"] = subset_ok
+    if a.dump:
+        # (M52) 判官只认 <root>/<方法>/<size>/<slug>_0.png。各行的 tiles 与 T 同序
+        # （生成循环与 jobs 循环都是 for r in reps: for i in T），取前 len(T) 个即第一轮。
+        from PIL import Image
+        first = [i for i, t in enumerate(T) if t["j"] == 0]
+        for name, tiles in rows.items():
+            d = a.dump / name.replace("palette=", "pal_").replace("=", "_") / "16"
+            d.mkdir(parents=True, exist_ok=True)
+            for i in first:
+                Image.fromarray(np.asarray(tiles[i], np.uint8)).save(d / f"{T[i]['slug']}_0.png")
+        print(f"dump -> {a.dump}（{len(rows)} 行 x {len(first)} 张）", flush=True)
     for name, tiles in rows.items():
         res, cache = evaluate(tiles, mats, ref, ref_cache=cache)
         out[name] = res
