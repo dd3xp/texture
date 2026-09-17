@@ -7888,3 +7888,90 @@ STAGE=judge bash eval/m41_gen_judge.sh >> /tmp/m41_judge.txt 2>&1    # 照跑
 3. 若开成判官臂：新臂登进 `recheck_judge.EXPECT`（仍 35 臂 + 18 试点）再跑 `judge_cluster_sweep.py`；
    引 `_NULL` 必须同引 **MDE≈67.6%** 与上面三-(b) 的剂量限制。
 4. (P1)(P2)(P3) 三条预测逐条照录，被推翻就写被推翻。
+
+## 2026-09-17 10:15 UTC+8：**(M41) 看门狗死等在 tmux 前缀匹配上；直跑第二阶段，(P3) 照录 `VAL_BELOW_NOISE`**
+
+开工探测：两臂**都已跑满 6000 步**（B `trd_ctl_09162316` 00:22 UTC 完、A `trd_clipw_09162316` 01:30 UTC 完，
+`best/last/codebook/config/log/val_samples` 齐）；`/mnt/data` 426G 可写；GPU2 free 28.9G。
+**⛔ 本轮仍无判决**（第二阶段刚启动）。
+
+### 一、本轮的正事：上一轮刚补好的门，被一个**看门狗永不触发**的洞架空了
+
+`/tmp/m41_wd2.sh` 第一行是 `while tmux has-session -t arch_m41 ...; do sleep 120; done`，
+而看门狗自己跑在会话 **`arch_m41wd2`** 里。**tmux 的 `-t` 是前缀匹配** ⇒ `has-session -t arch_m41`
+命中 `arch_m41wd2` **自身**，rc 恒为 0。实测（训练进程早已消失时）：
+
+```
+$ tmux ls | grep arch_m41      -> 只剩 arch_m41wd2
+$ tmux has-session -t arch_m41 ; echo rc=$?   -> rc=0
+$ ps --ppid 2321212            -> sleep 120（第 55 分钟还在循环）
+```
+
+⇒ 看门狗从 01:30（A 臂结束）起**空转了 40 分钟**，`/tmp/m41_gen.txt`、`/tmp/m41_meter.json`
+一个都不存在。⚠ 这不是"慢"，是**永不触发**：只要它自己活着，条件就永远为真。
+
+⚑⚑ 这是同一条老教训的第三种形态，值得单列：上一轮补的是"**没人读的退出码不是门**"，
+这一轮是"**等待条件把自己算了进去 ⇒ 门永远等不到开跑的那一刻**"。
+两次都发生在「链路的胶水」上，而不是判据或脚本本体里（`m41_gen_judge.sh` 远程 md5
+`fd6f3da1…` 与预注册逐字节相同，一个字没被动过）。**核链路要连"谁在等谁"一起核**：
+⛔ 今后任何 `tmux has-session -t X` 的等待，会话名 X **不许是等待者自己会话名的前缀**。
+
+### 二、处置：不需要看门狗了，直跑
+
+料已经齐（两臂 6000 步全在），按账本"**料齐就判、别干等看门狗**"直接开第二阶段：
+`tmux kill-session -t arch_m41wd2` → 新会话 **`arch_m41gj`** 跑 `scripts/m41_stage2_run.sh`
+（＝ v2 看门狗**去掉那个 while 循环**，TAG/OUT/JOUT/MET/CUDA/TRITON/gen→rc→judge 单向接法
+**逐字相同**；⛔ `eval/m41_gen_judge.sh` 一个字未改）。启动后逐字复核：
+
+```
+2341097 bash /tmp/m41_run2.sh
+2341100 bash eval/m41_gen_judge.sh
+2341115 python eval/gen_trd.py --run runs/trd_clipw_09162316 --ckpt last.pt --set V_mat
+        --size 16 --n 4 --bs 16 --cfg 1.5 --pal_mode retrieve --xmodal --ret_nname 100 --out /tmp/m41ab --tag clipw
+[OP] 三份码本 md5 相同: 8dd2a303…   (v8 / A / B 逐字节相同 -> 调色板码对得上)
+```
+
+⚑ API key 开跑前已探针（(M40) 教训）：`POST /v1/chat/completions` **http=200**
+（严格模式抓到两把，**`tail -1` 那把有效**）。
+
+### 三、(P3) 照录：**`VAL_BELOW_NOISE`**，⛔ 不是"打平"
+
+`analysis/arch/val_noise_floor.py`（`--selftest` 先过），门槛＝上一轮钉死的 **Dmax 0.0623**：
+
+| step | 0 | 1000 | 2000 | 3000 | 4000 | 5000 | 6000 |
+|---|---|---|---|---|---|---|---|
+| d = val_A − val_B | −0.00010 | −0.00116 | +0.00001 | −0.00133 | −0.00130 | −0.00038 | **−0.00061** |
+
+**d(final) = −0.00061，门槛 0.0623 ⇒ 差了 100 倍。** 逐点 |d| 全程 ≤ 0.00216。
+预注册 (P3) 预测的是「A 的 val 会**更差**（d 为正）」⇒ **(P3) 未被证实**；
+⚠ 但符号其实是**负**的（A 略低）——⛔ **不许读成"A 的 val 更好"**，它比噪声下限小两个数量级，
+唯一诚实的说法是「**在 val 这把尺子上什么都没测到**」。⚠ 引它必须同引 (M37)：**val 指错过方向、不是判据**。
+读数落盘 `experiments/m41_val_noise.json`。
+
+### 四、顺带把 (OP3) 的实际余量记下来（⛔ 不据此改任何东西）
+
+A 臂 `clip_cos` 全 13 个点已在（0.2361 – 0.2662）：**首两点 0.2514 → 末两点 0.2522**，
+差 **+0.0008**，而点间极差 **0.0301 ＝ 该差的 38 倍**。
+
+⇒ (OP3)「首两点均值 < 末两点均值」**按字面过了**（所以本臂不因 OP3 作废），
+但上一轮**在看到终点之前**就写死的读法现在必须照办：
+**⛔ 勉强过 ⇒ 不许读成"训练侧 CLIP 损失明显起作用了"。**
+⚠ 另核了一条：A−B 的 train 差（0.2216@step0 / 0.2250@step6000）**恒等于** A 的 `loss_aux`
+＝ `0.3×(1−clip_cos)` ⇒ **`loss_aux` 不携带"梯度是否真的改了模型"的独立信息**。
+两臂 val 相差 ~0.001（非零但比换种子小 50×）只能说明**权重确实分叉了**。
+"图有没有变"这个问题**只能由 (OP5) 的 pixfrac 回答** —— 也正是筛子门要读的那个量。
+
+### 五、指标表
+
+**本轮无判决**。**新产物**：`experiments/m41_val_noise.json`（(P3) 读数）、
+`scripts/m41_stage2_run.sh`（第二阶段启动链，无凭据）。
+**未改动**：`eval/final_test.sh`、`eval/m41_gen_judge.sh`、`eval/m41_clip_loss_ab.sh`、
+筛子三锚点（D37/D38/D40）、判官配方、`--ckpt last.pt`、(P1)(P2)(P3)、`judge_pairs.py`、
+任何判决、32px 准入条件①②③④。
+
+**下一步**
+1. 读 `/tmp/m41_gen.txt` → `/tmp/m41_meter.json`：**先核 (OP1)–(OP5)、再看门**（两道门都在代码里）。
+   ⛔ 门说不是 `SCREEN_GO` 就记账走人，⛔ 不许"既然图都出了不如判一下"。
+2. 若门放行、判官跑完：新臂登进 `recheck_judge.EXPECT`（现 35 臂 + 18 试点）再跑 `judge_cluster_sweep.py`。
+   引 `_NULL` 必须同引 **MDE≈67.6%** 与**剂量限制**（`clip_bs=8 / clip_w=0.3`，比原计划低 4 倍）。
+3. (P1)(P2) 照录，被推翻就写被推翻。
