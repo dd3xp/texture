@@ -208,7 +208,7 @@ def main():
     for k, v in res["predictions"].items():
         print("  %-22s 预测 %-16s -> %s" % (k, v["pred"], "对" if v["correct"] else "【禁】错"))
     print("  problems=%d %s" % (len(res["problems"]), res["problems"]))
-    print("对尺子的结论 = %s（⛔ 无论如何都不恢复为门，见文件头纪律 1）" % res["verdict_on_ruler"])
+    print("对尺子的结论 = %s（【禁】无论如何都不恢复为门，见文件头纪律 1）" % res["verdict_on_ruler"])
     return 0
 
 

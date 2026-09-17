@@ -1,0 +1,73 @@
+{
+ "root": "C:\\Codes\\texture\\remote_tmp\\abl16",
+ "base": "TRD16c_rr4",
+ "size": "16",
+ "anchors": {
+  "D37_sig": 0.8173,
+  "D38_null": 0.6608,
+  "D40_null": 0.6431,
+  "D_seed_constructive_zero": 0.6643,
+  "D_data_null": 0.79075
+ },
+ "disclosure": "图在 E_mat(272，测试集)上生成；本轮只读两臂自己的输出像素做差，不碰真人瓦片、不跑判官、不改任何已发表数字。引用必须同引本行。",
+ "arms": {
+  "AB_pal_rr4": {
+   "published_effect": 0.663,
+   "calibration_point": true,
+   "note": "126/190=66% p=8e-06 族级[.574,.747] W1_robust",
+   "band": "ABOVE_D37",
+   "n": 272,
+   "identical": 0,
+   "pixfrac": 0.9999425551470589,
+   "mae": 0.17143481473471742
+  },
+  "AB_ct_rr4": {
+   "published_effect": 0.56,
+   "calibration_point": true,
+   "note": "真平局（可解率 57%，地板 16%）",
+   "band": "BETWEEN",
+   "n": 272,
+   "identical": 0,
+   "pixfrac": 0.6640337775735294,
+   "mae": 0.08425562358828334
+  },
+  "AB_ex_rr4": {
+   "published_effect": 0.5,
+   "calibration_point": true,
+   "note": "真平局（可解率 64%，地板 16%）",
+   "band": "ABOVE_D37",
+   "n": 272,
+   "identical": 0,
+   "pixfrac": 0.8936264935661765,
+   "mae": 0.10300335207612456
+  },
+  "AB_xm_rr4": {
+   "published_effect": null,
+   "calibration_point": false,
+   "note": "无 full（试点不过门）-> 只登记，⛔ 不当标定点",
+   "band": "ABOVE_D37",
+   "n": 272,
+   "identical": 0,
+   "pixfrac": 0.9798512178308824,
+   "mae": 0.18425419685337371
+  }
+ },
+ "problems": [],
+ "predictions": {
+  "P1_AB_pal_ge_D37": {
+   "pred": ">=0.8173",
+   "got": 0.9999425551470589,
+   "correct": true
+  },
+  "P2_pal_gt_ct_and_ex": {
+   "pred": "pal>ct and pal>ex",
+   "correct": true
+  },
+  "P3_AB_ex_le_D_data": {
+   "pred": "<=0.79075",
+   "got": 0.8936264935661765,
+   "correct": false
+  }
+ },
+ "verdict_on_ruler": "RULER_HAS_POSITIVE_CONTROL"
+}
