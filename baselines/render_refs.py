@@ -5,7 +5,8 @@
 但开放语义学不全。把 SDXL 渲染图的**全局语义嵌入**（不是像素）喂给 TRD，
 让它学"参考图语义 → 真人画法"的映射——而不是像 B1/B2 那样直接降采样大模型的像素。
 
-覆盖：train + val（训练/调参用）+ E-mat（评测时推理用，属于方法的推理成本，与 B1 同等）。
+覆盖：train[+extra] + val + test（训练要用到的全部材质，见 all_prompts 的注释）
++ E-mat（评测时推理用，属于方法的推理成本，与 B1 同等）。
 提示词模板与 B1 相同。种子 = seed + 材质序号 + 1000*样本号。
 输出 `experiments/refs/emb_<name>.pt`：{prompt -> [K, 512] 归一化 CLIP-B/32 图像嵌入}，
 外加每个提示词第 0 张的 128px 缩略图（便于目视核对）。可断点续跑。
@@ -30,11 +31,14 @@ TMPL = ("pixel art, {p}, top-down seamless tileable game texture, "
 NEG = "perspective, 3d render, vignette, watermark, text, border, blurry"
 
 
-def all_prompts():
+def all_prompts(extra=False):
+    """覆盖口径必须与 `train_trd.py` 建 `mats` 的口径**一模一样**（train[+extra] / val / test，16 与 32），
+    再并上 E_mat 的提示词（推理期要用）。少一个提示词，训练就直接死在 `train_trd.py:383`
+    的"参考图缺材质"检查上；(M55) 补 `extra` 与 `test` 正是为此。"""
     mats = set()
-    for split in ("train", "val"):
+    for split in ("train", "val", "test"):
         for size in (16, 32):
-            mats |= {s["material"] for s in load(size, split)}
+            mats |= {s["material"] for s in load(size, split, extra=extra if split == "train" else False)}
     ps = {" ".join(prompt_words(m)) or m for m in mats}
     ps |= {e["prompt"] for e in load_set("E_mat")[0]}
     return sorted(ps)
@@ -48,8 +52,15 @@ def main():
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--nshards", type=int, default=1)
     ap.add_argument("--out", type=Path, default=ROOT / "experiments/refs")
+    ap.add_argument("--extra", default=None,
+                    help="训练用的额外训练文件名（如 train_extra_packs_only.json）。"
+                         "默认 None = 旧行为；训练带 --extra 时这里必须给同一个文件，否则材质覆盖不全")
+    ap.add_argument("--list_only", action="store_true", help="只打印提示词数量后退出（不加载 SDXL）")
     a = ap.parse_args()
-    prompts = all_prompts()
+    prompts = all_prompts(a.extra or False)
+    if a.list_only:
+        print(f"提示词共 {len(prompts)}（extra={a.extra}）")
+        return
     mine = [(i, p) for i, p in enumerate(prompts) if i % a.nshards == a.shard]
     a.out.mkdir(parents=True, exist_ok=True)
     (a.out / "thumbs").mkdir(exist_ok=True)
