@@ -1,0 +1,50 @@
+{
+ "round": "M42",
+ "question": "pixfrac 筛子在『跨 run 重训』上的构造性零对照",
+ "meter": "pixfrac = 逐像素不同比例的材质均值（与 M39/M41 逐字相同）",
+ "anchors": {
+  "D37": 0.8173,
+  "D38": 0.6608,
+  "D40": 0.6431
+ },
+ "prerun_prediction_P1": "SEED_NULL_TRIVIAL",
+ "counts": {
+  "seed1": 500,
+  "seed2": 500,
+  "seed1_rr4": 125,
+  "seed2_rr4": 125
+ },
+ "runs": [
+  "/tmp/runs/trd_seed1_09161230",
+  "/tmp/runs/trd_seed2_09161230"
+ ],
+ "cfg_diff": [
+  "out",
+  "seed"
+ ],
+ "last_step": {
+  "A": 12000,
+  "B": 12000
+ },
+ "val_last": {
+  "A": 6.752469398721387,
+  "B": 6.712995252248757
+ },
+ "pair_rr4": {
+  "n": 125,
+  "identical": 0,
+  "pixfrac": 0.6643125,
+  "mae": 0.08657961601307189
+ },
+ "pair_raw_first": {
+  "n": 500,
+  "identical": 0,
+  "pixfrac": 0.363546875,
+  "mae": 0.03456819852941176
+ },
+ "n_checked": 8,
+ "problems": [],
+ "D_seed": 0.6643125,
+ "verdict": "SEED_NULL_AMBIGUOUS",
+ "P1_correct": false
+}
