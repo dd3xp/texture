@@ -10128,3 +10128,73 @@ init_from `runs/trd_v8/last.pt` / save_at 6000 12000）。
 2. 训完先跑第四节的 (OP1)–(OP4)，再按**主判据**读：`run_eval.py --set V_mat --size 32`
    比 `/tmp/runs/trd_refs_09180330` 与 `runs/trd_v10`，推理配方除 `--run`/`--refs` 外逐字相同。
 3. ⛔ 判据一个字不许改；⛔ 本轮及下轮都**不开判官臂**；⛔ CLIP 读数不许换算成胜率。
+
+## 2026-09-18 05:45 UTC+8：(M55) 跑中记账 —— 渲染已齐、训练过半；判读器盲写完（11/11）、评测链已挂起等料
+
+本轮**不下任何判**（训练还在跑），干的是把 (M55) 剩下的两段路在读数存在之前铺完。
+
+### 一、在跑的东西（远程 emnlp，`tmux ls` 实测）
+
+| tmux | pid | 状态 |
+|---|---|---|
+| `m55_r0` / `m55_r1` | — | **已完成**：`M55_REFS_SHARD{0,1}_DONE`，`/tmp/m55_refs/emb_shard{0,1}.pt` 539+538 |
+| `m55_tr` | 2846585 | 训练中：09-17 21:26 UTC 起跑，05:44 本机时到 **step 3000/12000**（~6 min/1000 步） |
+| `m55_ev` | 2851732 | **本轮新挂**：等 `M55_TRAIN_DONE` 后自动出图 + 算指标（GPU 6） |
+
+训练端日志确认：`参考图嵌入：1077 个提示词 × 2 张；缺 0 个材质`（= (OP1) 的跑后版本已过），
+`init_from` 只缺 `ref_proj.*` / `coarse_emb.weight`（新增的那一路，符合预期），参数 33.5M。
+⚠ 中途读数**只登记不下判**：step 2000 的 16px `val` 6.5456 —— v10 的最佳 val 是 6.5426 @ step 2000
+⇒ 同一步上差 0.003，(P1)「差在 0.05 以内」目前成立（⛔ 但 (P1) 要用**末值**判，现在不算过）。
+⛔⛔ 再次写死：`val` **不是判据**（(M37)「val 指错过方向」），这里只用来查"训崩没崩"。
+
+### 二、判读器（盲写，写于任何指标存在之前）：`analysis/arch/m55_read_refs.py`
+
+把预注册第四节逐字映射成代码，**不新增判据、不放宽门槛**：
+主判据 32px CLIP 差 > **0.41** ⇒ `REFS_HELP_32`，≤ 0.41 ⇒ `REFS_NULL_32`；
+16px `KID_x1e3` 同时变差 > **4.656** ⇒ `REFS_TRADEOFF`；两臂 `n`/`materials` 不等 ⇒ `VOID_OP3_UNCOMPARABLE`。
+`--selftest` **11/11** 过，含三条边界用例（差恰好 0.41 = 不过、0.409 不过、0.411 刚过）
+和 (M14) 那条"差 0.0002 也是没过"的方向。
+⚑ 缺数据时**不下判**，另打 `NO_DATA_MAIN` / `NO_DATA_GUARDRAIL` 并报"已查 N 项、缺 M 项"
+（(M31) 那条坑：不许拿空集冒充"量过没事"）。
+⚑ 已用**正确路径提前空跑**（(M31)(M35) 那招）：`--json32 experiments/eval_pix_Vmat_32.json
+--json16 eval_pix_Vmat_16.json --a v11dx_direct --b B2val --out /tmp/m55_precheck.json` ⇒
+真实文件上 (OP3) 可比性检查走通（两臂 n=125、materials=125 相等），路径/键名/编码三处都不会在收料那天才炸。
+
+### 三、评测链（`scripts/m55_eval.sh`，本轮已挂起）
+
+等 `M55_TRAIN_DONE`（上限 6 小时，超时 `exit 3`）→ 查 (OP2)（新 `config.json` 的 `refs` 非 null）→
+按 **32 → 16 → 24** 的顺序出图并算指标（**要下判的那档先跑**，中途挂了主判据也在手）：
+```
+gen_trd.py --ckpt last.pt --set V_mat --bs 8 --n 2 --cfg 1.5 --pal_mode retrieve --xmodal \
+           --refs /tmp/m55_refs --out /tmp/m55_gen --run <臂> --size <S> --tag m55refs|m55v10
+run_eval.py --set V_mat --size <S> --methods m55refs m55v10 --root /tmp/m55_gen \
+            --out /tmp/m55_eval_Vmat_<S>.json
+```
+⚑ **(OP4) 由构造保证**：两臂命令**除 `--run` 外逐字相同** —— `--refs` 也照给 v10 臂，
+因为 `gen_trd.py:147` 只在 `model.ref_proj is not None` 时才读它，v10 没有这一路 ⇒ 给了等于没给。
+⚑ 顺带把"v10 臂用历史目录 `v10x_direct` 比对"的隐患去掉：**两臂本轮同令重生成**，
+不依赖那个目录的来历（⚑ 生成管线逐像素确定，重生成不改任何数字）。
+**核链路复核**：远程 `bash -n` 通过、`tr -d '\r'` 已做、`tr -d '\r' < 本地 | md5sum` 与远程
+`md5sum` **逐位相同**（d6ea1fc5…）；卡号/PATH/`TRITON_CACHE_DIR` 全写在 `.sh` 里
+（⚠ `/proc/<pid>/environ` 这次**查不出来** —— 它是 exec 那一刻的环境，脚本内部 `export` 不会出现在里面，
+这跟起训那次"命令行里带卡号"的情形不同 ⇒ 这里只能靠 md5 核文件内容）。
+JSON 名 `m55_eval_Vmat_*.json` 落在 `sync_remote_tmp.sh` 的 `m5[0-9]_*.json` 白名单里。
+
+### 四、下一轮怎么接（盲写，含"谁在什么时候执行"）
+
+1. `grep -q M55_EVAL_DONE /tmp/m55_eval_log.txt` ⇒ 料齐；只看标记串在不在，⛔ 不拿 stdout 比字符串。
+   出现 `M55_EVAL_ABORT_*` ⇒ 按后缀查（`NO_TRAIN`/`TIMEOUT`/`OP2`/`GEN_*`/`EVAL_*`），
+   `M55_EVAL_SIZE32_DONE` 单独出现也够读主判据。
+2. `scp` 回三个 `/tmp/m55_eval_Vmat_{32,16,24}.json` 入库（`git add -f`），然后
+   `python analysis/arch/m55_read_refs.py --json32 … --json16 … --json24 … --a m55refs --b m55v10`
+   —— 判决由它打印，⛔ 判据一个字不许改。
+3. 并查作废条件 2（`VOID_TRAIN_BROKEN`：NaN，或 16px val 末值比 v10 同步末值差 > 0.5）。
+4. ⛔ 本轮及下轮都**不开判官臂**（仍 37 臂 + 18 试点）；⛔ CLIP 读数不许换算成胜率、不许说"SOTA 了"。
+
+### 五、披露与自查
+
+⛔ `eval/final_test.sh` 一字未动（**连续第十五轮**）；⛔ 未改 `model/`、`eval/` 下任何代码
+（本轮新增的两个文件都在 `analysis/`、`scripts/`）；零 API；⛔ 未解禁 32px 判官新臂。
+⚠ 并行会话痕迹：另一会话在 03:47–05:13 提交了体裁调研与 **B5 检索基线判官臂预注册**
+（`eval/b5_judge.sh`/`eval/build_b5.py`，远程 tmux `arch_b5j`）⇒ **本轮完全没碰 `eval/`**，
+两条线互不相扰；⚠ 那条线若开了判官臂，`recheck_judge.EXPECT` 的臂数要由它登记。
