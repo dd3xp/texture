@@ -1,0 +1,31 @@
+{
+ "pair": "clipw_rr4 vs ctl_rr4",
+ "anchors": {
+  "D37": 0.8173,
+  "D38": 0.6608,
+  "D40": 0.6431
+ },
+ "cfg_diff": [
+  "clip_bs",
+  "clip_loss",
+  "out"
+ ],
+ "op2_step0_maxdiff": 0.0,
+ "clip_cos_first2": 0.2514251321554184,
+ "clip_cos_last2": 0.2522340938448906,
+ "last_step": {
+  "A": 6000,
+  "B": 6000
+ },
+ "val_last": {
+  "A": 6.965109451529906,
+  "B": 6.965721980812623
+ },
+ "n": 125,
+ "identical": 10,
+ "pixfrac": 0.34925,
+ "mae": 0.05015396241830066,
+ "screen": "SCREEN_NOGO",
+ "problems": [],
+ "n_checked": 9
+}
