@@ -1,0 +1,192 @@
+{
+ "verdict": "SHAM_BEATEN",
+ "ops": {
+  "OP5_data": {
+   "ok": true,
+   "problems": []
+  },
+  "OP1_repro": {
+   "ok": true,
+   "tol": 0.5,
+   "delta_vs_M49": {
+    "TRD": 0.0004,
+    "struct=real": -0.0003,
+    "palette=real": 0.0002,
+    "palette=retrieved": 0.0002,
+    "palette=xmodal": -0.0001,
+    "palette=incbest5": -0.0002,
+    "palette=rr_argmax": 0.0004,
+    "palette=rr_trdpal": 0.0004,
+    "palette=rr_incTRD": -0.0001,
+    "real_half": 0.0002
+   }
+  },
+  "OP2_sham_random": {
+   "ok": true,
+   "problems": [],
+   "change_rate": {
+    "s0:palette=sham1": 0.8010204081632653,
+    "s0:palette=sham2": 0.8316326530612245,
+    "s0:palette=sham3": 0.8137755102040817,
+    "s0:palette=sham4": 0.8086734693877551,
+    "s0:palette=sham5": 0.8239795918367347,
+    "s0:palette=sham6": 0.7959183673469388,
+    "s0:palette=sham7": 0.8214285714285714,
+    "s0:palette=sham8": 0.7627551020408163,
+    "s0:palette=sham9": 0.7933673469387755,
+    "s0:palette=sham10": 0.8163265306122449,
+    "s0:palette=sham11": 0.8035714285714286,
+    "s0:palette=sham12": 0.8035714285714286,
+    "s1:palette=sham1": 0.7959183673469388,
+    "s1:palette=sham2": 0.8035714285714286,
+    "s1:palette=sham3": 0.7933673469387755,
+    "s1:palette=sham4": 0.8137755102040817,
+    "s1:palette=sham5": 0.7959183673469388,
+    "s1:palette=sham6": 0.7729591836734694,
+    "s1:palette=sham7": 0.798469387755102,
+    "s1:palette=sham8": 0.7780612244897959,
+    "s1:palette=sham9": 0.8214285714285714,
+    "s1:palette=sham10": 0.7755102040816326,
+    "s1:palette=sham11": 0.7678571428571429,
+    "s1:palette=sham12": 0.8086734693877551,
+    "s1:palette=sham13": 0.798469387755102,
+    "s1:palette=sham14": 0.7780612244897959,
+    "s1:palette=sham15": 0.7806122448979592,
+    "s1:palette=sham16": 0.8188775510204082,
+    "s1:palette=sham17": 0.8163265306122449,
+    "s1:palette=sham18": 0.8086734693877551,
+    "s1:palette=sham19": 0.7959183673469388,
+    "s1:palette=sham20": 0.7857142857142857,
+    "s1:palette=sham21": 0.8061224489795918,
+    "s1:palette=sham22": 0.826530612244898,
+    "s1:palette=sham23": 0.7882653061224489,
+    "s1:palette=sham24": 0.7780612244897959
+   }
+  },
+  "OP3_subset": {
+   "ok": true,
+   "subset_ok": {
+    "s0": true,
+    "s1": true
+   }
+  },
+  "OP4_sham_centred": {
+   "ok": true,
+   "median_G": -0.0295,
+   "max_abs": 1.0
+  }
+ },
+ "checked": 5,
+ "note": [
+  "SHAM_BEATEN 只说明这把尺子分得开；【禁】直接开判官臂，须另行预注册并先过 power_curve 的『预期 >=65%』门",
+  "(M49) 的 RERANK_TOO_SMALL 判决不因本轮改写；本轮问的是另一个问题"
+ ],
+ "G_rr_trdpal": {
+  "s0": 3.5545,
+  "s1": 4.0468
+ },
+ "sham_G": {
+  "s0": [
+   -1.6438,
+   -1.2052,
+   0.0442,
+   -0.2503,
+   -1.2631,
+   0.1405,
+   -1.9036,
+   -0.4373,
+   -0.2198,
+   -2.7116,
+   0.2729,
+   0.7111
+  ],
+  "s1": [
+   0.3262,
+   0.0171,
+   -0.6958,
+   0.1904,
+   0.5203,
+   -2.1583,
+   -1.0633,
+   -0.8702,
+   -0.3239,
+   0.6923,
+   0.9637,
+   -0.8196,
+   1.3008,
+   1.742,
+   1.7881,
+   -1.4791,
+   0.1901,
+   -1.1449,
+   1.6115,
+   0.04,
+   0.4109,
+   0.6781,
+   -0.0762,
+   -0.1499
+  ]
+ },
+ "sham_stats": {
+  "s0": {
+   "n": 12,
+   "min": -2.7116,
+   "max": 0.7111,
+   "max_abs": 2.7116
+  },
+  "s1": {
+   "n": 24,
+   "min": -2.1583,
+   "max": 1.7881,
+   "max_abs": 2.1583
+  },
+  "pooled_max_abs": 2.7116
+ },
+ "borrowed_thr_M49": 4.656,
+ "diag_other_arms": {
+  "palette=rr_argmax": {
+   "s0": {
+    "G": -3.4715,
+    "rank_p": 1.0
+   },
+   "s1": {
+    "G": -2.241,
+    "rank_p": 1.0
+   }
+  },
+  "palette=rr_incTRD": {
+   "s0": {
+    "G": -2.9451,
+    "rank_p": 1.0
+   },
+   "s1": {
+    "G": 0.9818,
+    "rank_p": 0.2
+   }
+  }
+ },
+ "run_to_run_absKID": {
+  "TRD": 5.3736,
+  "struct=real": 2.7928,
+  "palette=real": 1.8949,
+  "palette=retrieved": 0.7208,
+  "palette=xmodal": 0.6973,
+  "palette=incbest5": 0.0014,
+  "palette=rr_argmax": 0.5332,
+  "palette=rr_trdpal": 0.205,
+  "palette=rr_incTRD": 3.2296,
+  "real_half": 0.0
+ },
+ "rank_p": {
+  "s0": 0.0769,
+  "s1": 0.04
+ },
+ "pass": {
+  "s0": true,
+  "s1": true
+ },
+ "_src": {
+  "s0": "remote_tmp\\m50_sham_s0.json",
+  "s1": "remote_tmp\\m50_sham_s1.json"
+ }
+}
