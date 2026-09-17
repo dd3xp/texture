@@ -35,6 +35,9 @@ def main():
     ap.add_argument("--cfg", type=float, default=1.5)
     ap.add_argument("--reps", type=int, default=2, help="每个目标出几张（增加 n 降方差）")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--xmodal", action="store_true",
+                    help="再加一行 palette=xmodal：正式配置那套跨模态检索（B/16 图文相似度，n_name=30，前 5 随机）")
+    ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
     a = ap.parse_args()
     dev = "cuda"
     torch.manual_seed(a.seed)
@@ -72,7 +75,22 @@ def main():
         top = np.argsort(-sims)[:5]
         return pool[top[rng.integers(len(top))]]["palette"]
 
-    rows = {k: [] for k in ("TRD", "struct=real", "palette=real", "palette=retrieved")}
+    # 正式配置（final_test.sh 的 TRD16）用的是跨模态检索：先按名字取 n_name=30 条，
+    # 再按"这张真人瓦片 ↔ 材质名"的 CLIP-B/16 图文相似度取前 5 随机一张，且不限色数（FREE_K）。
+    # 这里只把它当**调色板来源**加成一行，网格仍是同一张 —— 四行共用一张网格，隔离出"挑调色板"这一轴。
+    mem = t16 = None
+    if a.xmodal:
+        sys.path.insert(0, str(ROOT / "model"))
+        from palette_memory import PaletteMemory, clip16, clip16_texts
+        mem = PaletteMemory(dev)
+        mem.enable_xmodal(dev)
+        m16, tok16 = clip16(dev)
+        t16 = clip16_texts([t["prompt"] for t in T], dev, m16, tok16)
+        del m16, tok16
+        torch.cuda.empty_cache()
+
+    names = ["TRD", "struct=real", "palette=real", "palette=retrieved"] + (["palette=xmodal"] if a.xmodal else [])
+    rows = {k: [] for k in names}
     mats = []
     for r in range(a.reps):
         for i in range(0, len(T), 32):
@@ -88,6 +106,10 @@ def main():
                 rows["palette=real"].append(rp[np.clip(gi, 0, len(rp) - 1)].astype(np.uint8))
                 qp = retrieve(i + j, int(ks[sl][j]))
                 rows["palette=retrieved"].append(qp[np.clip(gi, 0, len(qp) - 1)].astype(np.uint8))
+                if mem is not None:
+                    xp, _ = mem.query(temb[i + j], None, rng, colour=None, topk=5,
+                                      text16=t16[i + j], n_name=30)
+                    rows["palette=xmodal"].append(xp[np.clip(gi, 0, len(xp) - 1)].astype(np.uint8))
                 mats.append(t["prompt"])
     out, cache = {}, None
     for name, tiles in rows.items():
@@ -98,9 +120,9 @@ def main():
     half = len(ref) // 2
     res, _ = evaluate(ref[:half], [t["prompt"] for t in T[:half]], ref[half:])
     out["real_half"] = res
+    p = a.out or ROOT / f"experiments/diag_decompose_{a.run.name}.json"
+    p.write_text(json.dumps(out, indent=1))      # 落盘一律挪到打印之前：崩在打印上也不丢数据
     print("real half vs half " + "  ".join(f"{k}={v:.3f}" for k, v in res.items() if k != "n"))
-    p = ROOT / f"experiments/diag_decompose_{a.run.name}.json"
-    p.write_text(json.dumps(out, indent=1))
     print("->", p)
 
 
