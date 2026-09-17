@@ -47,8 +47,16 @@ def main():
                          "按 ||Inception(候选调色板配这张网格) - Inception(该目标真人瓦片)||^2 取最优。"
                          "需 --xmodal。⚠ 用到目标信息，是不可达上界，只作定位")
     ap.add_argument("--rand_pool", type=int, default=512, help="--oracle_feat 的全库随机候选池大小")
+    ap.add_argument("--rerank", action="store_true",
+                    help="(M49) 再加四行：在**正式配置那 5 个候选**里换个挑法。三行是**可达**的"
+                         "（看不到目标）：rr_argmax 取图文相似度最高的一张、rr_trdpal 取与模型自己"
+                         "预测的调色板最近的一张、rr_incTRD 在 Inception pool3 里取与模型自己那张"
+                         "瓦片最近的一张；外加 incbest5（用目标特征选，(M48) 的不可达上界）作锚点。"
+                         "需 --xmodal，与 --oracle_feat 互斥")
     ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
     a = ap.parse_args()
+    if a.rerank and (a.oracle_feat or not a.xmodal):
+        ap.error("--rerank 需要 --xmodal，且与 --oracle_feat 互斥（行名会撞）")
     dev = "cuda"
     torch.manual_seed(a.seed)
     ck = torch.load(a.run / a.ckpt, map_location=dev)
@@ -125,6 +133,9 @@ def main():
     feat_names = ["palette=incbest5", "palette=incbest30", "palette=incbest30r", RAND_R]
     if a.oracle_feat:
         names += feat_names
+    RR = ["palette=rr_argmax", "palette=rr_trdpal", "palette=rr_incTRD"]
+    if a.rerank:
+        names += ["palette=incbest5"] + RR
     rows = {k: [] for k in names}
     jobs = []
     mats = []
@@ -147,6 +158,8 @@ def main():
                     rows["palette=xmodal"].append(xp[np.clip(gi, 0, len(xp) - 1)].astype(np.uint8))
                     if a.oracle_feat:
                         jobs.append((gi.copy(), i + j, cand, near, pick))
+                    if a.rerank:
+                        jobs.append((gi.copy(), i + j, cand, pick, tiles[j], pal_rs(tp)))
                     if a.oracle_split:
                         rr = pal_rs(rp)
                         for nm, pool_ix in (("palette=best5", cand), ("palette=best30", near)):
@@ -190,6 +203,52 @@ def main():
                 print(f"  oracle_feat {n_done}/{len(jobs)}", flush=True)
         sel = {k: {"mean_d": dsum[k] / len(jobs), "uniq": len(uniq[k]) if k in uniq else None}
                for k in dsum}
+    rr_diag = {}
+    if a.rerank:
+        # (M49) 同一个 5 张候选集，只换"怎么挑"。三个可达重排器都看不到目标；
+        # incbest5 用目标特征选，只作 (M48) 那个不可达上界的锚点。
+        from metrics import inception_feats, dino_feats
+        cache = {"inc": inception_feats(ref), "dino": dino_feats(ref)}
+        ref_inc = cache["inc"]
+        picked = {k: [] for k in ["palette=incbest5"] + RR}
+        dsel = {k: 0.0 for k in ["palette=xmodal", "palette=incbest5"] + RR}
+        subset_ok = True
+        for n_done, (gi, ti, cand, pick, trd_tile, tprs) in enumerate(jobs):
+            uni = np.unique(np.concatenate([cand, [pick]])).astype(np.int64)
+            cand_tiles = [mem.pal[int(x)][np.clip(gi, 0, len(mem.pal[int(x)]) - 1)].astype(np.uint8)
+                          for x in uni]
+            f = inception_feats(cand_tiles + [trd_tile])
+            fc, ftrd = f[:-1], f[-1]
+            d_ref = ((fc - ref_inc[ti]) ** 2).sum(1)
+            d_trd = ((fc - ftrd) ** 2).sum(1)
+            pos = {int(v): p for p, v in enumerate(uni)}
+            sub = np.array([pos[int(x)] for x in cand], np.int64)
+            l2 = np.sqrt(((np.stack([pal_rs(mem.pal[int(x)]) for x in cand]) - tprs) ** 2)
+                         .sum(-1)).mean(-1)
+            sel_b = {"palette=incbest5": int(sub[int(d_ref[sub].argmin())]),      # ⚠ 用目标 = 上界
+                     "palette=rr_argmax": pos[int(cand[0])],                      # xs 最高的那张
+                     "palette=rr_trdpal": pos[int(cand[int(l2.argmin())])],
+                     "palette=rr_incTRD": int(sub[int(d_trd[sub].argmin())])}
+            dsel["palette=xmodal"] += float(d_ref[pos[pick]])
+            for nm, b in sel_b.items():
+                rows[nm].append(cand_tiles[b])
+                picked[nm].append(int(uni[b]))
+                dsel[nm] += float(d_ref[b])
+                subset_ok = subset_ok and int(uni[b]) in set(int(x) for x in cand)
+            if n_done % 50 == 0:
+                print(f"  rerank {n_done}/{len(jobs)}", flush=True)
+        n = len(jobs)
+        orc = picked["palette=incbest5"]
+        for nm in RR:
+            p = picked[nm]
+            rr_diag[nm] = {
+                "change_rate": sum(int(x != jobs[t][3]) for t, x in enumerate(p)) / n,
+                "oracle_hit": sum(int(x == orc[t]) for t, x in enumerate(p)) / n,
+                "mean_d": dsel[nm] / n, "uniq": len(set(p))}
+        rr_diag["palette=xmodal"] = {"mean_d": dsel["palette=xmodal"] / n}
+        rr_diag["palette=incbest5"] = {"mean_d": dsel["palette=incbest5"] / n,
+                                       "uniq": len(set(orc))}
+        rr_diag["subset_ok"] = subset_ok
     for name, tiles in rows.items():
         res, cache = evaluate(tiles, mats, ref, ref_cache=cache)
         out[name] = res
@@ -200,6 +259,9 @@ def main():
     out["real_half"] = res
     if sel:
         out["_sel"] = sel
+    if rr_diag:
+        out["_rr"] = {k: v for k, v in rr_diag.items() if k != "subset_ok"}
+        out["_rr_subset_ok"] = rr_diag["subset_ok"]
     p = a.out or ROOT / f"experiments/diag_decompose_{a.run.name}.json"
     p.write_text(json.dumps(out, indent=1))      # 落盘一律挪到打印之前：崩在打印上也不丢数据
     print("real half vs half " + "  ".join(f"{k}={v:.3f}" for k, v in res.items() if k != "n"))
