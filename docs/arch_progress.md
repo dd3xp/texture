@@ -9746,3 +9746,19 @@ n=74 比 (M46) 的 n=196 少一半多，**4.656 在这个 n 上可能偏松**；
 2. ⚠ `palette=retrieved` 那一行的检索池仍是 `load(16,"train")`（调色板与画布无关）；未改。
 3. ⚠ 五行**共用同一张 32px 网格**，网格是在**不给调色板条件**下采的；正式管线是把检索到的调色板当已知 token 再生成。
 4. ⚠ n=74 目标 × reps 2 = 148 张/行（(M46) 是 196×2=392），地板行是 37 vs 37 ⇒ 比 (M46) 抖，(OP3) 专为此设。
+
+### 九、本轮挂起的活（给下一轮：料齐就判，别干等看门狗）
+
+| 会话 | 在跑什么 | 产物 |
+|---|---|---|
+| `m53d`（emnlp，GPU 6，pid **2740085**） | `eval/diag_decompose.py --run runs/trd_v10 --size 32 --xmodal --reps 2 --seed 0 --floor_reps 9 --out /tmp/m53_decompose32.json` | `/tmp/m53_decompose32.json`、`/tmp/m53_decomp32.txt`（末行 `M53_DONE`） |
+
+核链路已做：`eval/diag_decompose.py` 本机/远程 md5 **均为 `922fd2fa9ad7d04ea62d177de6e40442`**；
+`/proc/2740085/environ` 复核 `CUDA_VISIBLE_DEVICES=6`、`HF_HUB_OFFLINE=1`、`TRITON_CACHE_DIR=/tmp/triton`；
+`/proc/<pid>/cmdline` 与第三节预注册的命令**逐字相同**。⚑ `scripts/sync_remote_tmp.sh` 的
+`m5[0-9]_*.json` / `m5[0-9]_*.txt` 两条通配符**已覆盖**本轮产物（⚠ 但仍要确认真拉回来了，
+"打印 sync ok ≠ 数据到手"）。
+
+**下一轮怎么判**：等 `/tmp/m53_decomp32.txt` 出现 `M53_DONE`（或 `remote_tmp/` 里已有 json），
+照第四节的判据表逐条读 `KID_x1e3`，先过第五节四条操作检验。⛔ 判据一个字不许改；
+⛔ (OP3) 的零分布只许用来作废、不许用来挪门槛。
