@@ -178,6 +178,121 @@ about the limitations"；NeurIPS 2026 把 Negative Results 列为正式贡献类
   Coordinate-Transformed RoPE 做平铺控制，无场地）。**这是新颖性的正面信号，但检索非穷尽**，
   ⛔ 不许写成"首个"，只能写"据我们所知未见"。
 
+## 七之二、纹理/材质族 18 篇的实测统计（第二路调研，2026-09-18）
+
+⚠ **先纠三处会影响引文的错误**：① arXiv 2308.11408 是 **MatFuse**（CVPR 2024），**不是** MatFusion；
+真 MatFusion＝Sartor & Peers, SIGGRAPH Asia 2023，arXiv **2406.06539**，DOI 10.1145/3610548.3618194。
+② **Infinite Texture（arXiv 2405.08210）无被接收证据 → 按 preprint 引**（作者是 UW/Google 系，不是 Adobe）。
+③ **Local Padding（arXiv 2309.02340）是 preprint-only**（机构库登记为 Working paper › Preprint），无 venue 无 DOI。
+
+**出现率（分母＝实抽 18 篇）**：定性图阵 **18/18**；具名基线 ≥3 个 18/18；Limitations 17/18；
+至少一个自动指标 16/18（TileGen 与 TEXTure **零指标零表格**照样中 SIGGRAPH 线）；消融 16/18；runtime 14/18；
+**人评 9/18**（子领域分裂：mesh 文本纹理化 5/5 必做、SVBRDF/材质 0/4、可平铺线 3/7）；
+分布型指标（FID/KID/SIFID）10/18；**可平铺的量化指标只有 5/18，且全在 2024 之后**；
+**为自造指标画地板/对照臂 2/18**。
+
+⚑⚑ **四个"全族零"**（这决定了我们方法学章节的定位）：
+**置信区间 / 显著性检验 / p 值 0/18；评分者一致性统计 0/18；每对双序 + 用时门 + 需真比较的注意力检查 +
+剔除不一致 0/18（去偏一律只到"随机顺序"这一层）；同配置重训漂移或采样噪声下限标定 0/18。**
+→ 本项目的纪律**严于惯例**，是卖点；但**没有别人的做法可引来替我们的口径背书**，方法学必须自证。
+⚠ 反过来也别被"文献都不做地板"诱导去放弃地板。
+
+**⚠ FID/KID 在这个体裁已事实分叉、跨论文不可直接比**：物体级固化为 "FID + KID×10⁻³ @ 20 固定视角 @512²"
+（Text2Tex / Paint3D）；TexFusion 自建 SD2-depth 参考分布只报 FID；SceneTex 改报 CLIP score + IS 不报 FID/KID；
+Tiled Diffusion 以 VT2I 为参照算 FID；MatSynth 只在 renderings 上算。
+→ **写"我们 FID 比 X 好"必须同引参考分布与渲染/视角口径。**
+
+### "tileability by construction" 的三条路线与证据门槛
+
+| 路线 | 代表 | 证据形态 | 有量化平铺指标吗 |
+|---|---|---|---|
+| **A 架构环绕**（circular/toroidal） | TileGen（奠基）、FabricDiffusion、Tiled Diffusion 的 AT 基线 | TileGen＝机制断言 + 平铺渲染图 + **"用非平铺数据训练仍出无缝"的准对照**（把"数据是否平铺"这个混淆因子挑开）；**零证明零指标** | TileGen 无；**FabricDiffusion 唯一量化** |
+| **B 推理侧不变性**（noise rolling） | ControlMat、Structured Pattern Expansion、Tiled Diffusion | ControlMat 纯视觉；另两篇带指标 | **唯一普遍带指标的路线** |
+| **C 边界条件构造**（受约束 inpainting） | Content-aware Tile Generation（TOG 2024） | **唯一带形式化附录**（Wang/Dual Wang packing 论证） | 借用 TexTile |
+
+⚑⚑ **三条对本文最要紧的事实**：
+1. **2024 年后门槛抬升**：TileGen 2022 年零指标就过了 SIGGRAPH Asia；TexTile 之后新论文基本都报一个平铺数。
+   → 投 ICLR 按 2024 后标准：**机制论证 + 至少一个平铺量化 + 消融**。
+2. **"by construction" 已被文献自己限定**：Tiled Diffusion 把 circular padding 定性为
+   "inherently tileable **but restricted to self-tiling scenarios with no rotations**"，
+   并在 Limitations 里**自认 latent 旋转 ≠ 像素旋转、所以它的构造性"必然"不成立**。
+   → ⚠ **我们的平铺性若依赖离散化/量化步骤（低分辨率尤其容易），那一步必须在正文显式交代**，
+   ⛔ 不许靠 "by construction" 一笔带过。
+3. ⚑⚑ **没有任何一篇做"去掉构造性机制就失败"的完整反证**：Content-aware 无"去掉边界条件"消融、无故意错配边界的反例；
+   **FabricDiffusion 的 TexTile 0.47（去掉环绕 padding）→ 0.62（加上）是全领域唯一一条剂量-应答**。
+   → **这是一个便宜且无人占领的位置：给环形偏置做"关掉它"的消融 + "故意破坏它"的对照臂。**
+
+### 两种可直接抄的"给自己的指标定标"做法（全族只有这 2 例）
+
+- **Tiled Diffusion 的双端锚点**：坏端＝普通 T2I（TS≈0.29，定义上不平铺）；
+  好端＝**Swapped VT2I**（把左右/上下两半互换 → 接缝处必然完美，TS≈0.03）。
+  ⚠ 只有点估计、**无离散度无 CI 无检验**，"significantly" 无统计量；且 Swapped 的 CLIP 掉到 0.14
+  → 该锚点**只能校准尺度、不能当质量参照**。
+  ⚠ 其 TS 定义式为 `TS_pair = (1/h)Σ_y |I₁(x₁,y) − I₂(x₂,y)|`，"三次测量"的聚合方式**论文自相矛盾**
+  （定义句写 maximum、后文写 average，两句都实际存在）→ **引用时必须点出这处不一致，别替它选一个**。
+- ⚑ **Structured Pattern Expansion 的"参照带"**：把**已知为真可平铺的语料**算出分布当参照带
+  （其方法 TexTile **63.93% ± 8.24%** vs 数据集内真平铺 **62.25% ± 14.04%**），论证"我落在带内"
+  而不是"我比对手高"。⚠ 参照带自己的 σ 比它方法的还大；仍无 CI 无检验。
+  → **我们有真人瓦片，这个形态零成本可做，且比"比对手高"更稳。**
+
+### TexTile 引用时的两条硬约束
+
+- 定义：先 **2×2 平铺**（`I_tiled ← tile(I,(2,2))`，论文称这点重复次数足够），再
+  `TexTile = 1/(1+exp(−λ·M(I_tiled)))`，**λ=0.25**；训练 384²、推理 512²；骨干＝预训练 ConvNext + 两个线性自注意力残差块。
+- ⚠ **它给的是分类性能（err 0.064 / Acc 0.982 / F1 0.983 / AUC 0.997），不是尺度地板**；
+  且**它从未与人类感知做相关性验证**（原文自认 human perceptual validation 不在范围内）
+  → ⛔ **不能写成"TexTile 已被人类验证"**。它自己也承认失败案例与"人类对重复性的感知没有牢固理解"。
+- 它当损失用时的增益：Heitz 0.431→0.781、SinFusion 0.388→0.798；训练成本 6 小时 / 单张 RTX 3060。
+
+### 颜色条件的度量惯例（我们"配色跟随区域"直接对口）
+
+**Color Alignment in Diffusion（CVPR 2025，arXiv 2503.06746）** 自造两个指标，**是双向 Chamfer 距离**：
+`CD-A = Σ_p min_q ‖x̂₀[p] − c[q]‖²₂ / |x̂₀|`（accuracy：生成像素贴合给定色值的程度）、
+`CD-C = Σ_q min_p ‖x̂₀[p] − c[q]‖²₂ / |c|`（completeness：指定颜色被覆盖的比例）。
+⚠ **这个领域没有用 ΔE / CIEDE2000 的惯例**，而我们的区域上色任务用的是 **ΔE76**
+→ **建议两套都报**（ΔE76 保留感知口径，CD-A/CD-C 换取可比性），零 GPU。
+它的 runtime 报法也可抄：**以 vanilla diffusion = 1.00× 为基准的相对倍数表**（回避"你卡更好"的质疑）。
+
+### 速度表：两种最完整的报法（建议抄）
+
+- **ControlMat 式：分辨率 × 时间 × 显存三列**（3 s@512² / 18 s@1024²(12GB) / 43 s@2048²(18GB) / 350 s@4096²(20GB)，A10G 24GB）。
+- **Content-aware 式：拆到原子算子**（"40 ms per U-Net evaluation × 40 steps ⇒ **1.7 s per tile
+  (including VAE encoding/decoding)**"，再给端到端 81 瓦片 140 s、带 4 候选拒绝 12 min）。
+  ⚑ 它明确交代"含 VAE 编解码"与"候选重采样的额外开销"——**这两项最常被人偷偷漏掉，而我们用 4 选 1 重排，必须照实计入**。
+- **必须一起声明**：采样步数与 sampler、分辨率、是否含 VAE 编解码、**是否含候选重排/拒绝重试**、显存峰值。
+- 训练成本惯例＝GPU 数×型号×小时 + iterations/epochs + batch。**全族无人报能耗/金钱/吞吐/多次运行方差**
+  → 报了就是加分且无人可比。
+- ⚠ 坏范例（可反向引用）：Paint3D 与 **Tiled Diffusion 一个 runtime 数字都不报**；
+  TEXTure 表里 5/32/46 min 与正文 "19 through 45 minutes" **自相矛盾**。
+
+### ⚑⚑ 单分辨率评测：**18 篇里 0 篇为它给出正面论证**
+
+只有三种姿态：①**写进 Limitations 自认局限**（MatFusion 逐字 "MatFusion is currently limited to
+256×256 resolution SVBRDFs."；TileGen 把 512² 写进 Limitations）；②**沉默**（最多数，且没人在评审里被逼着解释）；
+③**把"分辨率无关"翻成贡献从而绕过辩护**（SD-πXL 贡献第一条即 "works at any resolution" 并展示 24²–192²；
+ControlMat / Structured Pattern 把多档时间显存全给出来 → 多分辨率本身成了卖点）。
+⚑ 另一条可抄的实操防御＝**Text2Tex 的做法：用两个数据集，并让每个数据集配它自己领域原生的基线**
+（把"换数据集就得换对手"做实，使每张表内部自洽）。
+→ **对本文的判断：想找"别人怎么为单分辨率开脱"——没有先例可引。只有两条合法出路：
+(i) 写进 Limitations（MatFusion 措辞可直接改写照用）；(ii) 把跨分辨率能力转成主张并把三档都报出来。
+而我们"三档从来不在同一把尺子上"这个已知问题，文献里既无先例也无掩护** ——
+选 (ii) 必须先把尺子统一，选 (i) 则要接受把主张范围缩到 16px。**当前决定＝(i)。**
+
+### 其他可直接借用的做法
+
+- ⚑ **MatFusion 的 "Adversarial (retrained)" 行**：**用自己的训练集重训对手**，把"数据优势"这个混淆因子挑掉。
+  ⚑ **我们已经有了**：B7 就是同数据从零训练的像素扩散 UNet —— **正文要把这层写成刻意的设计，不是顺手**。
+- ⚑ **Infinite Texture 把消融放在基线比较之前**（先证部件必要、再证赢）；
+  ⚑ **SceneTex 让消融行也带人评分**（消融与基线同表）＝把"部件承重"讲得最硬的排版。
+- **ControlMat 把"大图 + 可平铺"抬成独立一级章节（§5）** → 若主打可平铺，这是有先例的强动作。
+- **MatFusion 的 Limitations 是全批最诚实、最值得模仿的一段**（逐字）："it has trouble generating
+  pixel-perfect reproductions. **Hence, MatFusion does not necessary produce the lowest errors on
+  pixel-based metrics.**" → ⚑ 本项目"FD 输 B7、但判官赢"完全可以照这个句式写。
+- **SD-πXL 的成本与协议**（我们最近的参照）：**1.5 小时 / RTX4090 / 6000 步**，自列为 limitation；
+  定量用 150 张；感知研究 56 人、**排名式**、三轴（semantic accuracy / fidelity / aesthetic appeal），
+  **无检验、无一致性、无注意力检查**；⚠ 三个轴**没有公式级定义**（这是它的弱点，不可抄）。
+  它对低分辨率的姿态＝把"任意分辨率"写成贡献，并用"优化式、无需数据集"绕开数据依赖。
+
 ## 八、对照本项目：缺口清单（按性价比排序）
 
 | # | 要做的 | 为什么（对应上文） | 成本 |
@@ -194,6 +309,17 @@ about the limitations"；NeurIPS 2026 把 Negative Results 列为正式贡献类
 | 10 | **架构瘦身**（砍掉消融里无效的三个部件后重验 16px） | §四.6 中间基线纪律；把"负面消融"从弱点变卖点 | 1–2 次训练 |
 | 11 | **消融带 ±std**（同配方重复 3 次） | §四 的 iRPE 纪律；我们已有 (M31) Dmax=1.087 可直接引 | 已部分具备 |
 | 12 | **disjointness 三层写清**（调色板库 vs 评测集 vs 训练集） | §三：必答项，我们只做了训练侧去污染 | 零成本（查 + 写） |
+
+第二路调研（纹理/材质族）追加的六条：
+
+| # | 要做的 | 为什么 | 成本 |
+|---|---|---|---|
+| 13 | **"关掉环形偏置" + "故意破坏它"两条对照臂** | §七之二：**全族没有一篇做过构造性机制的反证**，FabricDiffusion 的 0.47→0.62 是唯一剂量-应答 → 便宜且无人占领的位置 | 1 次训练 + 推理 |
+| 14 | **接缝指标的双端锚点**：坏端＝非平铺生成、好端＝**两半互换**（接缝处定义上完美） | §七之二：全族只有 2 例给自己的指标定标，这是其中一例的形态 | 零 GPU |
+| 15 | **"真人参照带"**：在已知可平铺的真人瓦片上算同一指标，论证"我落在带内" | §七之二：比"我比对手高"更稳；我们有真人瓦片 → 零成本 | 零 GPU |
+| 16 | **CD-A / CD-C 双向 Chamfer 颜色指标**（与现有 ΔE76 并报） | §七之二：该领域**没有用 ΔE 的惯例**，CVPR 2025 那篇的 Chamfer 口径才是可比的 | 零 GPU |
+| 17 | **速度表照 ControlMat + Content-aware 两种报法**：分辨率×时间×显存，并拆到原子算子，**显式计入 4 选 1 重排的开销** | §七之二：候选重采样开销是最常被偷偷漏掉的两项之一，而我们正用 4 选 1 | 与第 5 条合并 |
+| 18 | **把 B7 写成"用我们数据重训的对手"**（MatFusion 的 retrained 行） | §七之二：这是挑掉"数据优势"混淆因子的最佳实践，我们已具备却没这么写 | 零成本（写） |
 
 ⛔ 上表是**候选清单，不是授权**：每条真要跑仍须按本项目规矩单独预注册（判据先于数据）。
 ⚠ 第 1 条涉及 16px 判官新臂（**不**受 32px 准入条件②限制）；第 9 条特意设计成不需要新判官臂。
