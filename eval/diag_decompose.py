@@ -53,10 +53,17 @@ def main():
                          "预测的调色板最近的一张、rr_incTRD 在 Inception pool3 里取与模型自己那张"
                          "瓦片最近的一张；外加 incbest5（用目标特征选，(M48) 的不可达上界）作锚点。"
                          "需 --xmodal，与 --oracle_feat 互斥")
+    ap.add_argument("--sham", type=int, default=0,
+                    help="(M50) 再加 N 行 palette=shamJ：在**同一 5 张候选**里独立均匀重抽一张。"
+                         "正式配置那张也是均匀随机 ⇒ 两者可交换 ⇒ 这 N 行的 G 真值恒为 0，"
+                         "就是 G 的**经验零分布**（于是 rr_* 对它的秩检验是精确置换检验）。"
+                         "抽样用独立 rng、且在生成循环之后 ⇒ ⛔ 不消耗生成流，原有各行逐位复现。需 --rerank")
     ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
     a = ap.parse_args()
     if a.rerank and (a.oracle_feat or not a.xmodal):
         ap.error("--rerank 需要 --xmodal，且与 --oracle_feat 互斥（行名会撞）")
+    if a.sham and not a.rerank:
+        ap.error("--sham 需要 --rerank（零分布要落在同一个 5 张候选集上）")
     dev = "cuda"
     torch.manual_seed(a.seed)
     ck = torch.load(a.run / a.ckpt, map_location=dev)
@@ -134,8 +141,9 @@ def main():
     if a.oracle_feat:
         names += feat_names
     RR = ["palette=rr_argmax", "palette=rr_trdpal", "palette=rr_incTRD"]
+    SHAM = [f"palette=sham{j + 1}" for j in range(a.sham)]
     if a.rerank:
-        names += ["palette=incbest5"] + RR
+        names += ["palette=incbest5"] + RR + SHAM
     rows = {k: [] for k in names}
     jobs = []
     mats = []
@@ -210,9 +218,10 @@ def main():
         from metrics import inception_feats, dino_feats
         cache = {"inc": inception_feats(ref), "dino": dino_feats(ref)}
         ref_inc = cache["inc"]
-        picked = {k: [] for k in ["palette=incbest5"] + RR}
-        dsel = {k: 0.0 for k in ["palette=xmodal", "palette=incbest5"] + RR}
+        picked = {k: [] for k in ["palette=incbest5"] + RR + SHAM}
+        dsel = {k: 0.0 for k in ["palette=xmodal", "palette=incbest5"] + RR + SHAM}
         subset_ok = True
+        srng = np.random.default_rng(90500 + a.seed)   # 与生成流分开 => 原有各行逐位复现
         for n_done, (gi, ti, cand, pick, trd_tile, tprs) in enumerate(jobs):
             uni = np.unique(np.concatenate([cand, [pick]])).astype(np.int64)
             cand_tiles = [mem.pal[int(x)][np.clip(gi, 0, len(mem.pal[int(x)]) - 1)].astype(np.uint8)
@@ -229,6 +238,8 @@ def main():
                      "palette=rr_argmax": pos[int(cand[0])],                      # xs 最高的那张
                      "palette=rr_trdpal": pos[int(cand[int(l2.argmin())])],
                      "palette=rr_incTRD": int(sub[int(d_trd[sub].argmin())])}
+            for nm in SHAM:                                   # 均匀重抽 = 与正式配置那张可交换
+                sel_b[nm] = pos[int(cand[srng.integers(len(cand))])]
             dsel["palette=xmodal"] += float(d_ref[pos[pick]])
             for nm, b in sel_b.items():
                 rows[nm].append(cand_tiles[b])
@@ -239,7 +250,7 @@ def main():
                 print(f"  rerank {n_done}/{len(jobs)}", flush=True)
         n = len(jobs)
         orc = picked["palette=incbest5"]
-        for nm in RR:
+        for nm in RR + SHAM:
             p = picked[nm]
             rr_diag[nm] = {
                 "change_rate": sum(int(x != jobs[t][3]) for t, x in enumerate(p)) / n,
