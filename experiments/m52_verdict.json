@@ -1,0 +1,53 @@
+{
+ "verdict": "AXIS_TOO_SMALL",
+ "checked": {
+  "judge": true,
+  "decomp": true,
+  "dump": true
+ },
+ "detail": {
+  "ops": {
+   "OP1": true,
+   "OP2": true,
+   "OP3": true,
+   "OP4": true,
+   "OP5": true
+  },
+  "n_slug_a": 125,
+  "n_slug_b": 125,
+  "kid": {
+   "palette=real": 6.894221578830506,
+   "palette=xmodal": 13.430880614913633,
+   "palette=rr_trdpal": 9.876356700110923,
+   "TRD": 38.90940939181589
+  },
+  "kid_expect": {
+   "palette=real": 6.894,
+   "palette=xmodal": 13.431,
+   "palette=rr_trdpal": 9.876,
+   "TRD": 38.909
+  },
+  "diff_rate": 1.0,
+  "n_pair": 125,
+  "api_fail_rate": 0.0,
+  "resolve_rate": 0.76,
+  "p_vs_floor": 1.2476002638028982e-45,
+  "a_wins": 59,
+  "decided": 95,
+  "rate": 0.6210526315789474,
+  "p": 0.023488002836919934,
+  "jeffreys": [
+   0.5210606623212648,
+   0.7137935684954693
+  ]
+ },
+ "lines": {
+  "rate": 0.65,
+  "alpha": 0.05,
+  "floor": 0.17796610169491525,
+  "kid_tol": 0.01,
+  "min_slugs": 115,
+  "max_api_fail": 0.05,
+  "min_diff": 0.5
+ }
+}
