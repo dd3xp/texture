@@ -293,6 +293,120 @@ ControlMat / Structured Pattern 把多档时间显存全给出来 → 多分辨�
   **无检验、无一致性、无注意力检查**；⚠ 三个轴**没有公式级定义**（这是它的弱点，不可抄）。
   它对低分辨率的姿态＝把"任意分辨率"写成贡献，并用"优化式、无需数据集"绕开数据依赖。
 
+## 七之三、像素画族（第三路，30 余篇，9 篇逐字核过原文）
+
+### ⚑⚑ 三条最要紧的
+
+1. **本文的任务在文献里不存在**：两条独立检索线都只搜到商业工具（Sprite-AI / PixExact / Retro Diffusion /
+   Layer.ai / Ludo.ai），**"材质名 + 目标区域颜色 → 原生低分辨率可平铺纹理"零篇论文**；
+   **可平铺的像素画/低分辨率 tile 生成零篇**；**像素画 + masked transformer / VQGAN 生成零篇**；
+   **ICLR/NeurIPS/CVPR 上的像素画生成专文零篇**（CVPR 上只有纹理平铺侧的 TexTile / Tiled Diffusion）。
+   ⚠ 检索非穷尽 → 只能写"据我们所知"。⚑ 但这也意味着**投 ICLR 是把 SIGGRAPH/AIIDE 题材搬进 ML 会场**，
+   Related Work 必须替 ICLR 审稿人补齐"这个题材在哪、它的指标为什么长这样"。
+2. **"输出只用了给定调色板"这件事，全领域没有一篇测过**：SD-πXL、Voxify3D、GIFnets 都用
+   Gumbel-softmax/argmax 做成**构造性保证**因此明确不报。→ ⚑ **若我们的配色也是构造性的，就照实写
+   "adherence is constructive, not measured"，把可测的指标用在真正能失败的地方（区域颜色匹配）。**
+   唯一已命名的近似指标是 ⚠ PixDiff-PIG 的 `Palette Consistency Score (PCS)`（**不可引**：仅 ResearchGate，
+   无 arXiv/DOI）与 MDPI 的 `Color Loss` → **自造指标要注意撞名**。
+3. **定量水位逐代抬升**：DUP（TOG 2018）**零个数字**（且摘要写了 "user preference" 却全文无人类实验）→
+   MYOS（TOG 2022）**只有 FID/KID、零人类实验** → SD-πXL（SA 2024）**5 个自动指标 + 56 人排序研究**。
+   ⚠ **我们面对的是 2024 后的水位，DUP 那种全定性的待遇不会再有。**
+
+### 对标 SD-πXL（最该逐节对标的一篇）
+
+⚠ **纠正我此前的转述**：**SD-πXL 是有自动指标的**，只是**正文一张数字表都没有、全在补充材料**
+（§3.2 Table 3：`CLIPScore L/14`、`HPSv2`、`PSNR`、`SSIM`、`LAION Aesthetic Predictor`，分 32/48/64 三档）。
+正文 Table 1 只是**打勾特征表**（列＝Hard constraints / Resolution independence / Semantic conditioning /
+Style flexibility，行按 classic / neural / diffusion 分组）。**Limitations 嵌在 Results 里当 §5.5，不独立成节。**
+
+⚑⚑ **最值得抄的一段（它自己拆自己的尺子）**：把 **bilinear 降采样**跑同一套指标，得到
+**PSNR 16.8 / SSIM 0.512，明显高于所有 pixelization 方法**，逐字结论 "**none of the metrics assesses
+directly the pixelization quality itself**"。→ **我们完全可以照做**：拿一个明显错误的产物
+（如最近邻降采样的"假瓦片"）跑我们的可平铺/结构指标，**证明该指标不构成判据**。
+
+⚠ **两处对我们不利、必须正面处理的**：
+- 它的**数据集构造刻意删掉 prompt 里的颜色词**，逐字理由 "to avoid further bias of the results,
+  favoring methods that do not offer a quantization of the color space"。**而颜色正是我们的条件** →
+  我们的 prompt 集必须交代这一点，否则被说"你靠颜色条件占便宜"。
+- 它把 **"works at any resolution" 当贡献第一条**，并批评 neural 方法 "limited to a finite set of
+  resolutions"。**我们只做 16px 会被直接对上这条** → 必须回应（见下"辩护栈"）。
+  ⚠ 子代理报它"最低只到 24×24"，我只核到定量档 32/48/64 与图中 30×30 → **引用前自己再核一次**。
+
+其余可用细节：**runtime 1.5 h / 6000 步 / RTX 4090**（写在 Limitations 第一句，Voxify3D 就拿这个打它）；
+user study＝56 人、随机抽 45 张、三部分（fidelity / prompt similarity / aesthetics）、**4 方法排名 1–4**、
+每题随机顺序、报 rank 占比 + Q1/中位/IQR、**无 κ/α**；⚑ **它明确解释了人评与自动指标冲突的原因**
+（"a bias of the scoring network towards non-quantized images"）；图排版＝一行一输入、一列一方法、
+输入下标原生像素尺寸、⚑ **图注显式声明各方法约束不对等**（谁限 8 色、谁未量化）、
+⚑ **每格放 9 个样本展示随机性而非挑最好**、**把问卷界面截图放进论文**。
+
+### ⚑⚑ AIIDE 2022 那篇直接给我们递了一个 open question
+
+*On the Challenges of Generating Pixel Art Character Sprites Using GANs*（Coutinho & Chaimowicz,
+AAAI AIIDE 18(1):87–94, DOI 10.1609/aiide.v18i1.21951）：把 RGBA 换成**调色板索引 one-hot**（末层 softmax、
+L1 换交叉熵）→ **判死**，摘要逐字 "representing images with color palettes **encourages overfitting**"；
+证据是把过拟合直接摆进表里：**FID train 0.057 / val 135.1**。
+⚑ **而它 Conclusion 给出的下一步正是我们在做的事**："feed the target palette into the generator"
+→ **我们可以直接接上这条 open question**（它用 294 张 64×64 sprite，我们的池子大得多）。
+⚑ 该文还有一整节 **"Pixel Art Characterization"**（论证像素画为何不是普通图像：单像素信息量大、调色板极小、
+色阶与抖动、低频高频交错、公开数据集稀缺并列表对照 Facades 606 / Cityscapes 3,475 / FFHQ 70,000 …）
+→ **本文几乎必须有一个同等作用的小节**：「为什么 16×16 不是"小图像"」。
+
+### 可移植到 16px 的指标（这决定我们报什么）
+
+- ⚑ **`Tiling Score`（CVPR 2025）是唯一能直接搬到 16×16 的接缝指标**：纯像素边界 L1、**不需要预训练网络**。
+- ⚠ **`TexTile` 不能当主判据**：训练 384² / 推理 512²、**在 16×16 上的行为从未被标定**，
+  且**它自己声明从未做人类感知校准**。→ 只作参考，并**同引这两条局限**（与本项目"尺子没校准就不开新臂"一致）。
+- **像素画介质保真度指标族（MDPI *Applied Sciences* 16(5):2314, 2026，DOI 10.3390/app16052314）——唯一给了公式的**：
+  `Color Loss (CL) = [C(I_resized) − C(I_orig)]/(W′·H′)×100%`（C=唯一颜色数，0%＝调色板严格保持）；
+  `Block Size Consistency (BSC) = N_damaged/N_total×100%`（cell 内颜色不均匀即 damaged，配蓝/红可视化）；
+  `Reversibility (REV)` ＝上采再下采后的 MSE。
+  ⚑ **两条纪律与我们完全同构、可引**：① 对没有配对逆运算的方法**一律记 n/a**，
+  逐字理由 "substituting a standard interpolation for this missing inverse would be methodologically invalid"；
+  ② 自我限定 "**我的指标不是质量分、是风格偏离量**"（逐字："not as a failure of those algorithms but as a
+  quantification of the stylistic shift…"）→ **正是我们报结构/可平铺指标时该说的话**。
+  ⚠ 它自己也指出 CL 的局限：纯计数**区分不了"插值糊出的中间色"与"模型编出的新色"** → 必须补色差项（ΔE/CIEDE2000）。
+  ⚠ 该文样本量只有 **2 张 sprite** → **引定义可以，引结论要谨慎**。
+- **颜色条件的六个指标家族**（详见原始调研）：EMD/2-Wasserstein、Quadratic-Chi 直方图、
+  `ΔE/ΔECh/MAE(sRGB)/MAE(Hue)`（ColorPeel, ECCV 2024，在 mask 内 10%/50%/100% 像素各算一次）、
+  **GenColorBench 的三重 JND 门（Delta Chroma + CIEDE2000 + MAE(Hue) 三者同时 <5 才记 Correct）**、
+  DCCW、以及 CompColor 的**颜色泄漏 `d_shift`**。
+  ⚑ **ColorPeel 是全批唯一带统计模型的人类实验**：15 人**全部过 Ishihara 色觉测试**、2AFC、
+  **Thurstone Case V 得 z-score + 95% CI**、受控环境（sRGB 显示器 / 60cm / 7°）。**要做人评就照它。**
+
+### 单一分辨率的四种辩护（本文的辩护栈）
+
+1. **给架构性真理由（全批唯一一例）** ——Text-to-Level Diffusion（AIIDE 2025）逐字：
+   "because the architectural components of our diffusion model are easier to define when input sizes are
+   powers of 2, we pad the tops of levels to create 16×16 samples"。**最该模仿的句式。**
+2. **"分辨率是素材属性，不是选择"** —— Kopf & Lischinski 2011 逐图标注输入原生尺寸，故无需辩护；
+   Coutinho 全系列 64×64、GameTileNet 32×32、Pixel VQ-VAE 64×64 走的都是这条但没把话说出来。
+   ⚑ **我们做"原生 16×16 游戏瓦片"完全可以明写这条。**
+3. **锁一个默认值 + 另设一节展示全范围** —— MYOS 逐字 "Unless stated otherwise, the results shown in this
+   section are based on cell size 4×."（**不辩护**）+ §6.2 Cell-controllable 专节 + 2×–8× 全档图。**最稳的工程答法。**
+4. ⚑⚑ **把低分辨率本身当成需要专门机制的挑战（最有力）** —— Voxify3D：patch-based CLIP 是
+   "under extreme discretization where standard perceptual losses fail" 才需要的，并用随分辨率的消融表
+   证明**越低分辨率收益越大**。→ **不是"我只做 16px"，而是"16px 暴露了一个高分辨率下看不见的失效，我的机制专治它"。**
+
+→ **本文建议把 1+2+4 叠起来辩护**（power-of-2 架构理由 + 游戏瓦片原生尺寸 + 16px 暴露的失效），
+再照 3 补一节"同一模型在 24/32 上的行为"当可控性展示；**并正面回应 SD-πXL 的 resolution-independence 主张**。
+
+### 这个题材的众数结构（图形学侧七段式）
+
+`Intro → Related Work（不编号、只用粗体小标题分 3–4 个方向）→ [Background]（只在要引入 diffusion/
+score distillation/Gumbel 时才有）→ [Datasets]（数据是贡献时独立成节、排在方法前，MYOS 即如此）→
+Method（3–5 子节）→ Experiments（定性 → **可控性专节** → 定量 → 消融 → 衍生能力 → **Limitations 作为最后一个子节**）
+→ Conclusion`
+**两条反复出现的偏离**：① Limitations 不独立成节而是 Results 的最后一个子节（SD-πXL 5.5、MYOS 6.6、DUP 4.7）；
+② 正文只放定性图与特征表，**数字与消融全塞补充材料**（SD-πXL 的极端形态）。
+ML/PCGML 侧（AIIDE/FDG）更像标准 ML 论文，且**会有一个"这个媒介为什么特殊"的独立小节**。
+
+**出现率补充（像素画侧）**：一列一方法 × 一行一输入的定性大图 **全部论文**；
+基线**必须含朴素法（nearest/bicubic）与现成商业工具**（MYOS 拿 PixelMe 当 baseline、Kopf 拿 PhotoZoom/Vector Magic）；
+逐项消融**即使只有定性图也要有**（MYOS 8 个变体、DUP 5 个损失组合全定性）；
+**可控参数扫描专节**（MYOS §6.2、SD-πXL Fig 8/9、Voxify3D §4.4）＝我们有"目标颜色"这个旋钮，**不扫会被问"条件真起作用吗"**。
+**又一个"全族零"**：**像素画生成上报 Krippendorff α / Fleiss κ 的论文零篇；可平铺性的人类感知研究零篇；
+"seam-aware FID" 这个指标不存在。**
+
 ## 八、对照本项目：缺口清单（按性价比排序）
 
 | # | 要做的 | 为什么（对应上文） | 成本 |
@@ -320,6 +434,17 @@ ControlMat / Structured Pattern 把多档时间显存全给出来 → 多分辨�
 | 16 | **CD-A / CD-C 双向 Chamfer 颜色指标**（与现有 ΔE76 并报） | §七之二：该领域**没有用 ΔE 的惯例**，CVPR 2025 那篇的 Chamfer 口径才是可比的 | 零 GPU |
 | 17 | **速度表照 ControlMat + Content-aware 两种报法**：分辨率×时间×显存，并拆到原子算子，**显式计入 4 选 1 重排的开销** | §七之二：候选重采样开销是最常被偷偷漏掉的两项之一，而我们正用 4 选 1 | 与第 5 条合并 |
 | 18 | **把 B7 写成"用我们数据重训的对手"**（MatFusion 的 retrained 行） | §七之二：这是挑掉"数据优势"混淆因子的最佳实践，我们已具备却没这么写 | 零成本（写） |
+
+第三路调研（像素画族）追加的六条：
+
+| # | 要做的 | 为什么 | 成本 |
+|---|---|---|---|
+| 19 | **用"明显错误的产物"跑自己的指标**（如最近邻降采样的假瓦片跑可平铺/结构指标） | §七之三：SD-πXL 用 bilinear 反例证明"没有一个指标直接衡量像素化质量"——**这是本题材最有价值的一段写法** | 零 GPU |
+| 20 | **`Tiling Score` 作接缝主判据**（纯边界 L1、无需预训练网络、可直接搬到 16px）；TexTile 只作参考并同引其两条局限 | §七之三：TexTile 在 16×16 上从未标定、且自认未做人类感知校准 | 零 GPU |
+| 21 | **颜色条件按 GenColorBench 的三重 JND 门报**（Delta Chroma + CIEDE2000 + MAE(Hue) 三者 <5 才记 Correct），与 CD-A/CD-C 并列 | §七之三 + §七之二：该领域有六个指标家族，我们只用了 ΔE76 一个 | 零 GPU |
+| 22 | **prompt 集要交代颜色词问题** | §七之三：SD-πXL **刻意删掉 prompt 里的颜色词**以免偏向不做颜色量化的方法；颜色正是我们的条件 → 不交代会被说占便宜 | 零成本（写 + 查） |
+| 23 | **写一节「为什么 16×16 不是小图像」** | §七之三：AIIDE 2022 的 *Pixel Art Characterization* 承担同样作用；ICLR 审稿人需要它 | 零成本（写） |
+| 24 | **接上 AIIDE 2022 的 open question**：它证明"调色板索引表示会导致过拟合"（FID train 0.057 / val 135.1）并建议下一步"把目标调色板喂进生成器"——**正是本文的做法** | §七之三：现成的、可引的立题依据 | 零成本（写） |
 
 ⛔ 上表是**候选清单，不是授权**：每条真要跑仍须按本项目规矩单独预注册（判据先于数据）。
 ⚠ 第 1 条涉及 16px 判官新臂（**不**受 32px 准入条件②限制）；第 9 条特意设计成不需要新判官臂。
