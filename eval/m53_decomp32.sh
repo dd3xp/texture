@@ -8,5 +8,5 @@ export CUDA_VISIBLE_DEVICES=6
 export TRITON_CACHE_DIR=/tmp/triton
 PY=/mnt/data/kw/anaconda3/envs/jzs_train/bin/python
 $PY -u eval/diag_decompose.py --run runs/trd_v10 --size 32 --xmodal \
-  --reps 2 --seed 0 --floor_reps 9 --out /tmp/m53_decompose32.json >> /tmp/m53_decomp32.txt 2>&1
+  --bs 8 --reps 2 --seed 0 --floor_reps 9 --out /tmp/m53_decompose32.json >> /tmp/m53_decomp32.txt 2>&1
 echo M53_DONE >> /tmp/m53_decomp32.txt

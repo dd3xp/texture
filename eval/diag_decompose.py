@@ -36,6 +36,9 @@ def main():
     ap.add_argument("--size", type=int, default=16,
                     help="(M53) 画布尺寸。默认 16 ＝ (M46)–(M52) 那条路径一个字未改；"
                          "给 32 时参照集换成 V_mat 的 32px 真人瓦片、网格按 32 采样")
+    ap.add_argument("--bs", type=int, default=32,
+                    help="(M53) 生成批大小。默认 32 ＝ 旧路径（16px 一个字未改）；"
+                         "32px 上 bs=32 会 OOM（实测吃满 44.5GB），按 final_test.sh 的 TRD32 用 8")
     ap.add_argument("--floor_reps", type=int, default=1,
                     help="(M53) 地板行重复几次随机对半。>1 时额外落盘 `_floor_null`＝"
                          "「真人 vs 真人」在**这个 n 上**的经验零分布（(M50) 那条纪律：门槛口径不对就自己造零分布）。"
@@ -159,8 +162,8 @@ def main():
     jobs = []
     mats = []
     for r in range(a.reps):
-        for i in range(0, len(T), 32):
-            sl = slice(i, i + 32)
+        for i in range(0, len(T), a.bs):
+            sl = slice(i, i + a.bs)
             pal, grid = sample(model, temb[sl], ks[sl], n=a.size, cfg=a.cfg)
             tiles = decode(pal, grid, cb)
             for j, t in enumerate(T[sl]):
