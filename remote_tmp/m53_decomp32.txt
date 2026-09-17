@@ -1,0 +1,16 @@
+TRD            KID_x1e3=24.027  KID_std_x1e3=2.953  FID=130.738  FD_DINOv2=537.238  CLIP=33.706  tile_seam_ratio=0.934
+struct=real    KID_x1e3=4.022  KID_std_x1e3=1.809  FID=84.986  FD_DINOv2=169.426  CLIP=34.233  tile_seam_ratio=1.117
+palette=real   KID_x1e3=17.966  KID_std_x1e3=2.248  FID=120.713  FD_DINOv2=481.152  CLIP=34.119  tile_seam_ratio=0.943
+palette=retrieved KID_x1e3=17.064  KID_std_x1e3=1.573  FID=123.871  FD_DINOv2=497.349  CLIP=33.501  tile_seam_ratio=0.969
+palette=xmodal KID_x1e3=27.181  KID_std_x1e3=2.668  FID=139.508  FD_DINOv2=531.196  CLIP=33.736  tile_seam_ratio=0.920
+  floor_null 1/8 KID=-5.797
+  floor_null 2/8 KID=7.393
+  floor_null 3/8 KID=-3.244
+  floor_null 4/8 KID=-4.517
+  floor_null 5/8 KID=-1.558
+  floor_null 6/8 KID=-1.128
+  floor_null 7/8 KID=2.747
+  floor_null 8/8 KID=-6.211
+real half vs half KID_x1e3=4.260  KID_std_x1e3=0.000  FID=146.845  FD_DINOv2=378.117  CLIP=34.173  tile_seam_ratio=1.046
+-> /tmp/m53_decompose32.json
+M53_DONE
