@@ -157,6 +157,15 @@ fi
 
 if [ "$STAGE" = judge ]; then
   # 门：不是 SCREEN_GO 就一次 API 都不发
+  # 门 0（2026-09-17 补，A 臂尚在训练、一张图都不存在时）：预注册第一阶段 §4 写的是
+  # 「(OP1)–(OP5) 任一不过 ⇒ 判 VOID」，但**没有任何代码读它**：gen 阶段确实会因 problems 非空
+  # 而 exit 1，可看门狗是换行接的两条命令（不是 &&）⇒ 退出码没人接，judge 阶段照样开跑
+  # ＝一条已被预注册判作废的臂仍会烧掉一小时 API。补这一条只是**执行**已写死的作废规则：
+  # ⛔ 它只会更严、且是单向的（只能少花 API、不能让任何臂变成"过"），⛔ 不是改判据、⛔ 不是挪门槛、
+  # ⛔ 没碰筛子的三个锚点。账本的老教训：**没人读的退出码不是门**。
+  NP=$("$P" -c "import json,sys;m=json.load(open(sys.argv[1],encoding='utf-8'));print(len(m['problems']) if 'problems' in m else 99)" "$MET") || exit 1
+  echo "[m41] 操作检验 problems 数 = $NP（99 = meter 里连这个键都没有，同样作废）"
+  [ "$NP" = 0 ] || { echo "[m41] 【禁】(OP1)-(OP5) 有 $NP 项不过 -> 按预注册 §4 本臂 VOID，不开判官、不花 API"; exit 4; }
   S=$("$P" -c "import json,sys;print(json.load(open(sys.argv[1],encoding='utf-8')).get('screen'))" "$MET") || exit 1
   echo "[m41] 筛子判决 = $S"
   [ "$S" = SCREEN_GO ] || { echo "[m41] 【禁】非 SCREEN_GO -> 按预注册不开判官臂、不花 API，记账走人"; exit 3; }
