@@ -12797,3 +12797,75 @@ python analysis/arch/m62_read_dose2.py --dir remote_tmp/m62 --ctrl_tag m62_ctrl 
 
 3. 判决后入库：`git add -f experiments/m62_dose2.json`。
 ⛔ 判据、K、判读器、读数命令一个字不许改；⛔ 不许因为读数不好看就改 K 或换加权。
+
+## 2026-09-19 02:40 UTC+8：(M62) 处理臂跑到 10/28；零 GPU 把「判读器看不看得见处理臂的料」提前验掉
+
+本轮**仍不判决**（`m62_ready.sh dbl` 退 **1**，`dbl_json=9/28`）。判据、K=28、`n_old=17`、
+判读器 `m62_read_dose2.py`、读数命令**一个字未改**；零 API、零活件改动，
+`eval/final_test.sh` **连续第三十二轮**未改。
+
+### 一、三张卡全活，进度快于预注册 ETA
+
+新增只读探针 `scripts/m62_health.sh`（**host 守卫 `a100-node03*`**，⛔ 不 `tail` 原始日志，
+只数 `^=== ` 结构化进度行与哨兵 —— (M61) 那两条教训逐条落进文件头）：
+
+```
+host=a100-node03 now_utc=18:38:54
+pid 3345427 ALIVE / pid 3345431 ALIVE / pid 3345438 ALIVE        (= 脚本本体 pid，(M57))
+gpu2: started=4 done=3 sentinel=0
+gpu6: started=5 done=4 sentinel=0
+gpu7: started=4 done=3 sentinel=0
+alive=3/3
+```
+
+起 18:09 → 18:39 ＝ 30 分钟出 **10 份** ⇒ **~9.8 分钟/份**，比预注册用的 12.8 分钟**快 23%**
+（三张卡并行、互不抢显存）。最长那张（GPU2，10 份）推到 **UTC ~19:47** ＝ 比原 ETA 20:20 早半小时。
+⚑ 进度**只从"第几份开始/结束"这两行结构化日志**读，⛔ 一个指标没看。
+
+### 二、把 (M61) 那个「料在不在判读器眼里」的坑在**处理臂**那侧提前验掉
+
+(M61) 栽过：增量同步**扁平**落 `remote_tmp/`，而判读器写死 `--dir remote_tmp/m62` ⇒ 料齐也
+`VOID_NO_DATA`。上一轮已在控制臂那侧验过（28 份搬进去、`n_ctrl=28`），但**处理臂那侧一份都还没有**
+⇒ 那半边的路径/命名管道**从没被验过**。本轮把已出的 10 份 `scp` 进 `remote_tmp/m62/`，
+用**正式的 `--k 28`**（⛔ 不许调小：小 `--k` 会真进主检验＝提前看到读数、自毁盲判）原样空跑：
+
+```
+OP1: {'ok': False, 'n_ctrl': 28, 'n_trt': 10, 'n_mat_ctrl': 67, 'n_mat_trt': 67, 'same_materials': True}
+VERDICT: VOID_NO_DATA
+```
+
+三件事被这一行钉死：①`n_trt=10`（**不是 0**）⇒ 处理臂的文件名 `m62_dbl_s<seed>.json` 与
+`--trt_tag m62_dbl` 的拼法对得上、`--dir` 也对；②`n_mat_trt=67` ⇒ 处理臂的统计单位与控制臂同一个数；
+③`same_materials=True` ⇒ **两臂的 67 个材质集合已经逐个对上**（若处理臂跑错尺寸/参照集，
+这一位现在就会翻）。⚠ 故意**不传 `--out`**（不落盘、不留任何行均值），打印里**零指标**。
+⚠ 这不是操作检验、**不进判决**：(OP1) 仍要在 28/28 齐时原样重跑。
+
+### 三、⛔ 本轮没做什么
+
+⛔ 没看任何 `m62_dbl_*` 的读数（10 份文件只被判读器数了个数）、⛔ 没跑主检验、
+⛔ 没为填满空卡跑任何未预注册的东西（三档中间检查点仍躺着不动）；
+⛔ 没开判官臂（仍 **37 臂 + 18 试点**）、`recheck_judge.EXPECT` 未动；
+⛔ 没改：判读器、K、`n_old`、判决表、(OP1)–(OP7)、读数命令、`m62_ready.sh`、`m62_arm.sh`、任何活件。
+本轮唯一新增仍是一个**只读**探针。
+
+⚑ 可迁移（本轮唯一的方法论收获）：**"料在不在判读器眼里"这条空跑要**两臂**各验一次** ——
+上一轮验的是控制臂，而处理臂那半边的路径/命名是**另一条管道**（不同 tag、不同产出脚本分支），
+控制臂过了**不蕴含**处理臂过。⚑ 验法是免费的：用正式 `--k` 空跑，(OP1) 在看任何读数之前就返回，
+打印里只有份数与材质集合。
+
+### 四、下一轮第一件事（⛔ 一个字不许改）
+
+1. `ssh emnlp 'bash /tmp/m62_ready.sh dbl'` 退 **0** ⇒ 处理臂 28 份齐（⛔ 只认退出码）。
+   ⚠ 若退 1/2：`bash /tmp/m62_health.sh` 看**脚本本体** pid 3345427/3345431/3345438 还在不在；
+   ⚠ ssh 退出码 **255 ＝ 断线，必须重试，⛔ 不许当成收工**（(M50)）。
+2. `scp` 28 份 `m62_dbl_s*.json` 到 `remote_tmp/m62/`（⛔ 别改 `--dir`），
+   `ls remote_tmp/m62/*.json | wc -l` 要 **56**，然后原样跑：
+
+```
+python analysis/arch/m62_read_dose2.py --dir remote_tmp/m62 --ctrl_tag m62_ctrl \
+       --trt_tag m62_dbl --k 28 --n_old 17 --m60json experiments/m60_scale.json \
+       --out experiments/m62_dose2.json
+```
+
+3. 判决后入库：`git add -f experiments/m62_dose2.json`。
+⛔ 判据、K、判读器、读数命令一个字不许改；⛔ 不许因为读数不好看就改 K 或换加权。
