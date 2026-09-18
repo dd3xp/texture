@@ -11941,3 +11941,52 @@ VERDICT: PILOT_OK
 - **(P1)** 押 `ceiling16` 落在 0.10–0.30 ⇒ 实得 **0.2291** ✅
 - **(P2)** 押 `K_req > 20` ⇒ 实得 **27.06** ✅
 - **(P3)** 押最终 `NONINF_16` —— 待判据臂。
+
+## 2026-09-18 20:20 UTC+8：(M61) 判据臂挂起记账（⛔ 无判决，纯记账）
+
+**判据一个字未改**：δ = **0.055853**、K = **28**、统计单位 = **124 句提示词**、判读器
+`analysis/arch/m61_read_noninf16.py` 与预注册同一份（`df3c5c1` + `cdd0892` 的计数更正）。
+
+### 挂了什么
+
+远程 `/tmp/m61_go.sh`（本机 `scripts/m61_go.sh`，md5 `a20d4ef0728d90dcc58a0cfaf18c0a54` 两侧对拍一致）
+一次拉起四条 tmux 流，每条 14 个种子、串行：
+
+| tmux | GPU | 臂 | `--run` | 种子 | 脚本本体 pid | 日志 |
+|---|---|---|---|---|---|---|
+| `m61cA` | 2 | ctrl | `runs/trd_v10` | 0..13 | 3240851 | `/tmp/m61_ctrlA.txt` |
+| `m61cB` | 2 | ctrl | `runs/trd_v10` | 14..27 | 3240857 | `/tmp/m61_ctrlB.txt` |
+| `m61mA` | 7 | more | `/tmp/runs/trd_v10more_09180526` | 0..13 | 3240863 | `/tmp/m61_moreA.txt` |
+| `m61mB` | 7 | more | `/tmp/runs/trd_v10more_09180526` | 14..27 | 3240869 | `/tmp/m61_moreB.txt` |
+
+被跑的 `/tmp/m61_arm.sh` md5 **`ee651255e74e3443435ca4822d2954c9`** ＝ 预注册那节登记的同一份
+（`--run` 由 `ctrl`/`more` 参数选，⇒ 「读错目录」这条风险由 (OP5) 兜底）。
+产物 `/tmp/m61_{ctrl,more}_s<seed>.json`，共 **56 份**；哨兵 `M61_{ARM}_GPU{N}_DONE` 每流一行。
+
+### 挂完的逐条复核（都过了）
+
+1. **卡号真的进去了**：`/proc/<pid>/cmdline` 逐字打出四条，臂与卡的配对与计划一致
+   （⚠ 卡号写在参数里而不是 `.sh` 的 `export` 里 ⇒ 这次 cmdline 查得到，不必靠 md5 兜底）。
+2. **显存**：挂起时 GPU2 free 39.5G / GPU7 free 35.2G，我们各占 2×5.2G 正在爬；
+   每份稳态 19.6G ⇒ 每卡 39.2G，两张卡都留得下（GPU7 余量 ~6G＝本轮最紧的一处）。
+3. **日志落文件**：四条都 `>>` 到各自 `/tmp/m61_*.txt`（⇒ 末行哨兵这条复核手段在）。
+4. **等的是脚本本体的 pid**，不是里面那个 python（(M57) 那条坑）。
+5. **同步白名单**：`m6[0-9]_*.json` / `m6[0-9]_*.txt` 已在 `scripts/sync_remote_tmp.sh` 里，
+   56 份产物会被 30 分钟一次的增量同步拉回 `remote_tmp/`。
+
+### 时长与下一步
+
+每份 16px 读数实测 **9m23s** ⇒ 每条流 14 份 ≈ **2.2 小时**，四条并行 ⇒ 料齐约在 **UTC+8 22:30** 前后。
+
+⇒ **下一轮第一件事**：查 56 份齐没齐（`ls /tmp/m61_ctrl_s*.json /tmp/m61_more_s*.json | wc -l`
+＋ 四条哨兵），齐了**直接跑判读器**，⛔ 别挂看门狗干等：
+
+```
+python analysis/arch/m61_read_noninf16.py --dir remote_tmp/m61 \
+    --ctrl_tag m61_ctrl --trt_tag m61_more --k 28 \
+    --delta 0.05585272595369346 --ceiling16 0.22908554077166912 \
+    --pilot_tag m61_pilot --out experiments/m61_noninf16.json
+```
+
+⛔ 判据、δ、K、加权口径、判读器**一个字不许改**；⚠ `INCONCLUSIVE_16` 是**预料之中的合法结果**
+（MDE ＝ δ 的 98%，几乎没余量），出了它不许事后放宽 δ。
