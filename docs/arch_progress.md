@@ -12073,3 +12073,71 @@ VERDICT: VOID_NO_DATA
 
 ⚠ 料齐约在 UTC+8 22:30 前后（每份 16px 实测 9m23s，`more` 臂所在 GPU7 略慢 ≈10.4m/份）。
 ⚠ `INCONCLUSIVE_16` 仍是**预料之中的合法结果**（MDE ＝ δ 的 98%），出了它⛔不许事后放宽 δ 或加 K。
+
+## 2026-09-18 21:20 UTC+8：(M61) 判据臂过半，零 GPU 预检把 `VOID_REF_SET_DIFFERS` 提前退役
+
+⛔ **本节无判决、无读数**：四条流仍在跑（**24/56** 份落地，每流 14 份里各完成 6 份，四条哨兵均未出现）。
+按「料齐就判」纪律**没有挂看门狗干等**，本轮只做零 GPU 的链路与操作检验复核。
+
+### 健康检查（`scripts/m61_health.sh`，只读）
+
+| 项 | 实测 |
+|---|---|
+| 四条脚本本体 pid | 3240851 / 3240857 / 3240863 / 3240869 **全部 ALIVE** |
+| 产物 | ctrl 12 份（s0–s5、s14–s19）、more 12 份（同种子）＝ **24/56** |
+| 显存 | GPU2 free 9.3G（used 71.9G）、GPU7 free 5.6G（used 75.6G）＝两份 19.6G 稳态在跑，⚠ 余量已薄但够 |
+| 磁盘 | `/` 250G 可写（产物全在 `/tmp`，⛔ 没碰 `/mnt/data`） |
+| 份大小 | 52.1–52.3 KB，**整齐无截断** |
+
+进度：23 分钟推进 10 份 ⇒ 每流 ≈9.3 分钟/份，与预注册的 9m23s 一致 ⇒ 料齐仍押 **UTC+8 22:25** 前后。
+
+### 预检一：24 份好料**逐份**过了 `load_one`
+
+`scp` 进 `remote_tmp/m61/`（现 29 份 ＝ 24 判据 + 5 试点）后，用**正式的 `--k 28`** 原样空跑账本里那条
+读数命令：`OP1: {'n_ctrl': 12, 'n_trt': 12, 'n_mat_ctrl': 124, 'n_mat_trt': 124, 'same_materials': True}`
+→ `VERDICT: VOID_NO_DATA`（在 (OP1) 返回，主检验分支**未进**）。
+
+⇒ 12/12 与 12/12 ＝ **零份被丢进 `problems`**：这 24 份的 392 张图、`_CLIP_per` 自洽性(tol 1e-4)、
+`_mats` 长度**全部机械通过**。⚠ 上一轮这条是在 12 份上验的，本轮翻倍仍零剔除。
+
+### 预检二：(OP3) 提前退役（`analysis/arch/m61_op3_precheck.py`，新文件、⛔ 不含任何判据）
+
+料齐后仍可能整轮 VOID 的分支还剩三个（`VOID_REF_SET_DIFFERS` / `VOID_PAIRED_FALSEPOS` /
+`VOID_SAME_MODEL`）。其中 **(OP3) 可以在不看任何读数的前提下提前问掉**：`real_half` 是**参照行**，
+按构造与模型、与种子都无关，两臂同一 ⇒ 它携带 **0 比特**的 ctrl-vs-more 信息。
+脚本 **import 冻结的判读器本体**（直接调它的 `load_arm` / `floor_offenders`），⛔ 不重写任何判据。
+
+```
+m61_ctrl   loaded=12  floors=12  OP3_offenders=[]
+m61_more   loaded=12  floors=12  OP3_offenders=[]
+           distinct real_half.CLIP = [33.69111633300781]   n = [98]
+OP3_PRECHECK_CLEAN
+```
+
+⚑⚑ **两臂是不同的检查点**（ctrl=`runs/trd_v10`、more=同配方再训 12000 步），`real_half.CLIP` 仍
+**逐位相同**、且等于 (M46) 那份 **v8** 的 33.691116333008 ⇒ (OP3) 赖以成立的「参照行与模型无关」
+这条前提，本轮第一次在**跨检查点**上被直接量到（试点那次是同检查点五种子，(OP3) 的前提验得没这么硬）。
+⇒ 已落地的一半上，`VOID_REF_SET_DIFFERS` 退役。
+
+### ⛔ 没做什么，以及为什么
+
+**(OP4)(OP5) 不提前跑。** 判读器里它们在 (OP1) 之后，而 (OP1) 要 `len(ctrl)==k`
+⇒ 想提前问就得传小 `--k`，那会**真的进主检验** ＝ 提前看到 `mean_D`/`p` ＝ 自毁盲判
+（正是上一轮刚写进纪律的那条）。⇒ 宁可留着这两个 VOID 风险，也不动 `--k`。
+⚠ 二者先验风险都低（(M60) 的 (OP4) p=0.558；(OP5) 只要两臂行均值不逐位相同即可，两臂本就是不同检查点），
+但**低风险不是提前看的理由**。
+
+⛔ 本轮没改：判读器、δ=0.055853、K=28、统计单位 124、主检验、判决表、(OP1)–(OP5)、读数命令、任何活件。
+新增的两个文件都是**只读工具**（一个 shell 健康检查、一个 import 冻结判读器的 (OP3) 预检）。
+
+### 下一轮第一件事（⛔ 判据、δ、K、判读器一个字不许改）
+
+1. 查料齐：`ssh emnlp "ls /tmp/m61_ctrl_s*.json /tmp/m61_more_s*.json | wc -l"` 要 **56**，
+   四条哨兵 `grep -c DONE /tmp/m61_*.txt` 各 ≥1。
+2. **先搬料**：`scp "emnlp:/tmp/m61_ctrl_s*.json" "emnlp:/tmp/m61_more_s*.json" remote_tmp/m61/`，
+   `ls remote_tmp/m61/*.json | wc -l` 要 **61**（56 判据 + 5 试点）。
+3. 再原样跑读数命令（`--dir remote_tmp/m61 --ctrl_tag m61_ctrl --trt_tag m61_more --k 28
+   --delta 0.05585272595369346 --ceiling16 0.22908554077166912 --pilot_tag m61_pilot
+   --out experiments/m61_noninf16.json`）。
+
+⚠ `INCONCLUSIVE_16` 仍是**预料之中的合法结果**（MDE ＝ δ 的 98%），出了它⛔不许事后放宽 δ 或加 K。
