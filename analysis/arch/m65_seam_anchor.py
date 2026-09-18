@@ -33,6 +33,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, "model"))
+sys.path.insert(0, os.path.join(ROOT, "eval"))
 
 METHODS = ["B1", "B2", "B4", "B7", "TRD32_rr4"]
 TRT, CTRL = "TRD32_rr4", "B2"          # 主判据的两个方法
