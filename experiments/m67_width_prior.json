@@ -1,0 +1,321 @@
+{
+ "notes": [
+  "来源 A：全部生成器训练的 (d,depth,heads,codes) 若只有一种签名，则项目内部不存在任何宽度对照 ⇒ (C2) 拿不到同口径锚点。",
+  "来源 B ⛔ 不可用：(M37) 实测按 val 挑检查点显著更差、(M41) B 臂复现、(M60) 在 val 已回升之后继续训 12000 步仍买到 +0.1250 ⇒ val 回升不能读成容量到顶，因此 val 曲线形不成宽度先验。",
+  "⇒ 两个内部来源都不成立时，(C2) 在不跑这条臂的前提下不可获得。"
+ ],
+ "source_A_internal_width_contrast": {
+  "arch_signature_keys": [
+   "d",
+   "depth",
+   "heads",
+   "codes"
+  ],
+  "distinct_arch_signatures": 1,
+  "excluded_as_non_generator": [
+   "b7_ddpm_09120300",
+   "critic_v7",
+   "trd_smoke"
+  ],
+  "n_generator_runs": 17,
+  "signatures": {
+   "384/12/6/512": [
+    "probe_v10",
+    "probe_v10b",
+    "probe_v11",
+    "trd_clipw_09162316",
+    "trd_ctl_09162316",
+    "trd_v1",
+    "trd_v10",
+    "trd_v11",
+    "trd_v11d",
+    "trd_v2",
+    "trd_v3",
+    "trd_v4",
+    "trd_v5",
+    "trd_v6",
+    "trd_v7",
+    "trd_v8",
+    "trd_v9"
+   ]
+  },
+  "width_ever_varied": false,
+  "widths": {
+   "384": [
+    "probe_v10",
+    "probe_v10b",
+    "probe_v11",
+    "trd_clipw_09162316",
+    "trd_ctl_09162316",
+    "trd_v1",
+    "trd_v10",
+    "trd_v11",
+    "trd_v11d",
+    "trd_v2",
+    "trd_v3",
+    "trd_v4",
+    "trd_v5",
+    "trd_v6",
+    "trd_v7",
+    "trd_v8",
+    "trd_v9"
+   ]
+  }
+ },
+ "source_B_val_curve_descriptive": {
+  "per_run": {
+   "trd_clipw_09162316": {
+    "best": {
+     "val": {
+      "at_step": 1000,
+      "last": 6.965109451529906,
+      "last_step": 6000,
+      "min": 6.65133502802898
+     },
+     "val32": null
+    },
+    "n_entries": 13,
+    "train_first": 3.9165236949920654,
+    "train_last": 4.039815902709961
+   },
+   "trd_ctl_09162316": {
+    "best": {
+     "val": {
+      "at_step": 1000,
+      "last": 6.965721980812623,
+      "last_step": 6000,
+      "min": 6.652499611844721
+     },
+     "val32": null
+    },
+    "n_entries": 13,
+    "train_first": 3.6949028968811035,
+    "train_last": 3.8147950172424316
+   },
+   "trd_v1": {
+    "best": {
+     "val": {
+      "at_step": 1000,
+      "last": 14.553112600267548,
+      "last_step": 20000,
+      "min": 7.553398076611286
+     },
+     "val32": null
+    },
+    "n_entries": 21,
+    "train_first": 8.8563871383667,
+    "train_last": 1.9543994665145874
+   },
+   "trd_v10": {
+    "best": {
+     "val": {
+      "at_step": 2000,
+      "last": 6.868987165365842,
+      "last_step": 12000,
+      "min": 6.542625460018407
+     },
+     "val32": {
+      "at_step": 2000,
+      "last": 5.254708290100098,
+      "last_step": 12000,
+      "min": 5.074186325073242
+     }
+    },
+    "n_entries": 13,
+    "train_first": 3.9872050285339355,
+    "train_last": 3.553602695465088
+   },
+   "trd_v11": {
+    "best": {
+     "val": {
+      "at_step": 3000,
+      "last": 6.849685160974457,
+      "last_step": 12000,
+      "min": 6.567268913963816
+     },
+     "val32": {
+      "at_step": 0,
+      "last": 5.274850368499756,
+      "last_step": 12000,
+      "min": 5.097033500671387
+     }
+    },
+    "n_entries": 13,
+    "train_first": 3.9872050285339355,
+    "train_last": 3.447615146636963
+   },
+   "trd_v11d": {
+    "best": {
+     "val": {
+      "at_step": 1000,
+      "last": 6.712317823954055,
+      "last_step": 12000,
+      "min": 6.325925104396859
+     },
+     "val32": {
+      "at_step": 1000,
+      "last": 5.199886322021484,
+      "last_step": 12000,
+      "min": 4.964749813079834
+     }
+    },
+    "n_entries": 13,
+    "train_first": 3.780653238296509,
+    "train_last": 3.34786057472229
+   },
+   "trd_v2": {
+    "best": {
+     "val": {
+      "at_step": 6000,
+      "last": 6.354704165376749,
+      "last_step": 20000,
+      "min": 5.763929517818071
+     },
+     "val32": {
+      "at_step": 14000,
+      "last": 4.446093559265137,
+      "last_step": 20000,
+      "min": 4.409539699554443
+     }
+    },
+    "n_entries": 21,
+    "train_first": 8.941383361816406,
+    "train_last": 3.9760427474975586
+   },
+   "trd_v3": {
+    "best": {
+     "val": {
+      "at_step": 5000,
+      "last": 6.001760759714133,
+      "last_step": 12000,
+      "min": 5.5971545845372574
+     },
+     "val32": {
+      "at_step": 10000,
+      "last": 4.404553413391113,
+      "last_step": 12000,
+      "min": 4.374612808227539
+     }
+    },
+    "n_entries": 13,
+    "train_first": 8.941383361816406,
+    "train_last": 4.267528057098389
+   },
+   "trd_v4": {
+    "best": {
+     "val": {
+      "at_step": 3000,
+      "last": 6.704961370356714,
+      "last_step": 20000,
+      "min": 5.916711366463363
+     },
+     "val32": {
+      "at_step": 8000,
+      "last": 4.976571559906006,
+      "last_step": 20000,
+      "min": 4.778660297393799
+     }
+    },
+    "n_entries": 21,
+    "train_first": 8.844474792480469,
+    "train_last": 3.862265110015869
+   },
+   "trd_v5": {
+    "best": {
+     "val": {
+      "at_step": 7000,
+      "last": 5.795887226091628,
+      "last_step": 25000,
+      "min": 5.4007879057291035
+     },
+     "val32": {
+      "at_step": 23000,
+      "last": 4.317526340484619,
+      "last_step": 25000,
+      "min": 4.289980888366699
+     }
+    },
+    "n_entries": 26,
+    "train_first": 9.030387878417969,
+    "train_last": 4.294984817504883
+   },
+   "trd_v6": {
+    "best": {
+     "val": {
+      "at_step": 7000,
+      "last": 5.976162028886199,
+      "last_step": 30000,
+      "min": 5.390908942599477
+     },
+     "val32": {
+      "at_step": 18000,
+      "last": 4.371401786804199,
+      "last_step": 30000,
+      "min": 4.315051555633545
+     }
+    },
+    "n_entries": 31,
+    "train_first": 8.952133178710938,
+    "train_last": 3.99605655670166
+   },
+   "trd_v7": {
+    "best": {
+     "val": {
+      "at_step": 6000,
+      "last": 6.008348705842323,
+      "last_step": 30000,
+      "min": 5.563535298678474
+     },
+     "val32": {
+      "at_step": 13000,
+      "last": 4.7101287841796875,
+      "last_step": 30000,
+      "min": 4.5642409324646
+     }
+    },
+    "n_entries": 31,
+    "train_first": 9.05068302154541,
+    "train_last": 4.137042045593262
+   },
+   "trd_v8": {
+    "best": {
+     "val": {
+      "at_step": 3000,
+      "last": 6.7670693446680446,
+      "last_step": 20000,
+      "min": 6.064691920460704
+     },
+     "val32": {
+      "at_step": 6000,
+      "last": 5.096508979797363,
+      "last_step": 20000,
+      "min": 4.950285911560059
+     }
+    },
+    "n_entries": 21,
+    "train_first": 8.932998657226562,
+    "train_last": 3.8200995922088623
+   },
+   "trd_v9": {
+    "best": {
+     "val": {
+      "at_step": 2000,
+      "last": 6.844186545237643,
+      "last_step": 10000,
+      "min": 6.507685753078396
+     },
+     "val32": {
+      "at_step": 1000,
+      "last": 5.119958877563477,
+      "last_step": 10000,
+      "min": 5.006231307983398
+     }
+    },
+    "n_entries": 11,
+    "train_first": 6.755688190460205,
+    "train_last": 4.0967888832092285
+   }
+  }
+ },
+ "verdict": "WIDTH_PRIOR_UNOBTAINABLE"
+}
