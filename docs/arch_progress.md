@@ -10921,8 +10921,14 @@ python eval/diag_decompose.py --run runs/trd_v10 --size 32 --xmodal --reps 2 --b
 
 | 会话 | 在跑什么 | 产物 |
 |---|---|---|
-| `m59a`（emnlp，GPU 待定） | `bash /tmp/m59_paired.sh <GPU> 0 1 2` | `/tmp/m59_pairedclip_s{0,1,2}.json`、末行 `M59_DONE_GPU<n>` |
-| `m59b`（emnlp，GPU 待定） | `bash /tmp/m59_paired.sh <GPU> 3 4` | `/tmp/m59_pairedclip_s{3,4}.json`、末行 `M59_DONE_GPU<n>` |
+| `m59a`（emnlp，**GPU 6**，脚本本体 pid **3054855**） | `bash /tmp/m59_paired.sh 6 0 1 2` | `/tmp/m59_pairedclip_s{0,1,2}.json`、`/tmp/m59_a.txt`（末行 `M59_DONE_GPU6`） |
+| `m59b`（emnlp，**GPU 7**，脚本本体 pid **3054860**） | `bash /tmp/m59_paired.sh 7 3 4` | `/tmp/m59_pairedclip_s{3,4}.json`、`/tmp/m59_b.txt`（末行 `M59_DONE_GPU7`） |
+
+挂完复核已做：`/tmp/m59_paired.sh` 的远程 md5 = 本机 `tr -d '\r'` 后的 md5（`b65d4ff0…`）；
+`ps` 里两条命令都带 `--per_image`；`nvidia-smi --query-compute-apps` 确认落在 6/7 两张卡上、
+各吃 **17.9GB**（两张各 45.5GB 空闲，与 (M53) 那条「`--bs 8` ＝ 18.4GB」对得上）；
+判读器 `--selftest` 远程与本机各 16/16、正确路径空跑得 `VOID_NO_DATA`。
+⚠ 要等就等**脚本本体**那两个 pid（(M57) 那条：一个 .sh 里多档串行 python，等 python 的 pid 会误判"跑完了"）。
 
 **下一轮怎么判**：五份 JSON 齐后跑
 `python analysis/arch/m59_read_pairedclip.py --dir /tmp --tag m59_pairedclip --m58dir experiments --out /tmp/m59_paired.json`，
