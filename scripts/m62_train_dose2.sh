@@ -13,6 +13,8 @@ case "$(hostname)" in
   a100-node03*) ;;
   *) echo "M62_WRONG_HOST_$(hostname)"; exit 4 ;;
 esac
+# 日志必须落文件（探针 grep 的就是这个文件的哨兵）；在脚本里 exec 重定向 ⇒ 起法不用带 '>>'。
+exec >> /tmp/trd_v10dbl.txt 2>&1
 export CUDA_VISIBLE_DEVICES=2
 export HF_HUB_OFFLINE=1
 export TRITON_CACHE_DIR=/tmp/triton

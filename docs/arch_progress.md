@@ -12530,3 +12530,78 @@ python eval/diag_decompose.py --run <RUN> --size 32 --xmodal --reps 2 --bs 8 \
    （训练在本节 commit 之后才挂），判据与判读器都写在它之前。
 2. ⛔ **不许因为新 11 份控制臂读数的样子去改 K、判据或加权**（(M59) 刚证过"换个合法加权点估计就翻号"）。
 3. 本轮 MDE 的三个输入（0.1250、0.5127、σ1=0.8988）全是**已发表**读数。
+
+## 2026-09-18 23:50 UTC+8：(M62) 三条流已挂起 —— 训练在 GPU 2，控制臂新增的 11 份并行在 GPU 6/7
+
+预注册（上一节，commit `65493bf`）落地。本节只记「挂了什么、怎么复核的」，**判据一个字未改**。
+⚑ 沿用 (M53) 那条排期招式：**对照臂读的是早已存在的检查点 ⇒ 别等训练，直接并行挂另一张卡**。
+
+### 挂起台账
+
+| 项 | 训练（处理臂） | 控制臂新增 11 份 |
+|---|---|---|
+| tmux | `m62tr` | `m62c6` / `m62c7`（created 15:28:37 UTC） |
+| 脚本 | `scripts/m62_train_dose2.sh` → `/tmp/m62_train_dose2.sh` | `scripts/m62_arm.sh` → `/tmp/m62_arm.sh` |
+| md5 双侧核对 | `afb1da115317b723068304879caf927c` ✓ | `f959bfab771c7eafcf8b88f19b01a90d` ✓ |
+| **脚本本体 pid** | **3301272** | **3301275**（GPU6）/ **3301283**（GPU7） |
+| python pid | 3301281 | 3301285 / 3301289 |
+| GPU（pid↔uuid 反查） | **2**（`GPU-d1fe9a28…`，25794 MiB） | **6**（`GPU-c7daf442…`）/ **7**（`GPU-a8a5f915…`），各 ~4.4GB 起步 |
+| 种子 | — | 17..22（GPU6，6 份）/ 23..27（GPU7，5 份） |
+| 日志 | `/tmp/trd_v10dbl.txt`，末行应为 `M62_TRAIN_DONE_GPU2` | `/tmp/m62_ctrl_gen{6,7}.txt`，末行 `M62_ctrl_GPU{6,7}_DONE` |
+| 产物 | `/tmp/runs/trd_v10dbl_09181524/` | `/tmp/m62_ctrl_s{17..27}.json` |
+
+⚑ **本轮的日志重定向写进了脚本本体**（`exec >> ... 2>&1`），而不是写在 tmux 的命令串里 ——
+一举躲掉两个老坑：①(M60) 那次"只打到 tmux 面板 ⇒ 会话一退哨兵蒸发"；
+②`ssh→tmux→bash -c` 三层引号（重定向符和 `$VAR` 都不必再穿过它）。
+⚠ 起法因此变成干净的 `tmux new-session -d -s m62tr 'bash /tmp/m62_train_dose2.sh'`。
+
+**argv 逐字复核**（`ps -eo pid,args`，⛔ 不用 `/proc/<pid>/environ`：写在 `.sh` 里的 `export` 查不到）：
+处理臂 `--out /tmp/runs/trd_v10dbl_09181524 --init_from runs/trd_v10/last.pt --steps 24000 …
+--save_at 6000 12000 18000 24000` ＝ 预注册第四节允许的那三处改动，其余与 (M60) 逐字相同；
+控制臂 `--run /tmp/runs/trd_v10more_09180526 --size 32 --xmodal --reps 2 --bs 8 --per_image`
+＝ **指着 (M60) 的处理臂**（这正是 (OP6) 要守的那条拼缝）。
+
+### 探针两端都验过了（(M61) 教训一的第一次预防性兑现）
+
+`scripts/m62_ready.sh` 带 hostname 守卫，**只用退出码**判齐没齐（0 齐／1 份数不够／2 哨兵缺／
+3 用法错／4 跑错机器）：本机敲 ⇒ 打印 `M62_WRONG_HOST_SoftAndSquishy`、**退出码 4**；
+远程敲 ⇒ `train` 退 2、`ctrl` 退 1（都是"还没好"）。⇒ 方向安全：**ssh 断线也只会让人继续等**
+（(M50) 那次栽在"问进程还在吗"＝断线与跑完同号；本轮问的是"料齐了吗"）。
+⚑ 探针**只 grep 结构化进度行 `^=== ` 与哨兵**，⛔ 从不 `tail` 生成日志（(M61) 教训二：指标与进度混排）。
+
+### (P3) 三条零成本自查：**全部兑现**（都在看见任何 CLIP 读数之前）
+
+1. **续训接口干净**：`从 runs/trd_v10/last.pt 初始化；缺 []，多 []` —— 零缺键零多键。
+2. **码本复现**：`码本 512 色，平均量化误差 7.26/255`，新 `config.json` 的 `codebook_err`
+   ＝ **7.256955146789551**，与 v10 逐位相同。
+3. **零步复现 val**：`val 6.869222` vs v10 末值 **6.869**（差 2.2e-4，远在 (M57) 的 val 噪声下限
+   0.0623 内）；副读数 `val32 5.254726` vs **5.255**。⚠ 只说明权重与数据管线原样接上了，
+   ⛔ 不是任何效果证据（(M37)(M41)：**val 指错过方向**，本轮判据一个 val 都不用）。
+
+**config 逐键复核通过**：`only_v10 []`；共有键里只有 `init_from`/`out`/`save_at`/`steps` 四处不同
+＝ 预注册允许的那四类，`unexpected_diff {}`；`only_new` 12 个 ＝ v10 之后新增的参数
+（与 (M60) 那次同一批，已逐个核过全部等于 argparse 默认值）。
+⚑ **`d=384 / depth=12 / heads=6`、参数 33.3M 与 v10 逐字相同** ⇒ 本臂**确实只动了剂量**，
+与第二节挂起的"模型尺寸"那档没有任何混淆。
+
+### 排期与下一轮第一件事（⛔ 别挂看门狗干等）
+
+- 训练 24000 步 × ~0.30 s/step ⇒ ETA **≈2 小时**（UTC ~17:30）；
+- 控制臂 GPU6 六份 ≈ 77 分钟、GPU7 五份 ≈ 64 分钟 ⇒ 与训练重叠，**不占额外墙钟**。
+
+下一轮：
+1. `ssh emnlp 'bash /tmp/m62_ready.sh ctrl'` 退出码 0 ⇒ 控制臂 28 份齐（17 旧 + 11 新）。
+2. `ssh emnlp 'bash /tmp/m62_ready.sh train'` 退出码 0 ⇒ 训练跑完（末行哨兵）。
+   ⚠ 训完先做一次 config/日志复核，再开处理臂。
+3. 处理臂 28 份：`bash /tmp/m62_arm.sh <GPU> dbl <seeds…>`，按卡况分三张卡（每张 ~9-10 份）。
+4. 料齐后搬料到 `remote_tmp/m62/`（⚠ (M61) 那个坑：增量同步**扁平**落 `remote_tmp/`，
+   而判读器的 `--dir` 是 `remote_tmp/m62` ⇒ **必须搬料，⛔ 别改命令**），
+   `ls remote_tmp/m62/*.json | wc -l` 要 **56**，然后原样跑：
+
+```
+python analysis/arch/m62_read_dose2.py --dir remote_tmp/m62 --ctrl_tag m62_ctrl \
+       --trt_tag m62_dbl --k 28 --n_old 17 --m60json experiments/m60_scale.json \
+       --out experiments/m62_dose2.json
+```
+
+⛔ 判据、K、判读器、读数命令**一个字不许改**；⛔ 不许因为读数不好看就改 K 或换加权。

@@ -19,6 +19,9 @@ case "$ARM" in
   dbl)  RUN=/tmp/runs/trd_v10dbl_09181524 ;;    # = 本轮新训     = v10 + 24000 步
   *) echo "M62_BAD_ARM_$ARM"; exit 2 ;;
 esac
+# 日志必须落文件：只打到 tmux 面板的话，脚本一退出会话就没了，哨兵跟着蒸发（(M60) 踩过）。
+# ⚑ 在脚本里 exec 重定向 ⇒ 起法不用带 '>>'，省掉 ssh→tmux→bash -c 那层引号（$VAR 会被吃掉）。
+exec >> "/tmp/m62_${ARM}_gen${GPU}.txt" 2>&1
 export CUDA_VISIBLE_DEVICES="$GPU"
 export HF_HUB_OFFLINE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export TRITON_CACHE_DIR=/tmp/triton
