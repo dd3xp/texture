@@ -1,0 +1,102 @@
+{
+ "note": "(M66) LPIPS diversity anchor; criteria pre-registered in 63faf80",
+ "op": {
+  "OP1_recompute_matches_official": {
+   "ok": true,
+   "detail": {
+    "B1": {
+     "recomputed": 0.24919131455723853,
+     "official": 0.24919131455723853,
+     "ok": true
+    },
+    "B4": {
+     "recomputed": 0.14778822405702052,
+     "official": 0.14778822405702052,
+     "ok": true
+    },
+    "B7": {
+     "recomputed": 0.33288560584461424,
+     "official": 0.33288560584461424,
+     "ok": true
+    }
+   }
+  },
+  "OP2_pair_machinery_matches_active": {
+   "mine": 0.45158788462479904,
+   "active": 0.4515878915786743,
+   "ok": true
+  },
+  "OP3_scale_sentinels": {
+   "self": 0.0,
+   "jitter": 0.0017823410009441432,
+   "unrelated": 0.6850146698951721,
+   "ok": true
+  },
+  "OP4_human_counts": {
+   "ok": true,
+   "counts": {
+    "32_train": 403,
+    "32_val": 156
+   }
+  },
+  "OP5_group_structure": {
+   "detail": {
+    "B1": 272,
+    "B2": 0,
+    "B4": 272,
+    "B7": 272,
+    "TRD32": 272,
+    "TRD32_rr4": 0
+   },
+   "ok": true
+  }
+ },
+ "human_anchor_H_div": 0.36239190157922824,
+ "human_ci95_pack_bootstrap": [
+  0.3181154066519074,
+  0.6087483685701451
+ ],
+ "n_pairs": 500,
+ "n_materials_with_cross_pack_pair": 118,
+ "n_packs_contributing": 21,
+ "dropped_same_pack_pairs": 26,
+ "R_div_control": 0.7078091576516242,
+ "n_control_pairs": 500,
+ "methods": {
+  "B1": {
+   "n": 272,
+   "n_groups_ge2": 272,
+   "LPIPS_div": 0.24919131455723853
+  },
+  "B2": {
+   "n": 272,
+   "n_groups_ge2": 0,
+   "LPIPS_div": NaN
+  },
+  "B4": {
+   "n": 272,
+   "n_groups_ge2": 272,
+   "LPIPS_div": 0.14778822405702052
+  },
+  "B7": {
+   "n": 272,
+   "n_groups_ge2": 272,
+   "LPIPS_div": 0.33288560584461424
+  },
+  "TRD32": {
+   "n": 272,
+   "n_groups_ge2": 272,
+   "LPIPS_div": 0.3197509620393462
+  },
+  "TRD32_rr4": {
+   "n": 272,
+   "n_groups_ge2": 0,
+   "LPIPS_div": NaN
+  }
+ },
+ "best_base": "B7",
+ "dist_TRD32_to_H": 0.04264093953988202,
+ "dist_base_to_H": 0.029506295734613996,
+ "verdict": "DIV_ANCHOR_UNDECIDED",
+ "why": "ruler does not separate the two"
+}
