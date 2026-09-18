@@ -10,10 +10,14 @@ r"""(M61) 盲写判读器：(M60) 那个「再训一倍」的检查点在 **16px
 
 ## 统计单位（零 GPU 事先量定，`eval/colour_task.py:targets("V_mat",16)`）
 
-**材质，n = 125**（196 个 V_mat@16 目标分属 125 个材质：78 个各 1 张、23 个各 2 张、24 个各 3 张；
-reps=2 ⇒ 每份 JSON 392 张图）。⛔ 不许改用 392 当分母（同材质多张不独立，(M59) 定死的纪律）。
-⚠ 这个 125 与判官 `--set V_mat` 的 125 条目**是同一批材质**（16px 上每个材质都至少有 1 张参照瓦片；
-32px 上只剩 67 个 ⇒ 那里 n=67）。
+**提示词，n = 124**（196 个 V_mat@16 目标分属 **125 个材质**，但 `_mats` 记的是
+`diag_decompose.py:198` 的 `t["prompt"]` ⇒ **`default_copper_block` 与 `mcl_copper_block`
+共用同一句 `"copper block"`，合成一个单位** ⇒ 124；reps=2 ⇒ 每份 JSON 392 张图）。
+⛔ 不许改用 392 当分母（同单位多张不独立，(M59) 定死的纪律）。
+⚠⚠ **更正记账**：本文件初稿写的是 125（按 slug 数），在**试点**料上被 (OP1) 的预检当场抓到
+（实得 124）；改动发生在**任何判据臂读数存在之前**，且只动这一个计数常数 ——
+δ 的公式、检验、判决表、其余操作检验**一个字未改**。
+⚠ 32px 上 slug 数与提示词数恰好都是 67（没有共用提示词的材质）⇒ (M59)/(M60) 不触发这条。
 
     D_m = mean_{seed,rep}[ CLIP_处理(m) ] − mean_{seed,rep}[ CLIP_控制(m) ]
 
@@ -62,7 +66,7 @@ reps=2 ⇒ 每份 JSON 392 张图）。⛔ 不许改用 392 当分母（同材�
 
 | 检验 | 要求 | 不过则 |
 |---|---|---|
-| (OP1) 料齐 | 两臂各 `--k` 份；每份 `TRD._CLIP_per` 与 `_mats` 长 **392**；材质数 **125**；两臂材质集合相同 | `VOID_NO_DATA` |
+| (OP1) 料齐 | 两臂各 `--k` 份；每份 `TRD._CLIP_per` 与 `_mats` 长 **392**；提示词数 **124**；两臂提示词集合相同 | `VOID_NO_DATA` |
 | (OP2) 新列自洽 | 每份 \|mean(`_CLIP_per`) − `CLIP`\| < 1e-4 | `VOID_PER_IMAGE_MISMATCH` |
 | (OP3) 参照集同一 | **全部** JSON（两臂 + 试点）的 `real_half.CLIP` 逐位相同（tol 1e-9）且 `real_half.n` = 98 | `VOID_REF_SET_DIFFERS` |
 | (OP4) 假阳检验 | 控制臂**内部**按种子奇偶对半的双侧检验 `p >= 0.01` | `VOID_PAIRED_FALSEPOS` |
@@ -89,7 +93,7 @@ import os
 import random
 
 N_IMG_EXPECT = 392            # 196 个 V_mat@16 目标 x reps 2
-N_MAT_EXPECT = 125            # 零 GPU 事先量定（colour_task.targets("V_mat",16)）
+N_MAT_EXPECT = 124            # 试点预检实得：196 目标 / 125 个 slug / **124 句提示词**
 N_FLOOR_EXPECT = 98           # real_half 的 n = 196 // 2
 ROW = "TRD"
 FLOOR_ROW = "real_half"
