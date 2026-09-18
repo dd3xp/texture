@@ -1,0 +1,17 @@
+{
+ "n_targets": 74,
+ "n_slugs": 67,
+ "n_materials": 67,
+ "thr": 0.41,
+ "op2_real_half_CLIP": 34.1732177734375,
+ "op2_expect": 34.1732177734375,
+ "n_kept": 74,
+ "n_dropped": 0,
+ "CLIP_real": 34.777191162109375,
+ "CLIP_B2": 35.553401947021484,
+ "delta": -0.7762107849121094,
+ "op1": true,
+ "op2": true,
+ "op3": true,
+ "verdict": "GATE_CEILING_BELOW_GOAL"
+}
