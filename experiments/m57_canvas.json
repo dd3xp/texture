@@ -1,0 +1,2029 @@
+{
+ "round": "M57",
+ "verdict": "CANVAS_SMALL",
+ "stats": {
+  "n_paired": 240,
+  "n_gen32": 480,
+  "n_gen16": 480,
+  "n_missing_gen": 0,
+  "ruler16_exact_rate": 0.004166666666666667,
+  "copy_leak_rate": 0.0,
+  "frac_neg": 0.49166666666666664,
+  "p_sign": 0.8465015892198456,
+  "med_d": 0.08544921874999956,
+  "med_dn": 0.004141191385759524,
+  "M_real": 13.223714192708334,
+  "lopo_flip": []
+ },
+ "why": {
+  "frac_neg_pass": false,
+  "p_pass": false,
+  "mag_pass": false
+ },
+ "gates": {
+  "frac_neg": 0.65,
+  "p": 0.01,
+  "mag": 0.5,
+  "min_paired": 50,
+  "ruler_trivial": 0.2,
+  "copy_leak": 0.1,
+  "pack_min_mats": 10
+ },
+ "ruler16_on_our_gen": {
+  "n": 480,
+  "exact": 2,
+  "exact_rate": 0.004166666666666667,
+  "mad_median": 14.2109375
+ },
+ "gen32_exact_rate": 0.0,
+ "real_side": {
+  "n_tiles": 403,
+  "n_materials": 240,
+  "n_packs": 8,
+  "mad_median_pooled": 12.529947916666666,
+  "exact_rate_pooled": 0.004962779156327543
+ },
+ "gen_side": {
+  "n_32": 480,
+  "n_16": 480,
+  "n_materials": 240,
+  "mad_median_pooled": 14.650716145833334
+ },
+ "copy_context": {
+  "median_min_mad_to_same_material_real": 38.625325520833336,
+  "exact_copies": 0,
+  "gen32_counted": 480
+ },
+ "by_pack": [
+  {
+   "pack": "ROllerozxa__macrotex",
+   "n_mats": 156,
+   "med_d": -0.2661946614583339,
+   "frac_neg": 0.5256410256410257
+  },
+  {
+   "pack": "sirrobzeroone__dungeonsoup",
+   "n_mats": 61,
+   "med_d": 0.7921549479166679,
+   "frac_neg": 0.4918032786885246
+  },
+  {
+   "pack": "Suzakuu__actionpvpforctf",
+   "n_mats": 17,
+   "med_d": 2.911458333333332,
+   "frac_neg": 0.23529411764705882
+  },
+  {
+   "pack": "debiankaios__simpletextures",
+   "n_mats": 2,
+   "med_d": 14.278320312500004,
+   "frac_neg": 0.0
+  },
+  {
+   "pack": "joseanastacio__texture_pack_plastic",
+   "n_mats": 1,
+   "med_d": 6.619791666666671,
+   "frac_neg": 0.0
+  },
+  {
+   "pack": "Droog71__moontest_32x32",
+   "n_mats": 1,
+   "med_d": -0.16145833333333215,
+   "frac_neg": 1.0
+  },
+  {
+   "pack": "Liil__12345",
+   "n_mats": 1,
+   "med_d": 3.293131510416666,
+   "frac_neg": 0.0
+  },
+  {
+   "pack": "Ludus__gb_style",
+   "n_mats": 1,
+   "med_d": -10.41162109375,
+   "frac_neg": 1.0
+  }
+ ],
+ "per_material": [
+  {
+   "material": "baked_clay_grey.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 12.5732421875,
+   "mad_real": 1.810546875,
+   "d": 10.7626953125,
+   "dn": -0.0874568916010997
+  },
+  {
+   "material": "baked_clay_orange.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 13.680501302083332,
+   "mad_real": 1.7054036458333333,
+   "d": 11.975097656249998,
+   "dn": 0.42506586264660634
+  },
+  {
+   "material": "baked_clay_red.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 19.193684895833336,
+   "mad_real": 1.265625,
+   "d": 17.928059895833336,
+   "dn": 0.3491612592852586
+  },
+  {
+   "material": "basic_materials_brass_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 16.194986979166664,
+   "mad_real": 11.340494791666666,
+   "d": 4.854492187499998,
+   "dn": 0.08608107335531923
+  },
+  {
+   "material": "basic_materials_cement_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 13.389485677083332,
+   "mad_real": 4.927734375,
+   "d": 8.461751302083332,
+   "dn": -0.14009269017443082
+  },
+  {
+   "material": "basic_materials_chain_steel.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 20.745279947916668,
+   "mad_real": 22.555338541666668,
+   "d": -1.81005859375,
+   "dn": -0.2719942451760142
+  },
+  {
+   "material": "bedrock_bedrock.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.548828125,
+   "mad_real": 6.4267578125,
+   "d": 1.1220703125,
+   "dn": -0.2844420052618372
+  },
+  {
+   "material": "beds_bed_top1.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 50.341471354166664,
+   "mad_real": 13.130045572916668,
+   "d": 37.21142578125,
+   "dn": 0.3819750032044962
+  },
+  {
+   "material": "beds_bed_top2.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 29.731119791666668,
+   "mad_real": 77.31412760416667,
+   "d": -47.5830078125,
+   "dn": -0.2907328082157208
+  },
+  {
+   "material": "beds_bed_top_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.068359375,
+   "mad_real": 6.661783854166666,
+   "d": 1.406575520833334,
+   "dn": 0.08464052467474084
+  },
+  {
+   "material": "beds_bed_top_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 51.86279296875,
+   "mad_real": 82.18050130208334,
+   "d": -30.317708333333343,
+   "dn": -0.14383783604660816
+  },
+  {
+   "material": "bones_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 24.6611328125,
+   "mad_real": 37.7998046875,
+   "d": -13.138671875,
+   "dn": -0.014539764086053952
+  },
+  {
+   "material": "bones_front.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 36.1962890625,
+   "mad_real": 60.37630208333333,
+   "d": -24.18001302083333,
+   "dn": -0.14257688041642536
+  },
+  {
+   "material": "bones_rear.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 45.9912109375,
+   "mad_real": 47.14583333333333,
+   "d": -1.1546223958333286,
+   "dn": 0.03896817993781343
+  },
+  {
+   "material": "bones_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 26.8681640625,
+   "mad_real": 45.30240885416667,
+   "d": -18.43424479166667,
+   "dn": -0.12592455097160515
+  },
+  {
+   "material": "bones_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 46.521484375,
+   "mad_real": 36.65087890625,
+   "d": 9.87060546875,
+   "dn": 0.10000740675094622
+  },
+  {
+   "material": "carts_cart.png",
+   "pack": "joseanastacio__texture_pack_plastic",
+   "mad_gen": 36.00699869791667,
+   "mad_real": 29.38720703125,
+   "d": 6.619791666666671,
+   "dn": 0.045665353034517464
+  },
+  {
+   "material": "carts_cart_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 29.772786458333336,
+   "mad_real": 43.751302083333336,
+   "d": -13.978515625,
+   "dn": 0.01377124104771843
+  },
+  {
+   "material": "carts_cart_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 35.987955729166664,
+   "mad_real": 43.91455078125,
+   "d": -7.926595052083336,
+   "dn": -0.02370663776843296
+  },
+  {
+   "material": "default_acacia_tree.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 14.58984375,
+   "mad_real": 13.3173828125,
+   "d": 1.2724609375,
+   "dn": 0.08031035564571742
+  },
+  {
+   "material": "default_acacia_tree_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.8037109375,
+   "mad_real": 27.16162109375,
+   "d": -10.35791015625,
+   "dn": -0.06826708973335793
+  },
+  {
+   "material": "default_acacia_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.48193359375,
+   "mad_real": 11.12255859375,
+   "d": -4.640625,
+   "dn": -0.09702377641746149
+  },
+  {
+   "material": "default_aspen_tree.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 56.16650390625,
+   "mad_real": 24.64794921875,
+   "d": 31.5185546875,
+   "dn": 0.2433079245550226
+  },
+  {
+   "material": "default_aspen_tree_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 18.665364583333336,
+   "mad_real": 18.470377604166668,
+   "d": 0.19498697916666785,
+   "dn": -0.036374373724771925
+  },
+  {
+   "material": "default_aspen_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 35.93798828125,
+   "mad_real": 12.0302734375,
+   "d": 23.90771484375,
+   "dn": 0.15107453796569553
+  },
+  {
+   "material": "default_bookshelf.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 40.90673828125,
+   "mad_real": 26.217610677083336,
+   "d": 14.689127604166664,
+   "dn": 0.018883270259647755
+  },
+  {
+   "material": "default_brick.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 20.772298177083336,
+   "mad_real": 4.334635416666666,
+   "d": 16.43766276041667,
+   "dn": 0.3387958404908133
+  },
+  {
+   "material": "default_bronze_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.3212890625,
+   "mad_real": 20.049641927083336,
+   "d": -11.728352864583336,
+   "dn": -0.10821725096341805
+  },
+  {
+   "material": "default_cactus_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 33.29443359375,
+   "mad_real": 33.11442057291667,
+   "d": 0.1800130208333286,
+   "dn": 0.028870970913461913
+  },
+  {
+   "material": "default_cactus_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 46.36669921875,
+   "mad_real": 32.896647135416664,
+   "d": 13.470052083333336,
+   "dn": 0.097850789312379
+  },
+  {
+   "material": "default_clay.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.138509114583332,
+   "mad_real": 4.91650390625,
+   "d": 3.222005208333332,
+   "dn": -0.41152499971701206
+  },
+  {
+   "material": "default_coal_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 13.888346354166666,
+   "mad_real": 9.31201171875,
+   "d": 4.576334635416666,
+   "dn": 0.07008034202126479
+  },
+  {
+   "material": "default_cobble.png",
+   "pack": "debiankaios__simpletextures",
+   "mad_gen": 13.156575520833334,
+   "mad_real": 1.5771484375,
+   "d": 11.579427083333334,
+   "dn": 0.6798658019072227
+  },
+  {
+   "material": "default_coniferous_litter.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 14.727701822916666,
+   "mad_real": 19.7490234375,
+   "d": -5.021321614583334,
+   "dn": -0.18342724818911726
+  },
+  {
+   "material": "default_copper_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.45947265625,
+   "mad_real": 18.987141927083332,
+   "d": -7.527669270833332,
+   "dn": -0.04340803970008256
+  },
+  {
+   "material": "default_coral_brown.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 18.227213541666668,
+   "mad_real": 33.181640625,
+   "d": -14.954427083333332,
+   "dn": -0.3736250526120416
+  },
+  {
+   "material": "default_coral_orange.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 14.913736979166666,
+   "mad_real": 25.453125,
+   "d": -10.539388020833334,
+   "dn": -0.14338749656110172
+  },
+  {
+   "material": "default_coral_skeleton.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 12.451985677083334,
+   "mad_real": 12.1904296875,
+   "d": 0.2615559895833339,
+   "dn": -0.31512282709932815
+  },
+  {
+   "material": "default_desert_cobble.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.614095052083332,
+   "mad_real": 25.1376953125,
+   "d": -13.523600260416668,
+   "dn": -0.27938414103611864
+  },
+  {
+   "material": "default_desert_sand.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 2.5442708333333335,
+   "mad_real": 1.9895833333333333,
+   "d": 0.5546875000000002,
+   "dn": -0.013034462343631675
+  },
+  {
+   "material": "default_desert_sandstone.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 2.976725260416667,
+   "mad_real": 2.515950520833333,
+   "d": 0.4607747395833339,
+   "dn": 0.007361389624827436
+  },
+  {
+   "material": "default_desert_sandstone_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 5.769368489583333,
+   "mad_real": 8.832845052083332,
+   "d": -3.063476562499999,
+   "dn": -0.007536850560146802
+  },
+  {
+   "material": "default_desert_sandstone_brick.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 10.116373697916668,
+   "mad_real": 6.5048828125,
+   "d": 3.611490885416668,
+   "dn": 0.16287582154272562
+  },
+  {
+   "material": "default_desert_stone.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 9.58154296875,
+   "mad_real": 3.17333984375,
+   "d": 6.408203125,
+   "dn": 0.27074445091969424
+  },
+  {
+   "material": "default_desert_stone_block.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 24.909016927083332,
+   "mad_real": 4.9921875,
+   "d": 19.916829427083332,
+   "dn": 0.3298486753099602
+  },
+  {
+   "material": "default_desert_stone_brick.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 7.176432291666666,
+   "mad_real": 4.264973958333334,
+   "d": 2.911458333333332,
+   "dn": 0.08383120181189901
+  },
+  {
+   "material": "default_diamond_block.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 51.90983072916667,
+   "mad_real": 9.995442708333334,
+   "d": 41.914388020833336,
+   "dn": 0.32359051224426183
+  },
+  {
+   "material": "default_dirt.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 10.287109375,
+   "mad_real": 5.73486328125,
+   "d": 4.55224609375,
+   "dn": 0.24869597661566661
+  },
+  {
+   "material": "default_dry_grass.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.983235677083334,
+   "mad_real": 4.935709635416666,
+   "d": 2.047526041666668,
+   "dn": 0.0486956314449386
+  },
+  {
+   "material": "default_fence_acacia_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.34765625,
+   "mad_real": 14.754557291666666,
+   "d": -7.406901041666666,
+   "dn": -0.09395685769160525
+  },
+  {
+   "material": "default_fence_aspen_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.847005208333333,
+   "mad_real": 12.629557291666666,
+   "d": -5.782552083333333,
+   "dn": -0.2663205700455825
+  },
+  {
+   "material": "default_fence_junglewood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.987467447916667,
+   "mad_real": 8.542643229166666,
+   "d": -0.5551757812499991,
+   "dn": -0.05322746309408327
+  },
+  {
+   "material": "default_fence_pine_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.202799479166666,
+   "mad_real": 7.977864583333333,
+   "d": 0.22493489583333304,
+   "dn": 0.08123595022303023
+  },
+  {
+   "material": "default_fence_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 9.2841796875,
+   "mad_real": 17.903971354166668,
+   "d": -8.619791666666668,
+   "dn": -0.18030244158908088
+  },
+  {
+   "material": "default_furnace_bottom.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 10.572591145833332,
+   "mad_real": 7.51806640625,
+   "d": 3.054524739583332,
+   "dn": 0.17072015789223055
+  },
+  {
+   "material": "default_furnace_front.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 27.92724609375,
+   "mad_real": 28.97509765625,
+   "d": -1.0478515625,
+   "dn": -0.04992114951580995
+  },
+  {
+   "material": "default_furnace_side.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 26.60888671875,
+   "mad_real": 8.949869791666666,
+   "d": 17.659016927083336,
+   "dn": 0.2912224175553584
+  },
+  {
+   "material": "default_furnace_top.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 7.727376302083333,
+   "mad_real": 7.35302734375,
+   "d": 0.37434895833333304,
+   "dn": 0.03647725081524328
+  },
+  {
+   "material": "default_gold_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 12.860188802083332,
+   "mad_real": 18.715169270833336,
+   "d": -5.8549804687500036,
+   "dn": 0.0122408556799673
+  },
+  {
+   "material": "default_grass.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 10.59228515625,
+   "mad_real": 7.069173177083333,
+   "d": 3.523111979166667,
+   "dn": 0.1263280711185485
+  },
+  {
+   "material": "default_gravel.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 8.715983072916668,
+   "mad_real": 16.021647135416664,
+   "d": -7.3056640624999964,
+   "dn": -0.051848233970484436
+  },
+  {
+   "material": "default_ice.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 5.663411458333334,
+   "mad_real": 6.350911458333333,
+   "d": -0.6874999999999991,
+   "dn": -0.12650851824733478
+  },
+  {
+   "material": "default_jungletree.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.65576171875,
+   "mad_real": 26.243977864583332,
+   "d": -9.588216145833332,
+   "dn": -0.03604689636867431
+  },
+  {
+   "material": "default_jungletree_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 28.67041015625,
+   "mad_real": 29.45703125,
+   "d": -0.78662109375,
+   "dn": -0.023014491768865164
+  },
+  {
+   "material": "default_junglewood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 9.396158854166668,
+   "mad_real": 7.397298177083334,
+   "d": 1.998860677083334,
+   "dn": 0.09616851636948787
+  },
+  {
+   "material": "default_lava.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 23.723307291666668,
+   "mad_real": 30.176106770833332,
+   "d": -6.452799479166664,
+   "dn": -0.047218239045635435
+  },
+  {
+   "material": "default_mese_block.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 9.375325520833332,
+   "mad_real": 6.253092447916667,
+   "d": 3.122233072916665,
+   "dn": 0.05647386091011923
+  },
+  {
+   "material": "default_meselamp.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 17.24853515625,
+   "mad_real": 38.5615234375,
+   "d": -21.31298828125,
+   "dn": -0.2467513190070258
+  },
+  {
+   "material": "default_mineral_mese.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 17.901692708333332,
+   "mad_real": 12.935872395833334,
+   "d": 4.965820312499998,
+   "dn": 0.4228133209746897
+  },
+  {
+   "material": "default_moss.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 15.485514322916668,
+   "mad_real": 14.27734375,
+   "d": 1.2081705729166679,
+   "dn": 0.014190901476014595
+  },
+  {
+   "material": "default_mossycobble.png",
+   "pack": "debiankaios__simpletextures",
+   "mad_gen": 25.259114583333336,
+   "mad_real": 8.281901041666666,
+   "d": 16.97721354166667,
+   "dn": 0.519435523890061
+  },
+  {
+   "material": "default_obsidian.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 3.909993489583333,
+   "mad_real": 7.926432291666667,
+   "d": -4.016438802083334,
+   "dn": 0.14883141315265896
+  },
+  {
+   "material": "default_obsidian_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.177734375,
+   "mad_real": 9.874186197916668,
+   "d": -2.696451822916668,
+   "dn": 0.009003072037925053
+  },
+  {
+   "material": "default_obsidian_brick.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.871744791666667,
+   "mad_real": 8.192708333333334,
+   "d": -0.32096354166666696,
+   "dn": 0.27664544343697606
+  },
+  {
+   "material": "default_permafrost.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 14.206217447916666,
+   "mad_real": 0.0,
+   "d": 14.206217447916666,
+   "dn": 0.78900659520382
+  },
+  {
+   "material": "default_pine_tree.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 15.7001953125,
+   "mad_real": 20.571451822916668,
+   "d": -4.871256510416668,
+   "dn": 0.03816168696210365
+  },
+  {
+   "material": "default_pine_tree_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 40.93619791666667,
+   "mad_real": 43.713216145833336,
+   "d": -2.7770182291666643,
+   "dn": -0.038389933377039664
+  },
+  {
+   "material": "default_pine_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.440266927083332,
+   "mad_real": 8.642903645833332,
+   "d": -0.20263671875,
+   "dn": -0.006717076855138282
+  },
+  {
+   "material": "default_rainforest_litter.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.131184895833334,
+   "mad_real": 11.602376302083334,
+   "d": -0.47119140625,
+   "dn": -0.09712720809392428
+  },
+  {
+   "material": "default_sand.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 4.715006510416666,
+   "mad_real": 2.59716796875,
+   "d": 2.117838541666666,
+   "dn": 0.12125943980113671
+  },
+  {
+   "material": "default_sandstone.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.11083984375,
+   "mad_real": 9.19384765625,
+   "d": -2.0830078125,
+   "dn": 0.017951731785113167
+  },
+  {
+   "material": "default_sandstone_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.409342447916667,
+   "mad_real": 9.51220703125,
+   "d": -3.102864583333333,
+   "dn": -0.03551252639564012
+  },
+  {
+   "material": "default_sandstone_brick.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.5556640625,
+   "mad_real": 8.2119140625,
+   "d": 0.34375,
+   "dn": 0.015826291316713176
+  },
+  {
+   "material": "default_silver_sand.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 4.571614583333333,
+   "mad_real": 5.563639322916666,
+   "d": -0.992024739583333,
+   "dn": -0.43079086984464776
+  },
+  {
+   "material": "default_silver_sandstone.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 1.7469075520833335,
+   "mad_real": 7.328938802083334,
+   "d": -5.58203125,
+   "dn": -0.33194970795938095
+  },
+  {
+   "material": "default_silver_sandstone_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.832682291666666,
+   "mad_real": 8.962239583333332,
+   "d": -2.129557291666666,
+   "dn": 0.06051414398966548
+  },
+  {
+   "material": "default_silver_sandstone_brick.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 13.199381510416668,
+   "mad_real": 8.347819010416666,
+   "d": 4.851562500000002,
+   "dn": 0.16102609244182992
+  },
+  {
+   "material": "default_snow.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 1.92431640625,
+   "mad_real": 6.44287109375,
+   "d": -4.5185546875,
+   "dn": -0.1173991983341518
+  },
+  {
+   "material": "default_steel_block.png",
+   "pack": "Droog71__moontest_32x32",
+   "mad_gen": 15.191731770833334,
+   "mad_real": 15.353190104166666,
+   "d": -0.16145833333333215,
+   "dn": -0.01276829865283824
+  },
+  {
+   "material": "default_stone.png",
+   "pack": "Suzakuu__actionpvpforctf",
+   "mad_gen": 9.3720703125,
+   "mad_real": 3.2841796875,
+   "d": 6.087890625,
+   "dn": 0.3923972642785659
+  },
+  {
+   "material": "default_stone_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.925944010416668,
+   "mad_real": 12.130533854166668,
+   "d": -3.20458984375,
+   "dn": -0.07196061716214486
+  },
+  {
+   "material": "default_stone_brick.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 10.54248046875,
+   "mad_real": 8.64208984375,
+   "d": 1.900390625,
+   "dn": 0.15678353059791117
+  },
+  {
+   "material": "default_tin_block.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 28.53857421875,
+   "mad_real": 12.7763671875,
+   "d": 15.76220703125,
+   "dn": 0.17286667586249083
+  },
+  {
+   "material": "default_tree.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.417154947916666,
+   "mad_real": 9.880208333333334,
+   "d": 1.5369466145833321,
+   "dn": -0.06299298197469339
+  },
+  {
+   "material": "default_tree_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 21.996744791666668,
+   "mad_real": 45.437337239583336,
+   "d": -23.440592447916668,
+   "dn": -0.2283932396515791
+  },
+  {
+   "material": "default_wood.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.851236979166668,
+   "mad_real": 13.33935546875,
+   "d": -1.4881184895833321,
+   "dn": -0.037699246196034875
+  },
+  {
+   "material": "ethereal_banana_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 24.788411458333336,
+   "mad_real": 14.1533203125,
+   "d": 10.635091145833336,
+   "dn": 0.31534972389537563
+  },
+  {
+   "material": "ethereal_banana_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 20.032389322916664,
+   "mad_real": 40.480143229166664,
+   "d": -20.44775390625,
+   "dn": -0.3048263709120662
+  },
+  {
+   "material": "ethereal_banana_wood.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 11.0,
+   "mad_real": 8.929036458333334,
+   "d": 2.070963541666666,
+   "dn": -0.0196108865798362
+  },
+  {
+   "material": "ethereal_frost_tree.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 6.951497395833333,
+   "mad_real": 8.574869791666666,
+   "d": -1.623372395833333,
+   "dn": 0.05002051795684437
+  },
+  {
+   "material": "ethereal_frost_tree_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.624348958333333,
+   "mad_real": 52.275390625,
+   "d": -44.651041666666664,
+   "dn": -0.4201622888176909
+  },
+  {
+   "material": "ethereal_grass_bamboo_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 6.629231770833334,
+   "mad_real": 13.569986979166666,
+   "d": -6.940755208333332,
+   "dn": -0.16585353360816346
+  },
+  {
+   "material": "ethereal_grass_cold_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 8.220703125,
+   "mad_real": 9.942708333333334,
+   "d": -1.722005208333334,
+   "dn": -0.15260226027643686
+  },
+  {
+   "material": "ethereal_grass_crystal_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.36962890625,
+   "mad_real": 7.44921875,
+   "d": -0.07958984375,
+   "dn": -0.0671827127372184
+  },
+  {
+   "material": "ethereal_grass_gray_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 12.163248697916668,
+   "mad_real": 11.37109375,
+   "d": 0.7921549479166679,
+   "dn": -0.44945051187937846
+  },
+  {
+   "material": "ethereal_grass_grove_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 8.6396484375,
+   "mad_real": 11.326497395833334,
+   "d": -2.686848958333334,
+   "dn": -0.015034742160019765
+  },
+  {
+   "material": "ethereal_grass_jungle_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.179036458333334,
+   "mad_real": 5.490234375,
+   "d": 1.688802083333334,
+   "dn": -0.18099893896863864
+  },
+  {
+   "material": "ethereal_grass_mushroom_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 15.773763020833334,
+   "mad_real": 10.4853515625,
+   "d": 5.288411458333334,
+   "dn": 0.026668997972867647
+  },
+  {
+   "material": "ethereal_grass_prairie_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.224934895833334,
+   "mad_real": 18.950846354166668,
+   "d": -11.725911458333334,
+   "dn": -0.25226361776280404
+  },
+  {
+   "material": "ethereal_mushroom_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 6.158040364583334,
+   "mad_real": 33.572591145833336,
+   "d": -27.41455078125,
+   "dn": -0.17418333971537514
+  },
+  {
+   "material": "ethereal_mushroom_pore.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 21.492838541666668,
+   "mad_real": 6.709309895833333,
+   "d": 14.783528645833336,
+   "dn": 0.5197927707948222
+  },
+  {
+   "material": "ethereal_mushroom_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 30.321451822916668,
+   "mad_real": 4.1650390625,
+   "d": 26.156412760416668,
+   "dn": 0.09761442356150918
+  },
+  {
+   "material": "ethereal_mushroom_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 24.75146484375,
+   "mad_real": 22.648111979166668,
+   "d": 2.103352864583332,
+   "dn": -0.1515350929678363
+  },
+  {
+   "material": "ethereal_olive_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 12.988444010416668,
+   "mad_real": 17.021484375,
+   "d": -4.033040364583332,
+   "dn": 0.07433918305051579
+  },
+  {
+   "material": "ethereal_olive_wood.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.884440104166666,
+   "mad_real": 14.53125,
+   "d": -6.646809895833334,
+   "dn": -0.02221226417877495
+  },
+  {
+   "material": "ethereal_redwood_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 13.269205729166668,
+   "mad_real": 17.269856770833332,
+   "d": -4.000651041666664,
+   "dn": -0.08182184995371311
+  },
+  {
+   "material": "ethereal_redwood_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 13.227701822916666,
+   "mad_real": 17.050455729166668,
+   "d": -3.8227539062500018,
+   "dn": -0.03356590931851544
+  },
+  {
+   "material": "ethereal_redwood_wood.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 10.681315104166668,
+   "mad_real": 5.763020833333333,
+   "d": 4.918294270833335,
+   "dn": 0.11929822017524816
+  },
+  {
+   "material": "ethereal_sakura_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 15.83642578125,
+   "mad_real": 9.466796875,
+   "d": 6.36962890625,
+   "dn": 0.15974711329172359
+  },
+  {
+   "material": "ethereal_sakura_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 13.245279947916666,
+   "mad_real": 28.714192708333332,
+   "d": -15.468912760416666,
+   "dn": -0.10742522594547788
+  },
+  {
+   "material": "ethereal_scorched_tree.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 7.145345052083334,
+   "mad_real": 21.5029296875,
+   "d": -14.357584635416666,
+   "dn": -0.37234824062952054
+  },
+  {
+   "material": "ethereal_scorched_tree_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 30.403645833333332,
+   "mad_real": 48.515625,
+   "d": -18.111979166666668,
+   "dn": -0.17409407872820148
+  },
+  {
+   "material": "ethereal_willow_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 10.677897135416668,
+   "mad_real": 13.0712890625,
+   "d": -2.393391927083332,
+   "dn": -0.36865325723498094
+  },
+  {
+   "material": "ethereal_willow_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 17.17138671875,
+   "mad_real": 24.7373046875,
+   "d": -7.56591796875,
+   "dn": -0.028588274652580403
+  },
+  {
+   "material": "ethereal_yellow_tree_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 16.32861328125,
+   "mad_real": 31.799479166666668,
+   "d": -15.470865885416668,
+   "dn": 0.09846994595149883
+  },
+  {
+   "material": "farming_desert_sand_soil.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 3.4049479166666665,
+   "mad_real": 5.9462890625,
+   "d": -2.5413411458333335,
+   "dn": -0.018026307534158764
+  },
+  {
+   "material": "farming_desert_sand_soil_wet.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 2.5203450520833335,
+   "mad_real": 4.884602864583333,
+   "d": -2.3642578124999996,
+   "dn": -0.07474798700870927
+  },
+  {
+   "material": "farming_desert_sand_soil_wet_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 3.484049479166667,
+   "mad_real": 4.370930989583333,
+   "d": -0.8868815104166661,
+   "dn": -0.03359448935352831
+  },
+  {
+   "material": "farming_hemp_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 15.268229166666668,
+   "mad_real": 5.87109375,
+   "d": 9.397135416666668,
+   "dn": 0.1700679627994519
+  },
+  {
+   "material": "farming_melon_bottom.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 14.093587239583334,
+   "mad_real": 18.3701171875,
+   "d": -4.276529947916666,
+   "dn": -0.15802034684702937
+  },
+  {
+   "material": "farming_melon_side.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 15.662434895833334,
+   "mad_real": 13.701171875,
+   "d": 1.961263020833334,
+   "dn": 0.015602353856003504
+  },
+  {
+   "material": "farming_melon_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 19.819010416666664,
+   "mad_real": 18.3701171875,
+   "d": 1.4488932291666643,
+   "dn": -0.0026298374317319517
+  },
+  {
+   "material": "farming_pumpkin_bottom.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 28.516438802083332,
+   "mad_real": 17.71875,
+   "d": 10.797688802083332,
+   "dn": 0.14403507411540462
+  },
+  {
+   "material": "farming_pumpkin_side.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 26.76318359375,
+   "mad_real": 19.532552083333332,
+   "d": 7.230631510416668,
+   "dn": 0.060874542619798855
+  },
+  {
+   "material": "farming_pumpkin_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 22.317545572916664,
+   "mad_real": 29.203776041666668,
+   "d": -6.8862304687500036,
+   "dn": -0.15083227494743512
+  },
+  {
+   "material": "farming_soil.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 4.810384114583334,
+   "mad_real": 8.107584635416666,
+   "d": -3.297200520833332,
+   "dn": -0.05126469972776923
+  },
+  {
+   "material": "farming_soil_wet.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 5.451334635416666,
+   "mad_real": 5.662760416666667,
+   "d": -0.2114257812500009,
+   "dn": 0.1730478605804623
+  },
+  {
+   "material": "farming_soil_wet_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.22705078125,
+   "mad_real": 11.626627604166666,
+   "d": -4.399576822916666,
+   "dn": -0.18703071469427307
+  },
+  {
+   "material": "farming_straw.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 24.345540364583332,
+   "mad_real": 18.135091145833336,
+   "d": 6.2104492187499964,
+   "dn": 0.14723062795620206
+  },
+  {
+   "material": "jeija_commandblock_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 27.60791015625,
+   "mad_real": 42.191731770833336,
+   "d": -14.583821614583336,
+   "dn": -0.06415495758344991
+  },
+  {
+   "material": "jeija_commandblock_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 24.382486979166664,
+   "mad_real": 29.353841145833332,
+   "d": -4.971354166666668,
+   "dn": 0.004718250706897575
+  },
+  {
+   "material": "jeija_fpga_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 34.06266276041667,
+   "mad_real": 42.30403645833333,
+   "d": -8.241373697916657,
+   "dn": -0.010677550409047387
+  },
+  {
+   "material": "jeija_ghoststone.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 9.75830078125,
+   "mad_real": 6.8955078125,
+   "d": 2.86279296875,
+   "dn": 0.14202154606318096
+  },
+  {
+   "material": "jeija_ghoststone_inv.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 8.236653645833332,
+   "mad_real": 5.405924479166667,
+   "d": 2.830729166666665,
+   "dn": 0.5648285779149466
+  },
+  {
+   "material": "jeija_hydro_turbine_sides_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 41.139973958333336,
+   "mad_real": 59.540364583333336,
+   "d": -18.400390625,
+   "dn": -0.14882555458051028
+  },
+  {
+   "material": "jeija_hydro_turbine_sides_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 36.16422526041667,
+   "mad_real": 52.594075520833336,
+   "d": -16.429850260416664,
+   "dn": -0.0652789926479519
+  },
+  {
+   "material": "jeija_hydro_turbine_top_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 40.634928385416664,
+   "mad_real": 32.756510416666664,
+   "d": 7.87841796875,
+   "dn": 0.10024333724999168
+  },
+  {
+   "material": "jeija_insulated_wire_ends_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 17.172200520833336,
+   "mad_real": 1.2858072916666667,
+   "d": 15.88639322916667,
+   "dn": 0.26673527176375655
+  },
+  {
+   "material": "jeija_insulated_wire_ends_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.896647135416668,
+   "mad_real": 2.6373697916666665,
+   "d": 9.259277343750002,
+   "dn": 0.25444252390174205
+  },
+  {
+   "material": "jeija_insulated_wire_sides_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.862630208333332,
+   "mad_real": 5.611328125,
+   "d": 11.251302083333332,
+   "dn": 0.20058393533309124
+  },
+  {
+   "material": "jeija_insulated_wire_sides_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.325520833333333,
+   "mad_real": 11.158854166666666,
+   "d": -4.833333333333333,
+   "dn": 0.08811237001496036
+  },
+  {
+   "material": "jeija_insulated_wire_tjunction_tb_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 14.711588541666668,
+   "mad_real": 9.6533203125,
+   "d": 5.058268229166668,
+   "dn": -0.0459889797179992
+  },
+  {
+   "material": "jeija_insulated_wire_tjunction_tb_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 27.731608072916668,
+   "mad_real": 19.264322916666668,
+   "d": 8.46728515625,
+   "dn": 0.1711651048038474
+  },
+  {
+   "material": "jeija_lightstone_blue_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 5.240071614583334,
+   "mad_real": 5.399739583333333,
+   "d": -0.1596679687499991,
+   "dn": -0.0014726955258722446
+  },
+  {
+   "material": "jeija_lightstone_blue_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 9.455729166666668,
+   "mad_real": 31.0712890625,
+   "d": -21.615559895833332,
+   "dn": -0.3386662117803621
+  },
+  {
+   "material": "jeija_lightstone_darkgray_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.461263020833332,
+   "mad_real": 7.435221354166667,
+   "d": 4.026041666666665,
+   "dn": 0.19203969138992072
+  },
+  {
+   "material": "jeija_lightstone_darkgray_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 2.646809895833333,
+   "mad_real": 23.923502604166668,
+   "d": -21.276692708333336,
+   "dn": -0.6176130717737061
+  },
+  {
+   "material": "jeija_lightstone_gray_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.505859375,
+   "mad_real": 6.120442708333333,
+   "d": 10.385416666666668,
+   "dn": 0.1320937475089764
+  },
+  {
+   "material": "jeija_lightstone_gray_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 19.02880859375,
+   "mad_real": 25.8720703125,
+   "d": -6.84326171875,
+   "dn": -0.20325542917994832
+  },
+  {
+   "material": "jeija_lightstone_green_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 19.56396484375,
+   "mad_real": 3.3173828125,
+   "d": 16.24658203125,
+   "dn": 0.22605639329236074
+  },
+  {
+   "material": "jeija_lightstone_green_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.08203125,
+   "mad_real": 29.348307291666668,
+   "d": -22.266276041666668,
+   "dn": 0.30031776337772775
+  },
+  {
+   "material": "jeija_lightstone_red_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.02197265625,
+   "mad_real": 1.8899739583333333,
+   "d": 4.131998697916667,
+   "dn": 0.08330133147602087
+  },
+  {
+   "material": "jeija_lightstone_red_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.305338541666668,
+   "mad_real": 27.012369791666668,
+   "d": -10.70703125,
+   "dn": -0.11743225917811961
+  },
+  {
+   "material": "jeija_lightstone_yellow_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 10.079915364583332,
+   "mad_real": 6.881510416666667,
+   "d": 3.198404947916665,
+   "dn": 0.07647348325899862
+  },
+  {
+   "material": "jeija_lightstone_yellow_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 5.466634114583334,
+   "mad_real": 15.673828125,
+   "d": -10.207194010416666,
+   "dn": -0.1993285387591368
+  },
+  {
+   "material": "jeija_microcontroller_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 41.34814453125,
+   "mad_real": 1.9033203125,
+   "d": 39.44482421875,
+   "dn": -0.15998456052491306
+  },
+  {
+   "material": "jeija_microcontroller_sides.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 38.518717447916664,
+   "mad_real": 34.0185546875,
+   "d": 4.500162760416664,
+   "dn": 0.0829794179358504
+  },
+  {
+   "material": "jeija_microcontroller_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 49.58984375,
+   "mad_real": 59.27978515625,
+   "d": -9.68994140625,
+   "dn": -0.126916700364606
+  },
+  {
+   "material": "jeija_movestone_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.864095052083334,
+   "mad_real": 6.564453125,
+   "d": 0.2996419270833339,
+   "dn": -0.28183237650681414
+  },
+  {
+   "material": "jeija_node_detector_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 37.07470703125,
+   "mad_real": 69.15885416666667,
+   "d": -32.08414713541667,
+   "dn": -0.16657078979804052
+  },
+  {
+   "material": "jeija_node_detector_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 38.30436197916667,
+   "mad_real": 52.352864583333336,
+   "d": -14.048502604166664,
+   "dn": -0.09854959148579001
+  },
+  {
+   "material": "jeija_object_detector_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 32.40771484375,
+   "mad_real": 60.025716145833336,
+   "d": -27.618001302083336,
+   "dn": -0.020828878132028383
+  },
+  {
+   "material": "jeija_object_detector_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 34.56656901041667,
+   "mad_real": 48.236979166666664,
+   "d": -13.670410156249993,
+   "dn": -0.10090905427662533
+  },
+  {
+   "material": "jeija_pressure_plate_stone_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 19.95361328125,
+   "mad_real": 20.7626953125,
+   "d": -0.80908203125,
+   "dn": 0.0035641320646214725
+  },
+  {
+   "material": "jeija_pressure_plate_stone_off_edges.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 24.490071614583336,
+   "mad_real": 2.134765625,
+   "d": 22.355305989583336,
+   "dn": 0.6124052430446921
+  },
+  {
+   "material": "jeija_pressure_plate_stone_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 19.181966145833336,
+   "mad_real": 38.801106770833336,
+   "d": -19.619140625,
+   "dn": 0.08374843530813225
+  },
+  {
+   "material": "jeija_pressure_plate_stone_on_edges.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 20.581705729166664,
+   "mad_real": 3.3453776041666665,
+   "d": 17.236328124999996,
+   "dn": 0.4730583946032223
+  },
+  {
+   "material": "jeija_pressure_plate_wood_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 10.706705729166668,
+   "mad_real": 17.009765625,
+   "d": -6.303059895833332,
+   "dn": -0.045706112992381254
+  },
+  {
+   "material": "jeija_pressure_plate_wood_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 11.706380208333334,
+   "mad_real": 33.666015625,
+   "d": -21.959635416666664,
+   "dn": -0.12874163055121052
+  },
+  {
+   "material": "jeija_removestone.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 9.46630859375,
+   "mad_real": 6.8955078125,
+   "d": 2.57080078125,
+   "dn": 0.20773102085661743
+  },
+  {
+   "material": "jeija_removestone_inv.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 9.08154296875,
+   "mad_real": 5.405924479166667,
+   "d": 3.675618489583333,
+   "dn": 0.5666459276642815
+  },
+  {
+   "material": "jeija_solar_panel.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 19.30859375,
+   "mad_real": 30.95703125,
+   "d": -11.6484375,
+   "dn": 0.05826008419174189
+  },
+  {
+   "material": "jeija_sticky_movestone.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.556966145833336,
+   "mad_real": 24.626953125,
+   "d": -8.069986979166664,
+   "dn": 0.26696107437798966
+  },
+  {
+   "material": "mesecons_noteblock.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 26.32275390625,
+   "mad_real": 43.3740234375,
+   "d": -17.05126953125,
+   "dn": -0.12793615951581583
+  },
+  {
+   "material": "mesecons_piston_back.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 30.334635416666664,
+   "mad_real": 16.9736328125,
+   "d": 13.361002604166664,
+   "dn": -0.038405147831700126
+  },
+  {
+   "material": "mesecons_piston_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 20.63037109375,
+   "mad_real": 17.5888671875,
+   "d": 3.04150390625,
+   "dn": -0.23342116804357155
+  },
+  {
+   "material": "mesecons_piston_left.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 26.611653645833336,
+   "mad_real": 17.342122395833332,
+   "d": 9.269531250000004,
+   "dn": 0.05381041491712246
+  },
+  {
+   "material": "mesecons_piston_on_front.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 20.956217447916664,
+   "mad_real": 19.6767578125,
+   "d": 1.2794596354166643,
+   "dn": 0.002021151584366887
+  },
+  {
+   "material": "mesecons_piston_pusher_back.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 21.070963541666664,
+   "mad_real": 24.8564453125,
+   "d": -3.7854817708333357,
+   "dn": -0.09271381821830327
+  },
+  {
+   "material": "mesecons_piston_pusher_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 24.67626953125,
+   "mad_real": 16.391927083333332,
+   "d": 8.284342447916668,
+   "dn": 0.16883448139053003
+  },
+  {
+   "material": "mesecons_piston_pusher_front.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 24.8955078125,
+   "mad_real": 21.864908854166668,
+   "d": 3.030598958333332,
+   "dn": 0.03732777316890923
+  },
+  {
+   "material": "mesecons_piston_pusher_front_sticky.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 23.1337890625,
+   "mad_real": 22.498697916666668,
+   "d": 0.6350911458333321,
+   "dn": 0.14660122923197416
+  },
+  {
+   "material": "mesecons_piston_pusher_left.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 25.968587239583336,
+   "mad_real": 17.100911458333332,
+   "d": 8.867675781250004,
+   "dn": 0.19396191182942463
+  },
+  {
+   "material": "mesecons_piston_pusher_right.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 25.351725260416664,
+   "mad_real": 18.333984375,
+   "d": 7.017740885416664,
+   "dn": 0.15155900055886234
+  },
+  {
+   "material": "mesecons_piston_pusher_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 27.660807291666664,
+   "mad_real": 17.276041666666668,
+   "d": 10.384765624999996,
+   "dn": 0.21305299149547086
+  },
+  {
+   "material": "mesecons_piston_right.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 18.357259114583336,
+   "mad_real": 18.8642578125,
+   "d": -0.5069986979166643,
+   "dn": -0.01936446533800451
+  },
+  {
+   "material": "mesecons_piston_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 26.3251953125,
+   "mad_real": 18.816080729166668,
+   "d": 7.509114583333332,
+   "dn": -0.055313156303180455
+  },
+  {
+   "material": "mesecons_switch_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 33.896484375,
+   "mad_real": 39.4873046875,
+   "d": -5.5908203125,
+   "dn": -0.3523132081501083
+  },
+  {
+   "material": "mesecons_switch_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 31.393717447916664,
+   "mad_real": 34.414388020833336,
+   "d": -3.0206705729166714,
+   "dn": -0.29477873941149957
+  },
+  {
+   "material": "mesecons_switch_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 48.412109375,
+   "mad_real": 16.9736328125,
+   "d": 31.4384765625,
+   "dn": -0.01352827828897707
+  },
+  {
+   "material": "mesecons_wire_off.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 12.651204427083332,
+   "mad_real": 2.134765625,
+   "d": 10.516438802083332,
+   "dn": 0.38907720720635924
+  },
+  {
+   "material": "mesecons_wire_on.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 19.244466145833336,
+   "mad_real": 3.3453776041666665,
+   "d": 15.89908854166667,
+   "dn": 0.46193065719426374
+  },
+  {
+   "material": "mobs_cheeseblock.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 21.21875,
+   "mad_real": 11.661458333333334,
+   "d": 9.557291666666666,
+   "dn": 0.16204667624219898
+  },
+  {
+   "material": "mobs_honey_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 22.370279947916664,
+   "mad_real": 1.7145182291666667,
+   "d": 20.655761718749996,
+   "dn": 0.33043340014433453
+  },
+  {
+   "material": "moreblocks_circle_stone_bricks.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 17.762044270833336,
+   "mad_real": 22.5419921875,
+   "d": -4.779947916666664,
+   "dn": -0.08550530134264256
+  },
+  {
+   "material": "moreores_mithril_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 14.802734375,
+   "mad_real": 14.958658854166666,
+   "d": -0.15592447916666607,
+   "dn": 0.014641434084331828
+  },
+  {
+   "material": "moreores_silver_block.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 13.1572265625,
+   "mad_real": 14.1611328125,
+   "d": -1.00390625,
+   "dn": 0.21317022587292472
+  },
+  {
+   "material": "moretrees_birch_trunk.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 9.5,
+   "mad_real": 19.240234375,
+   "d": -9.740234375,
+   "dn": -0.19203504691302842
+  },
+  {
+   "material": "moretrees_birch_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 28.763671875,
+   "mad_real": 16.275065104166668,
+   "d": 12.488606770833332,
+   "dn": 0.26408606058115663
+  },
+  {
+   "material": "moretrees_birch_wood.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 16.766764322916668,
+   "mad_real": 8.9365234375,
+   "d": 7.830240885416668,
+   "dn": 0.3234140139844953
+  },
+  {
+   "material": "moretrees_palm_trunk_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 32.7705078125,
+   "mad_real": 43.932942708333336,
+   "d": -11.162434895833336,
+   "dn": 0.03949076765194082
+  },
+  {
+   "material": "moretrees_palm_wood.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 30.728352864583336,
+   "mad_real": 20.767578125,
+   "d": 9.960774739583336,
+   "dn": 0.29023764724483014
+  },
+  {
+   "material": "nether_basalt_hewn.png",
+   "pack": "Liil__12345",
+   "mad_gen": 13.759928385416666,
+   "mad_real": 10.466796875,
+   "d": 3.293131510416666,
+   "dn": 0.3056875160096927
+  },
+  {
+   "material": "nyancat_back.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 44.98681640625,
+   "mad_real": 47.873697916666664,
+   "d": -2.8868815104166643,
+   "dn": 0.10767169053207237
+  },
+  {
+   "material": "nyancat_front.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 61.669270833333336,
+   "mad_real": 43.503255208333336,
+   "d": 18.166015625,
+   "dn": -0.043860977576392624
+  },
+  {
+   "material": "nyancat_side.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 37.3232421875,
+   "mad_real": 44.628580729166664,
+   "d": -7.305338541666664,
+   "dn": -0.07459377686596624
+  },
+  {
+   "material": "tnt_blast.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.548665364583333,
+   "mad_real": 10.182291666666666,
+   "d": -3.633626302083333,
+   "dn": -0.32639806706354973
+  },
+  {
+   "material": "tnt_bottom.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.64013671875,
+   "mad_real": 6.050944010416667,
+   "d": 0.589192708333333,
+   "dn": 0.41053042207332324
+  },
+  {
+   "material": "tnt_side.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 30.916829427083336,
+   "mad_real": 60.51790364583333,
+   "d": -29.601074218749993,
+   "dn": -0.10182684517965312
+  },
+  {
+   "material": "tnt_top.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 14.4375,
+   "mad_real": 22.884440104166668,
+   "d": -8.446940104166668,
+   "dn": -0.046758916572496534
+  },
+  {
+   "material": "tnt_top_burning.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 16.775716145833336,
+   "mad_real": 23.983235677083332,
+   "d": -7.2075195312499964,
+   "dn": -0.15156076273409905
+  },
+  {
+   "material": "unknown_node.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 36.64925130208333,
+   "mad_real": 35.603515625,
+   "d": 1.0457356770833286,
+   "dn": -0.1843277764654434
+  },
+  {
+   "material": "unknown_object.png",
+   "pack": "Ludus__gb_style",
+   "mad_gen": 33.149576822916664,
+   "mad_real": 43.561197916666664,
+   "d": -10.41162109375,
+   "dn": -0.0681535379776883
+  },
+  {
+   "material": "vessels_shelf.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 51.8720703125,
+   "mad_real": 29.38037109375,
+   "d": 22.49169921875,
+   "dn": 0.2138312129009261
+  },
+  {
+   "material": "wool_black.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.25341796875,
+   "mad_real": 3.291015625,
+   "d": 3.96240234375,
+   "dn": 0.29258932311224745
+  },
+  {
+   "material": "wool_blue.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 1.94775390625,
+   "mad_real": 2.53564453125,
+   "d": -0.587890625,
+   "dn": -0.013837716185357125
+  },
+  {
+   "material": "wool_brown.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 5.97900390625,
+   "mad_real": 1.95751953125,
+   "d": 4.021484375,
+   "dn": 0.10984890295397406
+  },
+  {
+   "material": "wool_cyan.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.23486328125,
+   "mad_real": 3.46044921875,
+   "d": 2.7744140625,
+   "dn": 0.020310991519398053
+  },
+  {
+   "material": "wool_dark_green.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 2.350423177083333,
+   "mad_real": 2.2566731770833335,
+   "d": 0.09374999999999956,
+   "dn": 0.05677308434834731
+  },
+  {
+   "material": "wool_dark_grey.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 4.03662109375,
+   "mad_real": 2.1533203125,
+   "d": 1.88330078125,
+   "dn": 0.08722035525500316
+  },
+  {
+   "material": "wool_green.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 3.076334635416667,
+   "mad_real": 3.1490885416666665,
+   "d": -0.07275390624999956,
+   "dn": 0.04959865763982148
+  },
+  {
+   "material": "wool_grey.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 4.9365234375,
+   "mad_real": 4.9306640625,
+   "d": 0.005859375,
+   "dn": -0.042501344688936266
+  },
+  {
+   "material": "wool_magenta.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 2.112630208333333,
+   "mad_real": 2.0354817708333335,
+   "d": 0.07714843749999956,
+   "dn": 0.0003577884942149237
+  },
+  {
+   "material": "wool_orange.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.579915364583334,
+   "mad_real": 3.469075520833333,
+   "d": 3.110839843750001,
+   "dn": 0.030672945009628097
+  },
+  {
+   "material": "wool_pink.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 7.427897135416667,
+   "mad_real": 1.43701171875,
+   "d": 5.990885416666667,
+   "dn": 0.0737812938421962
+  },
+  {
+   "material": "wool_red.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.18359375,
+   "mad_real": 1.5428059895833335,
+   "d": 4.640787760416666,
+   "dn": 0.05975240493658204
+  },
+  {
+   "material": "wool_violet.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 1.6212565104166667,
+   "mad_real": 1.9978841145833335,
+   "d": -0.37662760416666674,
+   "dn": -0.014244083898578723
+  },
+  {
+   "material": "wool_white.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.2333984375,
+   "mad_real": 4.15087890625,
+   "d": 2.08251953125,
+   "dn": 0.005680087234852971
+  },
+  {
+   "material": "wool_yellow.png",
+   "pack": "ROllerozxa__macrotex",
+   "mad_gen": 6.792643229166666,
+   "mad_real": 2.38427734375,
+   "d": 4.408365885416666,
+   "dn": 0.03487449586758369
+  },
+  {
+   "material": "xpanes_bar_top.png",
+   "pack": "sirrobzeroone__dungeonsoup",
+   "mad_gen": 19.902506510416664,
+   "mad_real": 5.1943359375,
+   "d": 14.708170572916664,
+   "dn": -0.11609869044196652
+  }
+ ]
+}
