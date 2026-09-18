@@ -220,14 +220,21 @@ def tileability(tiles):
 
 
 # ---------------------------------------------------------------- 一站式
-def evaluate(gen_tiles, gen_materials, ref_tiles, groups=None, ref_cache=None):
-    """gen_tiles 与 gen_materials 一一对应。返回 dict。ref_cache 可复用参照集特征。"""
+def evaluate(gen_tiles, gen_materials, ref_tiles, groups=None, ref_cache=None, per_image=False):
+    """gen_tiles 与 gen_materials 一一对应。返回 dict。ref_cache 可复用参照集特征。
+
+    per_image=True 时额外落一列 `_CLIP_per`＝逐图 CLIP（与 gen_tiles 同序），`CLIP` 仍是它的均值。
+    (M59) 加的，默认 False ⇒ 返回的 dict 与旧版逐键相同。
+    """
     rc = ref_cache if ref_cache is not None else {}
     if not len(ref_tiles):                          # 24px 没有真人参照：只报不依赖参照的指标
         ie = clip_image_emb(gen_tiles)
         te = clip_text_emb([prompt_of(m) for m in gen_materials])
-        out = {"n": len(gen_tiles), "CLIP": (100 * (ie * te).sum(-1).clamp(min=0)).mean().item(),
+        per = 100 * (ie * te).sum(-1).clamp(min=0)
+        out = {"n": len(gen_tiles), "CLIP": per.mean().item(),
                "tile_seam_ratio": tileability(gen_tiles)}
+        if per_image:
+            out["_CLIP_per"] = [float(v) for v in per]
         if groups:
             out["LPIPS_div"] = lpips_diversity(groups)
         return out, rc
@@ -238,10 +245,12 @@ def evaluate(gen_tiles, gen_materials, ref_tiles, groups=None, ref_cache=None):
     k_mean, k_std = kid(gi, rc["inc"])
     ie = clip_image_emb(gen_tiles)
     te = clip_text_emb([prompt_of(m) for m in gen_materials])
-    cs = (100 * (ie * te).sum(-1).clamp(min=0)).mean().item()
+    per = 100 * (ie * te).sum(-1).clamp(min=0)
     out = {"n": len(gen_tiles), "KID_x1e3": 1e3 * k_mean, "KID_std_x1e3": 1e3 * k_std,
            "FID": frechet(gi, rc["inc"]), "FD_DINOv2": frechet(gd, rc["dino"]),
-           "CLIP": cs, "tile_seam_ratio": tileability(gen_tiles)}
+           "CLIP": per.mean().item(), "tile_seam_ratio": tileability(gen_tiles)}
+    if per_image:
+        out["_CLIP_per"] = [float(v) for v in per]
     if groups:
         out["LPIPS_div"] = lpips_diversity(groups)
     return out, rc

@@ -68,6 +68,10 @@ def main():
                          "正式配置那张也是均匀随机 ⇒ 两者可交换 ⇒ 这 N 行的 G 真值恒为 0，"
                          "就是 G 的**经验零分布**（于是 rr_* 对它的秩检验是精确置换检验）。"
                          "抽样用独立 rng、且在生成循环之后 ⇒ ⛔ 不消耗生成流，原有各行逐位复现。需 --rerank")
+    ap.add_argument("--per_image", action="store_true",
+                    help="(M59) 各行额外落盘逐图 CLIP（`_CLIP_per`）与材质名列（`_mats`）。"
+                         "各行共用同一张网格、同序对应同一个目标 ⇒ 行与行之间可做**配对**检验"
+                         "（(M52) 那条「成对刺激买功效」）。不传时输出与旧版逐键相同")
     ap.add_argument("--out", type=Path, default=None, help="落盘路径（/mnt/data 常年贴满，跑远程时指到 /tmp）")
     ap.add_argument("--dump", type=Path, default=None,
                     help="(M52) 把各行的瓦片按判官要的目录结构落盘：<dump>/<行名>/<size>/<slug>_0.png，"
@@ -286,9 +290,12 @@ def main():
                 Image.fromarray(np.asarray(tiles[i], np.uint8)).save(d / f"{T[i]['slug']}_0.png")
         print(f"dump -> {a.dump}（{len(rows)} 行 x {len(first)} 张）", flush=True)
     for name, tiles in rows.items():
-        res, cache = evaluate(tiles, mats, ref, ref_cache=cache)
+        res, cache = evaluate(tiles, mats, ref, ref_cache=cache, per_image=a.per_image)
         out[name] = res
-        print(f"{name:<14} " + "  ".join(f"{k}={v:.3f}" for k, v in res.items() if k != "n"), flush=True)
+        print(f"{name:<14} " + "  ".join(f"{k}={v:.3f}" for k, v in res.items()
+                                         if k != "n" and not isinstance(v, list)), flush=True)
+    if a.per_image:
+        out["_mats"] = mats
     # 地板：真人一半对另一半（不同目标，n 小，只作量级参考）
     half = len(ref) // 2
     res, _ = evaluate(ref[:half], [t["prompt"] for t in T[:half]], ref[half:])
