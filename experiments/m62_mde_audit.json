@@ -1,0 +1,55 @@
+{
+ "note": "diagnostic only; no verdict, no criterion changed",
+ "rounds": [
+  {
+   "round": "M60",
+   "ok": true,
+   "k": 17,
+   "n_materials": 67,
+   "mean_D": 0.12499542587990321,
+   "p_perm": 0.011449427528623568,
+   "sd_D_empirical": 0.39722634810206947,
+   "sd_D_model_from_sigma1": 0.30828993915320035,
+   "sd_ratio_empirical_over_model": 1.2884830078891203,
+   "sigma1_ctrl": 0.8988119024335479,
+   "mde_registered_model": 0.10551784407391901,
+   "mde_actual": 0.1415590725441918,
+   "mde_inflation": 1.341565246964529,
+   "ci95": [
+    0.025960171496630324,
+    0.2240306802631761
+   ],
+   "irreducible_per_material_sd_c": 0.25049168657546805,
+   "mde_floor_at_infinite_K": 0.08573533991567771,
+   "splithalf_r_arms": 0.34729956470804696,
+   "splithalf_r_arms_p": 0.003949802509874506,
+   "splithalf_r_ctrl_only_negative_control": 0.17258731806897043,
+   "splithalf_r_ctrl_only_p": 0.16029198540072997
+  },
+  {
+   "round": "M62",
+   "ok": true,
+   "k": 28,
+   "n_materials": 67,
+   "mean_D": 0.029569186635617556,
+   "p_perm": 0.5951702414879256,
+   "sd_D_empirical": 0.44807528417376025,
+   "sd_D_model_from_sigma1": 0.2419159730791941,
+   "sd_ratio_empirical_over_model": 1.8521938773636804,
+   "sigma1_ctrl": 0.9051666876503726,
+   "mde_registered_model": 0.08280014585125912,
+   "mde_actual": 0.15254921467667584,
+   "mde_inflation": 1.842378574437693,
+   "ci95": [
+    -0.07715481211590557,
+    0.1362931853871407
+   ],
+   "irreducible_per_material_sd_c": 0.37715795398817015,
+   "mde_floor_at_infinite_K": 0.12908917588901775,
+   "splithalf_r_arms": 0.6998349486404729,
+   "splithalf_r_arms_p": 4.999750012499375e-05,
+   "splithalf_r_ctrl_only_negative_control": -0.11983816722666774,
+   "splithalf_r_ctrl_only_p": 0.3221838908054597
+  }
+ ]
+}
