@@ -11096,7 +11096,7 @@ python eval/diag_decompose.py --run runs/trd_v10 --size 32 --xmodal --reps 2 --b
    族级 `W1_robust`）是 37 条臂里**唯一**判官真说了话的那条，而且它说的正是"**训练量不够**"。
    ⚠ 同引纪律：那条臂上 **val 和 KID 都指错了方向**（按 val 挑检查点显著更差；KID 11.53<14.45 指反向）
    ⇒ ⛔ 本臂**不许用 val 或 KID 当判据**。
-4. **模型确实小、确实欠训**：`runs/trd_v10/config.json` ＝ `d=384 / depth=12 / heads=6`（≈21M 参数）、
+4. **模型确实小、确实欠训**：`runs/trd_v10/config.json` ＝ `d=384 / depth=12 / heads=6`（**33.3M 参数**，⚠ 预注册初稿里"≈21M"是估算，挂起时训练日志实测 33.3M，已更正；本轮不动模型尺寸所以不影响任何判据）、
    `steps=12000`。而 `GOAL.md` 诊断旧模型失败的三条里就有一条是"小模型、训练量不足"。
 5. **(C5) 满足**：GPU 7 现在 free **45.5GB**（16+32 混训 batch 256 实测 ~22GB），无 `arch_*` 会话、
    `ps | grep train_trd` 计数 0。
@@ -11202,3 +11202,81 @@ python eval/diag_decompose.py --run <RUN> --size 32 --xmodal --reps 2 --bs 8 \
 ### 十、本轮挂起的活
 
 挂上之后另记一笔（含 GPU、脚本本体 pid、md5 复核）。
+
+## 2026-09-18 14:20 UTC+8：(M60) 挂起记账 —— 候选 G 第一档「更久」已在 GPU 7 上跑起来
+
+预注册（上一节，commit `3857761`）落地。本节只记「挂了什么、怎么复核的」，**判据一个字未改**。
+
+### 挂起台账
+
+| 项 | 值 |
+|---|---|
+| tmux 会话 | `m60tr` （created Fri Sep 18 05:27:13 2026 UTC） |
+| 脚本 | `scripts/m60_train_more.sh` → 远程 `/tmp/m60_train.sh` |
+| md5 双侧核对 | `65054c84dcbc411b832cb0e3afbbecc9`（本地 `tr -d '\r' < 本地.sh \| md5sum` 对远程 `md5sum`，一致） |
+| **脚本本体 pid** | **3118760**（`bash /tmp/m60_train.sh`）—— (M57) 教训：等的必须是这个，不是子 python |
+| python pid | 3118762 |
+| GPU | **7**（`nvidia-smi --query-compute-apps` 里 pid 3118762 ↔ uuid `GPU-a8a5f915-...`，该 uuid 的 index 是 7；占 25794 MiB，卡上 free 45577→19778 MiB） |
+| 日志 | `/tmp/trd_v10more.txt`，末行应为 `M60_TRAIN_DONE_GPU7` |
+| 产物 | `/tmp/runs/trd_v10more_09180526/{last.pt,best.pt,step_4000.pt,step_8000.pt,step_12000.pt,config.json,log.json,codebook.npy,text_emb.pt}` |
+
+⚑ **`pgrep` 在这台机上不存在**（老账），而 `/proc/<pid>/cmdline` 的回落写法一旦 pid 解析失败就去读 pid 1、
+打出 `BOOT_IMAGE=...` 却退出码 0 ＝ 静默假复核。这次改用 `ps -eo pid,args | grep '[t]rain_trd.py'`
+拿到**完整 argv**，与 `.sh` 里 19 个 token 逐字相同（`--out /tmp/runs/trd_v10more_09180526
+--init_from runs/trd_v10/last.pt --steps 12000 --batch 256 --lr 1.5e-4 --warmup 500 --sizes 16 32
+--p32 0.5 --batch32 64 --bias_freqs 8 --bias_hidden 128 --level_emb --pal_aug 0.3 --pal_smooth 0.1
+--extra --n_ex 4 --extra_file train_extra_packs_only.json --coarse --p_coarse 0.5
+--save_at 4000 8000 12000`）。⚠ 写在 `.sh` 里的 `export CUDA_VISIBLE_DEVICES=7` 在 argv 和
+`/proc/<pid>/environ` 里都查不到 ⇒ **卡号只能靠 pid↔uuid 反查**，这是本轮第一次这么核。
+
+### (P3) 三条零成本自查：**全部兑现**
+
+预注册第七节 (OP2) 与第八节 (P3) 要求的三条，在第 0 步日志里就能读到，**全在看见任何 CLIP 读数之前**：
+
+1. **续训接口干净**：`从 runs/trd_v10/last.pt 初始化；缺 [] ，多 []` —— 零缺键零多键
+   （(M41) 死在 `train_trd.py:435` 的那类维度不匹配没有发生）。
+2. **码本复现**：`码本 512 色，平均量化误差 7.26/255`，与 v10 的 `codebook_err` **7.256955** 同值。
+3. **零步复现 val**：`val 6.869022913` vs v10 末值 **6.869**，差 **2.3e-5**，远在 (M57) 量到的
+   val 噪声下限 Dmax **0.0623** 之内；副读数 `val32 5.254576` vs v10 的 **5.255**。
+   ⚠ 这只说明**权重与数据管线原样接上了**，⛔ 不是任何效果证据 ——（(M37)(M41)）**val 指错过方向**，
+   本轮判据一个 val 都不用。
+
+### config 逐键复核：**通过**
+
+`/tmp/runs/trd_v10more_09180526/config.json` vs `runs/trd_v10/config.json`：
+
+- 键集合：`only_v10 []`；`only_new` 12 个 —— `bias_cells bias_pix bias_size_cond clip_bs clip_loss
+  clip_w coarse_phase p_tile16 pack_balance probe_coarse reseed_after_build seed` ＝ **v10 之后新增的
+  参数**，逐个核对**全部等于 argparse 默认值**（`bias_cells []`、`bias_pix []`、`bias_size_cond False`、
+  `clip_loss ''`（⇒ `clip_bs 32`/`clip_w 0.3` 是惰性的，CLIP 反传没开）、`coarse_phase 'rand'`、
+  `p_tile16 0.0`、`pack_balance 0.0`、`probe_coarse None`、`reseed_after_build False`、`seed 0`）
+  ＝ 预注册承诺的"一个都不传、留默认 ＝ 旧行为"。
+- 共有键里只有 3 处不同，**正是预注册允许的那三类**：`init_from`（v8→v10）、`out`、`save_at`
+  （`[6000,12000]`→`[4000,8000,12000]`，多存两个中途点，⛔ **不是**挑检查点的许可——判据只读末点）。
+
+⇒ **(OP2) 在挂起时就已通过**（判读器里那条仍会在读数阶段重跑一次）。
+
+### 同步白名单已补
+
+`scripts/sync_remote_tmp.sh` 的 `PATHS` 里加了 `m6[0-9]_*.json m6[0-9]_*.txt`（下一轮读数阶段的
+`m60_ctrl_s*.json` / `m60_more_s*.json` / `m60_scale.json` 要落在白名单里，否则服务器 `/tmp`
+开机清空即永久丢失）。⚑ 训练产物本来就被 `runs`（目录）和 `trd_*.txt` 罩住，不用动。
+⚠ **"加通配符救不了已存在的文件"这条老坑本轮不触发** —— m6x 那批文件此刻**尚不存在**，
+所以不需要手动补 `scp`；⛔ 但下一轮若再加模式，必须重新问这个问题。
+
+### 下一轮第一件事（料齐就判，⛔ 别挂看门狗）
+
+⚑ **实测速度**：第 1000 步日志 `"min": 4.925` ⇒ **~0.30 s/step**，12000 步 ETA **≈1 小时**
+（⚠ 比"预算翻倍＝跑几小时"的直觉快一个量级，记在这里省下未来同类排期的猜测）⇒ **料很可能在
+下一轮 cron 就齐**，按"料齐就判"办。⚠ 顺带一条非判决观察：第 1000 步 `val 6.7941` 已低于 v10 末值
+6.8690（差 0.075 ＞ 噪声下限 0.0623），`val32 5.3079` 反而比 5.2546 高 —— ⛔ **两个数都不许读成
+任何方向的证据**（(M37)(M41)：val 指错过方向；本轮判据只认第六节那条配对 CLIP）。
+
+1. 查 `ps -p 3118760`（⚠ 退出码 255 ＝ ssh 断线，必须单独分支重试，**不许当成跑完**）与
+   `/tmp/trd_v10more.txt` 末行是否 `M60_TRAIN_DONE_GPU7`。
+2. 齐了就出 29 份新种子读数：`eval/diag_decompose.py --run ... --size 32 --xmodal --reps 2 --bs 8
+   --per_image --seed S`，控制臂 `m60_ctrl` S=0..16（S=0..4 直接拷 (M59) 的
+   `experiments/m59_pairedclip_s{0..4}.json`）、处理臂 `m60_more` S=0..16。
+3. `python analysis/arch/m60_read_scale.py --dir /tmp --ctrl_tag m60_ctrl --trt_tag m60_more --k 17
+   --m59dir experiments --out /tmp/m60_scale.json`。⛔ 判据、K、判读器**一个字不许改**；
+   ⛔ 不许因为读数不好看就改 K 或换加权（(M59) 刚证过"换个合法加权点估计就翻号"）。
