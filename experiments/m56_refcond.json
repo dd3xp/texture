@@ -1,0 +1,67 @@
+{
+ "root": "C:\\Codes\\texture\\remote_tmp\\m56",
+ "thresholds": {
+  "inert": 0.01,
+  "moves": 0.1,
+  "cos_collapse": 0.99
+ },
+ "disclosure": "图在 V_mat(125 材质 x 2 次，验证集)上生成；本轮只读我们自己两臂的输出像素做差，⛔ 不碰真人瓦片、不跑判官、不改任何已发表数字。引用必须同引本行。",
+ "sizes": {
+  "32": {
+   "n": 250,
+   "identical": 0,
+   "pixfrac": 0.30287890625,
+   "mae": 0.025764164624183006
+  },
+  "16": {
+   "n": 250,
+   "identical": 1,
+   "pixfrac": 0.270984375,
+   "mae": 0.023260518790849675
+  }
+ },
+ "problems": [],
+ "refstats": {
+  "src": "/tmp/m55_refs",
+  "out": "/tmp/m56_refs_shuf",
+  "set": "V_mat",
+  "seed": 1234,
+  "n_keys": 1077,
+  "n_shards_read": 2,
+  "keys_equal": true,
+  "fixed_points": 0,
+  "n_set_prompts": 125,
+  "n_missing_in_refs": 0,
+  "cos_median": 0.8145183324813843,
+  "cos_mean": 0.8101474046707153,
+  "cos_p90": 0.8935287594795227,
+  "cos_max": 1.0000001192092896,
+  "cos_self_vs_shuffled_mean": 0.7656416301727295,
+  "cos_self_vs_shuffled_max": 0.9278343915939331
+ },
+ "determinism_A_vs_Arerun": {
+  "n": 250,
+  "identical": 250,
+  "pixfrac": 0.0,
+  "mae": 0.0
+ },
+ "voids": [],
+ "verdict": "REFCOND_MOVES",
+ "predictions": {
+  "P1_pf32_ge_0.10": {
+   "pred": ">=0.10",
+   "got": 0.30287890625,
+   "correct": true
+  },
+  "P2_pf16_gt_pf32": {
+   "pred": "pixfrac@16 > pixfrac@32",
+   "got": -0.031894531250000024,
+   "correct": false
+  },
+  "P3_cos_median_lt_0.9": {
+   "pred": "<0.9",
+   "got": 0.8145183324813843,
+   "correct": true
+  }
+ }
+}
