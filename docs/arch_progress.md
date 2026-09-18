@@ -11280,3 +11280,58 @@ python eval/diag_decompose.py --run <RUN> --size 32 --xmodal --reps 2 --bs 8 \
 3. `python analysis/arch/m60_read_scale.py --dir /tmp --ctrl_tag m60_ctrl --trt_tag m60_more --k 17
    --m59dir experiments --out /tmp/m60_scale.json`。⛔ 判据、K、判读器**一个字不许改**；
    ⛔ 不许因为读数不好看就改 K 或换加权（(M59) 刚证过"换个合法加权点估计就翻号"）。
+
+## 2026-09-18 14:20 UTC+8：(M60) 控制臂 12 个新种子已并行挂起（GPU 2）—— 不等训练
+
+训练（GPU 7、脚本本体 pid 3118760）此刻在 **step 9000/12000**（44.4 分钟、~0.296 s/step），
+剩 3000 步约 **15 分钟**。按"料齐就判、别挂看门狗"的规矩，本轮**不等**，而是把与训练**完全无关**
+的那一半活先挂上。
+
+### 为什么控制臂现在就能跑（⚠ 这不改任何判据）
+
+预注册第五节要的 34 份 JSON 里，控制臂读的是 `runs/trd_v10` —— **那个检查点早就存在**，
+与正在训练的处理臂检查点没有任何依赖。⇒ 12 份（S=5..16）可以与训练**并行**跑完，
+把整轮墙钟从"训练 1h → 串行 7.3 GPU 小时"压成"训练与控制臂重叠"。
+⛔ 这只是排期，**判据、K、判读器、命令一个字未改**。
+
+### 挂起台账
+
+| 项 | 值 |
+|---|---|
+| tmux 会话 | `m60c`（created Fri Sep 18 06:11:44 2026 UTC） |
+| 脚本 | `scripts/m60_eval.sh` → 远程 `/tmp/m60_eval.sh` |
+| md5 双侧核对 | `375c36b8b1059537e169e2f173a3eb01`（本地 `tr -d '\r' \| md5sum` 对远程 `md5sum`，一致） |
+| **脚本本体 pid** | **3143738**（`bash /tmp/m60_eval.sh 2 ctrl 5 6 ... 16`）—— (M57) 教训：等它，不是子 python |
+| python pid | 3143741 |
+| GPU | **2**（pid 3143741 ↔ uuid `GPU-d1fe9a28-...` ↔ index 2；卡上 free 49934→45576 MiB） |
+| 产物 | `/tmp/m60_ctrl_s{5..16}.json`（12 份） |
+| 末行应为 | `M60_DONE_ctrl_GPU2` |
+
+⚑ **命令逐字复核**：`ps -eo pid,args` 拿到的完整 argv 与 (M59) 的 `scripts/m59_paired.sh`
+**只差 `--out` 一个 token**（`--run runs/trd_v10 --size 32 --xmodal --reps 2 --bs 8 --per_image
+--seed 5 --out /tmp/m60_ctrl_s5.json`）⇒ (OP3)「控制臂就是 (M59) 那条 TRD 行」在命令层面先兑现一次
+（真正的数值检验仍由判读器在读数阶段跑）。⚠ `export CUDA_VISIBLE_DEVICES=2` 写在 `.sh` 里，
+argv 与 `/proc/<pid>/environ` 都查不到 ⇒ **卡号仍只能靠 pid↔uuid 反查**（本轮第二次这么核）。
+
+### 选卡（⚠ 只看 `memory.free`）
+
+八张卡 free：0/1/4/5 各 5375、3 是 9259、**6 是 16702**、7 是 19776（我们自己的训练占着）、
+**2 是 49934**。32px + `--xmodal` + `--bs 8` 实测吃 **18.4GB**（(M53) 老账）⇒ **只有 2 号够**；
+⛔ 6 号（16.7GB）必 OOM，⛔ 7 号虽有 19.8GB 但挤进去会把自己的训练挤死。
+⚑ 没有在 2 号上塞两个进程：卡 `utilization` 是 0% 但活是 **compute-bound**，
+两进程分 SM ≈ 总吞吐不变，只多一份 OOM 风险。
+
+### 下一轮第一件事（⛔ 仍然别挂看门狗）
+
+1. 查训练：`ps -p 3118760` + `/tmp/trd_v10more.txt` 末行 `M60_TRAIN_DONE_GPU7`
+   （⚠ ssh 退出码 255 ＝ 断线，必须单独分支重试，不许当成跑完）。
+2. 训练一停就挂处理臂（GPU 7 届时会腾出 ~45GB）：
+   `tmux new-session -d -s m60m "bash /tmp/m60_eval.sh 7 more 0 1 2 ... 16"`（17 份，~4.3 小时）。
+3. 控制臂 S=0..4 直接 `cp experiments/m59_pairedclip_s{0..4}.json /tmp/m60_ctrl_s{0..4}.json`
+   （预注册第五节写死的做法）。
+4. 34 份齐了跑 `analysis/arch/m60_read_scale.py`（⛔ 判据、K=17、判读器一个字不许改；
+   ⛔ 不许因为读数不好看就改 K 或换加权 —— (M59) 刚证过"换个合法加权点估计就翻号"）。
+
+⚠ 本轮**零判决、零 API**，仍 37 臂 + 18 试点；`eval/final_test.sh` **连续第二十二轮**一个字未改。
+⚠ 非判决观察（⛔ 不许读成任何方向的证据，(M37)(M41)：val 指错过方向）：step 9000 的
+`val 6.9711` 已高于 v10 末值 6.8690，而 step 1000 时是 6.7941 —— 两个数都只是路过的日志行。
