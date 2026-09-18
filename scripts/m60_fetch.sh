@@ -31,7 +31,12 @@ if ! ssh emnlp "for f in $REMOTE; do test -s \"\$f\" || exit 1; done"; then
 fi
 
 # 2) 拉那 29 份；控制臂 s0..s4 按预注册直接拷 (M59) 产物
-scp -q emnlp:"$REMOTE" "$DST/"
+# ⚠ 实测坑：OpenSSH 9+ 的 scp 默认走 SFTP 协议、**不做远端 shell 分词** ⇒ `emnlp:"a b c"` 会被
+#   当成一个字面文件名（报 "No such file or directory" 列出全部 29 条路径、退出码 1，一份也没拉到）。
+#   ⇒ 每个源单独写成 emnlp:/tmp/<name>。⚑ 这是取料侧的失败，不是判据，退出码非零＝闸照样有效。
+SRC=()
+for n in "${NAMES[@]}"; do SRC+=("emnlp:/tmp/$n"); done
+scp -q "${SRC[@]}" "$DST/"
 for s in 0 1 2 3 4; do
   cp "$ROOT/experiments/m59_pairedclip_s$s.json" "$DST/m60_ctrl_s$s.json"
 done
