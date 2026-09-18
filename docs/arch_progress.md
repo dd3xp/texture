@@ -12690,3 +12690,110 @@ python analysis/arch/m62_read_dose2.py --dir remote_tmp/m62 --ctrl_tag m62_ctrl 
        --trt_tag m62_dbl --k 28 --n_old 17 --m60json experiments/m60_scale.json \
        --out experiments/m62_dose2.json
 ```
+
+## 2026-09-19 02:15 UTC+8：(M62) 训练收尾、处理臂 28 份挂上三张卡；零 GPU 把 (OP5)(OP6) 也白拿掉
+
+本轮**仍不判决**（处理臂 0/28）。判据、K=28、n_old=17、判读器 `m62_read_dose2.py`、读数命令
+**一个字未改**；零 API、零活件改动，`eval/final_test.sh` **连续第三十一轮**未改。
+
+### 一、训练（处理臂）跑完，收尾复核通过
+
+`m62_ready.sh train` **退 0**（末行哨兵 `M62_TRAIN_DONE_GPU2` 在）。产物 `/tmp/runs/trd_v10dbl_09181524/`：
+
+| 文件 | 时间(UTC) | 说明 |
+|---|---|---|
+| `step_6000.pt` / `step_12000.pt` / `step_18000.pt` / `step_24000.pt` | 15:59 / 16:30 / 17:00 / 17:29 | `--save_at` 四档全落地，间隔均匀 ~30 分钟 |
+| `last.pt` | 17:29 | 与 `step_24000.pt` 同一时刻 ⇒ 末点＝24000 步 |
+
+起 15:28 → 末点 17:29 ＝ **121 分钟 / 24000 步 ＝ 0.30 s/step**，与预注册 ETA（≈2 小时）逐字吻合。
+⚑ 进度与收尾仍然**只从检查点时间戳与哨兵**读，⛔ 一次没 `tail` 训练日志（里面混着 val/loss，
+而 (M37)(M41) 写死「val 指错过方向」、本轮判据一个 val 都不用）。
+
+### 二、控制臂 28/28 齐，三条旧操作检验在**完整**料上重验
+
+`m62_ready.sh ctrl` 退 0（`ctrl_json=11/11 done_lines=11`）。补 `scp` s20/21/22 ⇒
+`remote_tmp/m62/*.json` ＝ **28**（⚠ 手动搬料仍是必须的：`sync_remote_tmp.sh` 扁平落
+`remote_tmp/`，而判读器写死 `--dir remote_tmp/m62`；(M61) 那个坑，⛔ 修法是搬料、不是改命令）。
+
+上一轮那三条只在 25 份上验过，本轮在 28 份上原样重跑 `m62_op3_precheck.py`：
+
+```
+ctrl loaded=28/28  (old 17/17, new 11/11)  missing=[]
+(OP2) non-missing problems = []
+(OP3) distinct real_half.CLIP over 28 loaded files = [34.1732177734375]
+(OP4) offenders over old 17 = 0
+M62_CTRL_PRECHECK_CLEAN
+```
+
+### 三、处理臂 28 份已挂在 GPU 2/6/7
+
+| 项 | GPU2 | GPU6 | GPU7 |
+|---|---|---|---|
+| tmux | `m62d2` | `m62d6` | `m62d7`（均 created 18:09:01 UTC） |
+| **脚本本体 pid**（(M57)：等的必须是它、不是 python 的） | **3345427** | **3345431** | **3345438** |
+| 种子 | 0..9（10 份） | 10..18（9 份） | 19..27（9 份） |
+| 卡绑定（pid↔uuid 反查） | `GPU-d1fe9a28…`✓ | `GPU-c7daf442…`✓ | `GPU-a8a5f915…`✓ |
+
+三重复核：①`m62_arm.sh` md5 双侧同为 `f959bfab771c7eafcf8b88f19b01a90d`（**一个字未改**，
+`dbl` 分支早已写死指向 `/tmp/runs/trd_v10dbl_09181524`）；②`ps -eo pid,args` 逐字读到
+`--run /tmp/runs/trd_v10dbl_09181524 --size 32 --xmodal --reps 2 --bs 8 --per_image`
+＝ 与 (M58)/(M59)/(M60)/(M61) **逐字同一条**，只换 `--run`/`--seed`/`--out`；
+③`--query-compute-apps` 的 pid↔uuid 反查证明 `CUDA_VISIBLE_DEVICES` 真落到了 2/6/7。
+起法仍是干净的 `tmux new-session -d -s <s> 'bash /tmp/m62_arm.sh <GPU> dbl <seeds…>'`
+（重定向写在脚本本体的 `exec >>` 里）。ETA ＝ 最长那张 10 份 × 12.8 分钟 ≈ **2.1 小时**（UTC ~20:20）。
+⛔ 没为填满空卡去跑任何未预注册的东西（`step_{6000,12000,18000}.pt` 就躺在那儿，
+而预注册写死**判据只读末点 `last.pt`**、**本轮不预注册任何剂量-反应读法**）。
+
+### 四、(OP5)(OP6) 提前退役 —— 七条操作检验里控制臂那半边**已全部验掉**
+
+`analysis/arch/m62_op56_precheck.py`（新文件、只读、**不调用 `analyse()`**，
+四行 (OP5) ＋ 四行 (OP6) **逐字复制**自 `m62_read_dose2.analyse` 并 import 冻结的
+`M60.arm_mean` / `M60.perm_p`，⛔ 一条判据没重写）：
+
+```
+ctrl loaded=28/28  n_mat=67
+(OP5) even=14 odd=14  p=0.2321  mean=+0.044751  ok=True
+(OP6) old=17 new=11  p=0.4041  mean=+0.036846  ok=True
+M62_OP56_PRECHECK_CLEAN
+```
+
+⇒ **(OP6) 那条"拼缝"守住了**：控制臂旧 17 与新 11 同质，新料**不是**指错了检查点
+（这正是 (OP4) 抓不到、上一轮特意写死其界限的那类故障）。
+
+**为什么这不破盲**：两条的输入**只有控制臂**，一个 trt 数字都不碰 ⇒ 对 ctrl-vs-trt 主对比携 **0 比特**。
+比上一轮 (OP3) 那次更强（那条还要靠"参照行与模型无关"这个前提，这两条压根没有 trt 一侧）。
+⚠⚠ 预先写死、本轮兑现：这两条的读数**没有**、也**不许**成为改 K / 判据 / 加权 / `n_old` 的理由。
+
+⚑⚑⚑ **本轮唯一的方法论收获：「现在问不了」要分清卡在哪一层。**
+上一轮把 (OP5)(OP6) 搁置的理由是「要走 `analyse()`，而它的 (OP1) 要求 `len(ctrl)==k`
+⇒ 想提前问就得传小 `--k` ＝ 真的进主检验 ＝ 自毁盲判」。⚠ 那是**判读器的调用形状**造成的
+**实现约束**，不是这两条检验本身携带信息的**信息论约束**。绕开的办法不是改判读器（⛔ 冻结件），
+而是**直接调用那两段所依赖的冻结具名函数**。⇒ 纪律：**搁置一条检验时要写清"卡在哪一层"**，
+否则实现约束会被后人误当成"这条问不得"。
+⚑ 顺带一条只登记的观察：(OP6) 的点估计 **+0.0369**（p=0.40，与 0 分不开）＝控制臂
+**内部**"拼缝"量级，而本轮 MDE 是 0.0822。⛔ 不许读成"拼缝有偏"（p=0.40），
+⛔ 也不许拿它去调任何门槛；只作为"效应若只有 0.05 会有多难读"的一个提醒。
+
+### 五、⛔ 本轮没做什么
+
+⛔ 没看任何 `m62_dbl_*`（0 份存在）、⛔ 没看任何 TRD 行均值、⛔ 没跑主检验；
+⛔ 没开判官臂（仍 **37 臂 + 18 试点**）、`recheck_judge.EXPECT` 未动；
+⛔ 没改：判读器、K、`n_old`、判决表、(OP1)–(OP7)、读数命令、`m62_ready.sh`、`m62_arm.sh`、
+`m62_train_dose2.sh`、任何活件。本轮唯一新增是一个**只读**预检脚本。
+
+### 六、下一轮第一件事（⛔ 一个字不许改）
+
+1. `ssh emnlp 'bash /tmp/m62_ready.sh dbl'` 退 **0** ⇒ 处理臂 28 份齐（⛔ 只认退出码）。
+   ⚠ 若退 1/2：`ps -p 3345427`/`3345431`/`3345438` 看**脚本本体**还在不在；
+   ⚠ ssh 退出码 **255 ＝ 断线，必须重试，⛔ 不许当成收工**（(M50)）。
+2. `scp` 28 份 `m62_dbl_s*.json` 到 `remote_tmp/m62/`（⛔ 别改 `--dir`），
+   `ls remote_tmp/m62/*.json | wc -l` 要 **56**，然后原样跑：
+
+```
+python analysis/arch/m62_read_dose2.py --dir remote_tmp/m62 --ctrl_tag m62_ctrl \
+       --trt_tag m62_dbl --k 28 --n_old 17 --m60json experiments/m60_scale.json \
+       --out experiments/m62_dose2.json
+```
+
+3. 判决后入库：`git add -f experiments/m62_dose2.json`。
+⛔ 判据、K、判读器、读数命令一个字不许改；⛔ 不许因为读数不好看就改 K 或换加权。
