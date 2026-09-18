@@ -52,6 +52,10 @@ EXPECT = {
     "judge_full_TRD32_rr4_vs_B3_32_sdpixl_subset.json":      (10, 12, 0, 0),
     "judge_full_B2_vs_B3_32_sdpixl_subset.json":              (8,  9, 3, 0),
     "judge_full_B7_vs_B3_32_sdpixl_subset.json":              (5,  7, 5, 0),
+    # (P1) 判官对检索基线 B5（预注册 a1dc7b5，eval/b5_judge.sh，免门 --no_gate）
+    "judge_full_TRD16c_rr4_vs_B5_16.json":                  (119, 202, 70, 0),
+    "judge_full_TRD16_vs_B5_16.json":                       (113, 213, 59, 0),
+    "judge_full_C_TRD16_E_mat_vs_C_B5_E_mat_16.json":       (111, 208, 64, 0),
     # 测试集：tier_anchor 的锚臂（预注册 8ec5446，eval/tier_anchor.sh）。
     # 绝对胜率只报不判（判据 (5)：B7 在 24/32 从未调过 CFG），进判据的是梯度。
     "judge_full_TRD24_rr4_vs_B7_24.json":                    (144, 208, 64, 0),
