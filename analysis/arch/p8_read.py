@@ -41,7 +41,7 @@ def dev(t):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stamp", default="09190900")
-    ap.add_argument("--root", type=Path, default=ROOT / "experiments/baselines_val")
+    ap.add_argument("--root", type=Path, default=ROOT / "experiments/baselines")   # gen_trd 不给 --out 时就写这里（V_mat 也一样）
     ap.add_argument("--runs", type=Path, default=Path("/tmp/runs"))
     ap.add_argument("--eval", type=Path, default=Path("/tmp/p8_eval_Vmat_16.json"))
     ap.add_argument("--out", type=Path, default=Path("/tmp/p8_read.json"))
