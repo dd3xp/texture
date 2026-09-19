@@ -1,0 +1,379 @@
+{
+ "note": "(M72) phase-excess ruler PX; criteria pre-registered in a533d6c",
+ "reps": 2,
+ "sizes": {
+  "16": {
+   "size": 16,
+   "human": {
+    "n": 3023,
+    "n_finite": 3018,
+    "flat_rate": 0.0016539861065166805,
+    "median_PX": 0.09017130435918841,
+    "median_GS": 0.5778556343465451,
+    "median_ncolors": 14.0
+   },
+   "counts": {
+    "16_train": 2732,
+    "16_val": 291
+   },
+   "human_ci95": [
+    0.07714970699226414,
+    0.10308262434435611
+   ],
+   "n_packs": 50,
+   "op5_ci_seed1": [
+    0.0778845982486761,
+    0.10227703738957739
+   ],
+   "op5_ok": true,
+   "R_phase": {
+    "n": 3023,
+    "n_finite": 3012,
+    "flat_rate": 0.0036387694343367194,
+    "median_PX": 0.011728518702912194,
+    "median_GS": 0.4440255307882901,
+    "median_ncolors": 12.0
+   },
+   "R_shuf": {
+    "n": 3023,
+    "n_finite": 3018,
+    "flat_rate": 0.0016539861065166805,
+    "median_PX": 0.021334351286000808,
+    "median_GS": 0.4183760747439731,
+    "median_ncolors": 14.0
+   },
+   "op3": {
+    "max_imag": 4.124800545298005e-14,
+    "max_dLF": 2.220446049250313e-16,
+    "n_checked": 32,
+    "ok": true
+   },
+   "methods": {
+    "B1": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.021391621565705565,
+     "median_GS": 0.4071342073245398,
+     "median_ncolors": 12.0
+    },
+    "B2": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.048915186714890396,
+     "median_GS": 0.4596894208794455,
+     "median_ncolors": 12.0
+    },
+    "B4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.016276960102434984,
+     "median_GS": 0.410517296156639,
+     "median_ncolors": 12.0
+    },
+    "B5": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.08438596559709638,
+     "median_GS": 0.5316583246474764,
+     "median_ncolors": 14.0
+    },
+    "B7": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.07803687690932626,
+     "median_GS": 0.501068129789632,
+     "median_ncolors": 16.0
+    },
+    "TRD16": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.08419671027928946,
+     "median_GS": 0.5181886429087544,
+     "median_ncolors": 15.0
+    },
+    "TRD16c_rr4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.07566929856516558,
+     "median_GS": 0.4942148829743,
+     "median_ncolors": 15.0
+    }
+   },
+   "op1": {
+    "detail": {
+     "B1": {
+      "recomputed_seam": 0.9357121680191371,
+      "official_seam": 0.9357121680191371,
+      "ok": true
+     },
+     "B2": {
+      "recomputed_seam": 0.4696475929081353,
+      "official_seam": 0.4696475929081353,
+      "ok": true
+     },
+     "B4": {
+      "recomputed_seam": 0.8623940905278079,
+      "official_seam": 0.8623940905278079,
+      "ok": true
+     },
+     "B5": {
+      "recomputed_seam": 0.9978332251361492,
+      "official_seam": 0.9978332251361492,
+      "ok": true
+     },
+     "B7": {
+      "recomputed_seam": 0.9800376069407084,
+      "official_seam": 0.9800376069407084,
+      "ok": true
+     },
+     "TRD16": {
+      "recomputed_seam": 0.9791904106833967,
+      "official_seam": 0.9791904106833967,
+      "ok": true
+     },
+     "TRD16c_rr4": {
+      "recomputed_seam": 0.9701482448765515,
+      "official_seam": 0.9701482448765515,
+      "ok": true
+     }
+    },
+    "n_mismatch": 0,
+    "ok": true
+   },
+   "op6_ok": true,
+   "trt": "TRD16c_rr4",
+   "trt_PX": 0.07566929856516558,
+   "verdict": "PHASE16_BELOW_HUMAN",
+   "why": "PX below human CI"
+  },
+  "32": {
+   "size": 32,
+   "human": {
+    "n": 559,
+    "n_finite": 559,
+    "flat_rate": 0.0,
+    "median_PX": 0.09432442286877962,
+    "median_GS": 0.5506038647342993,
+    "median_ncolors": 16.0
+   },
+   "counts": {
+    "32_train": 403,
+    "32_val": 156
+   },
+   "human_ci95": [
+    0.07054468950983178,
+    0.12882815154634855
+   ],
+   "n_packs": 23,
+   "op5_ci_seed1": [
+    0.07054468950983178,
+    0.12741777241689006
+   ],
+   "op5_ok": true,
+   "R_phase": {
+    "n": 559,
+    "n_finite": 559,
+    "flat_rate": 0.0,
+    "median_PX": 0.011720247364682967,
+    "median_GS": 0.4325686865070514,
+    "median_ncolors": 16.0
+   },
+   "R_shuf": {
+    "n": 559,
+    "n_finite": 559,
+    "flat_rate": 0.0,
+    "median_PX": 0.017228064524290987,
+    "median_GS": 0.3905894869041334,
+    "median_ncolors": 16.0
+   },
+   "op3": {
+    "max_imag": 2.501484669392537e-14,
+    "max_dLF": 5.551115123125783e-16,
+    "n_checked": 32,
+    "ok": true
+   },
+   "methods": {
+    "B1": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.032061728656780114,
+     "median_GS": 0.42809582999233803,
+     "median_ncolors": 12.0
+    },
+    "B2": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.16328120670133411,
+     "median_GS": 0.6044539442596571,
+     "median_ncolors": 12.0
+    },
+    "B4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.029708071249714446,
+     "median_GS": 0.42074045344443717,
+     "median_ncolors": 12.0
+    },
+    "B7": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.09313722671707192,
+     "median_GS": 0.517557393498847,
+     "median_ncolors": 16.0
+    },
+    "TRD32_rr4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_PX": 0.0913190580904418,
+     "median_GS": 0.5131375952890362,
+     "median_ncolors": 15.0
+    }
+   },
+   "op1": {
+    "detail": {
+     "B1": {
+      "recomputed_seam": 0.9692616802249088,
+      "official_seam": 0.9692616802249088,
+      "ok": true
+     },
+     "B2": {
+      "recomputed_seam": 0.6361132416775845,
+      "official_seam": 0.6361132416775845,
+      "ok": true
+     },
+     "B4": {
+      "recomputed_seam": 0.8210644872036651,
+      "official_seam": 0.8210644872036651,
+      "ok": true
+     },
+     "B7": {
+      "recomputed_seam": 0.9662422819760745,
+      "official_seam": 0.9662422819760745,
+      "ok": true
+     },
+     "TRD32_rr4": {
+      "recomputed_seam": 0.96940623023626,
+      "official_seam": 0.96940623023626,
+      "ok": true
+     }
+    },
+    "n_mismatch": 0,
+    "ok": true
+   },
+   "op6_ok": true,
+   "trt": "TRD32_rr4",
+   "trt_PX": 0.0913190580904418,
+   "verdict": "PHASE32_IN_HUMAN_RANGE",
+   "why": "PX inside human CI"
+  }
+ },
+ "op": {
+  "OP1_provenance_seam_matches_official": {
+   "ok": true,
+   "n_mismatch": {
+    "16": 0,
+    "32": 0
+   }
+  },
+  "OP2_white_noise_bracket": {
+   "ok": true,
+   "detail": {
+    "16": {
+     "median_GS": 0.34142287480921046,
+     "ok": true
+    },
+    "32": {
+     "median_GS": 0.3409292177660171,
+     "ok": true
+    }
+   },
+   "bracket": [
+    0.3,
+    0.4
+   ]
+  },
+  "OP3_phase_control_is_LF_blindspot": {
+   "ok": true,
+   "detail": {
+    "16": {
+     "max_imag": 4.124800545298005e-14,
+     "max_dLF": 2.220446049250313e-16,
+     "n_checked": 32,
+     "ok": true
+    },
+    "32": {
+     "max_imag": 2.501484669392537e-14,
+     "max_dLF": 5.551115123125783e-16,
+     "n_checked": 32,
+     "ok": true
+    }
+   }
+  },
+  "OP4_human_counts": {
+   "ok": true,
+   "detail": {
+    "16_train": true,
+    "16_val": true,
+    "32_train": true,
+    "32_val": true
+   },
+   "counts": {
+    "16_train": 2732,
+    "16_val": 291,
+    "32_train": 403,
+    "32_val": 156
+   }
+  },
+  "OP5_bootstrap_stable": {
+   "ok": true,
+   "ci_seed1": {
+    "16": [
+     0.0778845982486761,
+     0.10227703738957739
+    ],
+    "32": [
+     0.07054468950983178,
+     0.12741777241689006
+    ]
+   }
+  },
+  "OP6_flat_rate": {
+   "ok": true,
+   "detail": {
+    "16": {
+     "human": 0.0016539861065166805,
+     "trt": 0.0
+    },
+    "32": {
+     "human": 0.0,
+     "trt": 0.0
+    }
+   }
+  },
+  "OP7_synthetic_sentinels": {
+   "square_GS": 0.875,
+   "checker_GS": 0.0,
+   "sine_GS_float": 0.5732233047033636,
+   "sine_GS_analytic": 0.5732233047033631,
+   "flat_is_nan": true,
+   "bands16_PX": 0.12391275092558185,
+   "bands16_GS": 0.8694667298922402,
+   "square_PX_is_zero_by_construction": 0.0,
+   "ok": true
+  }
+ },
+ "verdict_32": "PHASE32_IN_HUMAN_RANGE",
+ "verdict_16": "PHASE16_BELOW_HUMAN"
+}
