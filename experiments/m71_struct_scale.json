@@ -1,0 +1,295 @@
+{
+ "note": "(M71) structure-scale ruler LF; criteria pre-registered in ec16dd3",
+ "LF_cut_cyc_per_px": 0.25,
+ "sizes": {
+  "16": {
+   "size": 16,
+   "human": {
+    "n": 3023,
+    "n_finite": 3023,
+    "flat_rate": 0.0,
+    "median_LF": 0.4758247045316618
+   },
+   "counts": {
+    "16_train": 2732,
+    "16_val": 291
+   },
+   "human_ci95": [
+    0.4356855167298371,
+    0.5000178607331752
+   ],
+   "n_packs": 50,
+   "op5_ci_seed1": [
+    0.43557438556908046,
+    0.49967600345077245
+   ],
+   "op5_ok": true,
+   "R_shuf": {
+    "n": 3023,
+    "n_finite": 3023,
+    "flat_rate": 0.0,
+    "median_LF": 0.1863801111889677
+   },
+   "methods": {
+    "B1": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.27455539094363635
+    },
+    "B2": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.4349582314472772
+    },
+    "B4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.3322092451630486
+    },
+    "B5": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.45889371333405365
+    },
+    "B7": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.445859777640905
+    },
+    "TRD16": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.37385165358063954
+    },
+    "TRD16c_rr4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.36268297752485784
+    }
+   },
+   "op1": {
+    "detail": {
+     "B1": {
+      "recomputed_seam": 0.9357121680191371,
+      "official_seam": 0.9357121680191371,
+      "ok": true
+     },
+     "B2": {
+      "recomputed_seam": 0.4696475929081353,
+      "official_seam": 0.4696475929081353,
+      "ok": true
+     },
+     "B4": {
+      "recomputed_seam": 0.8623940905278079,
+      "official_seam": 0.8623940905278079,
+      "ok": true
+     },
+     "B5": {
+      "recomputed_seam": 0.9978332251361492,
+      "official_seam": 0.9978332251361492,
+      "ok": true
+     },
+     "B7": {
+      "recomputed_seam": 0.9800376069407084,
+      "official_seam": 0.9800376069407084,
+      "ok": true
+     },
+     "TRD16": {
+      "recomputed_seam": 0.9791904106833967,
+      "official_seam": 0.9791904106833967,
+      "ok": true
+     },
+     "TRD16c_rr4": {
+      "recomputed_seam": 0.9701482448765515,
+      "official_seam": 0.9701482448765515,
+      "ok": true
+     }
+    },
+    "n_mismatch": 0,
+    "ok": true
+   },
+   "op6_ok": true,
+   "trt": "TRD16c_rr4",
+   "trt_LF": 0.36268297752485784,
+   "verdict": "STRUCT16_BELOW_HUMAN",
+   "why": "LF below human CI"
+  },
+  "32": {
+   "size": 32,
+   "human": {
+    "n": 559,
+    "n_finite": 559,
+    "flat_rate": 0.0,
+    "median_LF": 0.6460022127274937
+   },
+   "counts": {
+    "32_train": 403,
+    "32_val": 156
+   },
+   "human_ci95": [
+    0.46928994194446133,
+    0.7617408500656487
+   ],
+   "n_packs": 23,
+   "op5_ci_seed1": [
+    0.4661568544250728,
+    0.7617326534237088
+   ],
+   "op5_ok": true,
+   "R_shuf": {
+    "n": 559,
+    "n_finite": 559,
+    "flat_rate": 0.0,
+    "median_LF": 0.18930197960346018
+   },
+   "methods": {
+    "B1": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.3660064034050852
+    },
+    "B2": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.6095110554990679
+    },
+    "B4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.37506850860803087
+    },
+    "B7": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.5692085080607122
+    },
+    "TRD32_rr4": {
+     "n": 272,
+     "n_finite": 272,
+     "flat_rate": 0.0,
+     "median_LF": 0.5532944704050515
+    }
+   },
+   "op1": {
+    "detail": {
+     "B1": {
+      "recomputed_seam": 0.9692616802249088,
+      "official_seam": 0.9692616802249088,
+      "ok": true
+     },
+     "B2": {
+      "recomputed_seam": 0.6361132416775845,
+      "official_seam": 0.6361132416775845,
+      "ok": true
+     },
+     "B4": {
+      "recomputed_seam": 0.8210644872036651,
+      "official_seam": 0.8210644872036651,
+      "ok": true
+     },
+     "B7": {
+      "recomputed_seam": 0.9662422819760745,
+      "official_seam": 0.9662422819760745,
+      "ok": true
+     },
+     "TRD32_rr4": {
+      "recomputed_seam": 0.96940623023626,
+      "official_seam": 0.96940623023626,
+      "ok": true
+     }
+    },
+    "n_mismatch": 0,
+    "ok": true
+   },
+   "op6_ok": true,
+   "trt": "TRD32_rr4",
+   "trt_LF": 0.5532944704050515,
+   "verdict": "STRUCT32_IN_HUMAN_RANGE",
+   "why": "LF inside human CI"
+  }
+ },
+ "op": {
+  "OP1_provenance_seam_matches_official": {
+   "ok": true,
+   "n_mismatch": {
+    "16": 0,
+    "32": 0
+   }
+  },
+  "OP2_white_noise_neutral_point": {
+   "ok": true,
+   "detail": {
+    "16": {
+     "median_LF": 0.18395666531067278,
+     "expected": 0.18823529411764706,
+     "ok": true
+    },
+    "32": {
+     "median_LF": 0.19183802391591243,
+     "expected": 0.19159335288367546,
+     "ok": true
+    }
+   }
+  },
+  "OP3_structure_sentinels": {
+   "ok": true,
+   "sine_stripe_LF": 0.9999855034826207,
+   "square_stripe_LF": 0.8535533905932738,
+   "checker_LF": 0.0
+  },
+  "OP4_human_counts": {
+   "ok": true,
+   "detail": {
+    "16_train": true,
+    "16_val": true,
+    "32_train": true,
+    "32_val": true
+   },
+   "counts": {
+    "16_train": 2732,
+    "16_val": 291,
+    "32_train": 403,
+    "32_val": 156
+   }
+  },
+  "OP5_bootstrap_stable": {
+   "ok": true,
+   "ci_seed1": {
+    "16": [
+     0.43557438556908046,
+     0.49967600345077245
+    ],
+    "32": [
+     0.4661568544250728,
+     0.7617326534237088
+    ]
+   }
+  },
+  "OP6_flat_rate": {
+   "ok": true,
+   "detail": {
+    "16": {
+     "human": 0.0,
+     "trt": 0.0
+    },
+    "32": {
+     "human": 0.0,
+     "trt": 0.0
+    }
+   }
+  }
+ },
+ "verdict_32": "STRUCT32_IN_HUMAN_RANGE",
+ "verdict_16": "STRUCT16_BELOW_HUMAN"
+}
