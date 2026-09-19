@@ -1,0 +1,355 @@
+{
+ "note": "(M73) disqualification-ruler power budget; criteria pre-registered in ef52676",
+ "rows": [
+  {
+   "tag": "M65",
+   "size": 32,
+   "ruler": "tile_seam_ratio(signed)",
+   "H": 1.062316419973507,
+   "lo": 1.0100134916990262,
+   "hi": 1.5471698113207548,
+   "C": 1.506750463786772,
+   "ctrl": "R_crop",
+   "deliv": 0.96940623023626,
+   "deliv_name": "TRD32_rr4",
+   "W": 0.5371563196217286,
+   "D": 0.444434043813265,
+   "f": 1.2086300028073955,
+   "tier": "POWER_NONE",
+   "margin_ctrl_in_W": -0.0752468993801407,
+   "disq_frac": 0.0,
+   "deliv_margin_in_W": 0.07559673037331525,
+   "deliv_outside_CI": true
+  },
+  {
+   "tag": "M66",
+   "size": 32,
+   "ruler": "LPIPS_div",
+   "H": 0.36239190157922824,
+   "lo": 0.3181154066519074,
+   "hi": 0.6087483685701451,
+   "C": 0.7078091576516242,
+   "ctrl": "R_div",
+   "deliv": 0.3197509620393462,
+   "deliv_name": "TRD32(rr4 不可评分)",
+   "W": 0.29063296191823773,
+   "D": 0.345417256072396,
+   "f": 0.8413967652424521,
+   "tier": "POWER_THIN",
+   "margin_ctrl_in_W": 0.34084499028485055,
+   "disq_frac": 0.28678587227476826,
+   "deliv_margin_in_W": -0.005627563290288237,
+   "deliv_outside_CI": false
+  },
+  {
+   "tag": "P9",
+   "size": 16,
+   "ruler": "|seam-1|",
+   "H": 0.547956421861851,
+   "lo": 0.40043071099944527,
+   "hi": 0.6787003610108304,
+   "C": 0.7480760927687765,
+   "ctrl": "R_crop",
+   "deliv": 0.1783843585441619,
+   "deliv_name": "TRD16c_rr4",
+   "W": 0.27826965001138515,
+   "D": 0.2001196709069255,
+   "f": 1.3905162283662096,
+   "tier": "POWER_NONE",
+   "margin_ctrl_in_W": 0.2493111690588882,
+   "disq_frac": 0.3466712264893357,
+   "deliv_margin_in_W": 0.7979538999175747,
+   "deliv_outside_CI": true
+  },
+  {
+   "tag": "P9",
+   "size": 32,
+   "ruler": "|seam-1|",
+   "H": 0.4913292346830612,
+   "lo": 0.30731311820982643,
+   "hi": 0.7297143670372115,
+   "C": 0.5350354502941619,
+   "ctrl": "R_crop",
+   "deliv": 0.1381795118012794,
+   "deliv_name": "TRD32_rr4",
+   "W": 0.42240124882738506,
+   "D": 0.04370621561110066,
+   "f": 9.664557841976647,
+   "tier": "POWER_NONE",
+   "margin_ctrl_in_W": -0.4608862243743163,
+   "disq_frac": 0.0,
+   "deliv_margin_in_W": 0.4004098162069207,
+   "deliv_outside_CI": true
+  },
+  {
+   "tag": "M71",
+   "size": 16,
+   "ruler": "LF",
+   "H": 0.4758247045316618,
+   "lo": 0.4356855167298371,
+   "hi": 0.5000178607331752,
+   "C": 0.1863801111889677,
+   "ctrl": "R_shuf",
+   "deliv": 0.36268297752485784,
+   "deliv_name": "TRD16c_rr4",
+   "W": 0.06433234400333815,
+   "D": 0.2894445933426941,
+   "f": 0.22226134287183072,
+   "tier": "POWER_OK",
+   "margin_ctrl_in_W": 3.875273152303189,
+   "disq_frac": 0.8613234148260593,
+   "deliv_margin_in_W": 1.1347719461487553,
+   "deliv_outside_CI": true
+  },
+  {
+   "tag": "M71",
+   "size": 32,
+   "ruler": "LF",
+   "H": 0.6460022127274937,
+   "lo": 0.46928994194446133,
+   "hi": 0.7617408500656487,
+   "C": 0.18930197960346018,
+   "ctrl": "R_shuf",
+   "deliv": 0.5532944704050515,
+   "deliv_name": "TRD32_rr4",
+   "W": 0.2924509081211874,
+   "D": 0.4567002331240335,
+   "f": 0.640356380203033,
+   "tier": "POWER_THIN",
+   "margin_ctrl_in_W": 0.9573844859629508,
+   "disq_frac": 0.6130672638937766,
+   "deliv_margin_in_W": -0.28724317869370386,
+   "deliv_outside_CI": false
+  },
+  {
+   "tag": "M72",
+   "size": 16,
+   "ruler": "PX",
+   "H": 0.09017130435918841,
+   "lo": 0.07714970699226414,
+   "hi": 0.10308262434435611,
+   "C": 0.011728518702912194,
+   "ctrl": "R_phase",
+   "deliv": 0.07566929856516558,
+   "deliv_name": "TRD16c_rr4",
+   "W": 0.025932917352091966,
+   "D": 0.07844278565627621,
+   "f": 0.33059658877651127,
+   "tier": "POWER_OK",
+   "margin_ctrl_in_W": 2.5227083941666337,
+   "disq_frac": 0.8339987895893597,
+   "deliv_margin_in_W": 0.05708607354116853,
+   "deliv_outside_CI": true
+  },
+  {
+   "tag": "M72",
+   "size": 32,
+   "ruler": "PX",
+   "H": 0.09432442286877962,
+   "lo": 0.07054468950983178,
+   "hi": 0.12882815154634855,
+   "C": 0.011720247364682967,
+   "ctrl": "R_phase",
+   "deliv": 0.0913190580904418,
+   "deliv_name": "TRD32_rr4",
+   "W": 0.05828346203651677,
+   "D": 0.08260417550409666,
+   "f": 0.7055752530769619,
+   "tier": "POWER_THIN",
+   "margin_ctrl_in_W": 1.0092818801376813,
+   "disq_frac": 0.7121243180041363,
+   "deliv_margin_in_W": -0.3564367636156222,
+   "deliv_outside_CI": false
+  }
+ ],
+ "J2": {
+  "verdict": "SIZE32_POWER_DEFICIT",
+  "med_f_16": 0.33059658877651127,
+  "med_f_32": 0.7055752530769619,
+  "ratio_32_over_16": 2.1342484376145285,
+  "per_ruler": {
+   "P9": {
+    "16": 1.3905162283662096,
+    "32": 9.664557841976647
+   },
+   "M71": {
+    "16": 0.22226134287183072,
+    "32": 0.640356380203033
+   },
+   "M72": {
+    "16": 0.33059658877651127,
+    "32": 0.7055752530769619
+   }
+  }
+ },
+ "op": {
+  "OP1_anchor_inside_own_CI": {
+   "ok": true,
+   "detail": [
+    {
+     "cell": "M65@32",
+     "ok": true
+    },
+    {
+     "cell": "M66@32",
+     "ok": true
+    },
+    {
+     "cell": "P9@16",
+     "ok": true
+    },
+    {
+     "cell": "P9@32",
+     "ok": true
+    },
+    {
+     "cell": "M71@16",
+     "ok": true
+    },
+    {
+     "cell": "M71@32",
+     "ok": true
+    },
+    {
+     "cell": "M72@16",
+     "ok": true
+    },
+    {
+     "cell": "M72@32",
+     "ok": true
+    }
+   ]
+  },
+  "OP2_matches_ledger": {
+   "ok": true,
+   "detail": [
+    {
+     "cell": "M65@32",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "M66@32",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "P9@16",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "P9@32",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "M71@16",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "M71@32",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "M72@16",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "cell": "M72@32",
+     "ok": true,
+     "detail": [
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ]
+  },
+  "OP3_bootstrap_seed_robust": {
+   "ok": true,
+   "detail": [
+    {
+     "cell": "P9@16",
+     "f_seed0": 1.3905162283662096,
+     "f_seed1": 1.3794736466425304,
+     "ok": true
+    },
+    {
+     "cell": "P9@32",
+     "f_seed0": 9.664557841976647,
+     "f_seed1": 9.614572229480926,
+     "ok": true
+    },
+    {
+     "cell": "M71@16",
+     "f_seed0": 0.22226134287183072,
+     "f_seed1": 0.22146420888849533,
+     "ok": true
+    },
+    {
+     "cell": "M71@32",
+     "f_seed0": 0.640356380203033,
+     "f_seed1": 0.6471987040093357,
+     "ok": true
+    },
+    {
+     "cell": "M72@16",
+     "f_seed0": 0.33059658877651127,
+     "f_seed1": 0.3109583492838342,
+     "ok": true
+    },
+    {
+     "cell": "M72@32",
+     "f_seed0": 0.7055752530769619,
+     "f_seed1": 0.6885013083174921,
+     "ok": true
+    }
+   ]
+  },
+  "OP4_coverage": {
+   "n_cells": 8,
+   "ok": true
+  }
+ },
+ "all_op_ok": true
+}
