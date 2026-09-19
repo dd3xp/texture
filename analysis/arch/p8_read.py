@@ -83,7 +83,7 @@ def main():
     for k in ("A1", "A2", "A3"):
         common = [s for s in per[k] if s in per["C"]
                   and math.isfinite(per[k][s]) and math.isfinite(per["C"][s])]
-        worse = sum(per[k][s] > per["C"][s] for s in common)
+        worse = int(sum(per[k][s] > per["C"][s] for s in common))   # np.bool_ 求和会得 int64，JSON 写不出去
         p_sign = binom_test(worse, len(common)) if common else float("nan")
         ok_gap = med[k] > med["C"] + DELTA
         ok_sign = p_sign < 0.05 and worse > len(common) / 2
