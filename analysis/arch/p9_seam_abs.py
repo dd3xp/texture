@@ -189,7 +189,8 @@ def run(root, out_path):
     got_counts = {}
     for s in sizes.values():
         got_counts.update(s["counts"])
-    op4 = {k: got_counts.get("%s_%s" % k) == v for k, v in EXPECT_COUNT.items()}
+    # ⚠ 键必须是 str：tuple 键会让 json.dump 崩在落盘那一步（首跑踩到，只改序列化、判据一字未动）
+    op4 = {"%s_%s" % k: got_counts.get("%s_%s" % k) == v for k, v in EXPECT_COUNT.items()}
     ts = summarize([seam(t) for t in two_sided_tiles()])
     op5 = (abs(ts["median_signed"] - 1.0) <= OP5_SIGNED_TOL
            and ts["median_abs_dev"] >= OP5_ABS_MIN)
