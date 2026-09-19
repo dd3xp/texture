@@ -1,0 +1,297 @@
+{
+ "panel_wh": [
+  192,
+  392
+ ],
+ "geometry": [
+  {
+   "size": 16,
+   "mag_single": 12.0,
+   "mag_tiled": 4.0,
+   "single_integer": true,
+   "tiled_integer": true,
+   "single_runs": [
+    12
+   ],
+   "tiled_runs": [
+    4
+   ],
+   "texel_area_single_px": 144.0,
+   "texel_area_ratio_vs16": 1.0
+  },
+  {
+   "size": 24,
+   "mag_single": 8.0,
+   "mag_tiled": 2.6666666666666665,
+   "single_integer": true,
+   "tiled_integer": false,
+   "single_runs": [
+    8
+   ],
+   "tiled_runs": [
+    2,
+    3
+   ],
+   "texel_area_single_px": 64.0,
+   "texel_area_ratio_vs16": 0.4444444444444444
+  },
+  {
+   "size": 32,
+   "mag_single": 6.0,
+   "mag_tiled": 2.0,
+   "single_integer": true,
+   "tiled_integer": true,
+   "single_runs": [
+    6
+   ],
+   "tiled_runs": [
+    2
+   ],
+   "texel_area_single_px": 36.0,
+   "texel_area_ratio_vs16": 0.25
+  }
+ ],
+ "render_check": [
+  {
+   "size": 16,
+   "panel_wh": [
+    192,
+    392
+   ],
+   "measured_runs": [
+    12
+   ],
+   "n_runs": 16,
+   "measured_runs_tiled": [
+    4
+   ],
+   "n_runs_tiled": 48
+  },
+  {
+   "size": 24,
+   "panel_wh": [
+    192,
+    392
+   ],
+   "measured_runs": [
+    8
+   ],
+   "n_runs": 24,
+   "measured_runs_tiled": [
+    2,
+    3
+   ],
+   "n_runs_tiled": 72
+  },
+  {
+   "size": 32,
+   "panel_wh": [
+    192,
+    392
+   ],
+   "measured_runs": [
+    6
+   ],
+   "n_runs": 32,
+   "measured_runs_tiled": [
+    2
+   ],
+   "n_runs_tiled": 96
+  }
+ ],
+ "pages": [
+  {
+   "page": "study_ab.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_ab60.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_ab60_v2.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_crop.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_crop_v2.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_h32.html",
+   "css_box": [
+    288,
+    588
+   ],
+   "img_wh": [
+    192,
+    392
+   ],
+   "scale_x": 1.5,
+   "scale_y": 1.5,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_h32_v2.html",
+   "css_box": [
+    288,
+    588
+   ],
+   "img_wh": [
+    192,
+    392
+   ],
+   "scale_x": 1.5,
+   "scale_y": 1.5,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_prior.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_seam.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    384,
+    384
+   ],
+   "scale_x": 0.8333333333333334,
+   "scale_y": 0.8333333333333334,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_spread.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    24,
+    24
+   ],
+   "scale_x": 13.333333333333334,
+   "scale_y": 13.333333333333334,
+   "aspect_distortion": 1.0
+  },
+  {
+   "page": "study_spread_v2.html",
+   "css_box": [
+    320,
+    320
+   ],
+   "img_wh": [
+    16,
+    16
+   ],
+   "scale_x": 20.0,
+   "scale_y": 20.0,
+   "aspect_distortion": 1.0
+  }
+ ],
+ "resolve_by_size_all_arms": {
+  "16": {
+   "n_arms": 31,
+   "mean": 0.7277932651321397
+  },
+  "24": {
+   "n_arms": 2,
+   "mean": 0.7279411764705882
+  },
+  "32": {
+   "n_arms": 13,
+   "mean": 0.6689038698079289
+  }
+ },
+ "resolve_cross_size_families": {
+  "B2_vs_B3": {
+   "16": 0.75,
+   "32": 0.75
+  },
+  "B7_vs_B3": {
+   "16": 0.8333333333333334,
+   "32": 0.5833333333333334
+  },
+  "TRD_vs_B2": {
+   "16": 0.7150735294117647,
+   "24": 0.6911764705882353,
+   "32": 0.7426470588235294
+  },
+  "TRD_vs_B3": {
+   "16": 0.9166666666666667,
+   "32": 1.0
+  },
+  "TRD_vs_B7": {
+   "16": 0.7647058823529411,
+   "24": 0.7647058823529411,
+   "32": 0.6911764705882353
+  }
+ },
+ "n_judge_arms": 46
+}
