@@ -1,0 +1,171 @@
+{
+ "dir": "remote_tmp/p8",
+ "n_materials": 125,
+ "op1_published_column": {
+  "C": {
+   "published": 1.0015969657650463,
+   "rgb_first": 1.0015969657650463,
+   "gray_first": 1.0015969657650465,
+   "rgb_matches": true,
+   "gray_matches": false
+  },
+  "A1": {
+   "published": 0.9937946596464838,
+   "rgb_first": 0.9937946596464838,
+   "gray_first": 0.9901103955841767,
+   "rgb_matches": true,
+   "gray_matches": false
+  },
+  "A2": {
+   "published": 0.9955895008605853,
+   "rgb_first": 0.9955895008605853,
+   "gray_first": 0.9988808058198098,
+   "rgb_matches": true,
+   "gray_matches": false
+  },
+  "A3": {
+   "published": 1.1194029850746268,
+   "rgb_first": 1.1194029850746268,
+   "gray_first": 1.1194029850746268,
+   "rgb_matches": true,
+   "gray_matches": true
+  }
+ },
+ "rgb_first_is_published_calibration": true,
+ "grid": {
+  "rgb_first": {
+   "median_C": 0.22537634408602158,
+   "rows": {
+    "A1": {
+     "median_dev": 0.09289491837203967,
+     "gap_vs_C": -0.13248142571398192,
+     "gap_over_margin": false,
+     "worse_than_C": 44,
+     "n_paired": 125,
+     "p_sign": 0.001192497220522465,
+     "meets_criterion1": false
+    },
+    "A2": {
+     "median_dev": 0.14815271315440792,
+     "gap_vs_C": -0.07722363093161366,
+     "gap_over_margin": false,
+     "worse_than_C": 46,
+     "n_paired": 125,
+     "p_sign": 0.0022264883473202437,
+     "meets_criterion1": false
+    },
+    "A3": {
+     "median_dev": 0.21874350626861538,
+     "gap_vs_C": -0.006632837817406201,
+     "gap_over_margin": false,
+     "worse_than_C": 66,
+     "n_paired": 125,
+     "p_sign": 0.47442157344095126,
+     "meets_criterion1": false
+    }
+   },
+   "verdict_if_this_cell": "BIAS_NULL"
+  },
+  "rgb_med2": {
+   "median_C": 0.21134011422038307,
+   "rows": {
+    "A1": {
+     "median_dev": 0.126630652482272,
+     "gap_vs_C": -0.08470946173811106,
+     "gap_over_margin": false,
+     "worse_than_C": 37,
+     "n_paired": 125,
+     "p_sign": 2.3655419809308213e-06,
+     "meets_criterion1": false
+    },
+    "A2": {
+     "median_dev": 0.17617063550071432,
+     "gap_vs_C": -0.035169478719668745,
+     "gap_over_margin": false,
+     "worse_than_C": 47,
+     "n_paired": 125,
+     "p_sign": 0.004024733785229424,
+     "meets_criterion1": false
+    },
+    "A3": {
+     "median_dev": 0.25824741618086516,
+     "gap_vs_C": 0.046907301960482095,
+     "gap_over_margin": false,
+     "worse_than_C": 81,
+     "n_paired": 125,
+     "p_sign": 0.001192497220522465,
+     "meets_criterion1": false
+    }
+   },
+   "verdict_if_this_cell": "BIAS_NULL"
+  },
+  "gray_first": {
+   "median_C": 0.22913505311077365,
+   "rows": {
+    "A1": {
+     "median_dev": 0.09289491837203945,
+     "gap_vs_C": -0.1362401347387342,
+     "gap_over_margin": false,
+     "worse_than_C": 44,
+     "n_paired": 125,
+     "p_sign": 0.001192497220522465,
+     "meets_criterion1": false
+    },
+    "A2": {
+     "median_dev": 0.14915010773282256,
+     "gap_vs_C": -0.07998494537795109,
+     "gap_over_margin": false,
+     "worse_than_C": 47,
+     "n_paired": 125,
+     "p_sign": 0.004024733785229424,
+     "meets_criterion1": false
+    },
+    "A3": {
+     "median_dev": 0.22320612832946796,
+     "gap_vs_C": -0.005928924781305689,
+     "gap_over_margin": false,
+     "worse_than_C": 67,
+     "n_paired": 125,
+     "p_sign": 0.47442157344095126,
+     "meets_criterion1": false
+    }
+   },
+   "verdict_if_this_cell": "BIAS_NULL"
+  },
+  "gray_med2": {
+   "median_C": 0.22612752445681028,
+   "rows": {
+    "A1": {
+     "median_dev": 0.1312574754360426,
+     "gap_vs_C": -0.09487004902076768,
+     "gap_over_margin": false,
+     "worse_than_C": 38,
+     "n_paired": 125,
+     "p_sign": 1.3863036120401223e-05,
+     "meets_criterion1": false
+    },
+    "A2": {
+     "median_dev": 0.18030555476053012,
+     "gap_vs_C": -0.04582196969628016,
+     "gap_over_margin": false,
+     "worse_than_C": 48,
+     "n_paired": 125,
+     "p_sign": 0.007047316542566132,
+     "meets_criterion1": false
+    },
+    "A3": {
+     "median_dev": 0.2633056562618486,
+     "gap_vs_C": 0.03717813180503832,
+     "gap_over_margin": false,
+     "worse_than_C": 83,
+     "n_paired": 125,
+     "p_sign": 0.0003098218683780197,
+     "meets_criterion1": false
+    }
+   },
+   "verdict_if_this_cell": "BIAS_NULL"
+  }
+ },
+ "verdict_same_in_all_cells": true,
+ "note": "diagnostic only; the published (P8) verdict BIAS_NULL is not re-read here"
+}

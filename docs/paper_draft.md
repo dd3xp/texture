@@ -27,7 +27,7 @@
 > parallel, places a parameter-free toroidal relative attention bias on the grid, and
 > conditions on palettes retrieved from a memory of artist palettes. Ablating that bias
 > costs 18.5 KID, and replacing its periodic encoding with non-periodic features of
-> identical parameter count still costs 7.6, so what carries the model is the periodic
+> identical parameter count still costs 7.5, so what carries the model is the periodic
 > form itself; tileability, by contrast, is carried by cyclic-shift augmentation on tiles
 > that are themselves tileable. Against render-and-downsample pipelines, a same-data pixel-space diffusion
 > baseline, a published score-distillation pixel-art method, and direct retrieval of artist
@@ -50,7 +50,7 @@
 且因为要平铺使用所以必须在自己的环绕边界上保持连续。我们研究"只给材质名与区域颜色，把一块纯色区域
 画成可平铺像素材质"这个任务，并且**在目标分辨率上原生生成**，而不是渲染大图再降采样。模型并行解码
 调色板索引与亮度秩两路 token，在网格上加一个**不增加参数**的环面相对注意力偏置，并以从艺术家调色板库
-检索到的调色板作为条件。去掉该偏置 KID 掉 18.5，把它的周期编码换成**同参数量**的非周期编码仍掉 7.6，
+检索到的调色板作为条件。去掉该偏置 KID 掉 18.5，把它的周期编码换成**同参数量**的非周期编码仍掉 7.5，
 ⇒ 承重的是**周期形式本身**；而可平铺性则由**循环平移增广 + 本身可平铺的训练数据**承载。对照渲染降采样管线、同数据像素空间扩散、已发表的分数蒸馏像素画方法、
 以及直接检索艺术家瓦片，我们的 16×16 产物在去偏两两判官下被偏好 [待补]，而成本是秒级而非 GPU 小时级。
 要让这些比较有意义，先得修尺子：我们指出渲染降采样基线**仅因画布更大**就白拿结构增益、一个被广泛使用的
