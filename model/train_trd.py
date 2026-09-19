@@ -128,12 +128,12 @@ def to_tensors(samples, cb, n_codes, text_index, text_emb):
             "tix": torch.from_numpy(tix)}                 # (M41) 训练侧 CLIP 目标按材质取文本嵌入
 
 
-def augment(grid):
+def augment(grid, roll: bool = True):
     """循环平移（每样本独立）+ 水平翻转。纹理可平铺，任意循环平移都是合法样本。"""
     B, N, _ = grid.shape
     dv = grid.device
-    dy = torch.randint(0, N, (B,), device=dv)
-    dx = torch.randint(0, N, (B,), device=dv)
+    dy = torch.randint(0, N, (B,), device=dv) if roll else torch.zeros(B, dtype=torch.long, device=dv)
+    dx = torch.randint(0, N, (B,), device=dv) if roll else torch.zeros(B, dtype=torch.long, device=dv)
     ar = torch.arange(N, device=dv)
     rows = (ar[None] - dy[:, None]) % N
     cols = (ar[None] - dx[:, None]) % N
@@ -176,7 +176,8 @@ def model_from_args(a, drop=None):
                n_exemplars=int(g("n_ex", 0) or 0), n_domains=int(g("n_domains", 2)) if g("domain", False) else 0,
                coarse=bool(g("coarse", False)), bias_cells=tuple(g("bias_cells", ()) or ()),
                bias_size_cond=bool(g("bias_size_cond", False)),
-               bias_pix=tuple(g("bias_pix", ()) or ()))
+               bias_pix=tuple(g("bias_pix", ()) or ()),
+               bias_wrap=str(g("bias_wrap", "torus")), bias_off=bool(g("bias_off", False)))
 
 
 @torch.no_grad()
@@ -282,6 +283,10 @@ def main():
                          "用的还是同一批干净许可数据，不引入新来源。")
     ap.add_argument("--bias_freqs", type=int, default=1, help="v1=1；v2=8（见 trd.ToroidalBias）")
     ap.add_argument("--bias_hidden", type=int, default=64)
+    ap.add_argument("--bias_wrap", default="torus", choices=["torus", "none", "broken"],
+                    help="(P8) 偏置里环面折回的方式；默认 torus = 旧行为逐位不变")
+    ap.add_argument("--bias_off", action="store_true", help="(P8) 整块网格-网格偏置置零")
+    ap.add_argument("--no_roll", action="store_true", help="(P8) 关掉训练增广里的循环平移（翻转保留）")
     ap.add_argument("--bias_cells", type=float, nargs="*", default=[],
                     help="位置偏置额外加 exp(-|d_cells|/s) 的格子单位局部性特征（空=不加，行为与旧检查点一致）。"
                          "见 trd.ToroidalBias 与 analysis/arch/scale_prior.py：真人瓦片的相关长度按格子对齐、"
@@ -463,7 +468,7 @@ def main():
         idx = idx.to(dev)
         g = D["grid"][idx]
         if train_mode:
-            g = augment(g)
+            g = augment(g, roll=not a.no_roll)
         if tile2:
             # --p_tile16：16px 真人瓦片 2×2 平铺 → 构造上合法的 32px 可平铺纹理（周期 16）。
             # 秩索引/调色板/色数/材质名/颜色直方图与源瓦片逐位相同，只有网格变大；

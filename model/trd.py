@@ -35,7 +35,7 @@ class ToroidalBias(nn.Module):
     """每个头一张注意力偏置：网格-网格由环面归一化偏移经 MLP 给出；其余块为可学标量。"""
 
     def __init__(self, heads: int, hidden: int = 64, freqs: int = 1, cell_scales=(), size_cond: bool = False,
-                 pix_periods=()):
+                 pix_periods=(), wrap: str = "torus"):
         """freqs：环面偏移用几个谐波的 sin/cos 编码。
 
         v1 只用基频（freqs=1）。**这是 v1 结构学不出来的设计缺陷**：模型里没有绝对位置，
@@ -155,6 +155,8 @@ class ToroidalBias(nn.Module):
         super().__init__()
         self.heads = heads
         self.freqs = freqs
+        self.wrap = wrap                      # (P8) torus | none | broken，默认 torus = 旧行为
+        self.off = False                     # (P8) True = 整块 grid-grid 偏置置零
         self.cell_scales = tuple(float(s) for s in cell_scales)
         self.pix_periods = tuple(float(p) for p in pix_periods)
         self.mlp = nn.Sequential(nn.Linear(4 * freqs + 2 * len(self.cell_scales) + 4 * len(self.pix_periods), hidden),
@@ -180,20 +182,39 @@ class ToroidalBias(nn.Module):
 
     def grid_offsets(self, n, device, m=None):
         m = int(m) if m else n
-        key = (n, m, str(device))
+        key = (n, m, str(device), self.wrap)     # (P8) wrap 进缓存键，否则换模式会命中旧表
         if key not in self._cache:
             ys, xs = torch.meshgrid(torch.arange(n), torch.arange(n), indexing="ij")
             ys, xs = ys.flatten().float(), xs.flatten().float()
             dy = (ys[:, None] - ys[None, :]) / n
             dx = (xs[:, None] - xs[None, :]) / n
-            dy = (dy + 0.5) % 1.0 - 0.5          # 折回环面 [-0.5, 0.5)
-            dx = (dx + 0.5) % 1.0 - 0.5
+            # (P8) wrap 模式：默认 torus = 折回环面 [-0.5,0.5)，与旧代码逐位相同。
+            #   none    = 不折回（普通相对偏置，参数量一模一样）；
+            #   broken  = 按错误的周期 1.3n 折回（构造性保证被故意打破，参数量不变）。
+            if self.wrap == "torus":
+                dy = (dy + 0.5) % 1.0 - 0.5
+                dx = (dx + 0.5) % 1.0 - 0.5
+            elif self.wrap == "broken":
+                P_ = 1.3
+                dy = (dy + P_ / 2) % P_ - P_ / 2
+                dx = (dx + P_ / 2) % P_ - P_ / 2
+            elif self.wrap != "none":
+                raise ValueError(f"未知 wrap 模式：{self.wrap}")
             cy, cx = (dy * n).abs(), (dx * n).abs()     # 环绕后的格子距离：按 n 算，与 m 无关
             uy, ux = dy * (n / m), dx * (n / m)         # m=n（默认）时乘的是 1.0，逐位等于旧的 dy/dx
             # 用各次谐波的 sin/cos 编码周期偏移：天然满足环面连续性，且能表达任意周期
             f = torch.arange(1, self.freqs + 1).float()
-            ay, ax = 2 * math.pi * uy[..., None] * f, 2 * math.pi * ux[..., None] * f
-            feat = torch.cat([ay.sin(), ay.cos(), ax.sin(), ax.cos()], -1)
+            if self.wrap == "none":
+                # (P8) **非环面对照**：自检发现"只去掉折回"改不动任何东西——sin/cos(2πf·d) 本身就以 1 为周期，
+                # 折回那一步在数学上是多余的。⇒ 可平铺性来自**谐波编码**，不是来自折回。
+                # 所以非环面臂必须换编码：用**非周期**的幂特征（偶次项给对称性、奇次项给方向），
+                # 维数与谐波编码逐位相同（4*freqs）→ 参数量、MLP 结构一个字不变。
+                ky = torch.stack([uy ** k for k in range(1, self.freqs + 1)], -1)
+                kx = torch.stack([ux ** k for k in range(1, self.freqs + 1)], -1)
+                feat = torch.cat([ky, ky.abs(), kx, kx.abs()], -1)
+            else:
+                ay, ax = 2 * math.pi * uy[..., None] * f, 2 * math.pi * ux[..., None] * f
+                feat = torch.cat([ay.sin(), ay.cos(), ax.sin(), ax.cos()], -1)
             if self.cell_scales:            # 格子单位的局部性：d/n 乘回 n 就是环绕后的格子距离
                 s = torch.tensor(self.cell_scales).view(*([1] * cy.dim()), -1)
                 feat = torch.cat([feat, (-cy[..., None] / s).exp(), (-cx[..., None] / s).exp()], -1)
@@ -221,7 +242,7 @@ class ToroidalBias(nn.Module):
         bias[:, :P, :P] = self.pal_pal
         bias[:, :P, P:] = self.pal_grid[:, None, None]
         bias[:, P:, :P] = self.grid_pal[:, None, None]
-        bias[:, P:, P:] = g
+        bias[:, P:, P:] = torch.zeros_like(g) if self.off else g
         return bias
 
 
@@ -261,7 +282,7 @@ class TRD(nn.Module):
                  heads: int = 6, drop: float = 0.1, bias_freqs: int = 1, level_emb: bool = False,
                  bias_hidden: int = 64, ref_dim: int = 0, align_cond: bool = False, n_exemplars: int = 0,
                  n_domains: int = 0, critic: bool = False, coarse: bool = False, bias_cells=(),
-                 bias_size_cond: bool = False, bias_pix=()):
+                 bias_size_cond: bool = False, bias_pix=(), bias_wrap: str = "torus", bias_off: bool = False):
         super().__init__()
         self.n_codes = n_codes
         self.PAL_MASK, self.PAL_PAD = n_codes, n_codes + 1
@@ -302,7 +323,8 @@ class TRD(nn.Module):
         else:
             self.ex_proj = None
         self.bias = ToroidalBias(heads, hidden=bias_hidden, freqs=bias_freqs, cell_scales=bias_cells,
-                                 size_cond=bias_size_cond, pix_periods=bias_pix)
+                                 size_cond=bias_size_cond, pix_periods=bias_pix, wrap=bias_wrap)
+        self.bias.off = bool(bias_off)
         # 归一化色阶嵌入：秩 r 在 k 色瓦片里的相对亮度位置 round(15 r/(k-1))。
         # 单纯的秩记号含义随 k 变（k=3 的"秩 2"是最亮，k=16 的"秩 2"很暗），
         # 同样的结构换个 k 就是完全不同的记号；加上它，"最亮/最暗"跨 k 共享。
