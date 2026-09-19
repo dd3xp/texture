@@ -55,6 +55,28 @@
 `eval/judge_pairs.py:panel`（**import，一字未改**）⇒ 人与 VLM 判官看到的是**同一种刺激**
 （192px 最近邻单张 + 下方 3×3 平铺），两台仪器的差异不会被"图不一样"污染。
 
+--- 补注 (M74)：显示几何修正（**在采集任何数据之前**提交，只改显示、判据一个字未动）---
+
+`analysis/arch/m74_panel_geometry.py` 量出：共用模板 `task_template.html` 的
+`img{width:320px;height:320px}` 是**按方形图写的**——此前七张标注页喂进去的都是方图
+（16×16 / 24×24 / 384×384，实测纵横比畸变恰好 **1.000**），唯独本页喂的是 `panel()` 的
+**192×392 竖长面板** ⇒ 横向拉 320/192、纵向压 320/392 ⇒ **纵横比畸变 392/192 ≈ 2.042**，
+方形纹素被显示成约 2:1 的扁矩形。
+
+⇒ 本文件只给**自己这一页**把显示框换成**等比**的 288×588（= 192×392 的 1.5 倍，整数、
+每个纹素恰好 9×9 显示像素）。⛔ 不动共用模板（其余构建器喂的是方图，现状正确）、
+⛔ 不动 `eval/judge_pairs.py:panel`（活件；47 条已发表判官臂靠它逐字不变才可比）、
+⛔ 不动上面任何一条判据 / 作废条件 / 抽样 / 随机种子。
+⚠ 这不是"改了刺激"：VLM 判官拿到的一直是未畸变的 192×392 PNG，本修正是把**人这一侧
+恢复**到上面登记的"同一种刺激"，不是偏离它。
+⚠ 验钥比的是面板字节、与 CSS 无关 ⇒ 不受影响，但修完必须重跑一次（实测仍 360/360、0 对不上）。
+⚠⚠ **只改本文件不够**：真正发给人的是两序页 `study_h32_v2.html`，而
+`build_paired_orders.py:emit` 是**从模板重建**的 ⇒ 第一次修完 v2 仍读 2.042。
+那个文件自己的注释早就写过同一个坑（问题句被静默还原成模板默认，`study_spread` 上抓到过）
+⇒ 按它既有的"从源页继承"写法补上显示框的继承（**对喂方图的页面逐字节无变化**，
+其 `--selftest` 13→28 项与两条反向测试全过）。⚑ 可迁移：**「从模板重建」的下游构建器，
+会把上游每一处逐页定制静默还原；同一个坑在同一个文件里第二次发生。**
+
 跑法（纯本地，零 GPU 零 API）：
     python analysis/annotate/build_study_h32.py                 # 抽样 90 对
     python analysis/annotate/build_study_h32.py --n 0           # 全量 272 对
@@ -184,6 +206,11 @@ def main():
 
     tpl = (Path(__file__).parent / "task_template.html").read_text(encoding="utf-8")
     assert "__ITEMS__" in tpl and "MIN_MS" in tpl and "r.pair" in tpl, "模板缺件"
+    # 补注 (M74)：只给本页把 CSS 显示框换成等比的 288×588（= 192×392 的 1.5 倍）。
+    # 共用模板一个字不动（其余构建器喂的是方图，320×320 对它们是正确的）。
+    old_box, new_box = "img{width:320px;height:320px", "img{width:288px;height:588px"
+    assert tpl.count(old_box) == 1, f"模板显示框不是预期的那一处：{tpl.count(old_box)}"
+    tpl = tpl.replace(old_box, new_box)
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(tpl.replace("__ITEMS__", json.dumps(items, ensure_ascii=False)),
                      encoding="utf-8")

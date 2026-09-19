@@ -195,6 +195,20 @@ def emit(out_items, dest: Path, src: Path):
         print(f"  question carried over from source: {src_h1.group(1)}")
     assert re.search(r"<h1>([^<]*)</h1>", tpl).group(1) == (
         src_h1.group(1) if src_h1 else tpl_h1.group(1)), "question not carried over"
+    # Same failure mode as the question above, for the display box: (M74) found the
+    # template's img{width:320px;height:320px} is written for square images, so the
+    # 192x392 panel of study_h32 gets a 2.042x aspect distortion. build_study_h32.py
+    # fixes that on its own page; rebuilding from the template alone would silently
+    # revert it. Carrying the source's box over is a no-op for every square-fed page.
+    box = r"img\{width:(\d+)px;height:(\d+)px"
+    src_box = re.search(box, src.read_text(encoding="utf-8"))
+    tpl_box = re.search(box, tpl)
+    if src_box and tpl_box and src_box.group(0) != tpl_box.group(0):
+        tpl = tpl.replace(tpl_box.group(0), src_box.group(0), 1)
+        print(f"  display box carried over from source: "
+              f"{src_box.group(1)}x{src_box.group(2)}")
+    assert not src_box or re.search(box, tpl).group(0) == src_box.group(0), \
+        "display box not carried over"
     assert "MIN_MS" in tpl and "r.pair" in tpl, \
         "template lacks the time gate or the pair column; refusing to build"
     html = tpl.replace("__ITEMS__", json.dumps(out_items, ensure_ascii=False))
