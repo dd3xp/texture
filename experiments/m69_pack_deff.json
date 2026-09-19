@@ -1,0 +1,116 @@
+{
+ "main_16px": {
+  "ops": {
+   "OP1": {
+    "ok": true,
+    "void": "VOID_NO_DATA",
+    "n_ctrl": 28,
+    "n_trt": 28,
+    "n_mat_ctrl": 124,
+    "n_mat_trt": 124,
+    "same_materials": true,
+    "problems": [
+     [],
+     []
+    ]
+   },
+   "OP2": {
+    "ok": true,
+    "void": "VOID_NOT_REPRODUCED",
+    "mean_D": 0.0336053471228311,
+    "published": 0.0336053471228311
+   },
+   "OP3": {
+    "ok": true,
+    "void": "VOID_PACK_MAP",
+    "n_unmapped": 0,
+    "n_packs": 3,
+    "pack_sizes": {
+     "Geraos16__pixel_xt_perfection": 49,
+     "GamingAssociation39__craft_and_ruin": 61,
+     "Sodomon__papercutout": 14
+    }
+   }
+  },
+  "verdict": "PACK_DEFF_SMALL",
+  "n_materials": 124,
+  "mean_D": 0.0336053471228311,
+  "sd_D": 0.28684124039706627,
+  "pack_sizes": {
+   "Geraos16__pixel_xt_perfection": 49,
+   "GamingAssociation39__craft_and_ruin": 61,
+   "Sodomon__papercutout": 14
+  },
+  "inv_hhi_packs": 2.433681544792656,
+  "var_mat": 0.0006675384176109289,
+  "var_pack": 0.000223198543927443,
+  "deff": 0.3343605971417409,
+  "se_mat": 0.025836764844131103,
+  "se_pack": 0.014939830786439416,
+  "ci95_mat": [
+   -0.01703471197166586,
+   0.08424540621732807
+  ],
+  "ci95_pack": [
+   0.004323278781409843,
+   0.06288741546425236
+  ],
+  "v0a_median": 0.5311412042177217,
+  "v0a_p95": 2.472312751112089,
+  "v0a_max": 4.3841092675844875,
+  "v0b_deff": 26.189580328999686,
+  "v0b_shift": 0.5736824807941325,
+  "v0b_pack": "GamingAssociation39__craft_and_ruin"
+ },
+ "registered_only_32px": [
+  {
+   "label": "M60 K=17",
+   "ok": true,
+   "n_materials": 67,
+   "pack_sizes": {
+    "ROllerozxa__mtg_tiled_32x": 66,
+    "hilol__textures__": 1
+   },
+   "deff": 22.892117047092608,
+   "se_mat": 0.0483059246526431,
+   "se_pack": 0.23112311306110134,
+   "note": "2 packs = 1 df; magnitude hint only, NOT a verdict"
+  },
+  {
+   "label": "M62 K=28",
+   "ok": true,
+   "n_materials": 67,
+   "pack_sizes": {
+    "ROllerozxa__mtg_tiled_32x": 66,
+    "hilol__textures__": 1
+   },
+   "deff": 0.28162449724846295,
+   "se_mat": 0.05422059997926229,
+   "se_pack": 0.02877395325187623,
+   "note": "2 packs = 1 df; magnitude hint only, NOT a verdict"
+  }
+ ],
+ "vmat32_projection": {
+  "targets_now": 74,
+  "targets_new": 113,
+  "n_mat_now": 67,
+  "n_mat_new": 106,
+  "packs_now": {
+   "ROllerozxa__mtg_tiled_32x": 66,
+   "hilol__textures__": 8
+  },
+  "packs_new": {
+   "ROllerozxa__mtg_tiled_32x": 83,
+   "hilol__textures__": 8,
+   "Winter94__wintercore_dwemer": 22
+  },
+  "inv_hhi_now": 1.238914027149321,
+  "inv_hhi_new": 1.716955761731881,
+  "gain_eff_n_by_hhi": 1.3858554541371284,
+  "gain_eff_n_rho0": 1.5820895522388059,
+  "gain_eff_n_rho1": 1.5,
+  "se_gain_rho0": 1.2578114136224101,
+  "se_gain_rho1": 1.224744871391589,
+  "se_gain_by_hhi": 1.1772236211260494
+ }
+}
