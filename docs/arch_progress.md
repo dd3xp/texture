@@ -14546,3 +14546,79 @@ C 臂 **250 张 PNG 正确聚成 125 个材质**（`--n 2` ⇒ 每材质两张�
    并重新同步 `remote_tmp/runs/`；
 3. 先 `--dry` 确认四臂 `materials_seen` 各 125、(OP1)–(OP4) 全过，再 `--out experiments/p8_bias.json` 下判决；
 4. 判决后照**等料轮之二第六节的分叉计划**走，⛔ 不许临时改判据。
+
+## 2026-09-19 13:40 UTC+8：(P8) 等料轮之五 —— A1 验进判读器眼里；⚑⚑⚑ 抓到「空跑覆盖率 ≠ 判决路径覆盖率」：判据②那份料 `--dry` 一个字节都没读过
+
+⚠ 本轮**零 GPU、零 API、零训练、零判据改动**；⛔ 没动 `p8_bias_ablation.sh` / `p8_retry.sh` /
+`p8_read_bias.py` / `p8_status.sh` 任何一个字节。⛔ 全程没 `tail` 过 `/tmp/p8*.txt`（只读探针 + 只看键名）。
+
+### 一、场面（05:23 UTC，只读探针 `scripts/p8_status.sh`）
+
+| 臂 | last.pt | 末步 | err | `gen_exp` |
+|----|---------|------|-----|-----------|
+| C  | yes | 12000 | 0 | **250** ✅ |
+| A1 | yes | 12000 | 0 | **250** ✅（补跑器 03:43 起训，如期完） |
+| A2 | yes | 12000 | 0 | **250** ✅ |
+| A3 | yes | **6000**（补跑器 31 分钟前开训，GPU 2，free 28.4G） | 0 | 0 |
+
+⇒ 料仍没齐（A3 训练约 05:54 UTC 完 + 生成 5 分 + `run_eval` ⇒ **≈06:05 UTC ≈ 14:05 UTC+8**）
+⇒ 按纪律**不挂看门狗干等**，本轮做零 GPU 的料核对。
+
+### 二、实做一：把 **A1**（补跑器产出的第一条臂）验进判读器眼里
+
+`scp` A1 的 250 张 PNG 回本机 + 重跑 `sync_remote_tmp.sh`（A1 的 `step_12000.pt` 已随 `runs/` 拉回），
+`--dry`（⚑ 在任何读数之前返回）：
+
+- `materials_seen`：C **125**、A1 **125**、A2 **125**、A3 0 ⇒ **三条臂的料都在判读器眼里**；
+  ⚑ 这正是 (M62)「两臂各验一次」的推广——A1 是**补跑器**这条第三个管道实例的产物，
+  与主脚本产出的 C/A2 不是同一个进程、不是同一张卡；
+- **(OP1)** 仍 `ok=true`、`unexpected_diff={}`，`bias_keys` ＝ C `torus/false`、A1 `torus/**true**`、
+  A2 `**none**/false`、A3 `**broken**/false` ⇒ 「唯一变量只有偏置」在**四臂真 config** 上成立
+  （含 seed/init_from/steps 等全部键逐键相同）；
+- **(OP2)** C/A1/A2 三臂 `step_ckpt=true`、`last_step=12000`、`ok=true`；
+  A3 **`last_pt=true` 而 `step_ckpt=false`、`last_step=6000`、`ok=false`**
+  ⇒ ⚑ 那条「`last.pt` 不能当完成证据」的安全网**第二次在真料上亮灯**（这次是训练中的 A3）；
+- **(OP3)** 两个 `.sh` 的 `gen_trd` 行逐字相同（判读器自己核）。
+
+⇒ 判决时只剩 A3 的料、以及 (OP2)/(OP4) 对 A3 的那一格。
+
+### 三、⚑⚑⚑ 本轮真正的收获：**「料在不在判读器眼里」这条空跑有盲区——它只覆盖 `--dry` 走到的那条路**
+
+判据②（KID 对着 4.76 只登记）的输入是 `run_eval` 写的 `p8_eval_Vmat_16.json`，而
+`p8_read_bias.py:382` 的 `if dry:` **在读那份文件之前就 return** ⇒ **前四轮做的所有 `--dry`
+对判据②的料一个字节都没验过**。两条具体风险都真实存在：
+
+1. **那份 JSON 不在 `sync_remote_tmp.sh` 的白名单里**：`PATHS` 里的模式是 `eval_*Vmat*.json`，
+   要求文件名**以 `eval_` 开头**，而它叫 `p8_eval_Vmat_16.json` ⇒ **自动同步永远拉不回来**
+   （记忆里"新产物命名要落在这个列表里"这条又中一次；⛔ 本轮不加通配符——增量同步
+   `--newer-mtime` 加了也救不了已存在的文件，且判决前那份会被 A3 那轮覆盖成新文件）。
+2. **漏 scp 不会报错**：`load_json` 对缺文件返回 `None` ⇒ `kid_register(None)` 返回 `None`
+   ⇒ `rep["kid_register"]=None`、**退出码 0、判决照样漂亮打印**，判据②静默变成"什么也没测到"。
+   ＝「成功的打印≠数据到手」的第四个入口（前三个：判读器看不到料 / 探针问错机器与格式 / 核对器只比半行）。
+
+本轮把这一格补上，**只看键名、不看任何值**（远程 `python -c` 打印 `sorted(d.keys())`）：
+
+    type dict   top_keys ['B2val', 'p8A2x', 'p8Cx', 'v11dx']
+    row_keys    ['CLIP','FD_DINOv2','FID','KID_std_x1e3','KID_x1e3','LPIPS_div','materials','n','tile_seam_ratio']
+
+⇒ 与 `kid_register` 要的 `rows.get("p8Cx")["KID_x1e3"]` **形状逐键对口**（上一轮只从 `run_eval.py:113`
+**源码**推出这个形状，本轮在**真文件**上核实）；⚑ 当前这份只有 C/A2 两臂 ＝ 补跑器尚未覆盖，符合预期。
+⚑ 另：判读器 selftest 已覆盖 `read == "NO_DATA"` 那一支 ⇒ **唯一没被任何机制挡住的失败模式就是"忘了 scp"**
+⇒ 修法写进下一轮清单（⛔ 不改冻结的判读器、⛔ 不改判据）。
+
+⚑⚑⚑ **可迁移（新）：「料在判读器眼里」要按*判据*逐条验，不是按*臂*逐条验。**
+`--dry` 这种"早退"的查料模式天然只覆盖它自己走到的那段路；**每条判据的输入各是一条独立的路**，
+其中任何一条缺料而判读器有 `None`/`NO_DATA` 分支时，判决都会**照样成功打印**。
+⇒ 空跑之后要补一句自问：**"这个判读器的每一条判据，我都指着它真正要读的那个文件验过一次了吗？"**
+
+### 四、下一轮第一件事（**料齐就判**）
+
+1. `bash scripts/p8_status.sh`（⛔ 别 `tail /tmp/p8*.txt`）看 A3 的 `gen_exp` 是否到 250；
+2. 齐了做**三件** scp，⚠ 第 3 件是本轮新补的、最容易漏：
+   ① `experiments/baselines/p8A3x/16/` → `remote_tmp/p8/p8A3x/16/`（C/A1/A2 已在本机）；
+   ② 重跑 `bash scripts/sync_remote_tmp.sh` 拉 A3 的 `runs/`（含 `step_12000.pt`）；
+   ③ **手动** `scp emnlp:/tmp/p8_eval_Vmat_16.json remote_tmp/p8/` ——
+      ⚠ 自动同步拉不到它（第三节），落地后**先只看键名**确认四个 `p8*x` 键都在，再判；
+3. 先 `--dry` 确认四臂 `materials_seen` 各 125、(OP1)–(OP4) 全过，
+   再 `python analysis/arch/p8_read_bias.py --dir remote_tmp/p8 --out experiments/p8_bias.json` 下判决；
+4. 判决后照**等料轮之二第六节的分叉计划**走，⛔ 不许临时改判据、⛔ 不许因为读数好不好看改口径。
