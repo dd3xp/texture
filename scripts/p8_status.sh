@@ -8,8 +8,10 @@ echo "=== now(UTC) $(date -u +%F_%H:%M) ==="
 for A in C A1 A2 A3; do
   RUN=/tmp/runs/trd_p8${A}_$STAMP
   CK=no; [ -f "$RUN/last.pt" ] && CK=yes
-  STEP=$(grep -c '^step ' /tmp/p8_$A.txt 2>/dev/null || true)
-  LAST=$(grep -o 'step [0-9]*' /tmp/p8_$A.txt 2>/dev/null | tail -n 1 || true)
+  # ⚠ 训练日志是 JSON 行 `{"step": 8000, ...}`，不是 `^step `（旧写法四臂恒报 0 ＝探针瞎了）。
+  # ⚠ 只取 step 号，⛔ 不 tail 原始日志（(M61)：进度与读数混排会泄漏盲判读数）。
+  STEP=$(grep -c '"step":' /tmp/p8_$A.txt 2>/dev/null || true)
+  LAST=$(grep -o '"step": [0-9]*' /tmp/p8_$A.txt 2>/dev/null | tail -n 1 || true)
   ERR=$(grep -ci 'out of memory\|Traceback' /tmp/p8_$A.txt 2>/dev/null || true)
   GEN=$(ls /tmp/gen/p8${A}x/16 2>/dev/null | wc -l)
   GEN2=$(ls experiments/baselines/p8${A}x/16 2>/dev/null | wc -l)
