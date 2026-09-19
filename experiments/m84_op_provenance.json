@@ -1,0 +1,91 @@
+{
+ "provenance": {
+  "OP1": {
+   "moves_with_ctrl": false,
+   "moves_with_trt": false,
+   "reads": "neither"
+  },
+  "V4_nan": {
+   "moves_with_ctrl": false,
+   "moves_with_trt": false,
+   "reads": "neither"
+  },
+  "OP2": {
+   "moves_with_ctrl": false,
+   "moves_with_trt": false,
+   "reads": "neither"
+  },
+  "OP4a_steps": {
+   "moves_with_ctrl": false,
+   "moves_with_trt": false,
+   "reads": "neither"
+  },
+  "OP4b_config": {
+   "moves_with_ctrl": false,
+   "moves_with_trt": false,
+   "reads": "neither"
+  },
+  "OP5_codebook": {
+   "moves_with_ctrl": false,
+   "moves_with_trt": false,
+   "reads": "neither"
+  },
+  "OP3_falsepos": {
+   "moves_with_ctrl": true,
+   "moves_with_trt": false,
+   "reads": "ctrl_only"
+  },
+  "MAIN": {
+   "moves_with_ctrl": true,
+   "moves_with_trt": true,
+   "reads": "both"
+  }
+ },
+ "provenance_meta": {
+  "trt_missing_one_file": "VOID_NO_DATA",
+  "trt_nan": "VOID_NAN",
+  "trt_ref_row_wrong": "VOID_REF_ROW",
+  "trt_last_step_wrong": "VOID_UNDERTRAINED",
+  "trt_codebook_differs": "VOID_DATA_MISMATCH",
+  "trt_config_key_differs": "VOID_CONFIG_DIFF"
+ },
+ "ctrl_only_recomputed": {
+  "n_ctrl": 28,
+  "n_mat": 67,
+  "load_problems": [],
+  "OP3": {
+   "ok": true,
+   "p": 0.7657117144142793,
+   "mean": -0.011588526687133867
+  }
+ },
+ "m75_published_OP3": {
+  "p": 0.7657117144142793,
+  "mean": -0.011588526687133867
+ },
+ "OP3_bit_identical": true,
+ "summary": {
+  "n_checks": 7,
+  "recycled_from_m75_ctrl_only": [
+   "OP3_falsepos"
+  ],
+  "moves_with_trt_readings_values": [],
+  "insensitive_to_reading_values": [
+   "OP1",
+   "V4_nan",
+   "OP2",
+   "OP4a_steps",
+   "OP4b_config",
+   "OP5_codebook"
+  ],
+  "but_fire_on_trt_metadata": [
+   "VOID_CONFIG_DIFF",
+   "VOID_DATA_MISMATCH",
+   "VOID_NAN",
+   "VOID_NO_DATA",
+   "VOID_REF_ROW",
+   "VOID_UNDERTRAINED"
+  ],
+  "note": "六条对读数**数值**不敏感，但逐条能被处理臂**元数据**触发 ⇒ 它们是本臂真·新证据；只有 (OP3) 是 (M75) 旧料复读"
+ }
+}
