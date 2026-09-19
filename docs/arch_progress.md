@@ -16847,3 +16847,80 @@ A3 的符号检验更是在 **p=0.47 与 p=3.1e−4** 之间翻脸 ——
    处理臂 run ＝ `remote_tmp/runs/trd_w384b_09192215`；tag ＝ `m75_w384` / `m84_w384b`。
 4. ⚠ 场上仍是同一个三选一、一件没动：(h) 人工盲比 190 次判断／(M67) 准入门豁免／
    (P8) 摘要那句怎么改 —— 用户已挂起 11 轮。
+
+## 2026-09-20 06:45 UTC+8：(M85) **盲写 (M84) 判读器** —— 料只有一半（处理臂 0/28）时把判据机械化，并逐字空跑判决日那条命令
+
+⚠ 本轮**零 GPU、零 API、零活件改动、零读数**；⛔ 没看过任何 CLIP/`mean_D` 数值
+（唯一进过眼的数字是两条 `config.json` 的键与控制臂 val 末值 6.9526，对 ctrl-vs-trt 携 **0 比特**）。
+
+### 一、训练进度（只读探针，⛔ 没 `tail` 日志）
+
+`bash /tmp/m84_health.sh`（(M61) 教训一：探针带 hostname 守卫、只在远程敲）：
+训练 pid 3905171 ALIVE、6 条进度记录、`oom=0`、`ckpt44000=0`；三条守卫 3905477/3905482/3905488 全 ALIVE；
+处理臂读数 **0/28**。⇒ 料未齐，按 (M41) 纪律**不挂看门狗干等**，本轮做盲期该做的活。
+
+### 二、盲写判读器 `analysis/arch/m84_read_retrain.py`（selftest **55/55**）
+
+`import` 冻结件：`m60_read_scale`（`perm_p`/`sign_test_p`/`load_arm`/`arm_mean`/`sigma1_of`/`mean_sd`
+/`Z80_TWOSIDED`/`N_*`）＋ `m75_read_width`（`load_side_fields`/`read_run`/`cfg_diff_keys`/`rms`
+/`REF_ROW_32`/`STEPS_EXPECT`）⇒ **判据算式一行没重写**。
+判决表、(D1) 标签、七条作废条件的**固定顺序**与 `scripts/m84_w384b.sh` 头部逐条对应，
+与 (M75) 的唯一差别＝ (V2) 许可差异集 `{out,d,heads}` → **`{out, seed}`**。
+
+⚑⚑⚑ **selftest 在见到任何真料之前逼出两件事**（两件都**只改测试、不改判据**）：
+
+1. **反向测试是必需的**：(M75) 的白名单直接搬过来会让 `d`/`heads` 不同**不触发** `VOID_CONFIG_DIFF`
+   —— 本臂恰恰要求这两个键相同。已写死三条反向断言（`d=512`/`heads=8` 必须被抓；
+   `seed`/`out` 不同必须不被抓）。⚑ 与 (M68)「结构检验 ≠ 键检验」同族：
+   **白名单是"许可差异"的清单，换臂时它是最容易被静默搬错的那一项**。
+2. **冻结公式用的是 `rms(D)`（含均值），不是 `sd(D)`** ⇒ 「噪声极小但偏移 +1.5」这种构造
+   判的是 `FROMSCRATCH_TOO_BLUNT` 而不是 `USABLE`。我最初的断言写反了。
+   ⛔ 没有因此改公式（(M62) 实测口径 `2.8016·rms(D)/sqrt(n_mat)` 原样），改的是我的断言；
+   ⚑ 这条对判决的实际含义写在下面第四节的分叉计划里，**先于读数**写死。
+
+### 三、(OP1) 空跑：两臂各验一次，用**正式 `--k 28`**、⛔ 不传 `--out`
+
+    python analysis/arch/m84_read_retrain.py --dir remote_tmp --k 28 \
+           --ctrl_tag m75_w384 --trt_tag m84_w384b --dry
+
+得 `ctrl n=28/28 n_mat=67 problems=0`／`trt n=0/28 problems=28(missing)` ⇒
+**控制臂那条管道确认在判读器眼里**（复用 (M75) 的 28 份，一份没漏）；
+处理臂按 (M75) 纪律③ **首份 JSON 落地后必须再空跑一次**（零份时的空跑证明不了料会落进它眼里）。
+
+⚠⚠ **(M83) 第五节那条教训当场兑现**：判决日的完整命令**逐字**先核一遍。把两条 run 路径
+喂给**冻结的** `read_run`/`cfg_diff_keys`（零 GPU、对 ctrl-vs-trt 携 0 比特）得：
+两侧 `config.json` **各 54 键**、`cfg_diff_keys(allowed={out,seed})` ＝ **`[]`**、
+`seed` ＝ 0/1、`codebook_err` **逐位相同**（(OP5) 的机制预期成立）、控制臂 `log.json` 末步 **44000**、
+处理臂末步 4000（训练中，将为 44000）。⇒ 路径那一层 `runs/` 没写漏、tag 拼得对。
+
+### 四、判决后分叉计划（盲期写死，⛔ 读数出来后不许挑）
+
+沿用 (M62) 可迁移五：**盲期写下的决策规则无法被结果挑选**。
+
+| 读数落点 | 判决 | 下一轮的活（现在就定死） |
+|---|---|---|
+| `MDE_retrain >= 0.1250` | `FROMSCRATCH_TOO_BLUNT` | 今后架构臂**只许**走嵌套续训或每臂复制训练；把这条写进 (M67) 准入门的"形状"一栏 ⇒ 这也意味着 (M75) 那种"两臂各自从零"的探索臂**不该再开**（⛔ 但不重读 (M83) 的判决） |
+| `MDE_retrain < 0.1250` | `FROMSCRATCH_USABLE` | 从零形状可用 ⇒ 尺寸轴若获豁免可按原形状再开；⛔ 仍不许读成"(M75) 的 null 更强" |
+| 任一 VOID | 按标签修料/修配置后**原判据**重跑，⛔ 不改判据 | |
+
+⚠ 两条落点**都不解禁**任何架构臂：三选一原样挂起（(h) 人工盲比 190 次判断／(M67) 准入门豁免／
+(P8) 摘要那句怎么改 —— 用户已挂起 11 轮）。
+
+⚑ 第二节那条"`rms` 含均值"的实际含义（先于读数写死）：本臂真值 D ≡ 0，
+若 `mean_D` 明显偏离 0，它会**同时**推高 `MDE_retrain` 与触发 `SHAM_FIRES`
+⇒ 这两件事同时出现**不是巧合、也不是双重证据**，引用时必须当**一件事**报。
+
+### 五、下一轮第一件事
+
+1. `bash /tmp/m84_health.sh`（⛔ 别在本机敲）。料齐（`json=28/28` + `ckpt44000=1`）就判、⛔ 别等看门狗。
+2. 处理臂首份 JSON 落地后补跑一次 `--dry`（(M75) 纪律③）。
+3. 判决命令（本轮已逐字空跑过路径那一半）：
+
+       python analysis/arch/m84_read_retrain.py --selftest
+       python analysis/arch/m84_read_retrain.py --dir remote_tmp --k 28 \
+           --ctrl_tag m75_w384 --trt_tag m84_w384b \
+           --ctrl_run remote_tmp/runs/trd_w384_09191345 \
+           --trt_run  remote_tmp/runs/trd_w384b_09192215 \
+           --out experiments/m84_retrain.json
+
+4. ⚠ 场上仍是同一个三选一、一件没动。
