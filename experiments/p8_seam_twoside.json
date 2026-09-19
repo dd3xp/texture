@@ -1,0 +1,95 @@
+{
+ "dir": "remote_tmp/p8",
+ "n_materials": 125,
+ "arms": {
+  "C": {
+   "published_caliber_first_tile_rgb": {
+    "n": 125,
+    "median_signed": 1.0015969657650463,
+    "median_abs_dev": 0.22537634408602158,
+    "frac_above_1": 0.52
+   },
+   "all_tiles_rgb": {
+    "n": 250,
+    "median_signed": 1.0002686043000495,
+    "median_abs_dev": 0.20045993558928787,
+    "frac_above_1": 0.504
+   },
+   "all_tiles_gray": {
+    "n": 250,
+    "median_signed": 0.9892818606881668,
+    "median_abs_dev": 0.20607770592360763,
+    "frac_above_1": 0.496
+   },
+   "published_tile_seam_ratio": 1.0015969657650463,
+   "OP_D1_reproduces_published": true
+  },
+  "A1": {
+   "published_caliber_first_tile_rgb": {
+    "n": 125,
+    "median_signed": 0.9937946596464838,
+    "median_abs_dev": 0.09289491837203967,
+    "frac_above_1": 0.48
+   },
+   "all_tiles_rgb": {
+    "n": 250,
+    "median_signed": 0.9940462963235983,
+    "median_abs_dev": 0.11073324505701565,
+    "frac_above_1": 0.488
+   },
+   "all_tiles_gray": {
+    "n": 250,
+    "median_signed": 0.9960794433433231,
+    "median_abs_dev": 0.11126229344465477,
+    "frac_above_1": 0.496
+   },
+   "published_tile_seam_ratio": 0.9937946596464838,
+   "OP_D1_reproduces_published": true
+  },
+  "A2": {
+   "published_caliber_first_tile_rgb": {
+    "n": 125,
+    "median_signed": 0.9955895008605853,
+    "median_abs_dev": 0.14815271315440792,
+    "frac_above_1": 0.488
+   },
+   "all_tiles_rgb": {
+    "n": 250,
+    "median_signed": 1.0129858764090254,
+    "median_abs_dev": 0.14784206550201684,
+    "frac_above_1": 0.52
+   },
+   "all_tiles_gray": {
+    "n": 250,
+    "median_signed": 1.0129858764090254,
+    "median_abs_dev": 0.15440294264318394,
+    "frac_above_1": 0.52
+   },
+   "published_tile_seam_ratio": 0.9955895008605853,
+   "OP_D1_reproduces_published": true
+  },
+  "A3": {
+   "published_caliber_first_tile_rgb": {
+    "n": 125,
+    "median_signed": 1.1194029850746268,
+    "median_abs_dev": 0.21874350626861538,
+    "frac_above_1": 0.656
+   },
+   "all_tiles_rgb": {
+    "n": 250,
+    "median_signed": 1.1464093548690228,
+    "median_abs_dev": 0.2242567216782806,
+    "frac_above_1": 0.692
+   },
+   "all_tiles_gray": {
+    "n": 250,
+    "median_signed": 1.1487951965297465,
+    "median_abs_dev": 0.22920601418521946,
+    "frac_above_1": 0.688
+   },
+   "published_tile_seam_ratio": 1.1194029850746268,
+   "OP_D1_reproduces_published": true
+  }
+ },
+ "OP_D1_all_pass": true
+}

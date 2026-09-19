@@ -1,0 +1,199 @@
+{
+ "dir": "remote_tmp/p8",
+ "runs": "remote_tmp/runs",
+ "stamp": "09190900",
+ "materials_seen": {
+  "C": 125,
+  "A1": 125,
+  "A2": 125,
+  "A3": 125
+ },
+ "op": {
+  "OP1": {
+   "ok": true,
+   "unexpected_diff": {},
+   "bias_keys": {
+    "C": {
+     "bias_wrap": "torus",
+     "bias_off": false
+    },
+    "A1": {
+     "bias_wrap": "torus",
+     "bias_off": true
+    },
+    "A2": {
+     "bias_wrap": "none",
+     "bias_off": false
+    },
+    "A3": {
+     "bias_wrap": "broken",
+     "bias_off": false
+    }
+   }
+  },
+  "OP2": {
+   "C": {
+    "step_ckpt": true,
+    "last_pt": true,
+    "last_step": 12000,
+    "ok": true
+   },
+   "A1": {
+    "step_ckpt": true,
+    "last_pt": true,
+    "last_step": 12000,
+    "ok": true
+   },
+   "A2": {
+    "step_ckpt": true,
+    "last_pt": true,
+    "last_step": 12000,
+    "ok": true
+   },
+   "A3": {
+    "step_ckpt": true,
+    "last_pt": true,
+    "last_step": 12000,
+    "ok": true
+   }
+  },
+  "OP4": {
+   "C": {
+    "materials": 125,
+    "ok": true
+   },
+   "A1": {
+    "materials": 125,
+    "ok": true
+   },
+   "A2": {
+    "materials": 125,
+    "ok": true
+   },
+   "A3": {
+    "materials": 125,
+    "ok": true
+   },
+   "same_slugs": true
+  },
+  "OP3": {
+   "ok": true,
+   "lines": {
+    "scripts/p8_bias_ablation.sh": "--run $RUN --ckpt last.pt --set V_mat --size 16 --bs 8 --n 2 --cfg 1.5 --pal_mode retrieve --xmodal --tag p8${NAME}x",
+    "scripts/p8_retry.sh": "--run $RUN --ckpt last.pt --set V_mat --size 16 --bs 8 --n 2 --cfg 1.5 --pal_mode retrieve --xmodal --tag p8${NAME}x"
+   }
+  }
+ },
+ "op_all_pass": true,
+ "diag": {
+  "C": {
+   "tiles": 250,
+   "nan_tiles": 0,
+   "missing_materials": 0,
+   "materials_with_reading": 125
+  },
+  "A1": {
+   "tiles": 250,
+   "nan_tiles": 0,
+   "missing_materials": 0,
+   "materials_with_reading": 125
+  },
+  "A2": {
+   "tiles": 250,
+   "nan_tiles": 0,
+   "missing_materials": 0,
+   "materials_with_reading": 125
+  },
+  "A3": {
+   "tiles": 250,
+   "nan_tiles": 0,
+   "missing_materials": 0,
+   "materials_with_reading": 125
+  }
+ },
+ "per_arm": {
+  "A1": {
+   "n_paired": 125,
+   "median_arm": 0.1312574754360426,
+   "median_ctrl": 0.22612752445681028,
+   "delta_median": -0.09487004902076768,
+   "worse_by_margin": false,
+   "pos": 38,
+   "neg": 87,
+   "ties": 0,
+   "p_two": 1.3863036120401223e-05,
+   "p_one_sided_worse": 0.9999970834798932,
+   "significant": true,
+   "arm_worse": false,
+   "median_unpaired_arm": 0.1312574754360426,
+   "median_unpaired_ctrl": 0.22612752445681028
+  },
+  "A2": {
+   "n_paired": 125,
+   "median_arm": 0.18030555476053012,
+   "median_ctrl": 0.22612752445681028,
+   "delta_median": -0.04582196969628016,
+   "worse_by_margin": false,
+   "pos": 48,
+   "neg": 77,
+   "ties": 0,
+   "p_two": 0.007047316542566132,
+   "p_one_sided_worse": 0.9964763417287169,
+   "significant": true,
+   "arm_worse": false,
+   "median_unpaired_arm": 0.18030555476053012,
+   "median_unpaired_ctrl": 0.22612752445681028
+  },
+  "A3": {
+   "n_paired": 125,
+   "median_arm": 0.2633056562618486,
+   "median_ctrl": 0.22612752445681028,
+   "delta_median": 0.03717813180503832,
+   "worse_by_margin": false,
+   "pos": 83,
+   "neg": 42,
+   "ties": 0,
+   "p_two": 0.0003098218683780197,
+   "p_one_sided_worse": 0.00015491093418900986,
+   "significant": true,
+   "arm_worse": false,
+   "median_unpaired_arm": 0.2633056562618486,
+   "median_unpaired_ctrl": 0.22612752445681028
+  }
+ },
+ "arms_worse": [],
+ "verdict": "BIAS_NULL",
+ "verdict_if_op_ignored": "BIAS_NULL",
+ "kid_register": {
+  "ctrl_method": "p8Cx",
+  "ctrl_KID": 8.371279665089322,
+  "thr": 4.76,
+  "arms": {
+   "p8A1x": {
+    "KID_x1e3": 26.865373918828485,
+    "delta_vs_ctrl": 18.494094253739163,
+    "read": "WORSE"
+   },
+   "p8A2x": {
+    "KID_x1e3": 15.918916935484798,
+    "delta_vs_ctrl": 7.547637270395477,
+    "read": "WORSE"
+   },
+   "p8A3x": {
+    "KID_x1e3": 7.257693459585983,
+    "delta_vs_ctrl": -1.1135862055033385,
+    "read": "NOTHING_MEASURED"
+   },
+   "B2val": {
+    "KID_x1e3": 24.76927921197634,
+    "delta_vs_ctrl": 16.397999546887018,
+    "read": "WORSE"
+   },
+   "v11dx": {
+    "KID_x1e3": 6.198023515114506,
+    "delta_vs_ctrl": -2.173256149974816,
+    "read": "NOTHING_MEASURED"
+   }
+  }
+ }
+}
