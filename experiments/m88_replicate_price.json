@@ -1,0 +1,269 @@
+{
+ "constants": {
+  "K_BASE": 28,
+  "N_MAT": 67,
+  "TARGET": 0.125,
+  "STEPS": 44000,
+  "Z80_TWOSIDED": 2.801586,
+  "s_per_step": {
+   "d384": 0.296,
+   "d512": 0.406
+  },
+  "min_per_read": {
+   "d384": 9.8,
+   "d512": 10.0
+  },
+  "mem_mib_read": {
+   "d384": 17989,
+   "d512": 22400
+  }
+ },
+ "baseline_price_R1_K28": {
+  "train_h": 8.58,
+  "read_h": 9.24,
+  "gpu_hours": 17.82
+ },
+ "arm": "width",
+ "grid_hypothetical": [
+  {
+   "mde_base_over_target": 1.0,
+   "f": 0.0,
+   "reachable": true,
+   "R": 1,
+   "K": 28,
+   "gpu_hours": 17.82
+  },
+  {
+   "mde_base_over_target": 1.0,
+   "f": 0.3,
+   "reachable": true,
+   "R": 1,
+   "K": 28,
+   "gpu_hours": 17.82
+  },
+  {
+   "mde_base_over_target": 1.0,
+   "f": 0.5,
+   "reachable": true,
+   "R": 1,
+   "K": 28,
+   "gpu_hours": 17.82
+  },
+  {
+   "mde_base_over_target": 1.0,
+   "f": 0.7,
+   "reachable": true,
+   "R": 1,
+   "K": 28,
+   "gpu_hours": 17.82
+  },
+  {
+   "mde_base_over_target": 1.0,
+   "f": 0.85,
+   "reachable": true,
+   "R": 1,
+   "K": 28,
+   "gpu_hours": 17.82
+  },
+  {
+   "mde_base_over_target": 1.0,
+   "f": 1.0,
+   "reachable": true,
+   "R": 1,
+   "K": 8,
+   "gpu_hours": 11.22
+  },
+  {
+   "mde_base_over_target": 1.2,
+   "f": 0.0,
+   "reachable": true,
+   "R": 1,
+   "K": 56,
+   "gpu_hours": 27.06
+  },
+  {
+   "mde_base_over_target": 1.2,
+   "f": 0.3,
+   "reachable": true,
+   "R": 1,
+   "K": 56,
+   "gpu_hours": 27.06
+  },
+  {
+   "mde_base_over_target": 1.2,
+   "f": 0.5,
+   "reachable": true,
+   "R": 1,
+   "K": 56,
+   "gpu_hours": 27.06
+  },
+  {
+   "mde_base_over_target": 1.2,
+   "f": 0.7,
+   "reachable": true,
+   "R": 2,
+   "K": 40,
+   "gpu_hours": 43.56
+  },
+  {
+   "mde_base_over_target": 1.2,
+   "f": 0.85,
+   "reachable": true,
+   "R": 2,
+   "K": 24,
+   "gpu_hours": 33.0
+  },
+  {
+   "mde_base_over_target": 1.2,
+   "f": 1.0,
+   "reachable": true,
+   "R": 2,
+   "K": 8,
+   "gpu_hours": 22.44
+  },
+  {
+   "mde_base_over_target": 1.5,
+   "f": 0.0,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 1.5,
+   "f": 0.3,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 1.5,
+   "f": 0.5,
+   "reachable": true,
+   "R": 4,
+   "K": 56,
+   "gpu_hours": 108.24
+  },
+  {
+   "mde_base_over_target": 1.5,
+   "f": 0.7,
+   "reachable": true,
+   "R": 3,
+   "K": 56,
+   "gpu_hours": 81.18
+  },
+  {
+   "mde_base_over_target": 1.5,
+   "f": 0.85,
+   "reachable": true,
+   "R": 3,
+   "K": 40,
+   "gpu_hours": 65.34
+  },
+  {
+   "mde_base_over_target": 1.5,
+   "f": 1.0,
+   "reachable": true,
+   "R": 3,
+   "K": 8,
+   "gpu_hours": 33.66
+  },
+  {
+   "mde_base_over_target": 2.0,
+   "f": 0.0,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 2.0,
+   "f": 0.3,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 2.0,
+   "f": 0.5,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 2.0,
+   "f": 0.7,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 2.0,
+   "f": 0.85,
+   "reachable": true,
+   "R": 7,
+   "K": 56,
+   "gpu_hours": 189.42
+  },
+  {
+   "mde_base_over_target": 2.0,
+   "f": 1.0,
+   "reachable": true,
+   "R": 4,
+   "K": 8,
+   "gpu_hours": 44.88
+  },
+  {
+   "mde_base_over_target": 3.0,
+   "f": 0.0,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 3.0,
+   "f": 0.3,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 3.0,
+   "f": 0.5,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 3.0,
+   "f": 0.7,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 3.0,
+   "f": 0.85,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  },
+  {
+   "mde_base_over_target": 3.0,
+   "f": 1.0,
+   "reachable": false,
+   "R": null,
+   "K": null,
+   "gpu_hours": null
+  }
+ ]
+}
