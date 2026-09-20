@@ -1,0 +1,147 @@
+{
+ "note": "registration only; no verdict, no criterion changed",
+ "threshold_M84": 0.125,
+ "b_boot": 20000,
+ "boot_seed": 0,
+ "arms": [
+  {
+   "round": "M60",
+   "ok": true,
+   "k": 17,
+   "n_mat": 67,
+   "rms_D": 0.41359106835674286,
+   "mde_point": 0.1415590725441918,
+   "mde_published": 0.1415590725441918,
+   "mde_ci95": [
+    0.11228924456216022,
+    0.16947682096017352
+   ],
+   "rel_halfwidth": 0.20199191535449107,
+   "near_line_vs_0.1250": "NEAR_LINE",
+   "mde_over_threshold": 1.1324725803535345
+  },
+  {
+   "round": "M62",
+   "ok": true,
+   "k": 28,
+   "n_mat": 67,
+   "rms_D": 0.4457008056153529,
+   "mde_point": 0.15254921467667584,
+   "mde_published": 0.15254921467667584,
+   "mde_ci95": [
+    0.11534087125352907,
+    0.18900381423724824
+   ],
+   "rel_halfwidth": 0.24143992854976637,
+   "near_line_vs_0.1250": "NEAR_LINE",
+   "mde_over_threshold": 1.2203937174134067
+  },
+  {
+   "round": "M75",
+   "ok": true,
+   "k": 28,
+   "n_mat": 67,
+   "rms_D": 0.5920911174124055,
+   "mde_point": 0.20265396391553347,
+   "mde_published": 0.2027,
+   "mde_ci95": [
+    0.15838714447047197,
+    0.24629717600069145
+   ],
+   "rel_halfwidth": 0.21689689614672558,
+   "near_line_vs_0.1250": "CLEAR_OF_LINE",
+   "mde_over_threshold": 1.6212317113242678
+  }
+ ],
+ "ops": {
+  "OP1_reproduce_published": [
+   [
+    "M60",
+    true,
+    0.0
+   ],
+   [
+    "M62",
+    true,
+    0.0
+   ],
+   [
+    "M75",
+    true,
+    4.6036084466516414e-05
+   ]
+  ],
+  "OP2_constant_vector_zero_width": [
+   true,
+   0.0
+  ],
+  "OP3_seed_stability_lt_1pct": [
+   [
+    "M60",
+    true,
+    0.002422632207165589
+   ],
+   [
+    "M62",
+    true,
+    0.0018643777667777476
+   ],
+   [
+    "M75",
+    true,
+    0.005616536868790954
+   ]
+  ],
+  "OP4_n_mat_is_67": [
+   [
+    "M60",
+    true,
+    67
+   ],
+   [
+    "M62",
+    true,
+    67
+   ],
+   [
+    "M75",
+    true,
+    67
+   ]
+  ],
+  "OP5_tile4x_halves_width": [
+   [
+    "M60",
+    true,
+    2.0021554332116045
+   ],
+   [
+    "M62",
+    true,
+    2.073662199096786
+   ],
+   [
+    "M75",
+    true,
+    1.9834135090704663
+   ]
+  ]
+ },
+ "ops_all_pass": true,
+ "h_rel_halfwidth_max": 0.24143992854976637,
+ "h_rel_halfwidth_median": 0.21689689614672558,
+ "near_line_band": [
+  0.10068952764071584,
+  0.1551799910687208
+ ],
+ "threshold_side_registered_only": {
+  "source": "experiments/m62_mde_audit.json M60 ci95",
+  "mean_D": 0.12499542587990321,
+  "ci95": [
+   0.025960171496630324,
+   0.2240306802631761
+  ],
+  "rel_halfwidth": 0.7923110280725544,
+  "why_excluded": "0.1250 在 (M84) 里是冻结的目标定义、不是本轮在估计的量；把它算进带会让几乎任何落点都判贴线 = 判据失去内容。这是选择、不是它不成立。"
+ }
+}
