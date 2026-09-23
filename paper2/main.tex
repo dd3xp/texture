@@ -181,9 +181,11 @@ neighbours.}
 
 \paragraph{Pixel art and pixelization.} SD-$\pi$XL~\citep{binninger2024sdpixl}
 optimises a palette-constrained small image per prompt by score
-distillation~\citep{poole2023dreamfusion,rombach2022ldm}, with no region
-channel or wrap-around. Pixelization~\citep{gerstner2012pixelated,wu2022pixelization},
-content-adaptive downscaling~\citep{kopf2013downscaling,oztireli2015downscaling},
+distillation~\citep{poole2023dreamfusion} from a latent diffusion
+model~\citep{rombach2022ldm}, with no region channel or wrap-around.
+Pixelization~\citep{gerstner2012pixelated,wu2022pixelization},
+content-adaptive and perceptual
+downscaling~\citep{kopf2013downscaling,oztireli2015downscaling},
 quantization~\citep{heckbert1982quantization} and dithering~\citep{floyd1976}
 convert a given high-resolution image; none can change how many structural
 units that image contains.
@@ -210,8 +212,9 @@ biases~\citep{shaw2018relative,raffel2020t5,liu2021swin,wu2021irpe} to the
 torus, in the spirit of equivariant architectures~\citep{cohen2016gcnn}.
 
 \paragraph{Judging generative models.} Pairwise VLM
-judges~\citep{zheng2023mtbench} show positional and order-swap
-biases~\citep{wang2024fair,webdevjudge2025,kumar2026rankscore}, and
+judges~\citep{zheng2023mtbench} show positional bias~\citep{wang2024fair},
+order-swap inconsistency~\citep{webdevjudge2025} and unreliable absolute
+scores~\citep{kumar2026rankscore}, and
 distribution metrics~\citep{heusel2017fid,binkowski2018kid,stein2023exposing,oquab2024dinov2}
 were calibrated on natural images at $\geq224$px.
 
