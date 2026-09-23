@@ -113,7 +113,8 @@ comparison a win only when it survives those checks.
   floor on identical pairs is $17.8\%$, far below chance
   (\S\ref{sec:protocol}). Parameter-matched ablations show that both the
   periodic bias and the palette memory are load-bearing: removing either
-  roughly triples KID (\S\ref{sec:ablation}).
+  roughly triples KID, and a pre-registered $2\times2$ confirms that the
+  toroidal bias alone makes tiles seamless (\S\ref{sec:ablation}).
 \end{itemize}
 
 \begin{figure}[t]
@@ -178,65 +179,40 @@ neighbours.}
 \section{Related Work}
 \label{sec:related}
 
-Three research lines meet in this task and, as far as we can tell, rarely cite
-one another.
+\paragraph{Pixel art and pixelization.} SD-$\pi$XL~\citep{binninger2024sdpixl}
+optimises a palette-constrained small image per prompt by score
+distillation~\citep{poole2023dreamfusion,rombach2022ldm}, with no region
+channel or wrap-around. Pixelization~\citep{gerstner2012pixelated,wu2022pixelization},
+content-adaptive downscaling~\citep{kopf2013downscaling,oztireli2015downscaling},
+quantization~\citep{heckbert1982quantization} and dithering~\citep{floyd1976}
+convert a given high-resolution image; none can change how many structural
+units that image contains.
 
-\paragraph{Pixel-art generation and pixelization.} SD-$\pi$XL~\citep{binninger2024sdpixl}
-produces palette-constrained low-resolution images from a text prompt by score
-distillation~\citep{poole2023dreamfusion} from a latent diffusion
-model~\citep{rombach2022ldm}; its first listed contribution is that it works
-at any resolution. It optimises each image separately, has no region channel
-and no notion of wrap-around. Pixelization methods convert an existing
-high-resolution image: \citet{gerstner2012pixelated} jointly optimise a palette
-and a superpixel grid, \citet{wu2022pixelization} learn aliasing-aware,
-cell-controllable pixelization, and content-adaptive or perceptual
-downscaling~\citep{kopf2013downscaling,oztireli2015downscaling} optimises the
-kernel for a given scale factor. Classical palette
-quantization~\citep{heckbert1982quantization} and
-dithering~\citep{floyd1976} are post-processing steps. All of these take the
-high-resolution image as given; for generated sources the binding constraint
-is how many structural units the source contains, which no kernel can change.
+\paragraph{Tileable textures.} Exemplar-based~\citep{efros1999texture,efros2001quilting,gatys2015texture}
+and procedural~\citep{perlin1985,worley1996} synthesis are not
+text-conditioned. Diffusion methods enforce tileability at sampling time by
+circular padding or rolled noise~\citep{zhou2022tilegen,vecchio2024controlmat,madar2025tiled},
+and TexTile~\citep{rodriguezpardo2024textile} learns a tileability metric, all
+at $\geq256$px; our baseline B7 uses the circular-padding recipe.
 
-\paragraph{Tileable texture synthesis.} Non-parametric
-synthesis~\citep{efros1999texture,efros2001quilting} and neural
-statistics~\citep{gatys2015texture} synthesise textures from exemplars;
-procedural noise~\citep{perlin1985,worley1996} is tileable by construction but
-not text-conditioned. Diffusion-based methods enforce tileability at sampling
-time: TileGen~\citep{zhou2022tilegen} and ControlMat~\citep{vecchio2024controlmat}
-use circular padding or rolled noise for materials, and Tiled
-Diffusion~\citep{madar2025tiled} generalises seam-consistent sampling across
-tiles. TexTile~\citep{rodriguezpardo2024textile} proposes a learned
-tileability metric. These works operate at $\geq256$px on photographic
-materials; our same-data diffusion baseline B7 uses the circular-padding
-recipe. At $16$px, our toroidal bias both gives exact shift equivariance and
-is what makes quality possible (\S\ref{sec:ablation}).
-
-\paragraph{Colour-conditioned and retrieval-augmented generation.}
-ColorPeel~\citep{butt2024colorpeel} learns colour prompts that disentangle
-colour from shape, and ControlNet-style adapters~\citep{zhang2023controlnet}
-inject spatial or palette guidance into a frozen model. Retrieval-augmented
+\paragraph{Conditioning and retrieval.} Colour prompts~\citep{butt2024colorpeel},
+adapters~\citep{zhang2023controlnet} and retrieval-augmented
 diffusion~\citep{blattmann2022rdm,sheynin2023knndiffusion,chen2023reimagen}
-conditions generation on nearest neighbours from an external memory. We
-retrieve only palettes, not images, and feed them as known tokens, so the
-structure is always generated.
+condition large generators; we retrieve only palettes and feed them as known
+tokens, so structure is always generated.
 
-\paragraph{Masked and discrete generative models.} MaskGIT~\citep{chang2022maskgit}
-and Muse~\citep{chang2023muse} decode VQ tokens~\citep{vandenoord2017vqvae} in
-parallel with a cosine masking schedule, a special case of absorbing-state
-discrete diffusion~\citep{austin2021d3pm}; Token-Critic~\citep{lezama2022tokencritic},
-MAGE~\citep{li2023mage} and MaskBit~\citep{weber2024maskbit} refine the
-sampler and the tokenizer. Pixel art needs no learned tokenizer: its native
-representation is already discrete. Relative position
-biases~\citep{shaw2018relative,raffel2020t5,liu2021swin,wu2021irpe} are
-standard in vision transformers; we restrict ours to the torus and study
-whether its periodic form is what matters, in the spirit of equivariant
-architectures~\citep{cohen2016gcnn}.
+\paragraph{Masked discrete generation.} MaskGIT~\citep{chang2022maskgit} and
+its successors~\citep{chang2023muse,lezama2022tokencritic,li2023mage,weber2024maskbit}
+decode VQ tokens~\citep{vandenoord2017vqvae} in parallel, a form of discrete
+diffusion~\citep{austin2021d3pm}; pixel art is natively discrete and needs no
+tokenizer. We restrict standard relative position
+biases~\citep{shaw2018relative,raffel2020t5,liu2021swin,wu2021irpe} to the
+torus, in the spirit of equivariant architectures~\citep{cohen2016gcnn}.
 
-\paragraph{Judging generative models.} Pairwise VLM judges are
-common~\citep{zheng2023mtbench}, with documented positional
-bias~\citep{wang2024fair}, order-swap inconsistency~\citep{webdevjudge2025}
-and poor absolute scoring~\citep{kumar2026rankscore}; distribution
-metrics~\citep{heusel2017fid,binkowski2018kid,stein2023exposing,oquab2024dinov2}
+\paragraph{Judging generative models.} Pairwise VLM
+judges~\citep{zheng2023mtbench} show positional and order-swap
+biases~\citep{wang2024fair,webdevjudge2025,kumar2026rankscore}, and
+distribution metrics~\citep{heusel2017fid,binkowski2018kid,stein2023exposing,oquab2024dinov2}
 were calibrated on natural images at $\geq224$px.
 
 % =====================================================================
@@ -688,7 +664,13 @@ floor, while the wrong-period variant, still periodic, is indistinguishable
 ($7.3$). The periodic bias is what lets the model express ``a mortar line
 every four rows'' without absolute coordinates, and it does so while keeping
 the exact shift equivariance of \S\ref{sec:bias}. (A1's low seam deviation
-reflects a structureless bag of tokens, not better tiling.) The remaining components --- exemplars (judge $49.7\%$),
+reflects a structureless bag of tokens, not better tiling.) A pre-registered
+$2\times2$ trained from scratch (periodic or non-periodic bias $\times$ with or
+without random cyclic-shift augmentation, $20$k steps each) shows that this
+equivariance delivers tileability by itself: with the toroidal bias, removing
+the augmentation leaves seam deviation unchanged ($0.173$ vs $0.185$,
+$p=0.72$), whereas removing both raises it to $0.249$ (worse on $81/125$
+materials, $p=0.001$), at no cost in KID. The remaining components --- exemplars (judge $49.7\%$),
 choice temperature ($55.8\%$) and reranking ($\Delta$KID $2.3$) --- stay
 within noise, so the gains come from the two design choices above.
 
@@ -736,14 +718,11 @@ preferred over same-data diffusion, artist retrieval and score distillation,
 and wins the region-colouring task against the strongest pipeline and
 same-data diffusion, with every claim checked against its noise floor. Each
 advantage traces to a design choice: the palette--rank factorisation makes
-colour a first-class input ($\Delta E=3.05$ natively versus $\approx15$ for
-recoloured renders); the toroidal bias gives exact shift equivariance with
-$6.5$k parameters, so no seam post-processing is needed; the palette memory
-supplies the ramps a few thousand tiles cannot teach; and generating the tile
-itself rather than a render to shrink makes it $28\times$ faster than the
-strongest pipeline. None of the three components is tied to one engine or
-to textures: they apply wherever images are small, palette-indexed or
-periodic, from sprites and tile maps to textile patterns.
+colour a first-class input ($\Delta E=3.05$ vs $\approx15$), the toroidal bias
+makes tiles seamless by construction, the palette memory supplies artist
+ramps, and native generation is $28\times$ faster than the strongest
+pipeline. These components apply wherever images are small, palette-indexed
+or periodic, from sprites and tile maps to textile patterns.
 
 % =====================================================================
 \section*{AI Use Statement}
