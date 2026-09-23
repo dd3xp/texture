@@ -212,3 +212,15 @@ remote_tmp/
 !experiments/b3_subset_clip.json
 !experiments/b3_32_clip.json
 !experiments/b3sub.txt
+
+# LaTeX build artefacts and old root-level draft
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+paper2/_pages.png
+/paper_draft.*
+/iclr2027_conference.*
+/references.bib
+experiments/annotate/study_h16.html
