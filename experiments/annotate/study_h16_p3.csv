@@ -1,0 +1,63 @@
+idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
+0,brass block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2436,p073
+1,lapis block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1056,p060
+2,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,1723,s000
+3,hardened clay stained orange,check,0,16px,blur,good,right,good,784,
+4,fence wood,real,0,16px,B2,TRD16c_rr4,left,B2,2622,p074
+5,brass block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1408,p073
+6,baked clay brown,real,0,16px,TRD16c_rr4,B2,right,B2,2649,p078
+7,log spruce,check,0,16px,blur,good,right,good,794,
+8,mineral iron,check,0,16px,good,blur,left,good,895,
+9,planks spruce,real,0,16px,TRD16c_rr4,B2,right,B2,3264,p004
+10,coral skeleton,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2492,p082
+11,terrain dirt,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,830,p081
+12,hardened clay stained cyan,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1503,p046
+13,quartz pillar top,check_same,0,16px,same,same,left,same,1704,s001
+14,warped hyphae wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,986,p076
+15,ctf map damage cobble,check_same,0,16px,same,same,left,same,935,s003
+16,crimson hyphae wood,real,0,16px,B2,TRD16c_rr4,left,B2,745,p039
+17,quartz block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,734,p001
+18,baked clay cyan,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1394,p058
+19,emerald ore,check_same,0,16px,same,same,left,same,927,s002
+20,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1264,p087
+21,deepslate gold ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1843,p033
+22,fence wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1076,p074
+23,baked clay cyan,check,0,16px,good,blur,left,good,1385,
+24,baked clay grey,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1091,p028
+25,log big oak top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3181,p077
+26,log big oak top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1751,p077
+27,bamboo bamboo plank,real,0,16px,TRD16c_rr4,B2,right,B2,1506,p022
+28,grass block top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1223,p055
+29,wool dark green,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,973,p087
+30,baked clay brown,real,0,16px,B2,TRD16c_rr4,left,B2,3224,p078
+31,hardened clay stained cyan,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1311,p046
+32,deepslate gold ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1080,p033
+33,silver sandstone,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3364,p006
+34,copper block raw,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,853,p016
+35,silver sandstone,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1426,p006
+36,terrain sand,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1438,p040
+37,planks birch,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,869,p059
+38,grass path side,check,0,16px,good,blur,left,good,979,
+39,terrain sand,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1636,p040
+40,warped hyphae wood,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2120,p076
+41,mushrooms mushroom block skin stem,real,0,16px,TRD16c_rr4,B2,right,B2,1194,p032
+42,wool magenta,real,0,16px,TRD16c_rr4,B2,right,B2,2134,p005
+43,terrain dirt,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1418,p081
+44,copper block raw,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1539,p016
+45,nether brick,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1940,p067
+46,nether brick,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3051,p067
+47,mushrooms mushroom block skin red,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1950,p010
+48,mushrooms mushroom block skin red,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1839,p010
+49,grass path side,check_same,0,16px,same,same,left,same,2924,s004
+50,quartz block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1294,p001
+51,planks spruce,real,0,16px,B2,TRD16c_rr4,left,B2,1655,p004
+52,mushrooms mushroom block skin stem,real,0,16px,B2,TRD16c_rr4,left,B2,1589,p032
+53,baked clay grey,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1439,p028
+54,coral skeleton,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1261,p082
+55,planks birch,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1228,p059
+56,bamboo bamboo plank,real,0,16px,B2,TRD16c_rr4,left,B2,1027,p022
+57,lapis block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1098,p060
+58,crimson hyphae wood,real,0,16px,TRD16c_rr4,B2,right,B2,1217,p039
+59,grass block top,real,0,16px,B2,TRD16c_rr4,left,B2,1031,p055
+60,baked clay cyan,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,837,p058
+61,wool magenta,real,0,16px,B2,TRD16c_rr4,left,B2,923,p005

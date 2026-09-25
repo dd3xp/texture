@@ -1,0 +1,82 @@
+{
+ "arm_a": "TRD16c_rr4",
+ "arm_b": "B2",
+ "per_set": {
+  "study_h16_p1": {
+   "n_check": 5,
+   "check_wrong": 0,
+   "n_same": 5,
+   "same_tie": 0,
+   "n_pairs": 26,
+   "decided": 22,
+   "inconsistent": 4,
+   "ties": 0,
+   "V1_failed_checks": false,
+   "V3_side_picking_on_identical": true,
+   "voided": true
+  },
+  "study_h16_p2": {
+   "n_check": 5,
+   "check_wrong": 0,
+   "n_same": 5,
+   "same_tie": 0,
+   "n_pairs": 26,
+   "decided": 23,
+   "inconsistent": 3,
+   "ties": 0,
+   "V1_failed_checks": false,
+   "V3_side_picking_on_identical": true,
+   "voided": true
+  },
+  "study_h16_p3": {
+   "n_check": 5,
+   "check_wrong": 0,
+   "n_same": 5,
+   "same_tie": 0,
+   "n_pairs": 26,
+   "decided": 24,
+   "inconsistent": 2,
+   "ties": 0,
+   "V1_failed_checks": false,
+   "V3_side_picking_on_identical": true,
+   "voided": true
+  },
+  "study_h16_p4": {
+   "n_check": 5,
+   "check_wrong": 0,
+   "n_same": 5,
+   "same_tie": 0,
+   "n_pairs": 26,
+   "decided": 24,
+   "inconsistent": 1,
+   "ties": 1,
+   "V1_failed_checks": false,
+   "V3_side_picking_on_identical": true,
+   "voided": true
+  },
+  "study_h16_p5": {
+   "n_check": 5,
+   "check_wrong": 2,
+   "n_same": 5,
+   "same_tie": 0,
+   "n_pairs": 26,
+   "decided": 21,
+   "inconsistent": 2,
+   "ties": 3,
+   "V1_failed_checks": true,
+   "V3_side_picking_on_identical": true,
+   "voided": true
+  }
+ },
+ "sets_alive": [],
+ "pooled_decided": 0,
+ "wins_a": 0,
+ "rate": null,
+ "p": NaN,
+ "jeffreys": [
+  NaN,
+  NaN
+ ],
+ "V2_underpowered": true,
+ "verdict": "VOID_ALL_SETS"
+}

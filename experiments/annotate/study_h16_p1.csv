@@ -1,0 +1,63 @@
+idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
+0,baked clay grey,real,0,16px,TRD16c_rr4,B2,right,B2,13117,p028
+1,granite smooth,real,0,16px,B2,TRD16c_rr4,left,B2,1309,p048
+2,cactus side,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1397,p009
+3,brass block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1877,p073
+4,wool green,real,0,16px,B2,TRD16c_rr4,left,B2,4857,p065
+5,nether brick compressed,real,0,16px,TRD16c_rr4,B2,right,B2,4064,p043
+6,baked clay pink,real,0,16px,B2,TRD16c_rr4,left,B2,2034,p075
+7,wool green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2205,p065
+8,hardened clay stained orange,check,0,16px,blur,good,right,good,909,
+9,deepslate redstone ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1689,p054
+10,crimson hyphae wood,real,0,16px,TRD16c_rr4,B2,right,B2,2047,p039
+11,nether brick,real,0,16px,B2,TRD16c_rr4,left,B2,1769,p067
+12,crying obsidian,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,760,p084
+13,crimson hyphae wood,real,0,16px,B2,TRD16c_rr4,left,B2,3187,p039
+14,nether basalt chiselled side,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1842,p049
+15,desert sand soil,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3059,p038
+16,brass block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1417,p073
+17,baked clay grey,real,0,16px,B2,TRD16c_rr4,left,B2,1893,p028
+18,sandstone brick,real,0,16px,B2,TRD16c_rr4,left,B2,1417,p068
+19,emerald ore,check_same,0,16px,same,same,right,same,1621,s002
+20,copper block raw,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2099,p016
+21,sandstone bottom,real,0,16px,B2,TRD16c_rr4,left,B2,2206,p044
+22,grass path side,check,0,16px,good,blur,left,good,937,
+23,sandstone brick,real,0,16px,TRD16c_rr4,B2,right,B2,3644,p068
+24,desert sand soil,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1413,p038
+25,grass block top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1751,p055
+26,ctf map damage cobble,check_same,0,16px,same,same,right,same,1746,s003
+27,granite smooth,real,0,16px,TRD16c_rr4,B2,right,B2,1933,p048
+28,iron block slab,real,0,16px,B2,TRD16c_rr4,left,B2,1362,p007
+29,sandstone bottom,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2892,p044
+30,baked clay pink,real,0,16px,TRD16c_rr4,B2,right,B2,2879,p075
+31,emerald ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1618,p025
+32,wool dark green,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1390,p087
+33,warped hyphae wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2262,p076
+34,grass block top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1149,p055
+35,redstone ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2771,p002
+36,iron block slab,real,0,16px,TRD16c_rr4,B2,right,B2,1066,p007
+37,mushrooms mushroom block inside,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2042,p031
+38,mushrooms mushroom block skin stem,real,0,16px,TRD16c_rr4,B2,right,B2,2995,p032
+39,nether brick compressed,real,0,16px,B2,TRD16c_rr4,left,B2,1189,p043
+40,nether basalt chiselled side,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3804,p049
+41,nether brick,real,0,16px,TRD16c_rr4,B2,right,B2,1658,p067
+42,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1104,p087
+43,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,1249,s000
+44,crying obsidian,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,736,p084
+45,mushrooms mushroom block skin stem,real,0,16px,B2,TRD16c_rr4,left,B2,1257,p032
+46,coral skeleton,real,0,16px,B2,TRD16c_rr4,left,B2,2274,p082
+47,deepslate redstone ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1918,p054
+48,emerald ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1662,p025
+49,mushrooms mushroom block inside,real,0,16px,B2,TRD16c_rr4,left,B2,2542,p031
+50,log spruce,check,0,16px,blur,good,right,good,751,
+51,desert sandstone brick,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3865,p063
+52,desert sandstone brick,real,0,16px,TRD16c_rr4,B2,right,B2,2873,p063
+53,warped hyphae wood,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1148,p076
+54,copper block raw,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1358,p016
+55,grass path side,check_same,0,16px,same,same,left,same,1705,s004
+56,redstone ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,805,p002
+57,baked clay cyan,check,0,16px,good,blur,left,good,888,
+58,quartz pillar top,check_same,0,16px,same,same,left,same,1024,s001
+59,mineral iron,check,0,16px,good,blur,left,good,1899,
+60,coral skeleton,real,0,16px,TRD16c_rr4,B2,right,B2,1436,p082
+61,cactus side,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1069,p009

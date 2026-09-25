@@ -1,0 +1,63 @@
+idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
+0,tree humus,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3585,p027
+1,quartz pillar top,check_same,0,16px,same,same,left,same,1038,s001
+2,grass path side,check,0,16px,good,blur,left,good,1199,
+3,mineral iron,check,0,16px,good,blur,left,good,1135,
+4,baked clay cyan,check,0,16px,good,blur,left,good,1345,
+5,deepslate cobbled,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1072,p020
+6,copper block raw,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,808,p016
+7,hardened clay stained red,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3520,p069
+8,tree humus,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1563,p027
+9,copper block raw,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3078,p016
+10,nether basalt side,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2724,p019
+11,log spruce,check,0,16px,blur,good,right,good,746,
+12,crimson hyphae wood,real,0,16px,B2,TRD16c_rr4,left,B2,764,p039
+13,pressure plate wood off,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2382,p011
+14,wool dark green,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1283,p087
+15,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1106,p087
+16,nether basalt side,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1512,p019
+17,baked clay grey,real,0,16px,TRD16c_rr4,B2,right,B2,4804,p028
+18,redstone redstone block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3484,p064
+19,crimson hyphae wood,real,0,16px,TRD16c_rr4,B2,right,B2,1877,p039
+20,grass side,real,0,16px,TRD16c_rr4,B2,right,B2,3148,p052
+21,brass block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1408,p073
+22,log spruce,real,0,16px,TRD16c_rr4,B2,right,B2,5360,p014
+23,nether brick,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2037,p067
+24,wool brown,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1392,p072
+25,coral skeleton,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1568,p082
+26,warped hyphae wood,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1345,p076
+27,hardened clay stained orange,check,0,16px,blur,good,right,good,810,
+28,grass block top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1106,p055
+29,wool brown,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2408,p072
+30,coral skeleton,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1013,p082
+31,baked clay grey,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1117,p028
+32,hardened clay stained white,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1116,p070
+33,redstone redstone block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,943,p064
+34,deepslate coal ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1549,p053
+35,ctf map stone red,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2433,p086
+36,pressure plate wood off,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1778,p011
+37,quartz pillar top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,805,p041
+38,hardened clay stained red,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1195,p069
+39,mushrooms mushroom block skin brown,real,0,16px,TRD16c_rr4,B2,right,B2,1924,p051
+40,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,1054,s000
+41,brass block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1104,p073
+42,ctf map damage cobble,check_same,0,16px,same,same,left,same,1007,s003
+43,diamond ore,real,0,16px,TRD16c_rr4,B2,right,B2,973,p018
+44,quartz pillar top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,862,p041
+45,grass side,real,0,16px,B2,TRD16c_rr4,left,B2,2418,p052
+46,mushrooms mushroom block skin stem,real,0,16px,TRD16c_rr4,B2,right,B2,1278,p032
+47,iron ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1163,p034
+48,hardened clay stained white,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,909,p070
+49,log spruce,real,0,16px,B2,TRD16c_rr4,left,B2,784,p014
+50,emerald ore,check_same,0,16px,same,same,left,same,1322,s002
+51,warped hyphae wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,774,p076
+52,mushrooms mushroom block skin stem,real,0,16px,B2,TRD16c_rr4,left,B2,1050,p032
+53,nether brick,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2850,p067
+54,mushrooms mushroom block skin brown,real,0,16px,B2,TRD16c_rr4,left,B2,2081,p051
+55,diamond ore,real,0,16px,B2,TRD16c_rr4,tie,tie,5207,p018
+56,grass path side,check_same,0,16px,same,same,left,same,818,s004
+57,deepslate coal ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1672,p053
+58,ctf map stone red,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1190,p086
+59,grass block top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2535,p055
+60,deepslate cobbled,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1110,p020
+61,iron ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,746,p034

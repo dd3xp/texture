@@ -1,0 +1,63 @@
+idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
+0,grass path side,check,0,16px,good,blur,left,good,65636,
+1,hardened clay stained orange,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1255,p085
+2,baked clay grey,real,0,16px,B2,TRD16c_rr4,left,B2,1556,p028
+3,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,2231,s000
+4,mushrooms mushroom block skin stem,real,0,16px,TRD16c_rr4,B2,right,B2,3506,p032
+5,emerald ore,check_same,0,16px,same,same,right,same,1645,s002
+6,andesite smooth slab,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1982,p066
+7,coral skeleton,real,0,16px,TRD16c_rr4,B2,right,B2,2666,p082
+8,wool grey,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1337,p089
+9,quartz pillar side horizontal,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,4457,p026
+10,grass block top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1077,p055
+11,quartz pillar side horizontal,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1400,p026
+12,tree top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3732,p057
+13,mese block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1953,p003
+14,grass path side,check_same,0,16px,same,same,left,same,965,s004
+15,wool orange,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1290,p088
+16,hardened clay stained silver,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1093,p079
+17,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1582,p087
+18,baked clay dark grey,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1738,p050
+19,gold block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2537,p080
+20,copper exposed,real,0,16px,TRD16c_rr4,B2,right,B2,2156,p017
+21,hardened clay stained silver,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2241,p079
+22,quartz pillar top,check_same,0,16px,same,same,left,same,1669,s001
+23,copper exposed,real,0,16px,B2,TRD16c_rr4,left,B2,1508,p017
+24,nether brick,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2442,p067
+25,hardened clay stained orange,real,0,16px,B2,TRD16c_rr4,left,B2,1590,p085
+26,baked clay dark grey,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3234,p050
+27,warped hyphae wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3399,p076
+28,baked clay blue,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1195,p015
+29,wool violet,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1352,p047
+30,granite,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1625,p036
+31,coral skeleton,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1226,p082
+32,tree top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2457,p057
+33,wool grey,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1896,p089
+34,mese block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2296,p003
+35,ctf map damage cobble,check_same,0,16px,same,same,right,same,1644,s003
+36,bamboo bamboo block,real,0,16px,B2,TRD16c_rr4,left,B2,1429,p061
+37,wool violet,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1968,p047
+38,baked clay blue,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1109,p015
+39,copper block raw,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1410,p016
+40,gold block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1589,p080
+41,mushrooms mushroom block skin stem,real,0,16px,B2,TRD16c_rr4,left,B2,2399,p032
+42,baked clay cyan,check,0,16px,good,blur,left,good,726,
+43,baked clay grey,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1082,p028
+44,log spruce,check,0,16px,blur,good,right,good,893,
+45,nether brick,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1562,p067
+46,crimson hyphae wood,real,0,16px,TRD16c_rr4,B2,right,B2,1208,p039
+47,warped hyphae wood,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,929,p076
+48,wool orange,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1504,p088
+49,bamboo bamboo block,real,0,16px,TRD16c_rr4,B2,right,B2,1414,p061
+50,crimson hyphae wood,real,0,16px,B2,TRD16c_rr4,left,B2,944,p039
+51,brass block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1666,p073
+52,grass path side,real,0,16px,B2,TRD16c_rr4,left,B2,1827,p024
+53,grass block top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1818,p055
+54,wool dark green,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1242,p087
+55,copper block raw,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1660,p016
+56,brass block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1142,p073
+57,mineral iron,check,0,16px,good,blur,left,good,915,
+58,granite,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,903,p036
+59,andesite smooth slab,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1276,p066
+60,hardened clay stained orange,check,0,16px,blur,good,right,good,788,
+61,grass path side,real,0,16px,TRD16c_rr4,B2,right,B2,1518,p024
