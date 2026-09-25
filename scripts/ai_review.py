@@ -49,7 +49,7 @@ outside it.
 """
 
 
-def ask(model, prompt, base, key, max_tokens=4000, retries=3):
+def ask(model, prompt, base, key, max_tokens=16000, retries=3):   # 推理型要留足余量
     body = {"model": model, "max_tokens": max_tokens, "temperature": 1.0,
             "messages": [{"role": "user", "content": prompt}]}
     for a in range(retries):
@@ -60,7 +60,10 @@ def ask(model, prompt, base, key, max_tokens=4000, retries=3):
                 print(f"    HTTP {r.status_code}: {r.text[:160]}", flush=True)
                 time.sleep(5 + 10 * a)
                 continue
-            return r.json()["choices"][0]["message"]["content"]
+            msg = r.json()["choices"][0]["message"]
+            # 推理型模型（deepseek-v4-pro / glm-5 / gpt-5.6-sol 等）会先花 token 推理：
+            # token 不够时 content 为空、内容在 reasoning_content 里 ⇒ 两个都要看，否则会误判"模型不可用"。
+            return msg.get("content") or msg.get("reasoning_content") or ""
         except Exception as e:                      # noqa: BLE001
             print(f"    异常 {type(e).__name__}: {e}", flush=True)
             time.sleep(5 + 10 * a)
@@ -69,8 +72,9 @@ def ask(model, prompt, base, key, max_tokens=4000, retries=3):
 
 def probe(model, base, key):
     """开跑前的最小补全探针：只 GET /models 会放过"模型在列表里但上游坏了"这种故障。"""
-    out = ask(model, "Reply with the single word OK.", base, key, max_tokens=8, retries=2)
-    return bool(out and "ok" in out.lower())
+    # ⚠ max_tokens 必须给够：给 8 时 deepseek-v4-pro / gemini-3.8-flash 都被误判为不可用（2026-09-25 实测）。
+    out = ask(model, "Reply with the single word OK.", base, key, max_tokens=200, retries=2)
+    return bool(out and out.strip())
 
 
 def parse_json(text):
