@@ -83,7 +83,7 @@ def main():
               f" -> 题 {len(out_items)}（真题 {len(sub)} + 检查 {len(checks)}）  {dst.name}"
               f"  {dst.stat().st_size/1e6:.2f} MB")
     print(f"\n分配表 -> {a.outdir / 'study_h16_split_plan.json'}")
-    print("⚠ 发出去之前每一份都要跑 analysis/annotate/audit_h16_pixels.py 复验")
+    print("[!] 发出去之前每一份都要跑 analysis/annotate/audit_h16_pixels.py 复验")
     return 0
 
 
