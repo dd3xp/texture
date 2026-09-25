@@ -98,6 +98,8 @@ def main():
     ap.add_argument("--out", type=Path, default=Path("/tmp/aireview"))
     ap.add_argument("--runs", type=int, default=2, help="每个模型审几遍（两遍用来看模型自身的不稳定）")
     ap.add_argument("--models", nargs="*", default=MODELS)
+    ap.add_argument("--max_tokens", type=int, default=16000,
+                    help="⚠ 网关按 prompt+max_tokens **预扣**额度：贵的模型给太大会直接 402（2026-09-25 实测 grok-4.5）")
     a = ap.parse_args()
     base, key = os.environ.get("VLM_BASE_URL"), os.environ.get("VLM_API_KEY")
     if not base or not key:
@@ -125,7 +127,7 @@ def main():
                 continue
             print(f"审稿中 {tag} …", flush=True)
             t0 = time.time()
-            raw = ask(m, prompt, base, key)
+            raw = ask(m, prompt, base, key, max_tokens=a.max_tokens)
             js = parse_json(raw)
             rec = {"model": m, "run": run, "seconds": round(time.time() - t0, 1),
                    "parsed": js is not None, "review": js, "raw": None if js else raw}
