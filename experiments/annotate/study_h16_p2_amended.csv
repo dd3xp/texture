@@ -2,9 +2,9 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 0,grass path side,check,0,16px,good,blur,left,good,65636,
 1,hardened clay stained orange,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1255,p085
 2,baked clay grey,real,0,16px,B2,TRD16c_rr4,left,B2,1556,p028
-3,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,2231,s000
+3,mushrooms mushroom block skin stem,check_same,0,16px,same,same,tie,tie,2231,s000
 4,mushrooms mushroom block skin stem,real,0,16px,TRD16c_rr4,B2,right,B2,3506,p032
-5,emerald ore,check_same,0,16px,same,same,right,same,1645,s002
+5,emerald ore,check_same,0,16px,same,same,tie,tie,1645,s002
 6,andesite smooth slab,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1982,p066
 7,coral skeleton,real,0,16px,TRD16c_rr4,B2,right,B2,2666,p082
 8,wool grey,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1337,p089
@@ -13,7 +13,7 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 11,quartz pillar side horizontal,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1400,p026
 12,tree top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3732,p057
 13,mese block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1953,p003
-14,grass path side,check_same,0,16px,same,same,left,same,965,s004
+14,grass path side,check_same,0,16px,same,same,tie,tie,965,s004
 15,wool orange,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1290,p088
 16,hardened clay stained silver,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1093,p079
 17,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1582,p087
@@ -21,7 +21,7 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 19,gold block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2537,p080
 20,copper exposed,real,0,16px,TRD16c_rr4,B2,right,B2,2156,p017
 21,hardened clay stained silver,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2241,p079
-22,quartz pillar top,check_same,0,16px,same,same,left,same,1669,s001
+22,quartz pillar top,check_same,0,16px,same,same,tie,tie,1669,s001
 23,copper exposed,real,0,16px,B2,TRD16c_rr4,left,B2,1508,p017
 24,nether brick,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2442,p067
 25,hardened clay stained orange,real,0,16px,B2,TRD16c_rr4,left,B2,1590,p085
@@ -34,7 +34,7 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 32,tree top,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2457,p057
 33,wool grey,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1896,p089
 34,mese block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2296,p003
-35,ctf map damage cobble,check_same,0,16px,same,same,right,same,1644,s003
+35,ctf map damage cobble,check_same,0,16px,same,same,tie,tie,1644,s003
 36,bamboo bamboo block,real,0,16px,B2,TRD16c_rr4,left,B2,1429,p061
 37,wool violet,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1968,p047
 38,baked clay blue,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1109,p015

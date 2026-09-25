@@ -18,14 +18,14 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 16,brass block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1417,p073
 17,baked clay grey,real,0,16px,B2,TRD16c_rr4,left,B2,1893,p028
 18,sandstone brick,real,0,16px,B2,TRD16c_rr4,left,B2,1417,p068
-19,emerald ore,check_same,0,16px,same,same,right,same,1621,s002
+19,emerald ore,check_same,0,16px,same,same,tie,tie,1621,s002
 20,copper block raw,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2099,p016
 21,sandstone bottom,real,0,16px,B2,TRD16c_rr4,left,B2,2206,p044
 22,grass path side,check,0,16px,good,blur,left,good,937,
 23,sandstone brick,real,0,16px,TRD16c_rr4,B2,right,B2,3644,p068
 24,desert sand soil,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1413,p038
 25,grass block top,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1751,p055
-26,ctf map damage cobble,check_same,0,16px,same,same,right,same,1746,s003
+26,ctf map damage cobble,check_same,0,16px,same,same,tie,tie,1746,s003
 27,granite smooth,real,0,16px,TRD16c_rr4,B2,right,B2,1933,p048
 28,iron block slab,real,0,16px,B2,TRD16c_rr4,left,B2,1362,p007
 29,sandstone bottom,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2892,p044
@@ -42,7 +42,7 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 40,nether basalt chiselled side,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,3804,p049
 41,nether brick,real,0,16px,TRD16c_rr4,B2,right,B2,1658,p067
 42,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1104,p087
-43,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,1249,s000
+43,mushrooms mushroom block skin stem,check_same,0,16px,same,same,tie,tie,1249,s000
 44,crying obsidian,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,736,p084
 45,mushrooms mushroom block skin stem,real,0,16px,B2,TRD16c_rr4,left,B2,1257,p032
 46,coral skeleton,real,0,16px,B2,TRD16c_rr4,left,B2,2274,p082
@@ -54,10 +54,10 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 52,desert sandstone brick,real,0,16px,TRD16c_rr4,B2,right,B2,2873,p063
 53,warped hyphae wood,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1148,p076
 54,copper block raw,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1358,p016
-55,grass path side,check_same,0,16px,same,same,left,same,1705,s004
+55,grass path side,check_same,0,16px,same,same,tie,tie,1705,s004
 56,redstone ore,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,805,p002
 57,baked clay cyan,check,0,16px,good,blur,left,good,888,
-58,quartz pillar top,check_same,0,16px,same,same,left,same,1024,s001
+58,quartz pillar top,check_same,0,16px,same,same,tie,tie,1024,s001
 59,mineral iron,check,0,16px,good,blur,left,good,1899,
 60,coral skeleton,real,0,16px,TRD16c_rr4,B2,right,B2,1436,p082
 61,cactus side,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1069,p009

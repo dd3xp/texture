@@ -1,24 +1,24 @@
 idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 0,brass block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,2436,p073
 1,lapis block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1056,p060
-2,mushrooms mushroom block skin stem,check_same,0,16px,same,same,left,same,1723,s000
+2,mushrooms mushroom block skin stem,check_same,0,16px,same,same,tie,tie,1723,s000
 3,hardened clay stained orange,check,0,16px,blur,good,right,good,784,
 4,fence wood,real,0,16px,B2,TRD16c_rr4,left,B2,2622,p074
 5,brass block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1408,p073
 6,baked clay brown,real,0,16px,TRD16c_rr4,B2,right,B2,2649,p078
 7,log spruce,check,0,16px,blur,good,right,good,794,
 8,mineral iron,check,0,16px,good,blur,left,good,895,
-9,planks spruce,real,0,16px,TRD16c_rr4,B2,right,B2,3264,p004
+9,planks spruce,real,0,16px,TRD16c_rr4,B2,tie,tie,3264,p004
 10,coral skeleton,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,2492,p082
 11,terrain dirt,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,830,p081
 12,hardened clay stained cyan,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1503,p046
-13,quartz pillar top,check_same,0,16px,same,same,left,same,1704,s001
+13,quartz pillar top,check_same,0,16px,same,same,tie,tie,1704,s001
 14,warped hyphae wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,986,p076
-15,ctf map damage cobble,check_same,0,16px,same,same,left,same,935,s003
+15,ctf map damage cobble,check_same,0,16px,same,same,tie,tie,935,s003
 16,crimson hyphae wood,real,0,16px,B2,TRD16c_rr4,left,B2,745,p039
 17,quartz block,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,734,p001
 18,baked clay cyan,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1394,p058
-19,emerald ore,check_same,0,16px,same,same,left,same,927,s002
+19,emerald ore,check_same,0,16px,same,same,tie,tie,927,s002
 20,wool dark green,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1264,p087
 21,deepslate gold ore,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1843,p033
 22,fence wood,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1076,p074
@@ -48,9 +48,9 @@ idx,material,kind,struct,stratum,left,right,choice,chosen,ms,pair
 46,nether brick,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,3051,p067
 47,mushrooms mushroom block skin red,real,0,16px,TRD16c_rr4,B2,left,TRD16c_rr4,1950,p010
 48,mushrooms mushroom block skin red,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1839,p010
-49,grass path side,check_same,0,16px,same,same,left,same,2924,s004
+49,grass path side,check_same,0,16px,same,same,tie,tie,2924,s004
 50,quartz block,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1294,p001
-51,planks spruce,real,0,16px,B2,TRD16c_rr4,left,B2,1655,p004
+51,planks spruce,real,0,16px,B2,TRD16c_rr4,tie,tie,1655,p004
 52,mushrooms mushroom block skin stem,real,0,16px,B2,TRD16c_rr4,left,B2,1589,p032
 53,baked clay grey,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1439,p028
 54,coral skeleton,real,0,16px,B2,TRD16c_rr4,right,TRD16c_rr4,1261,p082
