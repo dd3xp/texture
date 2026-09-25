@@ -1,0 +1,84 @@
+{
+ "model": "gpt-5.6-sol",
+ "run": 1,
+ "seconds": 52.3,
+ "parsed": true,
+ "review": {
+  "summary": "The paper introduces TRD, a masked transformer for generating 16x16 tileable pixel-art textures from a material name and target colour. It represents each texture as palette tokens plus a grid of luminance-rank tokens, retrieves palettes from training artists, and uses a toroidal relative-attention bias intended to provide cyclic-shift equivariance. On a Luanti texture-pack dataset, the method is reported to outperform render-and-downsample and same-data diffusion baselines on several distribution metrics and pairwise VLM preferences while requiring 0.51 seconds per reranked tile. The paper also analyzes shortcomings of common seam metrics, resolution comparisons, and pairwise judging protocols.",
+  "strengths": [
+   "The task is practically relevant and unusually well specified, including native resolution, palette constraints, target colour, and periodic use.",
+   "The palette/rank representation is a sensible inductive bias for low-resolution pixel art and enables explicit colour manipulation without regenerating structure.",
+   "The toroidal relative-attention construction is simple, parameter-efficient, and accompanied by a clear equivariance argument and numerical implementation check.",
+   "The same-data pixel-diffusion baseline B7 is valuable because it partially separates architectural effects from access to training data.",
+   "The paper reports wall-clock latency under explicit test-time settings and includes several useful ablations and noise-floor estimates.",
+   "The discussion of metric pathologies, especially the flat-fill failure of the raw seam score, is useful beyond this specific method."
+  ],
+  "weaknesses": [
+   {
+    "point": "The central statement that tileability is guaranteed \"by construction\" is stronger than Proposition 1 establishes. Cyclic-shift equivariance says that the model does not privilege a boundary and assigns equal probability to shifted outputs; it does not require opposite borders of an individual sampled tile to be perceptually compatible. Indeed, Table 2 reports nonzero seam deviations for TRD, and any finite bitmap can be repeated exactly while still exhibiting a visible boundary.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "State the guarantee precisely as cyclic-shift equivariance rather than seamlessness, and directly evaluate perceptual seam visibility with human labels or a validated tileability metric on repeated outputs. A construction that explicitly constrains opposite-border statistics would be needed for a literal per-sample seamlessness guarantee."
+   },
+   {
+    "point": "Most headline preference claims rely on a single proprietary VLM judge selected from three candidates using only 60 human-labelled pairs. Selecting the judge because it reproduces the conclusion on that small study creates selection bias, and matching one aggregate conclusion does not establish reliability across the distinct B2, B5, B7, SD-piXL, and colour-conditioned comparisons in Table 3. The identical-pair resolvable rate tests self-consistency, not agreement with human preferences.",
+    "kind": "evidence",
+    "severity": "blocking",
+    "what_would_fix_it": "Obtain adequately powered, independently held-out human evaluations for every headline comparison, report annotator-level agreement and uncertainty, and use a separate calibration set for judge selection. At minimum, validate judge-human agreement per comparison family rather than only an aggregate conclusion."
+   },
+   {
+    "point": "The protocol discards every pair for which the judge changes its answer after side swapping, leaving only 74-78% of real comparisons decided. Table 3 reports win rates conditional on this selected subset, but does not show whether abstention depends on method, material family, or quality gap. Such method-dependent selection could bias close results such as TRD+rr versus B2, whose family interval begins at 0.500.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Report order-specific outcomes and unresolved rates for each arm and method side, test whether unresolvedness is method- or family-dependent, and provide sensitivity analyses that count inconsistent pairs as ties and under worst-case assignments."
+   },
+   {
+    "point": "The claimed open-vocabulary capability and broad generalization are not demonstrated. Section 3 states that 448 of 450 test materials occur in training under other artists, while the formal evaluation uses only 272 materials. Palette retrieval also explicitly searches training materials by name similarity, so the experiment primarily measures unseen-artist generation for largely seen semantic categories rather than generation for novel material names.",
+    "kind": "scope",
+    "severity": "major",
+    "what_would_fix_it": "Add a material-disjoint split with genuinely unseen names and semantic categories, report retrieval behavior and quality on that split, and explain the criteria reducing 450 test materials to the 272-material formal set."
+   },
+   {
+    "point": "The evaluation of the published SD-piXL method is only 12 materials in Tables 3 and 7, with no family-level interval. This is too small to support broad abstract and conclusion language that TRD is preferred over score distillation, particularly because the subset-selection procedure is not described in the provided paper.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Evaluate SD-piXL on a substantially larger preregistered random or stratified subset, document subset selection, and report uncertainty accounting for material families. Otherwise narrow the claim to the tested 12 materials."
+   },
+   {
+    "point": "The toroidal-bias ablation does not cleanly support the stated mechanism. In Table 5, the wrong-period variant A3 obtains KID 7.3, better than the correctly periodic control at 8.4, while the seam evidence for the preregistered 2x2 is described only in prose and omits the complete four-cell result table. Moreover, Section 5 itself shows that the seam ratio is highly phase-sensitive, with artist medians changing from 0.469 to 0.234 after a cyclic shift.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Report all four 2x2 conditions with KID, seam statistics, confidence intervals, and human seam judgments; evaluate seam visibility over all cyclic phases; and weaken the claim that the specific period-N bias is responsible for quality unless it outperforms wrong-period controls consistently."
+   },
+   {
+    "point": "Section 4.1 says the palette/rank mapping is \"exactly invertible\" after median-cut quantization and encoding colours with a 512-entry codebook. That statement is unsupported unless every retained source tile already has at most 16 colours and every palette colour is represented exactly by the codebook; Section 3 only reports a median of 16 colours and does not state either condition.",
+    "kind": "presentation",
+    "severity": "minor",
+    "what_would_fix_it": "Clarify that invertibility applies only to the quantized/codebook-projected representation, report quantization and codebook reconstruction error, and state how many source tiles originally exceed 16 colours."
+   },
+   {
+    "point": "Reproducibility currently depends on future release of the dataset processing, baseline implementations, per-arm judge outputs, and evaluation code. The key preference metric additionally depends on a proprietary judge whose exact version, sampling parameters, and continued API availability are not fully specified in Appendix A.",
+    "kind": "reproducibility",
+    "severity": "major",
+    "what_would_fix_it": "Release the promised artifacts during review where policy permits, include exact judge prompts and API parameters, archive all raw responses and material-family assignments, and provide human-evaluation results that do not require access to the proprietary model."
+   }
+  ],
+  "questions": [
+   "What exact comparison was shown in the 60-pair human study, and how many of those pairs came from each baseline arm later reported in Table 3?",
+   "What were individual annotator agreement, consensus procedures, and judge-human agreement separately for each comparison family rather than only for the aggregate conclusion?",
+   "How many unresolved order-swapped pairs occurred in each Table 3 arm, and does unresolvedness correlate with which method appears first, material family, or eventual winner?",
+   "Why does the formal test set contain 272 materials when Section 3 reports 450 test materials, and were the inclusion criteria fixed before inspecting model outputs?",
+   "How does TRD perform on material names and material families completely absent from training, especially when palette retrieval has no same-material candidate?",
+   "Can the authors provide the complete results of all four cells of the periodic/non-periodic by augmentation/no-augmentation experiment mentioned in Section 6.4?",
+   "Does the claimed exact invertibility refer to the original RGB tile or only to the median-cut and codebook-projected tile, and what is the measured reconstruction error?",
+   "How are material families defined for the family bootstrap, and were these groupings preregistered before the pairwise results were examined?"
+  ],
+  "soundness": 2,
+  "presentation": 3,
+  "contribution": 3,
+  "rating": 5,
+  "confidence": 4,
+  "would_you_champion_it": false
+ },
+ "raw": null
+}

@@ -1,0 +1,90 @@
+{
+ "model": "gpt-5.6-sol",
+ "run": 2,
+ "seconds": 73.9,
+ "parsed": true,
+ "review": {
+  "summary": "The paper introduces TRD, a masked generative transformer for producing 16×16 tileable pixel-art textures from a material name and target colour. It represents each tile as palette tokens plus a grid of luminance-rank tokens, conditions generation on retrieved training-set palettes, and uses a toroidal relative attention bias to obtain cyclic-shift equivariance. On a dataset collected from Luanti texture packs, the method is compared with render-and-downsample pipelines, same-data pixel diffusion, artist-tile retrieval, and SD-πXL using distribution metrics and a VLM pairwise judge. The paper claims improved perceptual preference and efficiency, while also discussing shortcomings of standard seam metrics and low-resolution generative evaluation.",
+  "strengths": [
+   "The task is practically relevant and unusually well specified: native low-resolution generation, colour conditioning, palette constraints, and periodic use are treated jointly.",
+   "The palette/rank factorization is simple and well matched to pixel-art data, and palette retrieval produces a large, clearly measured improvement in Table 5.",
+   "The toroidal attention construction has a clear equivariance argument and adds little computational or parameter overhead.",
+   "The paper makes a serious effort to identify evaluation pathologies, including flat-fill failures of raw seam scores, canvas-size confounding, sampling variability, order bias in VLM judging, and dependence among material families.",
+   "The comparison with a same-data pixel-space diffusion baseline is more informative than comparisons only against large pretrained render pipelines.",
+   "The method is substantially faster than the evaluated render and score-distillation pipelines under the reported settings."
+  ],
+  "weaknesses": [
+   {
+    "point": "The central preference evidence in Table 3 comes from a proprietary VLM judge rather than direct human evaluation. The judge was selected from three candidates because it reproduced the conclusion of a 60-pair human study, but the paper does not identify the condition represented by those 60 pairs, report per-comparison human results, or show that calibration transfers to B2, B5, B7, reranked outputs, and the region-colouring task. Selecting the judge on the same small study used to certify it also creates selection bias, while the identical-pair resolvable rate measures self-consistency rather than correctness.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Run adequately powered, blinded human evaluations for every main Table 3 comparison, report annotator-level labels and agreement rather than only consensus, and use a held-out calibration set if a VLM judge is retained for scaling."
+   },
+   {
+    "point": "The paper repeatedly equates cyclic-shift equivariance with being 'seamless by construction,' but Proposition 1 establishes only that shifting an input shifts the logits and that the sampling distribution has no privileged origin. It does not force boundary-adjacent colours or structures to be compatible; a shift-invariant distribution can still generate conspicuous wrap transitions. The empirical seam evidence is also incomplete: the full pre-registered 2×2 is not tabulated, A2 has a numerically better seam deviation than the toroidal control in Table 5, and the wrong-period A3 is indistinguishable or better in KID.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Narrow the theoretical claim to cyclic-shift equivariance, report all cells and uncertainty from the 2×2 experiment, and add phase-aggregated seam measurements plus blinded human judgments of tiled repetitions comparing toroidal and non-periodic models."
+   },
+   {
+    "point": "The claimed open-vocabulary behavior and broader generalization are not evaluated. Section 3 states that 448 of 450 test materials occur in training, so the test primarily measures unseen artist/style generalization for familiar standardized filenames. Palette retrieval can usually retrieve palettes associated with the same material name, making this materially easier than generation for a new material or compositional prompt.",
+    "kind": "scope",
+    "severity": "major",
+    "what_would_fix_it": "Add a material-disjoint split, including genuinely unseen and compositional material names, and separately report results when retrieval is forbidden from using exact-name or same-material entries."
+   },
+   {
+    "point": "Several metric-based claims overstate differences that fail the paper's own declared noise floors. In Table 2, TRD versus B7 differs by only 1.2 KID and 2.3 FID, below the stated floors of 4.76 and 6.0; in Table 4, the shifted TRD versus B7 FID difference is 3.1, also below the stated FID floor. Thus statements such as 'lowest KID and FID' are nominal rankings, not supported improvements, and they cannot substantiate the claim that the advantage over B7 is architectural.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Label below-floor differences as ties, report repeated-run confidence intervals for each method rather than maxima over a few runs, and base architectural conclusions on replicated model training and human evaluation."
+   },
+   {
+    "point": "The strongest name-to-texture comparison against B2 is borderline and presented too definitively. Table 3 reports 57.3% with p=0.047 and a family interval printed as [0.500, 0.641], even though the paper defines robustness as an interval excluding 0.5; Appendix Table 7 additionally shows that single-sample TRD loses nominally to B2 at 47.4%. The conclusion therefore depends on four-sample CLIP reranking and on unreported precision at the interval boundary.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Report the unrounded family interval, correction or preregistered hierarchy for the many judge arms, results over multiple generation seeds, and clearly distinguish the single-sample model from the four-sample reranked system in all claims."
+   },
+   {
+    "point": "The seam metric remains difficult to interpret and is not phase invariant: Section 5 reports that merely cyclically shifting artist tiles changes median |r-1| from 0.469 to 0.234. Since the method is explicitly phase equivariant and output phase is arbitrary, a boundary-only measurement can change substantially without any change to the underlying periodic pattern. This weakens Table 2 and Table 5 as evidence about tileability.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Average the seam statistic over all cyclic phases or compare wrap-neighbor transitions against the complete distribution of interior transitions, validate the resulting metric against human seam judgments, and report uncertainty."
+   },
+   {
+    "point": "Important baseline details are insufficient for judging fairness or reproduction. B2 is described as 'best of four' without specifying the selection objective in the main method description, and the dominant-period detector, seam-aligned crop, anisotropy gate, and associated tuning are not specified algorithmically in the provided appendix. The paper also does not report comparable tuning budgets or repeated training runs for B7, despite using B7 to support an architectural conclusion.",
+    "kind": "reproducibility",
+    "severity": "major",
+    "what_would_fix_it": "Provide complete algorithms and hyperparameters for B2's render selection, period detection, crop, and gate; disclose validation searches for every baseline; and train B7 and TRD across multiple matched seeds."
+   },
+   {
+    "point": "The efficiency comparison in Table 1 is not fully normalized: TRD includes model loading, B2 excludes it, and SD-πXL timing is a median over only the 12-material subset. These choices probably do not erase the large speed advantage, but they prevent the exact 28× and approximately 30,000× factors from being clean like-for-like estimates.",
+    "kind": "evidence",
+    "severity": "minor",
+    "what_would_fix_it": "Time every system over the same prompt set, hardware, precision, warm-start/loading convention, and number of delivered candidates, with variance or percentile statistics."
+   },
+   {
+    "point": "Section 4.1 calls the palette/rank mapping 'exactly invertible' immediately after median-cut quantization to at most 16 colours. It is invertible only with respect to the quantized tile, not an original tile containing more than 16 colours.",
+    "kind": "presentation",
+    "severity": "minor",
+    "what_would_fix_it": "Clarify that decoding exactly reconstructs the quantized representation and report how many tiles are changed by quantization and by how much."
+   }
+  ],
+  "questions": [
+   "What exact comparison constituted the 60-pair human calibration study, and how many of the main Table 3 methods and task conditions appeared in it?",
+   "What are the individual annotator agreement statistics and the VLM judge's item-level accuracy against humans, rather than only agreement with the study-level conclusion?",
+   "What are the unrounded endpoints of the TRD+rr versus B2 family interval in Table 3, and was this arm preregistered as the primary comparison?",
+   "How are material families defined for the bootstrap, how many families are present, and how sensitive are the intervals to alternative family definitions?",
+   "What does the full pre-registered 2×2 table contain for KID, seam deviation, and uncertainty in all four cells?",
+   "How does TRD perform on materials absent from the training vocabulary, and when exact-name or same-material palette retrieval is prohibited?",
+   "What objective selects the best of four B2 renders, and is it comparable to the CLIP reranking used for TRD+rr?",
+   "Can the authors provide human seam judgments that directly compare repeated toroidal, non-periodic, and wrong-period outputs?"
+  ],
+  "soundness": 2,
+  "presentation": 3,
+  "contribution": 3,
+  "rating": 5,
+  "confidence": 4,
+  "would_you_champion_it": false
+ },
+ "raw": null
+}

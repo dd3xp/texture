@@ -1,0 +1,77 @@
+{
+ "model": "claude-opus-5",
+ "run": 2,
+ "seconds": 62.1,
+ "parsed": true,
+ "review": {
+  "summary": "The paper proposes TRD, a masked generative transformer that generates tileable pixel-art textures at native resolution (16×16) given a material name and target color. The model decodes palette indices and luminance ranks in parallel, enforces tileability via a toroidal relative attention bias, and uses retrieval-augmented palette conditioning. The authors claim TRD outperforms render-and-downsample baselines, pixel diffusion, and score distillation methods while being 28-31,000× faster.",
+  "strengths": [
+   "The palette-rank factorization is well-motivated for palette-indexed images and cleanly separates color from structure",
+   "The toroidal relative attention bias is elegant and parameter-efficient (6.5k params vs 98k for learned absolute embeddings), with a formal equivariance guarantee (Proposition 1)",
+   "The evaluation methodology is unusually rigorous: the authors identify and repair three measurement issues (flat-fill tiling score, canvas size confound, judge resolvable-rate floor) and report noise floors, family-level confidence intervals, and pre-registered ablations",
+   "The task formulation (region-conditioned pixel-art texture generation) is practical and clearly scoped",
+   "Speed gains are architectural and substantial: 0.51s vs 14.5s (B2) and 4.44h (SD-πXL) per tile"
+  ],
+  "weaknesses": [
+   {
+    "point": "The palette memory is doing most of the work. Table 5 shows that removing it raises KID from 9.7 to 35.1 (3.6× worse) and moves the judge from 50% to 66.3% against the ablated variant. The model without retrieval is worse than B2 (KID 28.9). This means the core generative model is weak and the paper's claims rest on a retrieval system that copies training-set palettes.",
+    "kind": "evidence",
+    "severity": "blocking",
+    "what_would_fix_it": "Train a stronger palette head (e.g., conditional normalizing flow, multi-headed palette prediction with selection) and show that native generation works without retrieval, or reframe the contribution as a retrieval-augmented system rather than a generative model."
+   },
+   {
+    "point": "The dataset is tiny and the split is not artist-independent as claimed. 4,248 training tiles from 57 packs, 1,271 test tiles from 12 packs, but 448 of 450 test materials appear in training. The model sees 'mossy cobblestone' drawn by other artists during training, so the test measures style transfer, not generalization to unseen materials. Artist agreement is 9.8%, so the variability is enormous, yet the model is trained to predict exact palette indices with cross-entropy loss.",
+    "kind": "scope",
+    "severity": "major",
+    "what_would_fix_it": "Report results on a held-out material split (unseen material names) to measure true generalization, or acknowledge that the task is style transfer given the material name. Discuss the mismatch between the deterministic training objective and the acknowledged lack of a unique right answer."
+   },
+   {
+    "point": "The judge is used as the primary metric but only validated on 60 pairs. The human study reached consensus on 49/59=83% decided pairs. The judge reproduced this at 73% (p=0.008), which is above chance but far from the human rate. The paper then uses this judge to decide 200+ pair comparisons per arm across 272 materials. The judge resolves identical pairs 17.8% of the time (should be 0%), and resolved rates vary by arm (74-78%). No error bars are given for the judge's own reliability.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Expand the human validation to at least 100-200 pairs spanning multiple material families. Report inter-annotator agreement before consensus. Show that the 73% validation rate is stable across material types. Report per-material judge variance or bootstrap confidence intervals on the win rates."
+   },
+   {
+    "point": "The main quantitative claim at 16px (Table 3, TRD+rr vs B2 region coloring, 60.3% win rate) has p=0.0056 but the family CI is [0.525, 0.680]. The lower bound is only 2.5 percentage points above 50%, and the paper's own empty-pair resolvable rate is 17.8%. A 2.5pp margin is not robust given that noise floor. Similarly, TRD vs B7 is 63.0% [0.540, 0.719], and TRD+rr vs B5 is 58.9% [0.502, 0.668]—the latter's lower bound is 0.2pp above chance.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Acknowledge that the judge comparisons are weak evidence. Expand the human study to directly validate the main claims (TRD vs B2, TRD vs B7) on a representative sample of 100+ materials. Report effect sizes (e.g., Cohen's h) in addition to win rates."
+   },
+   {
+    "point": "The toroidal bias ablation (Table 5 bottom) is only on 125 validation materials and reports KID without FID, CLIP, or judge comparisons. A1 (bias zeroed) has KID 26.9 vs control 8.4, but also seam 0.093 vs 0.225, which the paper dismisses as 'structureless bag of tokens' without showing samples. A2 (non-periodic features) has KID 15.9 and seam 0.148, still much better than A1, so some spatial inductive bias helps even without periodicity. The 2×2 tileability result (periodic bias alone makes tiles seamless, p=0.72 vs p=0.001) is mentioned in one sentence with no table, no sample count, no figure.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Run the toroidal bias ablation on the full test set with all metrics and judge comparisons. Show qualitative samples for A1, A2, A3. Provide the full 2×2 table (periodic/non-periodic × augment/no-augment) with per-condition sample sizes, KID, seam ratio, and example tiles."
+   },
+   {
+    "point": "The paper claims TRD is preferred over SD-πXL 11/12 materials (p=0.0064) but SD-πXL was only run on 12 materials due to cost (4.44 hours per tile). No explanation is given for how these 12 were selected. If they were chosen post-hoc or are a non-representative subset, the comparison is biased. Table 1 reports SD-πXL time as 'median over its test subset' but the subset is not described.",
+    "kind": "reproducibility",
+    "severity": "major",
+    "what_would_fix_it": "State the selection criterion for the 12 SD-πXL materials (random, stratified, alphabetical, etc.) and whether it was pre-registered. If post-hoc, run SD-πXL on a random sample of 20-30 materials to confirm the result generalizes."
+   },
+   {
+    "point": "The structural exemplars ablation (Table 5, judge 49.7%, KID 10.3 vs 9.7) shows the model is 'robust to their removal,' but Figure 1 shows them as part of the method. It is unclear whether they are used at test time for the main results (Tables 2, 3, 4). If they are not used, why are they in the method figure? If they are used, the comparison is not 'TRD vs baselines' but 'TRD + 4 retrieved tiles vs baselines,' and the 28× speed advantage is overstated.",
+    "kind": "presentation",
+    "severity": "minor",
+    "what_would_fix_it": "State clearly whether structural exemplars are used for the main results in Tables 2-4. If yes, include their retrieval time in Table 1 and describe the retrieval procedure in §4.3. If no, remove them from Figure 1 or mark them as optional."
+   }
+  ],
+  "questions": [
+   "What is the KID, FID, and judge win rate of TRD without palette retrieval (generating the palette) against B2 and B7? Table 5 shows an ablation against the full model but not against external baselines.",
+   "How were the 12 SD-πXL materials selected? Was this pre-registered or chosen after seeing other results?",
+   "What is the inter-annotator agreement (before consensus) in the 60-pair human study, and does the judge validation rate vary by material family?",
+   "Can you provide the full 2×2 table for the toroidal bias + augmentation ablation mentioned in §6.4, with sample counts, KID, seam ratio, and qualitative samples?",
+   "Are structural exemplars used at test time for Tables 2-4? If yes, what is the retrieval cost and procedure?",
+   "How does the model perform on a held-out material split (materials unseen during training)? The current test set has 448/450 materials that appear in training.",
+   "Why is LPIPS diversity reported only for some methods in Table 2 (B1, B4, B5, TRD) but not for B2 or B7?",
+   "What is the variance of the judge across multiple runs on the same material? The empty-pair resolvable rate is 17.8%, but is this uniform or does it vary by material type?"
+  ],
+  "soundness": 2,
+  "presentation": 3,
+  "contribution": 2,
+  "rating": 5,
+  "confidence": 4,
+  "would_you_champion_it": false
+ },
+ "raw": null
+}

@@ -1,0 +1,59 @@
+{
+ "model": "deepseek/deepseek-v4-pro",
+ "run": 1,
+ "seconds": 71.9,
+ "parsed": true,
+ "review": {
+  "summary": "The paper introduces TRD, a masked generative transformer that natively produces tileable pixel-art textures at 16×16 (and 24×24, 32×32) given only a material name and a target colour. It uses a dual-stream design (palette indices and luminance ranks), a toroidal relative attention bias for built-in tileability, and a retrieval-augmented palette memory. Against render-and-downsample pipelines, a same-data pixel diffusion model, and score distillation, TRD is much faster (0.51 s) and is preferred by a calibrated VLM judge in the majority of head-to-head comparisons. The evaluation carefully repairs three flawed evaluation practices, including correcting a tiling score and measuring judge noise floors.",
+  "strengths": [
+   "The formulation of the task and the native, discrete, colour-factored representation are well-motivated and match the pixel-art domain.",
+   "The toroidal relative attention bias elegantly guarantees cyclic-shift equivariance with almost no parameter overhead, and the ablations convincingly show it is crucial for quality and tileability.",
+   "The evaluation is unusually thorough, with multiple baselines covering different paradigms, careful noise-floor calibration, and a validated VLM judge with family-level confidence intervals.",
+   "The method is computationally efficient (0.51 s vs hours for score distillation) and the speed claims are directly timed under fair test conditions."
+  ],
+  "weaknesses": [
+   {
+    "point": "The VLM judge (claude-opus-5) that underpins the key preference claims was selected from three candidates after calibration on a 60-pair human study, but the composition of that study is not described. No held-out calibration set is reported, raising the concern that the judge was chosen because it happened to agree with the human labels on that specific set, which may inflate subsequent preferences.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Describe the human study in full (which models were compared, selection criteria for pairs), split the study into calibration and hold-out sets, and report results for multiple judges or show that the chosen judge generalises to a second held-out human-labelled set."
+   },
+   {
+    "point": "The win over the strongest render-pipeline baseline B2 (TRD+rr vs B2, 57.3%, p=0.047) has a family 95% CI lower bound of exactly 0.500. The paper’s own robustness criterion requires the interval to exclude 0.5, so this comparison is arguably not robust. Moreover, no correction for multiple comparisons across the many pairwise arms is applied, making the marginally significant p-value less convincing.",
+    "kind": "evidence",
+    "severity": "major",
+    "what_would_fix_it": "Apply a multiple-testing correction to the judge arms and report adjusted significance. Expand the test set or number of judgements to obtain narrower confidence intervals that clearly exclude 0.5."
+   },
+   {
+    "point": "Evaluation is confined to a single, relatively small dataset of Luanti (Minetest) texture packs with 57 training packs and 12 test packs. The paper claims applicability to sprites, icons, and textile patterns, but no experiments on any other pixel-art dataset or domain are provided to support this breadth.",
+    "kind": "scope",
+    "severity": "major",
+    "what_would_fix_it": "Include experiments on at least one additional pixel-art corpus (e.g., sprite sheets from other games, icon packs) or explicitly restrict the claims to this data distribution and discuss limitations."
+   },
+   {
+    "point": "The paper starkly states that a per-pixel reconstruction target is meaningless because inter-artist agreement is only 9.8%. However, the distribution metrics used (KID, FID, FD-DINOv2) still compare against artist originals and are reported as main evidence. The discussion of this contradiction is minimal, and the reader may question why these metrics are trusted for generators while dismissed for retrieval B5.",
+    "kind": "evidence",
+    "severity": "minor",
+    "what_would_fix_it": "Add a dedicated discussion of the limitations of distribution metrics in light of low inter-artist agreement, and consider reporting additional reference-free quality metrics or a larger qualitative survey."
+   },
+   {
+    "point": "The core components (masked generative transformer, relative positional bias, retrieval augmented conditioning, adaLN-Zero) are all drawn from prior work. The toroidal wrap is a natural application of cyclic boundary conditions to an existing relative bias scheme. The overall novelty lies more in the system engineering and task definition than in a fundamental algorithmic advance.",
+    "kind": "novelty",
+    "severity": "minor",
+    "what_would_fix_it": "The paper already gives clear attributions. To strengthen the novelty claim, the authors could highlight what specific insights prevented a naive combination from working (e.g., why the palette–rank factorization was essential beyond obvious convenience)."
+   }
+  ],
+  "questions": [
+   "Can you provide a detailed description of the 60-pair human study used to calibrate the VLM judge (which methods were compared, how were pairs sampled, and was the study conducted on a subset of the test materials or on a separate set)?",
+   "How sensitive are the pairwise judge results to the choice of judge? With only one model selected among three, have you tested the robustness of the preference order if a different certified judge (or an ensemble) were used?",
+   "What is the zero-shot performance of TRD on material names that are completely absent from the training file names, and how does the palette memory degrade when the retrieved material is a near miss rather than the exact same category?"
+  ],
+  "soundness": 3,
+  "presentation": 3,
+  "contribution": 3,
+  "rating": 7,
+  "confidence": 4,
+  "would_you_champion_it": false
+ },
+ "raw": null
+}
