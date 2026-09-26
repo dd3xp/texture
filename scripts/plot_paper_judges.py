@@ -8,13 +8,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 ARMS = [  # label, wins, decided, family CI
-    ("TRD vs B7 (same-data diffusion)", 131, 208, (0.540, 0.719)),
-    ("TRD+rr vs B5 (artist retrieval)", 119, 202, (0.502, 0.668)),
-    ("TRD+rr vs B2 (render+crop+down)", 114, 199, (0.49994, 0.641)),
-    ("TRD vs B3 (SD-$\\pi$XL, 12 mat.)", 11, 12, None),
-    ("Colour: TRD vs B2", 114, 189, (0.525, 0.680)),
-    ("Colour: TRD vs B7", 117, 193, (0.524, 0.674)),
-    ("Colour: TRD vs B5 (+recolour)", 111, 208, (0.434, 0.627)),
+    ("TRD vs PixelDiff", 131, 208, (0.540, 0.719)),
+    ("TRD+rr vs Retrieve", 119, 202, (0.502, 0.668)),
+    ("TRD+rr vs Render", 114, 199, (0.49994, 0.641)),
+    ("TRD vs SD-$\\pi$XL (12 mat.)", 11, 12, None),
+    ("Colour: TRD vs Render", 114, 189, (0.525, 0.680)),
+    ("Colour: TRD vs PixelDiff", 117, 193, (0.524, 0.674)),
+    ("Colour: TRD vs Retrieve (+recolour)", 111, 208, (0.434, 0.627)),
     ("Ablation: full vs no palette memory", 126, 190, (0.574, 0.747)),
 ]
 

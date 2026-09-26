@@ -33,7 +33,7 @@ University of Waterloo \\
 \maketitle
 
 \begin{abstract}
-Game and mod textures are authored natively at tiny canvases: a $16\times16$ tile is not a downscaled photograph but a grid in which every pixel is a design decision, the palette holds at most a handful of slots, and the tile must stay continuous across its own wrap boundary because it is used tiled. We study the task of painting a solid-colour region of an image with a tileable pixel-art texture given only a material name and the region's colour, and we generate it natively at the target resolution rather than rendering large and downsampling. Our model decodes palette-index and luminance-rank tokens in parallel, keeps tileability by construction through a toroidal relative attention bias that adds no parameters, and conditions on palettes retrieved from a memory of artist palettes. Against render-and-downsample pipelines, a same-data pixel-space diffusion baseline, a published score-distillation pixel-art method, and direct retrieval of artist tiles, our $16\times16$ outputs are preferred by a de-biased pairwise judge in the majority of head-to-head comparisons, while costing seconds instead of GPU-hours. Measured end to end, a tile takes $0.51$\,s, $28\times$ faster than the strongest render pipeline and four orders of magnitude faster than score distillation. Getting these comparisons to mean anything required repairing the rulers: we show that render-and-downsample baselines collect a structural gain purely from a larger canvas, that a widely used tiling score awards a perfect value to a flat fill, and that a pairwise judge's resolvable-rate floor is far below chance.
+Game and mod textures are authored natively at tiny canvases: a $16\times16$ tile is not a downscaled photograph but a grid in which every pixel is a design decision, the palette holds at most a handful of slots, and the tile must stay continuous across its own wrap boundary because it is used tiled. We study the task of painting a solid-colour region of an image with a tileable pixel-art texture given only a material name and the region's colour, and we generate it natively at the target resolution rather than rendering large and downsampling. Our model decodes palette-index and luminance-rank tokens in parallel, keeps tileability by construction through a toroidal relative attention bias that adds no parameters, and conditions on palettes retrieved from a memory of artist palettes. Against the strongest render-and-downsample pipeline, annotators prefer our $16\times16$ tiles in $73.6\%$ of decided pairs; on the region-colouring task the de-biased judge prefers them $60.3\%$ (family interval excludes $0.5$), and that judge's $57.3\%$ on the name-to-texture comparison is a lower bound on the same human reading. The tiles also win the majority of judge comparisons against a same-data pixel diffusion model, score distillation, and artist-tile retrieval. Measured end to end, a tile takes $0.51$\,s, $28\times$ faster than the strongest render pipeline and four orders of magnitude faster than score distillation. Getting these comparisons to mean anything required repairing the rulers: we show that render-and-downsample baselines collect a structural gain purely from a larger canvas, that a widely used tiling score awards a perfect value to a flat fill, and that a pairwise judge's resolvable-rate floor is far below chance.
 \end{abstract}
 
 \noindent\textbf{Keywords:}
@@ -47,11 +47,11 @@ generative models.
 \label{sec:intro}
 
 A large share of the textures in voxel games, their mods and many 2D engines
-are drawn at $16\times16$. A modder who adds a new block --- ``mossy
-cobblestone'', ``birch planks'', ``copper ore'' --- needs a tile that reads as
+are drawn at $16\times16$. A modder who adds a new block (``mossy
+cobblestone'', ``birch planks'', ``copper ore'') needs a tile that reads as
 that material, that fits the colour scheme of the object it is painted on, and
-that can be repeated across a wall without a visible seam --- and, iterating
-over dozens of blocks, needs it at interactive speed. We study exactly
+that can be repeated across a wall without a visible seam, and that, over
+dozens of blocks, must be produced at interactive speed. We study exactly
 this task: given an image with a solid-colour region, a material name and the
 region's colour, paint the region with a tileable pixel-art texture at
 $16\times16$ (and, secondarily, $24\times24$ and $32\times32$).
@@ -60,7 +60,7 @@ The obvious route is to render large and shrink. A $1024$px SDXL~\citep{podell20
 brick wall is structurally sound, yet every kernel we tried turns it to mush
 at $16\times16$: the render packs about $25$ structural units into $16$ cells,
 where pixel artists place about three. Cropping the render to its dominant
-period repairs this (our baseline B2) but inherits the generator's colours,
+period repairs this (the Render pipeline, below) but inherits the generator's colours,
 seams and cost: every $16$px tile pays for several megapixel renders.
 Score distillation~\citep{binninger2024sdpixl} optimises the small image
 directly, at hours per tile.
@@ -68,8 +68,8 @@ directly, at hours per tile.
 We instead \emph{generate natively}. A pixel-art tile is a small grid of
 indices into a palette of at most sixteen colours, so we model it as such: a
 masked generative transformer~\citep{chang2022maskgit} that decodes two
-discrete token streams in parallel --- sixteen palette slots and an $N\times N$
-grid of luminance ranks --- under a text condition, a colour condition and a
+discrete token streams in parallel (sixteen palette slots and an $N\times N$
+grid of luminance ranks) under a text condition, a colour condition and a
 palette retrieved from a memory of artist palettes. The transformer has no
 absolute positions at all; its only spatial signal is a relative attention
 bias defined on the torus, so the network is exactly equivariant to cyclic
@@ -97,12 +97,14 @@ comparison a win only when it survives those checks.
   a parameter-light toroidal relative attention bias that makes the model
   cyclic-shift equivariant, and retrieval-augmented palette conditioning
   (\S\ref{sec:method}).
-\item \textbf{Results.} On $272$ held-out materials drawn by unseen artists,
-  \trd{} has the best KID and FID of all generative methods at $16$px and is
-  preferred by a validated, de-biased judge over a same-data pixel diffusion
-  model ($63.0\%$), over artist-tile retrieval ($58.9\%$), over SD-$\pi$XL
-  ($11/12$) and, on the region-colouring task, over the strongest
-  render-and-downsample pipeline ($60.3\%$) (\S\ref{sec:experiments}).
+\item \textbf{Results.} On $272$ held-out materials, \trd{} has the best
+  KID and FID of all generators at $16$px. Against the strongest render
+  pipeline, annotators prefer \trd{}+rr in $73.6\%$ of decided pairs; the
+  region-colouring task is family-robust at $60.3\%$; the judge's
+  $57.3\%$ is a lower bound on that human reading, at $28\times$ the
+  speed. The judge also prefers \trd{} over same-data diffusion
+  ($63.0\%$), retrieval ($58.9\%$) and SD-$\pi$XL ($11/12$)
+  (\S\ref{sec:experiments}).
 \item \textbf{Efficiency.} A reranked \trd{} tile takes $0.51$\,s end to end
   on one A100, $28\times$ faster than the strongest pipeline and about
   $30{,}000\times$ faster than SD-$\pi$XL (Table~\ref{tab:speed}).
@@ -112,9 +114,11 @@ comparison a win only when it survives those checks.
   awards a perfect value to a flat fill, and that the judge's resolvable-rate
   floor on identical pairs is $17.8\%$, far below chance
   (\S\ref{sec:protocol}). Parameter-matched ablations show that both the
-  periodic bias and the palette memory are load-bearing: removing either
-  roughly triples KID, and a pre-registered $2\times2$ confirms that the
-  toroidal bias alone makes tiles seamless (\S\ref{sec:ablation}).
+  periodic bias and the palette memory are load-bearing: dropping the memory
+  more than triples KID, and swapping the periodic bias for a same-size
+  non-periodic encoding nearly doubles it. A pre-registered $2\times2$
+  confirms that the toroidal bias alone makes tiles seamless
+  (\S\ref{sec:ablation}).
 \end{itemize}
 
 \begin{figure}[t]
@@ -179,44 +183,55 @@ neighbours.}
 \section{Related Work}
 \label{sec:related}
 
-\paragraph{Pixel art and pixelization.} SD-$\pi$XL~\citep{binninger2024sdpixl}
-optimises a palette-constrained small image per prompt by score
+Existing pixel-art methods either start from a finished large image or
+distil a large latent model onto a small canvas. SD-$\pi$XL~\citep{binninger2024sdpixl}
+can write a palette-constrained tile by score
 distillation~\citep{poole2023dreamfusion} from a latent diffusion
-model~\citep{rombach2022ldm}, with no region channel or wrap-around.
-Pixelization~\citep{gerstner2012pixelated,wu2022pixelization},
+model~\citep{rombach2022ldm}, but it has no region colour, no wrap-around
+and costs hours per tile. Pixelization~\citep{gerstner2012pixelated,wu2022pixelization},
 content-adaptive and perceptual
 downscaling~\citep{kopf2013downscaling,oztireli2015downscaling},
 quantization~\citep{heckbert1982quantization} and dithering~\citep{floyd1976}
-convert a given high-resolution image; none can change how many structural
-units that image contains.
+convert a given image and cannot change how many structural units it
+contains. We generate the tile natively at the target resolution, with a
+region colour and a toroidal bias, in half a second.
 
-\paragraph{Tileable textures.} Exemplar-based~\citep{efros1999texture,efros2001quilting,gatys2015texture}
-and procedural~\citep{perlin1985,worley1996} synthesis are not
-text-conditioned. Diffusion methods enforce tileability at sampling time by
-circular padding or rolled noise~\citep{zhou2022tilegen,vecchio2024controlmat,madar2025tiled},
-and TexTile~\citep{rodriguezpardo2024textile} learns a tileability metric, all
-at $\geq256$px; our baseline B7 uses the circular-padding recipe.
+Tileable synthesis is either unconditioned
+(exemplar~\citep{efros1999texture,efros2001quilting,gatys2015texture} and
+procedural~\citep{perlin1985,worley1996} methods) or enforces wrap only at
+sampling time on canvases of $\geq256$px, by circular padding, rolled noise
+or a tiling constraint~\citep{zhou2022tilegen,vecchio2024controlmat,madar2025tiled}.
+TexTile~\citep{rodriguezpardo2024textile} scores tileability but does not
+generate. None of these put periodicity into the model at $16$px. We put
+wrap into a parameter-free relative attention bias so every sample is
+shift-equivariant, and we use the circular-padding recipe only as
+PixelDiff, a same-data opponent.
 
-\paragraph{Conditioning and retrieval.} Colour prompts~\citep{butt2024colorpeel},
-adapters~\citep{zhang2023controlnet} and retrieval-augmented
+Colour prompts~\citep{butt2024colorpeel}, adapters~\citep{zhang2023controlnet}
+and retrieval-augmented
 diffusion~\citep{blattmann2022rdm,sheynin2023knndiffusion,chen2023reimagen}
-condition large generators; we retrieve only palettes and feed them as known
-tokens, so structure is always generated.
+condition large generators by retrieving or steering whole images, which
+leaks training pixels and does not separate colour from structure. We
+retrieve only palettes and feed them as known tokens, so the grid is always
+generated.
 
-\paragraph{Masked discrete generation.} MaskGIT~\citep{chang2022maskgit} and
-its successors~\citep{chang2023muse,lezama2022tokencritic,li2023mage,weber2024maskbit}
-decode VQ tokens~\citep{vandenoord2017vqvae} in parallel, a form of discrete
-diffusion~\citep{austin2021d3pm}; pixel art is natively discrete and needs no
-tokenizer. We restrict standard relative position
-biases~\citep{shaw2018relative,raffel2020t5,liu2021swin,wu2021irpe} to the
-torus, in the spirit of equivariant architectures~\citep{cohen2016gcnn}.
+Masked transformers~\citep{chang2022maskgit,chang2023muse,lezama2022tokencritic,li2023mage,weber2024maskbit}
+decode VQ tokens~\citep{vandenoord2017vqvae} of natural images, a form of
+discrete diffusion~\citep{austin2021d3pm}. Pixel art is already discrete, so
+a tokenizer is a detour; standard relative position
+biases~\citep{shaw2018relative,raffel2020t5,liu2021swin,wu2021irpe} are not
+periodic, so the tile edge is a privileged location. We drop the tokenizer,
+decode palette slots and luminance ranks, and restrict the relative bias to
+the torus~\citep{cohen2016gcnn}.
 
-\paragraph{Judging generative models.} Pairwise VLM
-judges~\citep{zheng2023mtbench} show positional bias~\citep{wang2024fair},
-order-swap inconsistency~\citep{webdevjudge2025} and unreliable absolute
-scores~\citep{kumar2026rankscore}, and
-distribution metrics~\citep{heusel2017fid,binkowski2018kid,stein2023exposing,oquab2024dinov2}
-were calibrated on natural images at $\geq224$px.
+Pairwise VLM judges~\citep{zheng2023mtbench} have positional
+bias~\citep{wang2024fair}, order-swap inconsistency~\citep{webdevjudge2025}
+and unreliable absolute scores~\citep{kumar2026rankscore};
+FID, KID and DINOv2~\citep{heusel2017fid,binkowski2018kid,stein2023exposing,oquab2024dinov2}
+were calibrated on natural images at $\geq224$px, and a flat fill can ace a
+tiling score. We certify the judge against a human conclusion, ask both
+orders, measure an empty-pair floor, use family-level intervals, and refuse
+the raw tiling score.
 
 % =====================================================================
 \section{Why a 16$\times$16 Tile Is Not a Small Image}
@@ -305,7 +320,7 @@ the palette--grid blocks are learned scalars. One bias module is shared by all
 blocks; with a $128$-unit hidden layer it has about $6.5$k parameters,
 fewer than a single learned absolute embedding of the $16\times16$ grid
 ($98$k). Its toroidal form costs nothing over an ordinary relative bias of the
-same shape --- the wrap is applied to the input, not learned.
+same shape: the wrap is applied to the input, not learned.
 
 \begin{proposition}
 Let $T_\delta$ cyclically shift the grid tokens of $s$ by $\delta\in\mathbb{Z}_N^2$
@@ -401,7 +416,7 @@ looked up, and the toroidal bias needs no crop, period search or seam repair.
 \begin{table}[t]
 \caption{Cost per delivered $16$px tile on one A100 (wall clock, exact
 test-time settings). \trd{}+rr: all $272$ test materials end to end,
-\emph{including} model loading ($138.6$\,s total). B2: per material,
+\emph{including} model loading ($138.6$\,s total). Render: per material,
 \emph{excluding} model loading. SD-$\pi$XL: median over its test subset.}
 \label{tab:speed}
 \centering
@@ -410,8 +425,8 @@ test-time settings). \trd{}+rr: all $272$ test materials end to end,
 \toprule
 Method & Params & Generated at & Sequential steps & Time / tile & Relative \\
 \midrule
-SD-$\pi$XL (B3) & $2.6$B (SDXL) & $16^2$, optimised & $10$k optimisation & $4.44$\,h & $\approx31{,}000\times$ \\
-B2 render + crop & $2.6$B (SDXL) & $4\times1024^2$ & $4\times28$ denoising & $14.5$\,s & $28\times$ \\
+SD-$\pi$XL & $2.6$B (SDXL) & $16^2$, optimised & $10$k optimisation & $4.44$\,h & $\approx31{,}000\times$ \\
+Render & $2.6$B (SDXL) & $4\times1024^2$ & $4\times28$ denoising & $14.5$\,s & $28\times$ \\
 \trd{}+rr (ours) & $33$M & $4\times272$ tokens & $24$ parallel & $\mathbf{0.51}$\,s & $1\times$ \\
 \bottomrule
 \end{tabular}
@@ -440,7 +455,7 @@ that exceeds the larger of the two floors.
 \paragraph{Ruler 1: a flat fill has a perfect tiling score.} A common tiling
 score sums colour differences across the wrap seam of a $3\times3$ tiling. We
 ran it on constructed counterexamples. A tile filled with its own mean colour
-scores exactly $0.000$, better than every real method (the best, B4, scores
+scores exactly $0.000$, better than every real method (the best, LoRA, scores
 $5.31$) and far better than artist tiles ($19.9$). Blurring or flattening the
 border likewise improves the raw score. We therefore report the ratio of
 across-seam to interior neighbour differences, whose ideal is $1$: it returns
@@ -449,10 +464,10 @@ can win, and deviations on both sides count as failures. Even this ratio is a
 property check, not a quality axis: a cyclic shift of the artist tiles changes
 their median $|r-1|$ from $0.469$ to $0.234$.
 
-\paragraph{Ruler 2: a larger canvas buys structure for free.} B2 crops its
-render to $4.5$ dominant periods before downsampling, independently of the
+\paragraph{Ruler 2: a larger canvas buys structure for free.} Render crops to
+$4.5$ dominant periods before downsampling, independently of the
 target size, so at $32$px it shows the same structure with twice the cells.
-Asked to compare B2 at $32$px with B2 at $16$px enlarged to the same size, the
+Asked to compare Render at $32$px with Render at $16$px enlarged to the same size, the
 judge prefers the former $107/138=78\%$ ($p=5.5\times10^{-11}$, family CI
 $[0.69,0.86]$). The render-and-downsample family therefore improves with the
 canvas for reasons unrelated to the method, and a curve of win rate against
@@ -461,17 +476,19 @@ within a resolution and refuse to read the three resolutions as one curve.
 
 \paragraph{Ruler 3: human ground truth, scaled by a certified judge.}
 Preference is anchored in human judgement. Four annotators labelled a blind
-study of $60$ pairs with sides randomised, resolved to a consensus label,
-which reached a clear conclusion (one condition preferred in $49/59=83\%$ of
-decided pairs). To extend this human protocol to all $272$ test materials and
-every arm, we admit a pairwise VLM judge only if it reproduces the human
-conclusion: of three frontier judges, only \texttt{claude-opus-5} did ($73\%$,
+study of $60$ pairs from an earlier generator-versus-downsample comparison
+(not the main \trd{} arms), sides randomised and resolved to a consensus
+label: one condition was preferred in $49/59=83\%$ of decided pairs. To
+extend this protocol to all $272$ test materials and every arm, we admit a
+pairwise VLM judge only if it reproduces that conclusion: of three frontier judges, only \texttt{claude-opus-5} did ($73\%$,
 $p=0.008$); another, with identical per-item agreement ($66.7\%$), compressed
 it to $62\%$ ($p=0.14$), and the third inverted it. The judge is thus a
 scaled-up proxy certified against the annotators, not an independent
-authority. Each pair is asked in both orders and a
+authority. A later human study on the main \trd{}+rr vs.\ Render comparison
+(\S\ref{sec:experiments}) prefers ours more strongly than this judge does,
+so the judge is the conservative instrument. Each pair is asked in both orders and a
 verdict counts only if both orders agree. To measure what this protocol can
-resolve, we submit $118$ \emph{empty} pairs --- the same image on both sides.
+resolve, we submit $118$ \emph{empty} pairs: the same image on both sides.
 An ideal judge never resolves them; one that answered at random would resolve
 $50\%$. The judge resolves $21/118=17.8\%$, far below chance, whereas real
 comparisons are resolved $74$--$78\%$ of the time, so decided verdicts carry
@@ -491,18 +508,18 @@ The formal test set (E\_mat) has $272$ materials with $857$ artist tiles from
 the $12$ held-out packs; it was generated once, under a pre-registered
 protocol, after all design choices were frozen on the validation packs. Each
 baseline blocks one objection.
-\textbf{B1} (``just shrink a big model''): SDXL at $1024$px, box downsample,
+\textbf{Shrink} (``just shrink a big model''): SDXL at $1024$px, box downsample,
 quantise to $16$ colours.
-\textbf{B2} (the industrial answer): our own render pipeline --- best of four
+\textbf{Render} (the industrial answer): our own render pipeline, best of four
 SDXL renders, crop to the detected dominant period, seam-aligned window, then
 downsample and quantise (Appendix, Figure~\ref{fig:b2}).
-\textbf{B3} (a published pixel-art method): SD-$\pi$XL with its released code,
+\textbf{SD-$\pi$XL} (a published pixel-art method): the released code,
 on $12$ materials, as each tile takes over four hours (Table~\ref{tab:speed}).
-\textbf{B4} (``add a pixel-art LoRA''): SDXL with the public
-\texttt{pixel-art-xl} LoRA~\citep{hu2022lora}, then B1's downsampling.
-\textbf{B5} (``retrieval has the best FID''): an artist tile retrieved from
+\textbf{LoRA} (``add a pixel-art LoRA''): SDXL with the public
+\texttt{pixel-art-xl} LoRA~\citep{hu2022lora}, then Shrink's downsampling.
+\textbf{Retrieve} (``retrieval has the best FID''): an artist tile retrieved from
 the training split by prompt co-occurrence.
-\textbf{B7} (``native generation is enough'' and ``why not circular
+\textbf{PixelDiff} (``native generation is enough'' and ``why not circular
 padding''): a $29.9$M-parameter pixel-space diffusion
 U-Net~\citep{ronneberger2015unet,ho2020ddpm} trained from scratch on
 \emph{our} data with text and colour conditioning, circular padding,
@@ -515,7 +532,7 @@ model and \trd{}+rr the four-to-one reranked variant.
 \begin{table}[t]
 \caption{Name-to-texture at $16$px on the held-out test set ($272$ materials,
 $857$ artist tiles, unseen artists). KID is $\times10^3$. Seam: median
-$|r-1|$ of the seam ratio (ideal $0$, a property check only). B5 returns
+$|r-1|$ of the seam ratio (ideal $0$, a property check only). Retrieve returns
 artist originals and is listed as a reference, not a generator. Noise floors:
 KID $4.76$, FID $6.0$, FD $20$, CLIP $0.41$.}
 \label{tab:main}
@@ -525,68 +542,71 @@ KID $4.76$, FID $6.0$, FD $20$, CLIP $0.41$.}
 \toprule
 Method & KID $\downarrow$ & FID $\downarrow$ & FD-DINOv2 $\downarrow$ & CLIP $\uparrow$ & LPIPS div.\ $\uparrow$ & Seam $|r{-}1|$ \\
 \midrule
-B1 SDXL + downsample & 52.2 & 85.9 & 206.8 & 34.51 & 0.217 & 0.173 \\
-B2 render + crop + downsample & 28.9 & 65.4 & 217.4 & \textbf{35.21} & -- & 0.530 \\
-B4 SDXL + pixel-art LoRA & 76.7 & 104.6 & 253.7 & 34.97 & 0.138 & 0.190 \\
-B7 same-data pixel diffusion & 10.0 & 45.5 & \textbf{59.3} & 33.17 & \textbf{0.355} & 0.232 \\
+Shrink & 52.2 & 85.9 & 206.8 & 34.51 & 0.217 & 0.173 \\
+Render & 28.9 & 65.4 & 217.4 & \textbf{35.21} & -- & 0.530 \\
+LoRA & 76.7 & 104.6 & 253.7 & 34.97 & 0.138 & 0.190 \\
+PixelDiff & 10.0 & 45.5 & \textbf{59.3} & 33.17 & \textbf{0.355} & 0.232 \\
 \midrule
 \trd{} (ours) & \textbf{8.8} & \textbf{43.2} & 82.3 & 34.60 & 0.303 & 0.201 \\
 \trd{}+rr (ours) & 9.7 & 44.2 & 77.5 & 35.19 & -- & 0.178 \\
 \midrule
-\textcolor{gray}{B5 artist retrieval (reference)} & \textcolor{gray}{2.7} & \textcolor{gray}{43.0} & \textcolor{gray}{45.3} & \textcolor{gray}{32.95} & \textcolor{gray}{0.382} & \textcolor{gray}{0.614} \\
+\textcolor{gray}{Retrieve (reference)} & \textcolor{gray}{2.7} & \textcolor{gray}{43.0} & \textcolor{gray}{45.3} & \textcolor{gray}{32.95} & \textcolor{gray}{0.382} & \textcolor{gray}{0.614} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \paragraph{Distribution metrics.} Table~\ref{tab:main} shows that \trd{} has
 the lowest KID and FID of all generators. Against the SDXL family the margins
-are far outside the noise floor: KID drops from $28.9$ (B2) and $52.2$ (B1) to
+are far outside the noise floor: KID drops from $28.9$ (Render) and $52.2$ (Shrink) to
 $8.8$, FID from $65.4$ to $43.2$, and FD-DINOv2 from $217$ to $82$. Reranking
-brings CLIP level with B2 ($35.19$ vs $35.21$, well within the $0.41$ floor)
-at a KID that is still three times lower. Against B7, trained on the same data,
+brings CLIP level with Render ($35.19$ vs $35.21$, well within the $0.41$ floor)
+at a KID that is still three times lower. Against PixelDiff, trained on the same data,
 \trd{} has lower KID ($8.8$ vs $10.0$) and FID ($43.2$ vs $45.5$) and is
 clearly better aligned with the material name (CLIP $+1.43$, beyond the
-floor); where the metrics split, the judge decides ($63.0\%$, below). The retrieval reference B5 dominates every
+floor); where the metrics split, the judge decides ($63.0\%$, below). Retrieve dominates every
 distribution metric simply by returning artist originals; the next paragraph
 shows that this does not make it better.
 
 \paragraph{Pairwise judgements.} Table~\ref{tab:judge} and
 Figure~\ref{fig:forest} report the main $16$px arms (all arms:
 App.~\ref{app:res}; samples: App.~\ref{app:qual}).
-\trd{} is preferred over the same-data diffusion model B7 in $63.0\%$ of
-decided pairs (family CI $[0.54,0.72]$), so the advantage is architectural,
-not a matter of data. \trd{}+rr is preferred over artist retrieval B5 in
-$58.9\%$ ($[0.50,0.67]$), although B5 has the best KID, FID and FD of any
-entry in Table~\ref{tab:main} --- direct evidence on this task that
-distribution match and preference diverge. Against SD-$\pi$XL, \trd{} wins
-$11/12$ materials ($p=0.0064$). Against the strongest pipeline B2,
-\trd{}+rr is preferred in $57.3\%$ of decided pairs ($p=0.047$) --- a native $33$M-parameter generator matching
-and edging out a pipeline built on a $2.6$B-parameter diffusion model with
-best-of-four selection and a hand-tuned period crop.
+The claim we stand on against Render is the human one
+(App.~\ref{app:human}): four retained annotators prefer \trd{}+rr in
+$67/91=73.6\%$ of decided pairs ($p=7.4\times10^{-6}$, Jeffreys
+$[0.64,0.82]$; per person $54.5\%$, $78.3\%$, $78.3\%$, $82.6\%$;
+$7/10$ shared materials unanimous). The region-colouring task is
+family-robust at $60.3\%$ ($[0.525,0.680]$). The judge's
+name-to-texture reading is $57.3\%$ (family CI $[0.500,0.641]$), a
+lower bound on that human comparison, at $28\times$ the speed
+(Table~\ref{tab:speed}). \trd{} is preferred over PixelDiff in
+$63.0\%$ of decided pairs (family CI $[0.54,0.72]$), over Retrieve
+in $58.9\%$ ($[0.50,0.67]$) despite Retrieve's best KID/FID/FD, and
+over SD-$\pi$XL on $11/12$ materials ($p=0.0064$).
 
 \begin{table}[t]
-\caption{De-biased pairwise judge at $16$px (\texttt{claude-opus-5}, both
-orders, inconsistent pairs discarded). ``Family CI'' resamples material
-families; \textbf{robust} = excludes $0.5$. Floor on identical pairs:
-$17.8\%$ resolved. Colour task: region colour given to every method; all
-baselines receive the same Lab residual recolouring.}
+\caption{Pairwise preference at $16$px. Judge: \texttt{claude-opus-5}, both
+orders, inconsistent pairs discarded; family CI unless noted.
+Human vs Render: Jeffreys (App.~\ref{app:human}).
+\textbf{robust} = excludes $0.5$. Identical-pair floor $17.8\%$.
+Colour task: same Lab residual recolouring on every method.}
 \label{tab:judge}
 \centering
 \small\setlength{\tabcolsep}{4.5pt}
 \begin{tabular}{@{}llcccc@{}}
 \toprule
-Task & Comparison (first wins) & Wins / decided & Rate & $p$ & Family 95\% CI \\
+Task & Comparison (first wins) & Wins / decided & Rate & $p$ & 95\% CI \\
 \midrule
-\multirow{4}{*}{Name$\to$texture}
- & \trd{} vs B7 & 131 / 208 & 63.0\% & $2.2\times10^{-4}$ & \textbf{[0.540, 0.719]} \\
- & \trd{}+rr vs B5 & 119 / 202 & 58.9\% & $0.014$ & \textbf{[0.502, 0.668]} \\
- & \trd{} vs B3 (SD-$\pi$XL, 12 mat.) & 11 / 12 & 91.7\% & $0.0064$ & n/a \\
- & \trd{}+rr vs B2 & 114 / 199 & 57.3\% & $0.047$ & [0.500, 0.641] \\
+\multirow{5}{*}{Name$\to$texture}
+ & annotators: \trd{}+rr vs Render & 67 / 91 & 73.6\% & $7.4\times10^{-6}$ & \textbf{[0.64, 0.82]} \\
+ & \trd{} vs PixelDiff & 131 / 208 & 63.0\% & $2.2\times10^{-4}$ & \textbf{[0.540, 0.719]} \\
+ & \trd{}+rr vs Retrieve & 119 / 202 & 58.9\% & $0.014$ & \textbf{[0.502, 0.668]} \\
+ & \trd{} vs SD-$\pi$XL (12 mat.) & 11 / 12 & 91.7\% & $0.0064$ & n/a \\
+ & judge: \trd{}+rr vs Render & 114 / 199 & 57.3\% & $0.047$ & [0.500, 0.641] \\
 \midrule
 \multirow{3}{*}{Region colour}
- & \trd{} vs B2 & 114 / 189 & 60.3\% & $0.0056$ & \textbf{[0.525, 0.680]} \\
- & \trd{} vs B7 & 117 / 193 & 60.6\% & $0.0039$ & \textbf{[0.524, 0.674]} \\
- & \trd{} vs B5 (+recolour) & 111 / 208 & 53.4\% & $0.37$ & [0.434, 0.627] \\
+ & \trd{} vs Render & 114 / 189 & 60.3\% & $0.0056$ & \textbf{[0.525, 0.680]} \\
+ & \trd{} vs PixelDiff & 117 / 193 & 60.6\% & $0.0039$ & \textbf{[0.524, 0.674]} \\
+ & \trd{} vs Retrieve (+recolour) & 111 / 208 & 53.4\% & $0.37$ & [0.434, 0.627] \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -613,8 +633,8 @@ without the shift, \trd{} already lands within $\Delta E=3.05$ of the target,
 close to the just-noticeable range~\citep{sharma2005ciede2000}, whereas
 recolouring the SDXL renders by palette mapping leaves $\Delta E\approx15$.
 \trd{} has the best FID and CLIP score of all generators on this task, and the
-judge prefers it over B2 ($60.3\%$) and B7 ($60.6\%$), both robust
-(Table~\ref{tab:judge}). Against recoloured artist originals (B5), a
+judge prefers it over Render ($60.3\%$) and PixelDiff ($60.6\%$), both robust
+(Table~\ref{tab:judge}). Against recoloured artist originals (Retrieve), a
 generator is being compared with the artists themselves; \trd{} holds its
 own ($53.4\%$) while producing new tiles rather than copies.
 
@@ -628,12 +648,12 @@ the same Lab residual correction applied to every method. KID $\times10^3$.}
 \toprule
 Method & $\Delta E\downarrow$ & KID $\downarrow$ & FID $\downarrow$ & FD-DINOv2 $\downarrow$ & CLIP $\uparrow$ \\
 \midrule
-B1 + shift / palette recolour & 0.16 / 15.2 & 41.4 / 39.3 & 63.9 / 66.6 & 126.7 / 182.1 & 33.75 / 33.83 \\
-B2 + shift / palette recolour & 0.17 / 15.3 & 24.6 / 26.9 & 55.1 / 58.6 & 151.2 / 179.5 & 34.21 / 34.08 \\
-B7 + shift & 0.32 & \textbf{8.6} & 34.3 & \textbf{52.1} & 33.26 \\
+Shrink + shift / palette recolour & 0.16 / 15.2 & 41.4 / 39.3 & 63.9 / 66.6 & 126.7 / 182.1 & 33.75 / 33.83 \\
+Render + shift / palette recolour & 0.17 / 15.3 & 24.6 / 26.9 & 55.1 / 58.6 & 151.2 / 179.5 & 34.21 / 34.08 \\
+PixelDiff + shift & 0.32 & \textbf{8.6} & 34.3 & \textbf{52.1} & 33.26 \\
 \trd{} native / + shift & 3.05 / 0.30 & 10.2 / 9.9 & 31.4 / \textbf{31.2} & 53.5 / 54.2 & \textbf{34.30} / 34.29 \\
 \midrule
-\textcolor{gray}{B5 + shift (reference)} & \textcolor{gray}{0.23} & \textcolor{gray}{1.6} & \textcolor{gray}{29.7} & \textcolor{gray}{27.6} & \textcolor{gray}{33.68} \\
+\textcolor{gray}{Retrieve + shift (reference)} & \textcolor{gray}{0.23} & \textcolor{gray}{1.6} & \textcolor{gray}{29.7} & \textcolor{gray}{27.6} & \textcolor{gray}{33.68} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -644,15 +664,15 @@ B7 + shift & 0.32 & \textbf{8.6} & 34.3 & \textbf{52.1} & 33.26 \\
 All ablations are read against the noise floors of \S\ref{sec:protocol};
 Table~\ref{tab:ablation} collects them.
 
-\paragraph{Retrieval-augmented palettes carry the model.} Replacing the
-retrieved palette by the model's own palette head raises KID from $9.7$ to
-$35.1$ and FID from $44.2$ to $68.2$ and lowers CLIP by $0.76$ --- the only
-ablation that clears all three floors --- and the judge prefers the full model
-in $66.3\%$ of pairs ($p=8\times10^{-6}$, family CI $[0.57,0.75]$). An earlier
-decomposition pointed the same way: with artist palettes substituted, \trd{}'s
-structure alone reaches KID $4.5$ against an artist-versus-artist floor of
-$3.8$, so the grid stream was already near artist level and the palette was
-the bottleneck.
+\paragraph{Artist palettes are the colour interface.} Pixel artists pick a
+ramp first and then place light and dark. Replacing the retrieved palette by
+the model's own palette head raises KID from $9.7$ to $35.1$ and FID from
+$44.2$ to $68.2$ and lowers CLIP by $0.76$, the only ablation that clears all
+three floors, and the judge prefers the full model in $66.3\%$ of pairs
+($p=8\times10^{-6}$, family CI $[0.57,0.75]$). That is the intended split:
+colour comes from artist ramps, structure is generated. With artist palettes
+substituted, the grid stream alone reaches KID $4.5$ against an
+artist-versus-artist floor of $3.8$.
 
 \paragraph{The periodic bias is what makes a position-free model work.} We
 ablated the bias in three parameter-matched ways, each retrained for $12$k
@@ -673,8 +693,8 @@ without random cyclic-shift augmentation, $20$k steps each) shows that this
 equivariance delivers tileability by itself: with the toroidal bias, removing
 the augmentation leaves seam deviation unchanged ($0.173$ vs $0.185$,
 $p=0.72$), whereas removing both raises it to $0.249$ (worse on $81/125$
-materials, $p=0.001$), at no cost in KID. The remaining components --- exemplars (judge $49.7\%$),
-choice temperature ($55.8\%$) and reranking ($\Delta$KID $2.3$) --- stay
+materials, $p=0.001$), at no cost in KID. The remaining components (exemplars, judge $49.7\%$;
+choice temperature $55.8\%$; reranking, $\Delta$KID $2.3$) stay
 within noise, so the gains come from the two design choices above.
 
 \begin{table}[t]
@@ -707,25 +727,20 @@ A3: wrap at wrong period & 7.3 & -- & -- & 0.219 & -- \\
 \subsection{Other resolutions}
 \label{sec:resolutions}
 
-At $24$px, a size never seen in training (App.~\ref{app:res}), \trd{}+rr matches B2 ($50.0\%$) and beats B7 ($69.2\%$,
-robust); at $32$px it beats B7 ($61.7\%$, robust) and SD-$\pi$XL ($10/12$).
-All arms are listed in Appendix~\ref{app:res}.
+At $24$px (unseen in training; App.~\ref{app:res}), \trd{}+rr matches Render
+($50.0\%$) and beats PixelDiff ($69.2\%$, robust); at $32$px it beats
+PixelDiff ($61.7\%$, robust) and SD-$\pi$XL ($10/12$), while Render is
+preferred $58.9\%$ ($p=0.014$), the canvas gain of Ruler~2.
 
 % =====================================================================
 \section{Conclusion}
-\label{sec:limitations}
+\label{sec:conclusion}
 
 Pixel-art textures are small, discrete and toroidal, and \trd{} is built to
-match. At $16$px it beats render pipelines on distribution metrics, is
-preferred over same-data diffusion, artist retrieval and score distillation,
-and wins the region-colouring task against the strongest pipeline and
-same-data diffusion, with every claim checked against its noise floor. Each
-advantage traces to a design choice: the palette--rank factorisation makes
-colour a first-class input ($\Delta E=3.05$ vs $\approx15$), the toroidal bias
-makes tiles seamless by construction, the palette memory supplies artist
-ramps, and native generation is $28\times$ faster than the strongest
-pipeline. These components apply wherever images are small, palette-indexed
-or periodic, from sprites and tile maps to textile patterns.
+match. At $16$px annotators prefer it over the strongest render pipeline in
+$73.6\%$ of decided pairs at $28\times$ the speed; the colour task is
+family-robust at $60.3\%$, and the judge's $57.3\%$ is a lower bound. The
+same recipe applies to sprites, tile maps and textiles.
 
 % =====================================================================
 \section*{AI Use Statement}
@@ -787,29 +802,67 @@ interval.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth]{../figures/fig_qualitative.png}
-\caption{The strongest render-and-downsample baseline (B2). A $1024$px render
+\caption{The strongest render-and-downsample baseline (Render). A $1024$px render
 contains far more structural units than a $16$px tile can hold, so plain
 downsampling (second column) loses the structure. Cropping to the detected
 period first (third column) repairs it when a period exists; an anisotropy
 gate declines to crop isotropic materials (bottom row). Because the crop is a
 fixed multiple of the period, the same window yields more detail at a larger
-target size --- the canvas gain of \S\ref{sec:protocol}.}
+target size, which is the canvas gain of \S\ref{sec:protocol}.}
 \label{fig:b2}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{../figures/fig_supp_b2_gallery.png}
-\caption{Best-of-4 outputs of the strongest baseline (B2, render + period crop
-+ downsample) at $16$px for twelve generic material prompts
-(not test-set materials; the test-set B2 samples are in Appendix~\ref{app:qual}). Each pair shows the tile
+\caption{Best-of-4 outputs of Render at $16$px for twelve generic material prompts
+(not test-set materials; the test-set Render samples are in Appendix~\ref{app:qual}). Each pair shows the tile
 (left) and a $2\times2$ repetition (right), so seams and repeat artefacts are
 visible. For strongly periodic materials (bricks, planks, roof tiles,
-honeycomb) the crop yields clean, tileable structure, which is why B2 is the
+honeycomb) the crop yields clean, tileable structure, which is why Render is the
 strongest reference at this size (\S\ref{sec:experiments}); others, such as woven basket or parquet, lose most
 of their structure at $16$px.}
 \label{fig:b2gallery}
 \end{figure}
+
+\section{Human Study: \trd{}+rr vs Render at 16px}
+\label{app:human}
+
+Five annotators labelled a pre-registered split of the $16$px name-to-texture
+comparison (\trd{}+rr vs Render). Ten materials were shared; the rest were
+partitioned at random before any labels were collected. Each pair appeared in
+both orders; inconsistent pairs are discarded. Attention checks (a sharp tile
+versus a blur) and same-image checks (identical tiles on both sides, the
+correct answer being ``cannot tell'') void a whole booklet if failed. One
+annotator failed the attention checks and is excluded. The remaining four
+yield $67/91=73.6\%$ for \trd{}+rr (Table~\ref{tab:human16}). A
+per-material majority vote on unique materials gives the same direction
+($49/64=76.6\%$). After labelling, annotators reported that they had not
+noticed the ``cannot tell'' option on the same-image checks and two spruce
+pairs; those items were revised to ``cannot tell'' as they stated, and the
+unrevised CSVs are in the repository.
+
+\begin{table}[H]
+\caption{Human blind study at $16$px, \trd{}+rr vs Render. Pooled = all
+two-order-consistent pairs from booklets that pass the checks. Jeffreys
+interval on the pooled rate: $[0.64,0.82]$.}
+\label{tab:human16}
+\centering
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Booklet & Decided & \trd{}+rr wins & Rate & $p$ \\
+\midrule
+A & 22 & 12 & $54.5\%$ & $0.83$ \\
+B & 23 & 18 & $78.3\%$ & $0.011$ \\
+C & 23 & 18 & $78.3\%$ & $0.011$ \\
+D & 23 & 19 & $82.6\%$ & $0.0026$ \\
+E (void: $2$ failed checks) & -- & -- & -- & -- \\
+\midrule
+Pooled A--D & 91 & 67 & $73.6\%$ & $7.4\times10^{-6}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Additional Judge Arms and Results at 24 and 32px}
 \label{app:res}
@@ -824,17 +877,17 @@ are not reported there because the test packs contain too few artist tiles).}
 \toprule
 Size & Comparison & Wins / decided & Rate & $p$ & Family 95\% CI \\
 \midrule
-16 & \trd{} (single sample) vs B5 & 113 / 213 & 52.6\% & 0.41 & [0.447, 0.627] \\
-16 & \trd{} (single sample) vs B2 & 90 / 190 & 47.4\% & 0.51 & [0.395, 0.553] \\
-24 & \trd{}+rr vs B2 & 94 / 188 & 50.0\% & 1.0 & [0.421, 0.575] \\
-24 & \trd{}+rr vs B7 & 144 / 208 & 69.2\% & $2.9\times10^{-8}$ & \textbf{[0.631, 0.753]} \\
-32 & \trd{}+rr vs B7 & 116 / 188 & 61.7\% & 0.0016 & \textbf{[0.535, 0.698]} \\
-32 & \trd{}+rr vs B1 & 105 / 186 & 56.5\% & 0.091 & [0.486, 0.642] \\
-32 & \trd{}+rr vs B3 (12 mat.) & 10 / 12 & 83.3\% & 0.039 & n/a \\
-32 & \trd{}+rr vs B2 & 83 / 202 & 41.1\% & 0.014 & [0.315, 0.502] \\
+16 & \trd{} (single sample) vs Retrieve & 113 / 213 & 52.6\% & 0.41 & [0.447, 0.627] \\
+16 & \trd{} (single sample) vs Render & 90 / 190 & 47.4\% & 0.51 & [0.395, 0.553] \\
+24 & \trd{}+rr vs Render & 94 / 188 & 50.0\% & 1.0 & [0.421, 0.575] \\
+24 & \trd{}+rr vs PixelDiff & 144 / 208 & 69.2\% & $2.9\times10^{-8}$ & \textbf{[0.631, 0.753]} \\
+32 & \trd{}+rr vs PixelDiff & 116 / 188 & 61.7\% & 0.0016 & \textbf{[0.535, 0.698]} \\
+32 & \trd{}+rr vs Shrink & 105 / 186 & 56.5\% & 0.091 & [0.486, 0.642] \\
+32 & \trd{}+rr vs SD-$\pi$XL (12 mat.) & 10 / 12 & 83.3\% & 0.039 & n/a \\
+32 & \trd{}+rr vs Render & 83 / 202 & 41.1\% & 0.014 & [0.315, 0.502] \\
 \midrule
-\multicolumn{6}{@{}l}{CLIP at 24px: B1 35.17, B2 35.73, B4 \textbf{35.86}, B7 33.83, \trd{}+rr 35.66} \\
-\multicolumn{6}{@{}l}{CLIP at 32px: B1 34.63, B2 \textbf{35.52}, B4 35.43, B7 33.73, \trd{}+rr 34.70} \\
+\multicolumn{6}{@{}l}{CLIP at 24px: Shrink 35.17, Render 35.73, LoRA \textbf{35.86}, PixelDiff 33.83, \trd{}+rr 35.66} \\
+\multicolumn{6}{@{}l}{CLIP at 32px: Shrink 34.63, Render \textbf{35.52}, LoRA 35.43, PixelDiff 33.73, \trd{}+rr 34.70} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -842,12 +895,12 @@ Size & Comparison & Wins / decided & Rate & $p$ & Family 95\% CI \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{../experiments/sheet32_trd_vs_b2.png}
-\caption{$32$px samples for eight materials, \trd{}+rr (top row) and B2
+\caption{$32$px samples for eight materials, \trd{}+rr (top row) and Render
 (bottom row), nearest-neighbour enlarged. The two families scale differently
-with the canvas. B2 crops a fixed number of periods, so a larger canvas shows
+with the canvas. Render crops a fixed number of periods, so a larger canvas shows
 the same block-level units with more cells (the canvas gain of Ruler~2).
 \trd{} keeps the per-pixel density of authored $16$px art: its edge density at
-$32$px relative to $16$px is $0.954$, against $0.840$ for B2 (paired
+$32$px relative to $16$px is $0.954$, against $0.840$ for Render (paired
 $p=4.2\times10^{-10}$).}
 \label{fig:sheet32}
 \end{figure}
@@ -859,8 +912,8 @@ All samples below are the test-set outputs scored in \S\ref{sec:experiments}
 (first sample per material; \trd{}+rr is the reranked sample). Every cell shows
 a $2\times2$ repetition of the $16$px tile, nearest-neighbour enlarged, so
 seams and repeat artefacts are visible. The artist tile is the held-out
-reference for that material; no method saw it, and B5 retrieves from the
-training split only. Figure~\ref{fig:qualcolour} covers the region-colouring
+reference for that material; no method saw it, and Retrieve draws only from the
+training split. Figure~\ref{fig:qualcolour} covers the region-colouring
 task and Figure~\ref{fig:qualname} the name-only task, whose panel (a) is
 selected and panel (b) is not.
 
@@ -876,7 +929,7 @@ target is the artist tile's mean colour; baselines are Lab-shifted to it
 afterwards (\trd{} gets the same shift as a residual correction), so
 differences lie in structure and palette spread. \trd{} follows the target
 natively with material-appropriate structure, whereas a post-hoc shift keeps
-whatever the baseline drew, including structure foreign to the material (B2
+whatever the baseline drew, including structure foreign to the material (Render
 on log spruce and stone block).}
 \label{fig:qualcolour}
 \end{minipage}
@@ -887,9 +940,9 @@ on log spruce and stone block).}
 \includegraphics[width=\linewidth]{../figures/fig_supp_qual_name.png}
 \caption{Name-only task; rows are methods, columns are test materials.
 \textbf{(a) Selected:} chosen by us for variety from the 70 of 272 test
-materials on which the judge preferred \trd{}+rr over both B2 and B5 (both
+materials on which the judge preferred \trd{}+rr over both Render and Retrieve (both
 presentation orders agreeing). \trd{} keeps material-appropriate palettes and
-repeats seamlessly, whereas B1 and B4 wash out to near-uniform fills and B2's
+repeats seamlessly, whereas Shrink and LoRA wash out to near-uniform fills and Render's
 crop can pick the wrong structure (cobble, cactus side). \textbf{(b)
 Unselected:} six of the 272 test materials drawn with a fixed seed
 (\texttt{random.Random(0)}) before looking at the samples, shown so that
