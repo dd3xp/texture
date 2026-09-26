@@ -55,6 +55,8 @@ dozens of blocks, must be produced at interactive speed. We study exactly
 this task: given an image with a solid-colour region, a material name and the
 region's colour, paint the region with a tileable pixel-art texture at
 $16\times16$ (and, secondarily, $24\times24$ and $32\times32$).
+Figure~\ref{fig:teaser} states the task and shows held-out tiles against the
+strongest render-and-downsample baseline.
 
 The obvious route is to render large and shrink. A $1024$px SDXL~\citep{podell2024sdxl}
 brick wall is structurally sound, yet every kernel we tried turns it to mush
@@ -121,62 +123,17 @@ comparison a win only when it survives those checks.
   (\S\ref{sec:ablation}).
 \end{itemize}
 
-\begin{figure}[t]
+\begin{figure}[!t]
 \centering
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-  font=\small,
-  box/.style={draw, rounded corners=2pt, align=center, minimum height=0.9cm, inner sep=3pt},
-  tok/.style={draw, minimum size=0.22cm, inner sep=0pt},
-  arr/.style={-{Latex[length=2mm]}, thick}]
-  % inputs
-  \node[box, fill=blue!6] (name) at (0,1.2) {material name\\\textit{``mossy cobblestone''}};
-  \node[box, fill=orange!10] (col) at (0,-0.2) {region colour\\\textcolor[HTML]{6B7F4A}{\rule{0.9cm}{0.25cm}}};
-  \node[box, fill=gray!8] (mem) at (0,-1.6) {palette memory\\(train-split artists)};
-  % encoders
-  \node[box] (clip) at (3.1,1.2) {frozen CLIP\\text encoder};
-  \node[box] (ret) at (3.1,-1.0) {retrieve $k$-colour\\palette, shift in Lab};
-  % tokens
-  \node[align=center] (paltxt) at (6.4,1.55) {\scriptsize 16 palette slots};
-  \foreach \i in {0,...,7} {\node[tok, fill=green!\the\numexpr 20+10*\i\relax!black!\the\numexpr 5*\i\relax] at (5.55+0.24*\i,1.15) {};}
-  \foreach \i in {0,...,7} {\node[tok, fill=gray!30] at (5.55+0.24*\i,0.9) {\tiny M};}
-  \node[align=center] (gridtxt) at (6.4,0.35) {\scriptsize $N{\times}N$ luminance ranks};
-  \foreach \x in {0,...,7} {\foreach \y in {0,...,5} {\node[tok, fill=gray!30] at (5.55+0.24*\x,-0.1-0.24*\y) {};}}
-  \node[tok, fill=green!50!black] at (5.79,-0.34) {};
-  \node[tok, fill=green!30!black] at (6.51,-0.58) {};
-  \node[tok, fill=green!70!black] at (6.99,-1.06) {};
-  % transformer
-  \node[box, fill=yellow!8, minimum width=2.9cm, minimum height=2.6cm] (tf) at (10.0,0.2)
-     {bidirectional transformer\\ adaLN-Zero conditioning\\ \textbf{no absolute positions}\\[2pt]
-      attention bias $b_h(\wrapop(\Delta)/N)$\\ on the torus};
-  % wrap-around neighbourhood: left and right edge cells are adjacent
-  \foreach \x in {0,...,5} {\foreach \y in {0,1} {\node[tok, minimum size=0.28cm, fill=gray!15] at (9.3+0.28*\x,-1.75-0.28*\y) {};}}
-  \node[tok, minimum size=0.28cm, fill=blue!45] at (9.3,-1.75) {};
-  \node[tok, minimum size=0.28cm, fill=blue!45] at (10.7,-1.75) {};
-  \draw[{Latex[length=1.3mm]}-{Latex[length=1.3mm]}, blue!70!black, thick] (9.3,-1.6) to[out=50,in=130] (10.7,-1.6);
-  \node[font=\scriptsize, align=center] at (10.0,-2.45) {edge cells are wrap neighbours};
-  % output
-  \node[box, fill=green!6] (out) at (14.6,0.9) {parallel decoding\\24 steps + CFG\\(optional 4$\to$1 rerank)};
-  \node[box, fill=green!6] (paint) at (14.6,-1.2) {tile into region\\(phase-aligned)};
-  % arrows
-  \draw[arr] (name) -- (clip);
-  \draw[arr] (col) -- ++(1.6,0) |- (ret);
-  \draw[arr] (mem) -- (ret);
-  \draw[arr] (name.south east) to[out=-20,in=160] (ret.north west);
-  \draw[arr] (ret.east) -- ++(0.6,0) |- (5.4,1.15);
-  \draw[arr] (clip.east) -- ++(0.9,0) node[above, pos=0.6, font=\scriptsize]{cond.} -- ++(0,1.0) -| ([xshift=-7mm]tf.north);
-  \draw[arr] (7.55,0.2) -- (tf.west);
-  \draw[arr] (tf.east |- out.west) -- (out.west);
-  \draw[arr] (out) -- (paint);
-  \draw[arr, dashed] (out.north) -- ++(0,0.75) -| node[above, pos=0.25, font=\scriptsize]{re-mask low-confidence tokens, repeat} ([xshift=7mm]tf.north);
-\end{tikzpicture}}
-\caption{\trd{} at a glance. A material name and a region colour are turned
-into a text condition and a retrieved artist palette. Palette slots and a grid
-of luminance ranks are decoded jointly by iterative parallel unmasking. The
-transformer's only spatial signal is a relative bias on wrapped offsets, so
-cells on opposite edges of the tile are treated exactly as interior
-neighbours.}
-\label{fig:overview}
+\includegraphics[width=\linewidth]{../figures/fig_teaser.png}
+\caption{\textbf{(a)}~The task. A material name and the region's colour
+condition \trd{}, which decodes a retrieved palette and an $N{\times}N$
+luminance-rank grid under a toroidal relative bias and writes the tile
+into the region. \textbf{(b)}~Held-out $16$px name-to-texture samples
+($2{\times}2$ so wrap seams are visible), chosen for variety from the
+materials on which the judge preferred \trd{}+rr over both Render and
+Retrieve. Unselected sheets are in Appendix~\ref{app:qual}.}
+\label{fig:teaser}
 \end{figure}
 
 % =====================================================================
@@ -274,6 +231,54 @@ $25$, so it must be cropped before any kernel can help
 % =====================================================================
 \section{Method}
 \label{sec:method}
+
+\begin{figure}[h]
+\centering
+\resizebox{0.88\linewidth}{!}{%
+\begin{tikzpicture}[
+  font=\footnotesize,
+  box/.style={draw, rounded corners=2pt, align=center, minimum height=0.72cm, inner sep=2pt},
+  tok/.style={draw, minimum size=0.18cm, inner sep=0pt},
+  arr/.style={-{Latex[length=1.6mm]}, thick}]
+  \node[box, fill=blue!6] (name) at (0,1.0) {material name\\\textit{``mossy cobblestone''}};
+  \node[box, fill=orange!10] (col) at (0,-0.15) {region colour\\\textcolor[HTML]{6B7F4A}{\rule{0.8cm}{0.2cm}}};
+  \node[box, fill=gray!8] (mem) at (0,-1.3) {palette memory\\(train-split artists)};
+  \node[box] (clip) at (2.85,1.0) {frozen CLIP\\text encoder};
+  \node[box] (ret) at (2.85,-0.85) {retrieve $k$-colour\\palette, shift in Lab};
+  \node[align=center] at (5.85,1.32) {\scriptsize 16 palette slots};
+  \foreach \i in {0,...,7} {\node[tok, fill=green!\the\numexpr 20+10*\i\relax!black!\the\numexpr 5*\i\relax] at (5.1+0.2*\i,0.98) {};}
+  \foreach \i in {0,...,7} {\node[tok, fill=gray!30] at (5.1+0.2*\i,0.76) {\tiny M};}
+  \node[align=center] at (5.85,0.28) {\scriptsize $N{\times}N$ luminance ranks};
+  \foreach \x in {0,...,7} {\foreach \y in {0,...,4} {\node[tok, fill=gray!30] at (5.1+0.2*\x,-0.05-0.2*\y) {};}}
+  \node[tok, fill=green!50!black] at (5.3,-0.25) {};
+  \node[tok, fill=green!30!black] at (5.9,-0.45) {};
+  \node[tok, fill=green!70!black] at (6.3,-0.85) {};
+  \node[box, fill=yellow!8, minimum width=2.6cm, minimum height=2.2cm] (tf) at (9.15,0.15)
+     {bidirectional transformer\\ adaLN-Zero; \textbf{no abs.\ pos.}\\[1pt]
+      $b_h(\wrapop(\Delta)/N)$ on the torus};
+  \foreach \x in {0,...,5} {\foreach \y in {0,1} {\node[tok, minimum size=0.24cm, fill=gray!15] at (8.5+0.24*\x,-1.5-0.24*\y) {};}}
+  \node[tok, minimum size=0.24cm, fill=blue!45] at (8.5,-1.5) {};
+  \node[tok, minimum size=0.24cm, fill=blue!45] at (9.7,-1.5) {};
+  \draw[{Latex[length=1.1mm]}-{Latex[length=1.1mm]}, blue!70!black, thick] (8.5,-1.38) to[out=50,in=130] (9.7,-1.38);
+  \node[font=\scriptsize] at (9.15,-2.1) {edge cells wrap};
+  \node[box, fill=green!6] (out) at (13.2,0.75) {parallel decoding\\24 steps + CFG};
+  \node[box, fill=green!6] (paint) at (13.2,-0.95) {tile into region};
+  \draw[arr] (name) -- (clip);
+  \draw[arr] (col) -- ++(1.4,0) |- (ret);
+  \draw[arr] (mem) -- (ret);
+  \draw[arr] (name.south east) to[out=-20,in=160] (ret.north west);
+  \draw[arr] (ret.east) -- ++(0.5,0) |- (4.95,0.98);
+  \draw[arr] (clip.east) -- ++(0.7,0) node[above, pos=0.55, font=\scriptsize]{cond.} -- ++(0,0.85) -| ([xshift=-6mm]tf.north);
+  \draw[arr] (6.85,0.15) -- (tf.west);
+  \draw[arr] (tf.east |- out.west) -- (out.west);
+  \draw[arr] (out) -- (paint);
+  \draw[arr, dashed] (out.north) -- ++(0,0.55) -| node[above, pos=0.25, font=\scriptsize]{re-mask} ([xshift=6mm]tf.north);
+\end{tikzpicture}}
+\caption{Architecture. Name and colour become a text condition and a retrieved
+artist palette; palette slots and luminance ranks are unmasked in parallel.
+The only spatial signal is a relative bias on wrapped offsets.}
+\label{fig:overview}
+\end{figure}
 
 \subsection{A discrete, colour-factored representation}
 \label{sec:repr}
@@ -567,9 +572,9 @@ floor); where the metrics split, the judge decides ($63.0\%$, below). Retrieve d
 distribution metric simply by returning artist originals; the next paragraph
 shows that this does not make it better.
 
-\paragraph{Pairwise judgements.} Table~\ref{tab:judge} and
-Figure~\ref{fig:forest} report the main $16$px arms (all arms:
-App.~\ref{app:res}; samples: App.~\ref{app:qual}).
+\paragraph{Pairwise judgements.} Table~\ref{tab:judge} reports the main
+$16$px arms (forest and remaining arms: App.~\ref{app:res}; samples:
+App.~\ref{app:qual} and Figure~\ref{fig:teaser}).
 The claim we stand on against Render is the human one
 (App.~\ref{app:human}): four retained annotators prefer \trd{}+rr in
 $67/91=73.6\%$ of decided pairs ($p=7.4\times10^{-6}$, Jeffreys
@@ -611,24 +616,16 @@ Task & Comparison (first wins) & Wins / decided & Rate & $p$ & 95\% CI \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.74\linewidth]{../figures/fig_judge_forest.png}
-\caption{All $16$px judge arms with family-level intervals. Blue: interval
-excludes $0.5$. The SD-$\pi$XL arm ($n=12$) has only a binomial test. The last
-row is the palette-memory ablation of \S\ref{sec:ablation}.}
-\label{fig:forest}
-\end{figure}
-
 \subsection{The region-colouring task}
 
 The full task paints a region of a given colour. Here every method receives the
 target colour: \trd{} through its colour condition and colour-filtered
 retrieval, the baselines through recolouring. To keep the comparison fair,
 \emph{every} method, ours included, then receives the same Lab residual shift
-that moves its mean colour onto the target. Table~\ref{tab:colour} shows that
-the shift makes colour error negligible for all methods ($\Delta E\le0.32$),
-so the comparison is about texture quality under a colour constraint. Natively,
+that moves its mean colour onto the target. The shift makes colour error
+negligible for all methods ($\Delta E\le0.32$; Table~\ref{tab:colour},
+appendix), so the comparison is about texture quality under a colour
+constraint. Natively,
 without the shift, \trd{} already lands within $\Delta E=3.05$ of the target,
 close to the just-noticeable range~\citep{sharma2005ciede2000}, whereas
 recolouring the SDXL renders by palette mapping leaves $\Delta E\approx15$.
@@ -637,26 +634,6 @@ judge prefers it over Render ($60.3\%$) and PixelDiff ($60.6\%$), both robust
 (Table~\ref{tab:judge}). Against recoloured artist originals (Retrieve), a
 generator is being compared with the artists themselves; \trd{} holds its
 own ($53.4\%$) while producing new tiles rather than copies.
-
-\begin{table}[t]
-\caption{Region-colouring task at $16$px ($857$ colour targets). ``+shift'':
-the same Lab residual correction applied to every method. KID $\times10^3$.}
-\label{tab:colour}
-\centering
-\small
-\begin{tabular}{@{}lccccc@{}}
-\toprule
-Method & $\Delta E\downarrow$ & KID $\downarrow$ & FID $\downarrow$ & FD-DINOv2 $\downarrow$ & CLIP $\uparrow$ \\
-\midrule
-Shrink + shift / palette recolour & 0.16 / 15.2 & 41.4 / 39.3 & 63.9 / 66.6 & 126.7 / 182.1 & 33.75 / 33.83 \\
-Render + shift / palette recolour & 0.17 / 15.3 & 24.6 / 26.9 & 55.1 / 58.6 & 151.2 / 179.5 & 34.21 / 34.08 \\
-PixelDiff + shift & 0.32 & \textbf{8.6} & 34.3 & \textbf{52.1} & 33.26 \\
-\trd{} native / + shift & 3.05 / 0.30 & 10.2 / 9.9 & 31.4 / \textbf{31.2} & 53.5 / 54.2 & \textbf{34.30} / 34.29 \\
-\midrule
-\textcolor{gray}{Retrieve + shift (reference)} & \textcolor{gray}{0.23} & \textcolor{gray}{1.6} & \textcolor{gray}{29.7} & \textcolor{gray}{27.6} & \textcolor{gray}{33.68} \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \subsection{Ablations}
 \label{sec:ablation}
@@ -742,6 +719,7 @@ $73.6\%$ of decided pairs at $28\times$ the speed; the colour task is
 family-robust at $60.3\%$, and the judge's $57.3\%$ is a lower bound. The
 same recipe applies to sprites, tile maps and textiles.
 
+\clearpage
 % =====================================================================
 \section*{AI Use Statement}
 Large language models were used as coding assistants for experiment scripts
@@ -904,6 +882,35 @@ $32$px relative to $16$px is $0.954$, against $0.840$ for Render (paired
 $p=4.2\times10^{-10}$).}
 \label{fig:sheet32}
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\linewidth]{../figures/fig_judge_forest.png}
+\caption{All $16$px judge arms with family-level intervals. Blue: interval
+excludes $0.5$. The SD-$\pi$XL arm ($n=12$) has only a binomial test. The last
+row is the palette-memory ablation of \S\ref{sec:ablation}.}
+\label{fig:forest}
+\end{figure}
+
+\begin{table}[H]
+\caption{Region-colouring task at $16$px ($857$ colour targets). ``+shift'':
+the same Lab residual correction applied to every method. KID $\times10^3$.}
+\label{tab:colour}
+\centering
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Method & $\Delta E\downarrow$ & KID $\downarrow$ & FID $\downarrow$ & FD-DINOv2 $\downarrow$ & CLIP $\uparrow$ \\
+\midrule
+Shrink + shift / palette recolour & 0.16 / 15.2 & 41.4 / 39.3 & 63.9 / 66.6 & 126.7 / 182.1 & 33.75 / 33.83 \\
+Render + shift / palette recolour & 0.17 / 15.3 & 24.6 / 26.9 & 55.1 / 58.6 & 151.2 / 179.5 & 34.21 / 34.08 \\
+PixelDiff + shift & 0.32 & \textbf{8.6} & 34.3 & \textbf{52.1} & 33.26 \\
+\trd{} native / + shift & 3.05 / 0.30 & 10.2 / 9.9 & 31.4 / \textbf{31.2} & 53.5 / 54.2 & \textbf{34.30} / 34.29 \\
+\midrule
+\textcolor{gray}{Retrieve + shift (reference)} & \textcolor{gray}{0.23} & \textcolor{gray}{1.6} & \textcolor{gray}{29.7} & \textcolor{gray}{27.6} & \textcolor{gray}{33.68} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Qualitative Results at 16px}
 \label{app:qual}
